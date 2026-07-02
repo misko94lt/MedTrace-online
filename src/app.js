@@ -74,7 +74,7 @@ const PRI_COLOR = { "urgente": "#ef4444", "alta": "#f97316", "normale": "#6366f1
 const TIMELINE_ICON = { "diagnosi": "", "intervento": "", "ordine_parti": "", "attesa_parti": "·", "test": "✓", "sopralluogo": "·", "contatto": "", "nota": "·" };
 const TIMELINE_LABEL = { "diagnosi": "Diagnosi", "intervento": "Intervento", "ordine_parti": "Ordine parti", "attesa_parti": "Attesa parti", "test": "Test/Verifica", "sopralluogo": "Sopralluogo", "contatto": "Contatto cliente", "nota": "Nota generica" };
 const STORAGE_KEY = "medtrace-v1";
-const APP_VERSION = "2.74";
+const APP_VERSION = "2.75";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -1250,6 +1250,17 @@ resolve(pdf.output("blob"));
 } catch(err){ try { document.body.removeChild(iframe); } catch(e){} reject(err); }
 }, 220);
 };
+});
+}
+function showPDFPreview(html, filename) {
+mtEnsurePdfLibs(function(ok){
+if (!ok) { alert("Non riesco a caricare le librerie PDF (serve internet la prima volta)."); return; }
+mtRenderReportPdfBlob(html).then(function(blob){
+var url = URL.createObjectURL(blob), a = document.createElement("a");
+a.href = url; a.download = filename || "documento.pdf";
+document.body.appendChild(a); a.click(); document.body.removeChild(a);
+setTimeout(function(){ URL.revokeObjectURL(url); }, 6000);
+}).catch(function(e){ alert("Errore PDF: " + String(e && e.message || e)); });
 });
 }
 function mtBulkExportZip(reports, kind, ctx, onProgress, onDone, onError) {
@@ -9182,6 +9193,34 @@ React.createElement("div", { style: { textAlign: 'center', marginTop: 18 } },
 React.createElement("button", { onClick: () => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }, style: { background: 'none', border: 'none', color: 'var(--text-3)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' } }, mode === 'login' ? 'Non hai un account? Registrati' : 'Hai già un account? Accedi'))),
 React.createElement("p", { style: { textAlign: 'center', color: 'var(--text-4)', fontSize: 11, marginTop: 20 } }, "MedTrace \u00B7 Software gestione elettromedicali"))));
 }
+function formatBytes(n) {
+n = Number(n) || 0;
+if (n < 1024) return n + " B";
+if (n < 1048576) return (n / 1024).toFixed(1) + " KB";
+return (n / 1048576).toFixed(2) + " MB";
+}
+function getStorageUsage() {
+var bytes = 0;
+try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); bytes += k.length + (localStorage.getItem(k) || "").length; } } catch (e) {}
+return { bytes: bytes, mb: (bytes / 1048576).toFixed(1) };
+}
+function fileToAttachment(file) {
+return new Promise(function (resolve, reject) {
+var r = new FileReader();
+r.onerror = function () { reject(new Error("Lettura file fallita")); };
+r.onload = function () {
+var dataUrl = String(r.result || "");
+resolve({ id: "att_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), name: file.name || "file", type: file.type || "", size: file.size || 0, finalSize: dataUrl.length, dataUrl: dataUrl, uploadedAt: new Date().toISOString() });
+};
+r.readAsDataURL(file);
+});
+}
+function downloadAttachment(att) {
+if (!att || !att.dataUrl) return;
+var a = document.createElement("a");
+a.href = att.dataUrl; a.download = att.name || "allegato";
+document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
 function AttachmentsList({ attachments, onAdd, onDelete, showToast, compact }) {
 const inputRef = React.useRef(null);
 const [uploading, setUploading] = React.useState(false);
@@ -10311,7 +10350,7 @@ React.createElement("div", { style: { display: 'flex', gap: 8, justifyContent: '
 React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Annulla"),
 React.createElement("button", { onClick: () => onSave(Object.assign(Object.assign({}, f), { _totals: { labor: laborTotal, parts: partsSubtotal, subtotal, vat: vatTotal, grand: grandTotal } })), style: FORM_BTN_PRIMARY }, initial ? 'Salva modifiche' : 'Crea preventivo'))));
 }
-function QuotesPage({ quotes, setQuotes, customers, jobs, assets, parts, company, showToast, moveToTrash }) {
+function QuotesPage({ quotes, setQuotes, customers, jobs, assets, parts, company, showToast, moveToTrash, checkLocked }) {
 const [modal, setModal] = React.useState(null);
 const [search, setSearch] = React.useState('');
 const [filterStatus, setFilterStatus] = React.useState('all');
@@ -15004,7 +15043,7 @@ tab === "help" && React.createElement(HelpTab, { helpOpen: helpOpen, setHelpOpen
 tab === "instruments" && (React.createElement(InstrumentsPage, { instruments: instruments, setInstruments: setInstruments, showToast: showToast, checkLocked: checkLocked })),
 tab === "procedures" && (React.createElement(ProceduresPage, { procedures: procedures, setProcedures: setProcedures, assets: assets, showToast: showToast, moveToTrash: moveToTrash })),
 tab === "recalls" && (React.createElement(RecallsPage, { recalls: recalls, setRecalls: setRecalls, assets: assets, customers: customers, showToast: showToast, moveToTrash: moveToTrash, checkLocked: checkLocked, openRecallId: recallFocus, onRecallFocused: function () { setRecallFocus(null); } })),
-tab === "quotes" && (React.createElement(QuotesPage, { quotes: quotes, setQuotes: setQuotes, customers: customers, jobs: jobs, parts: parts, company: company, showToast: showToast, moveToTrash: moveToTrash })),
+tab === "quotes" && (React.createElement(QuotesPage, { checkLocked: checkLocked, quotes: quotes, setQuotes: setQuotes, customers: customers, jobs: jobs, parts: parts, company: company, showToast: showToast, moveToTrash: moveToTrash })),
 (tab === "agenda" || tab === "scadenze") && (React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" } }, [["agenda", "\uD83D\uDCC5 Agenda manutenzioni"], ["scadenze", "⏰ Scadenze verifiche"]].map(pair => (React.createElement("button", { key: pair[0], onClick: () => setTab(pair[0]), style: { background: tab === pair[0] ? "#2dd4bf22" : "var(--card)", border: "1px solid " + (tab === pair[0] ? "#2dd4bf" : "var(--border-2)"), borderRadius: 999, padding: "7px 16px", color: tab === pair[0] ? "#5eead4" : "var(--text-2)", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, pair[1]))))),
 tab === "scadenze" && (React.createElement(ScadenzePage, { scadenze: scadenzeVerifiche, company: company, onEmail: (sc) => setModal({ type: "scadenzaEmail", data: sc }), onOpenAsset: (id) => { const a = assets.find(x => x.id === id); if (a)
 openAsset(a.id); } })),
