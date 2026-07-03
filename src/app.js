@@ -73,7 +73,7 @@ throw error;
 },
 };
 const STORAGE_KEY = "medtrace-v1";
-const APP_VERSION = "2.78";
+const APP_VERSION = "2.79";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -12148,6 +12148,7 @@ React.createElement("span", { style: { flex: 1 } }, n.label),
 n.badge && React.createElement("span", { style: { background: n.bColor, color: "#fff", borderRadius: 10, padding: "1px 7px", fontSize: 10, fontWeight: 700, letterSpacing: .3 } }, n.badge)));
 }))))),
 React.createElement("div", { style: { padding: "12px 14px", borderTop: "1px solid var(--border-2)", display: "flex", flexDirection: "column", gap: 10 } },
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", letterSpacing: .5, textAlign: "center" } }, "MedTrace v" + APP_VERSION),
 React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, style: { background: "transparent", border: "1px solid var(--border-2)", borderRadius: 6, color: "var(--text-2)", fontSize: 12, fontWeight: 600, padding: "8px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, touchAction: "manipulation" } }, "◐ Tema chiaro / scuro"), React.createElement("button", { onClick: () => { setModal({ type: "settings" }); setNavOpen(false); }, style: {
 background: "transparent", border: "1px solid var(--border-2)", borderRadius: 6,
 color: "var(--text-2)", fontSize: 12, fontWeight: 600, padding: "8px",
