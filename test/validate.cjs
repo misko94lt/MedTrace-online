@@ -8,7 +8,8 @@ const path = require("path");
 
 const SRC = path.join(__dirname, "..", "src", "app.js");
 let src = fs.readFileSync(SRC, "utf8").replace(/^import\s[^\n]*\n/gm, "");
-const CONSTS = fs.readFileSync(path.join(__dirname, "..", "src", "constants", "funcTemplates.js"), "utf8").replace(/^export /m, "");
+const constsDir = path.join(__dirname, "..", "src", "constants");
+const CONSTS = fs.readdirSync(constsDir).filter(f => f.endsWith(".js")).sort().map(f => fs.readFileSync(path.join(constsDir, f), "utf8").replace(/^export /gm, "")).join("\n");
 src = CONSTS + "\n" + src;
 
 /* ---------- ambiente finto ---------- */
