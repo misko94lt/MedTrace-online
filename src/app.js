@@ -1,5 +1,6 @@
 import { FUNC_TEMPLATES } from "./constants/funcTemplates.js";
 import { CND_TO_TPL, CND_CAT } from "./constants/cnd.js";
+import { STATUS_COLOR, PRI_COLOR, TIMELINE_ICON, TIMELINE_LABEL, ROLES, PERM_SECTIONS, DEFAULT_ROLE_PERMS, FORM_INP, FORM_LBL, FORM_FLD, FORM_ROW, FORM_COL, FORM_SECTION, FORM_BTN_PRIMARY, FORM_BTN_GHOST, CATEGORIES } from "./constants/ui.js";
 /* MedTrace v2.05 ONLINE */
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -71,12 +72,8 @@ throw error;
 });
 },
 };
-const STATUS_COLOR = { "operativo": "#22c55e", "in manutenzione": "#f59e0b", "fuori servizio": "#ef4444", "da accettare": "#818cf8", "aperto": "#2dd4bf", "in corso": "#f59e0b", "in attesa ricambi": "#f59e0b", "in attesa cliente": "#a855f7", "in attesa accesso": "#38bdf8", "chiuso": "#22c55e", "in attesa": "var(--text-2)", "confermato": "#2dd4bf", "spedito": "#a855f7", "ricevuto": "#22c55e", "annullato": "#ef4444", "emessa": "#2dd4bf", "pagata": "#22c55e", "scaduta": "#ef4444", "bozza": "var(--text-2)" };
-const PRI_COLOR = { "urgente": "#ef4444", "alta": "#f97316", "normale": "#6366f1", "bassa": "var(--text-2)" };
-const TIMELINE_ICON = { "diagnosi": "", "intervento": "", "ordine_parti": "", "attesa_parti": "·", "test": "✓", "sopralluogo": "·", "contatto": "", "nota": "·" };
-const TIMELINE_LABEL = { "diagnosi": "Diagnosi", "intervento": "Intervento", "ordine_parti": "Ordine parti", "attesa_parti": "Attesa parti", "test": "Test/Verifica", "sopralluogo": "Sopralluogo", "contatto": "Contatto cliente", "nota": "Nota generica" };
 const STORAGE_KEY = "medtrace-v1";
-const APP_VERSION = "2.77";
+const APP_VERSION = "2.78";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -108,43 +105,6 @@ return this.props.children;
 const DEMO_LOCKED = false;
 const OFFLINE_MODE = false;
 const IVA_DEFAULT = 22;
-const ROLES = [
-{ id: "superuser", label: "Superuser", desc: "Proprietario: vede e fa tutto, gestisce utenti e dati fiscali" },
-{ id: "admin", label: "Admin", desc: "Gestione operativa completa (no utenti, no dati fiscali)" },
-{ id: "finance", label: "Finance", desc: "Parte economica: preventivi, fatture, job in lettura" },
-{ id: "tecnico", label: "Tecnico", desc: "Campo: verifiche, job, apparecchi, magazzino" },
-];
-const PERM_SECTIONS = [
-{ id: "dashboard", label: "Dashboard" },
-{ id: "kpi", label: "KPI & Statistiche" },
-{ id: "jobs", label: "Job / Interventi" },
-{ id: "richieste", label: "Richieste clienti" },
-{ id: "iec", label: "Sicurezza Elettrica" },
-{ id: "func", label: "Verif. Funzionale" },
-{ id: "ppm", label: "Manut. Programmata" },
-{ id: "agenda", label: "Pianificazione (agenda + scadenze)" },
-{ id: "assets", label: "Apparecchi" },
-{ id: "instruments", label: "Strumenti" },
-{ id: "customers", label: "Clienti" },
-{ id: "parts", label: "Magazzino" },
-{ id: "invoices", label: "Preventivi" },
-{ id: "procedures", label: "Aiuto & Procedure (guida inclusa)" },
-{ id: "recalls", label: "Avvisi di sicurezza" },
-];
-const DEFAULT_ROLE_PERMS = {
-superuser: PERM_SECTIONS.map(s => s.id),
-admin: ["dashboard", "kpi", "jobs", "richieste", "iec", "func", "ppm", "agenda", "scadenze", "assets", "instruments", "customers", "parts", "invoices", "procedures", "help", "recalls"],
-finance: ["dashboard", "kpi", "jobs", "assets", "customers", "invoices", "procedures", "help", "recalls"],
-tecnico: ["dashboard", "kpi", "jobs", "richieste", "iec", "func", "ppm", "agenda", "scadenze", "assets", "instruments", "customers", "parts", "procedures", "help", "recalls"],
-};
-const FORM_INP = { width: "100%", background: "var(--bg-2)", border: "1px solid var(--border)", borderRadius: 9, padding: "11px 13px", color: "var(--text)", fontSize: 14, outline: "none", fontFamily: "inherit", boxSizing: "border-box", transition: "border-color .15s" };
-const FORM_LBL = { fontSize: 10, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .7, fontWeight: 700, display: "block", marginBottom: 6 };
-const FORM_FLD = { display: "flex", flexDirection: "column", marginBottom: 0 };
-const FORM_ROW = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 14, marginBottom: 14 };
-const FORM_COL = { display: "flex", flexDirection: "column", minWidth: 0 };
-const FORM_SECTION = { fontSize: 11, color: "#2dd4bf", fontWeight: 800, marginBottom: 12, marginTop: 4, textTransform: "uppercase", letterSpacing: .8, display: "flex", alignItems: "center", gap: 6 };
-const FORM_BTN_PRIMARY = { background: "#2dd4bf", color: "#06251f", border: "none", borderRadius: 9, padding: "11px 22px", cursor: "pointer", fontWeight: 800, fontSize: 14, boxShadow: "none" };
-const FORM_BTN_GHOST = { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 9, color: "var(--text-2)", padding: "11px 20px", cursor: "pointer", fontWeight: 700, fontSize: 14 };
 const FORM_FOOTER = { display: "flex", gap: 10, justifyContent: "flex-end", paddingTop: 16, marginTop: 16, borderTop: "1px solid var(--border-2)" };
 const QRGen = (function () {
 const EXP = new Array(256), LOG = new Array(256);
@@ -8192,9 +8152,6 @@ React.createElement(InstrumentForm, { initial: modal.data, onSave: saveInstrumen
 React.createElement(RenewCalibrationForm, { instrument: modal.data, onSave: (data) => { saveInstrument(data); showToast('✓ Calibrazione rinnovata'); }, onClose: () => setModal(null) })))));
 }
 function InstrumentForm({ initial, onSave, onClose }) {
-const CATEGORIES = ['Tester IEC/Sicurezza elettrica', 'Multimetro', 'Oscilloscopio',
-'Analizzatore defibrillatori', 'Analizzatore infusionali', 'Simulatore paziente',
-'Misuratore pressione', 'Termometro di riferimento', 'Calibratore', 'Altro'];
 const [form, setForm] = React.useState(initial || {
 brand: '', model: '', serial: '', internalCode: '', category: '',
 calDate: '', calExpiry: '', calLab: '', certNumber: '', calInterval: 12, notes: ''
