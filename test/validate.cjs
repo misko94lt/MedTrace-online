@@ -7,7 +7,9 @@ const fs = require("fs");
 const path = require("path");
 
 const SRC = path.join(__dirname, "..", "src", "app.js");
-let src = fs.readFileSync(SRC, "utf8");
+let src = fs.readFileSync(SRC, "utf8").replace(/^import\s[^\n]*\n/gm, "");
+const CONSTS = fs.readFileSync(path.join(__dirname, "..", "src", "constants", "funcTemplates.js"), "utf8").replace(/^export /m, "");
+src = CONSTS + "\n" + src;
 
 /* ---------- ambiente finto ---------- */
 const noop = () => {};
