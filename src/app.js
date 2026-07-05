@@ -56,7 +56,7 @@ throw error;
 },
 };
 const STORAGE_KEY = "medtrace-v1";
-const APP_VERSION = "2.81";
+const APP_VERSION = "2.82";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -12914,6 +12914,7 @@ alert('Anteprima non pronta. Riprova fra un secondo.');
 return;
 }
 try {
+try { const _t = String(pdfHtml).match(/<title>([^<]+)<\/title>/); if (_t && _t[1]) iframe.contentWindow.document.title = _t[1].trim(); } catch (e) {}
 iframe.contentWindow.focus();
 iframe.contentWindow.print();
 }
