@@ -6,6 +6,8 @@ import { downloadXLSX, downloadJSON, openPrintWindow, mtEnsurePdfLibs, mtRenderR
 import { mtStartBulk, PDF_STYLE, generateIECPDF, generateFuncPDF, setInstrumentsRegistry } from "./lib/reports.js";
 import { TecnicoPicker, TecniciManager, chkRow, Btn, fileToAttachment, AttachmentsList } from "./components/shared.js";
 import { OFFLINE_MODE, STORAGE_KEY, getSupa, getSupabaseClient, getSupabaseConfig, idbGet, idbSet, loadData, mirrorToIdb, saveData, storageUsage, supabaseDeleteById, supabaseGetCompany, supabaseGetRole, supabasePushOne, supabaseSaveCompany, supabaseSaveTechnicians, supabaseSyncMerge, supabaseSyncUp, upsertInList, setBootData, setBootDone, getBootDone } from "./lib/sync.js";
+import { startWedge, stopWedge } from "./lib/rfid.js";
+import { RfidAssocPicker } from "./components/rfid.js";
 /* MedTrace v2.05 ONLINE */
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaSignUp = (email, pw) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.signUp({ email, password: pw }); };
@@ -46,7 +48,7 @@ throw error;
 });
 },
 };
-const APP_VERSION = "2.84";
+const APP_VERSION = "2.85";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -2586,7 +2588,7 @@ steps: [
 icon: "›", title: "Scansione RFID", color: "#2dd4bf",
 steps: [
 "A cosa serve: fai il giro di un reparto, scansioni in blocco i tag RFID degli apparecchi presenti e aggiorni in automatico la loro ultima posizione. La voce 'RFID' è nel gruppo APPARECCHIATURE.",
-"Come si usa: 1) scegli il REPARTO dal menu a tendina (es. Cardiologia); 2) premi 'Scansiona' col lettore RFID collegato, oppure 'Simula scansione' per provare senza hardware; 3) compare la lista degli apparecchi TROVATI, con le verifiche scadute o in scadenza evidenziate in rosso/ambra.",
+"Come si usa: 1) scegli il REPARTO dal menu a tendina (es. Cardiologia); 2) attiva 'Ascolto lettore' e spara col grilletto (il lettore Bluetooth in modalit\u00e0 tastiera/HID digita gli EPC da solo), oppure incolla gli EPC o usa 'Simula scansione' senza hardware, poi premi 'Scansiona'; 3) compare la lista degli apparecchi TROVATI, con le verifiche scadute o in scadenza evidenziate in rosso/ambra; 4) i tag SCONOSCIUTI si associano al volo: tocca l'EPC e scegli l'apparecchio.",
 "Posizione automatica: appena scansioni con un reparto selezionato, agli apparecchi trovati viene aggiornata l'ULTIMA POSIZIONE (last location) al reparto corrente. L'ubicazione assegnata dell'apparecchio NON cambia: cambia solo dove è stato visto l'ultima volta. Se sbagli reparto, ri-scansiona in quello giusto e si corregge da solo.",
 "Dalla lista alla verifica: tocca un apparecchio trovato per aprire la sua scheda con storico e verifiche, ed esegui subito la verifica di sicurezza elettrica o funzionale se è in ritardo.",
 "EPC sconosciuti: i tag letti che non corrispondono a nessun apparecchio compaiono in un elenco a parte: puoi associarli dalla scheda apparecchio (campo EPC).",
@@ -9208,6 +9210,9 @@ const initialData = (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED && typeof
 const [quotes, setQuotes] = React.useState(initialData.quotes || []);
 const [instruments, setInstruments] = React.useState(initialData.instruments || []);
 React.useEffect(() => { setInstrumentsRegistry(instruments || []); }, [instruments]);
+React.useEffect(() => { const onScan = (e) => { try { const rows = parseRfidScan(e.detail); if (rows.length) importRfidScan(rows); } catch (err) { } }; window.addEventListener("medtrace-rfid-scan", onScan); return () => window.removeEventListener("medtrace-rfid-scan", onScan); }, [assets]);
+React.useEffect(() => { if (tab !== "ricognizione" && reconListening) { stopWedge(); setReconListening(false); } }, [tab, reconListening]);
+React.useEffect(() => () => { stopWedge(); }, []);
 const [procedures, setProcedures] = React.useState(initialData.procedures || []);
 const [portalMode, setPortalMode] = React.useState(false);
 const [tab, setTabState] = React.useState(function () {
@@ -9242,6 +9247,10 @@ const [customers, setCustomers] = React.useState(initialData.customers || []);
 const [reconWard, setReconWard] = React.useState("");
 const [reconInput, setReconInput] = React.useState("");
 const [reconResult, setReconResult] = React.useState(null);
+const [reconListening, setReconListening] = React.useState(false);
+const [reconLive, setReconLive] = React.useState(0);
+const [reconLastEpc, setReconLastEpc] = React.useState("");
+const [assocEpc, setAssocEpc] = React.useState(null);
 const reconWards = React.useMemo(() => { const s = new Set(); (assets || []).forEach(a => { if (a.lastLocation) s.add(a.lastLocation); if (a.location) s.add(a.location); }); return Array.from(s).sort(); }, [assets]);
 const reconByWard = React.useMemo(() => { const m = {}; (assets || []).forEach(a => { if (a.lastLocation) { if (!m[a.lastLocation]) m[a.lastLocation] = { count: 0, last: "" }; m[a.lastLocation].count++; if (a.lastLocationDate && a.lastLocationDate > m[a.lastLocation].last) m[a.lastLocation].last = a.lastLocationDate; } }); return Object.keys(m).sort().map(k => ({ ward: k, count: m[k].count, last: m[k].last })); }, [assets]);
 React.useEffect(() => {
@@ -10003,6 +10012,39 @@ showToast(matched.length + " apparecchi aggiornati dalla scansione RFID");
 return { when: now, total: (rows || []).length, updated: matched.length, unknown: unknown, crit: crit, byLoc: byLoc };
 };
 const reconSimulate = () => { const we = (assets || []).filter(a => a.epc); if (!we.length) { showToast("Nessun apparecchio ha un EPC associato", "#f59e0b"); return; } let s = we.filter(() => Math.random() < 0.7); if (!s.length) s = we.slice(0, Math.min(5, we.length)); const lines = s.map(a => a.epc); lines.push("E20099AA00DEADBEEF000001"); setReconInput(lines.join("\n")); };
+const reconToggleListen = () => {
+if (reconListening) {
+const scan = stopWedge();
+setReconListening(false);
+if (scan && scan.epcs.length)
+setReconInput(prev => { const cur = String(prev || "").trim(); return (cur ? cur + "\n" : "") + scan.epcs.join("\n"); });
+return;
+}
+setReconLive(0); setReconLastEpc("");
+const ok = startWedge((epc, n) => { setReconLive(n); setReconLastEpc(epc); });
+if (ok) { setReconListening(true); showToast("Ascolto attivo: spara col lettore (o digita EPC + Invio)"); }
+};
+const reconAssign = (a) => {
+const epc = assocEpc;
+if (!epc || !a) return;
+if (checkLocked()) return;
+const dup = (assets || []).find(x => x.id !== a.id && String(x.epc || "").trim().toUpperCase() === epc);
+if (dup) { showToast("Tag gi\u00e0 associato a: " + (dup.name || dup.assetCode || dup.id), "#ef4444"); return; }
+if (a.epc && String(a.epc).trim().toUpperCase() !== epc && !window.confirm("Ha gi\u00e0 il tag " + a.epc + ". Sostituire?")) return;
+const ward = (reconResult && reconResult.applied) ? reconResult.applied : "";
+const nowIso = new Date().toISOString();
+const upd = ward ? { epc: epc, lastLocation: ward, lastLocationDate: nowIso } : { epc: epc };
+setAssets(prev => prev.map(x => x.id === a.id ? withUpdateMeta(Object.assign(Object.assign({}, x), upd)) : x));
+setReconResult(prev => {
+if (!prev) return prev;
+const aa = Object.assign(Object.assign({}, a), upd);
+let days = null, status = "ok";
+if (aa.nextService) { const ns = new Date(aa.nextService); if (!isNaN(ns.getTime())) { days = Math.round((ns.getTime() - Date.now()) / 86400000); status = days < 0 ? "scaduta" : (days <= 30 ? "scadenza" : "ok"); } }
+return Object.assign(Object.assign({}, prev), { unknown: prev.unknown.filter(e => e !== epc), found: prev.found.concat([{ asset: aa, days: days, status: status }]) });
+});
+setAssocEpc(null);
+showToast("Tag associato: " + (a.name || a.assetCode || a.id));
+};
 const reconScan = () => { const epcs = String(reconInput || "").split(/[^0-9A-Za-z]+/).map(e => e.trim().toUpperCase()).filter(Boolean); const uniq = Array.from(new Set(epcs)); const byEpc = {}; (assets || []).forEach(a => { const e = String(a.epc || "").trim().toUpperCase(); if (e) byEpc[e] = a; }); const found = []; const unknown = []; uniq.forEach(e => { if (byEpc[e]) found.push(byEpc[e]); else unknown.push(e); }); const ward = String(reconWard || "").trim(); const nowIso = new Date().toISOString(); const now = Date.now(); const enr = found.map(a => { const aa = ward ? Object.assign(Object.assign({}, a), { lastLocation: ward, lastLocationDate: nowIso }) : a; let days = null, status = "ok"; if (aa.nextService) { const ns = new Date(aa.nextService); if (!isNaN(ns.getTime())) { days = Math.round((ns.getTime() - now) / 86400000); status = days < 0 ? "scaduta" : (days <= 30 ? "scadenza" : "ok"); } } return { asset: aa, days: days, status: status }; }); const rk = x => x.status === "scaduta" ? 0 : x.status === "scadenza" ? 1 : 2; enr.sort((x, y) => rk(x) - rk(y) || ((x.days == null ? 9e9 : x.days) - (y.days == null ? 9e9 : y.days))); if (ward && found.length && !DEMO_LOCKED) { const ids = {}; found.forEach(a => { ids[a.id] = true; }); setAssets(prev => prev.map(a => ids[a.id] ? withUpdateMeta(Object.assign(Object.assign({}, a), { lastLocation: ward, lastLocationDate: nowIso })) : a)); showToast(found.length + " apparecchi \u00b7 " + ward); } setReconResult({ when: nowIso, scanned: uniq.length, found: enr, unknown: unknown, applied: (ward && found.length) ? ward : "" }); };
 const importAssets = (records) => {
 if (checkLocked())
@@ -11115,7 +11157,10 @@ React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marg
 React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: 12, marginBottom: 10 } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 700 } }, "EPC SCANSIONATI"),
-React.createElement("button", { onClick: reconSimulate, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "#2dd4bf", padding: "3px 8px", fontSize: 10.5, cursor: "pointer", fontWeight: 700 } }, "Simula scansione")),
+React.createElement("div", { style: { display: "flex", gap: 6 } },
+React.createElement("button", { onClick: reconToggleListen, style: { background: reconListening ? "#2dd4bf" : "transparent", border: "1px solid " + (reconListening ? "#2dd4bf" : "var(--border)"), borderRadius: 6, color: reconListening ? "#04201c" : "#2dd4bf", padding: "3px 8px", fontSize: 10.5, cursor: "pointer", fontWeight: 700 } }, reconListening ? ("\u25a0 Termina (" + reconLive + ")") : "\u25b6 Ascolto lettore"),
+React.createElement("button", { onClick: reconSimulate, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "#2dd4bf", padding: "3px 8px", fontSize: 10.5, cursor: "pointer", fontWeight: 700 } }, "Simula scansione"))),
+reconListening && React.createElement("div", { style: { fontSize: 11, color: "#2dd4bf", fontWeight: 700, marginBottom: 6, fontFamily: "'IBM Plex Mono', monospace" } }, "\u25cf " + reconLive + " tag letti" + (reconLastEpc ? (" \u00b7 ultimo: " + reconLastEpc) : "") + " \u2014 tocca Termina per riversarli"),
 React.createElement("textarea", { value: reconInput, onChange: e => setReconInput(e.target.value), placeholder: "Incolla gli EPC (uno per riga o separati). Senza lettore usa Simula scansione.", rows: 4, style: { width: "100%", boxSizing: "border-box", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13, fontFamily: "'IBM Plex Mono', monospace", resize: "vertical" } }),
 React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 8 } },
 React.createElement("button", { onClick: reconScan, style: { flex: 1, background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201c", padding: "10px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, "Scansiona"),
@@ -11134,8 +11179,9 @@ f.status !== "ok" && React.createElement("span", { style: { fontSize: 10, fontWe
 React.createElement("span", { style: { color: "var(--text-4)", fontSize: 16 } }, "\u203a")))),
 reconResult.unknown.length > 0 && React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "var(--bg)", border: "1px dashed #f59e0b44", borderRadius: 8 } },
 React.createElement("div", { style: { fontSize: 11, color: "#f59e0b", fontWeight: 700, marginBottom: 4 } }, "EPC sconosciuti (" + reconResult.unknown.length + ")"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace", wordBreak: "break-all" } }, reconResult.unknown.join("  ")),
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 4 } }, "Tag non associati a nessun apparecchio. Associali dalla scheda (campo EPC).")))),
+React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } }, reconResult.unknown.map(e => React.createElement("span", { key: e, onClick: () => setAssocEpc(assocEpc === e ? null : e), style: { fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", color: assocEpc === e ? "#04201c" : "var(--text-2)", background: assocEpc === e ? "#f59e0b" : "var(--surface)", border: "1px solid " + (assocEpc === e ? "#f59e0b" : "var(--border)"), borderRadius: 6, padding: "4px 8px", cursor: "pointer", wordBreak: "break-all", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, e))),
+assocEpc && reconResult.unknown.indexOf(assocEpc) !== -1 && React.createElement(RfidAssocPicker, { epc: assocEpc, assets: assets, onAssign: reconAssign, onClose: () => setAssocEpc(null) }),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 4 } }, "Tag non associati. Tocca un EPC per associarlo a un apparecchio.")))),
 reconByWard.length > 0 && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: 12 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 700, marginBottom: 8 } }, "REPARTI SCANSIONATI"),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, reconByWard.map(r => React.createElement("div", { key: r.ward, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "var(--surface)", borderRadius: 6 } },
