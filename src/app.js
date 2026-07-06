@@ -55,7 +55,7 @@ throw error;
 });
 },
 };
-const APP_VERSION = "2.95";
+const APP_VERSION = "2.96";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -6285,7 +6285,10 @@ var html = '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>PP
 + secHead("1", "Manutenzione (checklist)") + '<table><thead><tr><th>Voce</th><th style="text-align:center">Stato</th><th>Nota</th></tr></thead><tbody>' + (clRows || '<tr><td colspan="3" style="text-align:center;color:#94a3b8">Nessuna voce</td></tr>') + '</tbody></table>'
 + funcHtml + iecHtml
 + (ppm.notes ? (secHead("", "Note") + '<div style="font-size:11px;color:#334155">' + esc(ppm.notes) + '</div>') : "")
-+ '<div class="sign-row" style="display:flex;justify-content:space-between;margin-top:26px;font-size:11px;color:#334155"><div>Tecnico: ____________________</div><div>Firma: ____________________</div></div>'
++ '<div class="sign-row" style="display:flex;justify-content:space-around;gap:24px;margin-top:26px;text-align:center">'
++ '<div style="flex:1;max-width:260px">' + (ppm.technicianSignature ? '<img src="' + ppm.technicianSignature + '" style="max-height:55px;max-width:200px;display:block;margin:0 auto"/>' : '<div style="height:55px"></div>') + '<div style="border-top:1px solid #94A3B8;padding-top:4px;font-size:9.5px;color:#64748B">Firma Tecnico<br/><strong style="color:#1e293b;font-size:11px">' + (ppm.technician || '') + '</strong></div></div>'
++ ((ppm.departmentSignature || ppm.departmentContact || ppm.departmentName) ? '<div style="flex:1;max-width:260px">' + (ppm.departmentSignature ? '<img src="' + ppm.departmentSignature + '" style="max-height:55px;max-width:200px;display:block;margin:0 auto"/>' : '<div style="height:55px"></div>') + '<div style="border-top:1px solid #94A3B8;padding-top:4px;font-size:9.5px;color:#64748B">Firma Referente Reparto / Cliente<br/><strong style="color:#1e293b;font-size:11px">' + (ppm.departmentContact || ppm.departmentName || '') + '</strong></div></div>' : '')
++ '</div>'
 + '<div style="margin-top:14px;padding:9px 11px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;font-size:7.8px;color:#64748b;line-height:1.5"><div style="font-weight:700;color:#475569;margin-bottom:3px">Avvertenze e limitazioni</div><b>a)</b> Verbale di verifica, non atto di certificazione; i risultati si riferiscono al solo esemplare provato e alle prove eseguite. &nbsp; <b>b)</b> Sicurezza elettrica secondo IEC 62353 (CEI EN 62353); le prove funzionali sono buona tecnica di categoria, per il singolo modello prevale il manuale del fabbricante. &nbsp; <b>c)</b> L\'esito positivo attesta che i parametri rientrano nei valori previsti, non l\'idoneità a impieghi specifici (riferirsi a normative e linee guida). &nbsp; <b>d)</b> ' + esc(company.name || '[Ragione sociale]') + ' non risponde di danni derivanti dall\'inosservanza dei manuali del fabbricante; il Cliente è tenuto a usare l\'apparecchio secondo le istruzioni del Costruttore.</div>'
 + '</div></div></body></html>';
 openPrintWindow(html);
