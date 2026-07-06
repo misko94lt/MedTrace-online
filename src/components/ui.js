@@ -589,15 +589,22 @@ const rect = canvas.getBoundingClientRect();
 if (e.touches && e.touches.length > 0) {
 return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
 }
-return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+const cl = (v, m) => Math.max(0, Math.min(m, v));
+return { x: cl(e.clientX - rect.left, rect.width), y: cl(e.clientY - rect.top, rect.height) };
 };
+const usePointer = typeof window !== "undefined" && !!window.PointerEvent;
+const legacy = (e) => usePointer && (e.type.indexOf("touch") === 0 || e.type.indexOf("mouse") === 0);
 const start = (e) => {
+if (legacy(e)) return;
 e.preventDefault();
 isDrawing.current = true;
 lastPoint.current = getXY(e);
+if (e.pointerId !== undefined && canvasRef.current && canvasRef.current.setPointerCapture) {
+try { canvasRef.current.setPointerCapture(e.pointerId); } catch (err) { }
+}
 };
 const draw = (e) => {
-if (!isDrawing.current)
+if (legacy(e) || !isDrawing.current)
 return;
 e.preventDefault();
 const canvas = canvasRef.current;
@@ -617,7 +624,7 @@ lastPoint.current = p;
 setHasContent(true);
 };
 const end = (e) => {
-if (!isDrawing.current)
+if (legacy(e) || !isDrawing.current)
 return;
 isDrawing.current = false;
 const canvas = canvasRef.current;
@@ -636,7 +643,7 @@ onChange && onChange("");
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
 label && React.createElement("label", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 600 } }, label),
 React.createElement("div", { style: { position: "relative", border: "1px solid var(--border)", borderRadius: 8, background: "#fff", overflow: "hidden" } },
-React.createElement("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: height + "px", touchAction: "none", cursor: "crosshair" }, onMouseDown: start, onMouseMove: draw, onMouseUp: end, onMouseLeave: end, onTouchStart: start, onTouchMove: draw, onTouchEnd: end, onPointerDown: start, onPointerMove: draw, onPointerUp: end }),
+React.createElement("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: height + "px", touchAction: "none", cursor: "crosshair" }, onMouseDown: start, onMouseMove: draw, onMouseUp: end, onMouseLeave: end, onTouchStart: start, onTouchMove: draw, onTouchEnd: end, onPointerDown: start, onPointerMove: draw, onPointerUp: end, onPointerCancel: end, onPointerLeave: end }),
 !hasContent && (React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "var(--text-2)", fontSize: 13, fontStyle: "italic" } }, "Firma qui (usa S-Pen o dito)"))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: 6 } },
 React.createElement("button", { type: "button", onClick: clear, style: { background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 6, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, "Cancella firma"))));
@@ -649,6 +656,6 @@ const fromProfile = !!value && !!profileSig && value === profileSig && !editing;
 if (fromProfile)
 return React.createElement("div", { style: { background: "var(--surface)", border: "1px solid #2dd4bf55", borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 } },
 React.createElement("div", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 600 } }, "\u2713 Firma tecnico applicata dal profilo" + (techName ? " di " + techName : "")),
-React.createElement("button", { type: "button", onClick: () => setEditing(true), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, "Firma diversa"));
+React.createElement("button", { type: "button", onClick: () => { setEditing(true); onChange && onChange(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, "Firma diversa"));
 return React.createElement(SignaturePad, { label: label || "Firma Tecnico verificatore (obbligatoria)", value: value || "", onChange: onChange, height: height });
 }
