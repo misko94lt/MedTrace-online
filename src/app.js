@@ -9,6 +9,8 @@ import { OFFLINE_MODE, STORAGE_KEY, getSupa, getSupabaseClient, getSupabaseConfi
 import { startWedge, stopWedge, isWardTag, WARD_TAG_BRAND } from "./lib/rfid.js";
 import { RfidAssocPicker } from "./components/rfid.js";
 import { FuncVerifyForm, FuncWizardForm, IECReportForm, IecWizardForm } from "./components/verifiche.js";
+import { SignaturePad } from "./components/ui.js";
+import { techSignature } from "./components/shared.js";
 import { AssetCombobox, ErrorSummary } from "./components/ui.js";
 import { getNextReportNumber, iecGetMeasures } from "./lib/reports.js";
 import { cndToTemplate, guessTemplate } from "./constants/funcTemplates.js";
@@ -53,7 +55,7 @@ throw error;
 });
 },
 };
-const APP_VERSION = "2.92";
+const APP_VERSION = "2.93";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -2998,7 +3000,7 @@ React.createElement(Btn, { onClick: () => onSave(Object.assign(Object.assign({},
 }
 function JobForm({ initial, assets, parts, customers, technicians, onSave, onClose }) {
 var _a;
-const blank = { assetId: ((_a = assets[0]) === null || _a === void 0 ? void 0 : _a.id) || "", customerId: "", type: "correttiva", priority: "normale", status: "aperto", assignee: "", openDate: new Date().toISOString().slice(0, 10), closeDate: "", description: "", parts: [], laborHours: 0, laborRate: 55, travelCost: 0, notes: "", timeline: [], photos: [] };
+const blank = { assetId: ((_a = assets[0]) === null || _a === void 0 ? void 0 : _a.id) || "", customerId: "", type: "correttiva", priority: "normale", status: "aperto", assignee: "", openDate: new Date().toISOString().slice(0, 10), closeDate: "", description: "", parts: [], laborHours: 0, laborRate: 55, travelCost: 0, notes: "", timeline: [], photos: [], technicianSignature: "", departmentSignature: "" };
 const [f, setF] = React.useState(initial ? Object.assign(Object.assign(Object.assign({}, blank), initial), { timeline: initial.timeline || [], photos: initial.photos || [], parts: initial.parts || [] }) : blank);
 const [errors, setErrors] = React.useState({});
 const s = k => e => setF(x => (Object.assign(Object.assign({}, x), { [k]: e.target.value })));
@@ -3009,6 +3011,7 @@ if (a === null || a === void 0 ? void 0 : a.customerId)
 setF(x => (Object.assign(Object.assign({}, x), { customerId: a.customerId })));
 }
 }, [f.assetId]);
+React.useEffect(() => { if (f.technicianSignature) return; const sig = techSignature(technicians, f.assignee); if (sig) setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: sig }))); }, [f.assignee]);
 const addPart = () => setF(x => { var _a; return (Object.assign(Object.assign({}, x), { parts: [...x.parts, { partId: ((_a = parts[0]) === null || _a === void 0 ? void 0 : _a.id) || "", qty: 1 }] })); });
 const remPart = i => setF(x => (Object.assign(Object.assign({}, x), { parts: x.parts.filter((_, idx) => idx !== i) })));
 const setPart = (i, k, v) => setF(x => { const a = [...x.parts]; a[i] = Object.assign(Object.assign({}, a[i]), { [k]: k === "qty" ? +v : v }); return Object.assign(Object.assign({}, x), { parts: a }); });
@@ -3119,6 +3122,11 @@ React.createElement("strong", { style: { color: "#22c55e", fontFamily: "'IBM Ple
 f.timeline.reduce((s, t) => s + (+t.durationMin || 0), 0),
 " min)"))))),
 React.createElement(Txt, { label: "Note", value: f.notes, onChange: s("notes") }),
+React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+React.createElement(SignaturePad, { label: "Firma Tecnico (obbligatoria alla chiusura)", value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
+errors.technicianSignature ? React.createElement("div", { style: { fontSize: 11, color: "#ef4444" } }, errors.technicianSignature) : null,
+
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
 React.createElement(Btn, { onClick: () => {
@@ -3132,6 +3140,8 @@ if (!f.openDate)
 errs.openDate = "Inserisci la data di apertura";
 if (f.status === "chiuso" && !f.closeDate)
 errs.closeDate = "Data chiusura obbligatoria se lo stato è chiuso";
+if (f.status === "chiuso" && !f.technicianSignature)
+errs.technicianSignature = "Firma del tecnico obbligatoria per chiudere l'intervento";
 setErrors(errs);
 if (Object.keys(errs).length > 0)
 return;
@@ -6294,6 +6304,7 @@ const patientType = (ast && ast.patientType) || "BF";
 const fixedInstall = !!(ast && ast.fixedInstall);
 return {
 assetId: aid, templateId: tplId, categoryId: cl.categoryId,
+technicianSignature: "", departmentSignature: "",
 maint: (cl.items || []).map(t => ({ text: t, status: null, note: "" })),
 norm: norm, equipClass: equipClass, patientType: patientType, leakageMethod: "diretto", sfc: true, fixedInstall: fixedInstall,
 iecMeasures: iecGetMeasures(norm, equipClass, patientType, "diretto", true, fixedInstall),
@@ -6356,7 +6367,8 @@ return true;
 };
 const doneCount = steps.filter(stepFilled).length;
 const go = (i) => { setStep(Math.max(0, Math.min(TOT - 1, i))); setTutOpen(false); try { window.scrollTo(0, 0); } catch (e) { } };
-const doSave = () => { if (!f.assetId) return; onSaveFull({ assetId: f.assetId, date: f.date, technician: f.technician, templateId: f.templateId, categoryId: f.categoryId, maint: f.maint, funcSections: f.funcSections, funcPass: funcPass, iecMeasures: f.iecMeasures, iecConfig: { norm: f.norm, equipClass: f.equipClass, patientType: f.patientType, leakageMethod: f.leakageMethod }, vsePass: vsePass, overall: overall, notes: f.notes }); };
+React.useEffect(() => { if (sObj.key !== "esito" || f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [sObj.key]);
+const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Firma del tecnico obbligatoria", color: "#ef4444" } })); } catch (e) { } return; } onSaveFull({ technicianSignature: f.technicianSignature || "", departmentSignature: f.departmentSignature || "", assetId: f.assetId, date: f.date, technician: f.technician, templateId: f.templateId, categoryId: f.categoryId, maint: f.maint, funcSections: f.funcSections, funcPass: funcPass, iecMeasures: f.iecMeasures, iecConfig: { norm: f.norm, equipClass: f.equipClass, patientType: f.patientType, leakageMethod: f.leakageMethod }, vsePass: vsePass, overall: overall, notes: f.notes }); };
 
 const selStyle = { width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 };
 const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", marginBottom: 4, display: "block" };
@@ -6436,6 +6448,9 @@ h("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 4 } }, "M
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Manutenzione", maintDone + "/" + (f.maint || []).length + " voci"], ["Funzionale", funcPass ? "Conforme" : "Non conforme"], ["Sicurezza elettrica", vsePass ? "Conforme" : "Non conforme"], ["Esito complessivo", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: (i >= 2) ? ((i === 2 ? funcPass : i === 3 ? vsePass : overall) ? TEAL : RED) : "var(--text)" } }, r[1])))),
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
+h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+h(SignaturePad, { label: "Firma Tecnico verificatore (obbligatoria)", value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
+h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })),
 h("div", { style: { fontSize: 11.5, color: "var(--text-4)", textAlign: "center" } }, "Al salvataggio: crea il verbale di manutenzione, la verifica funzionale e la VSE collegate, aggiorna le scadenze e apre il PDF unico."));
 }
 
@@ -6473,7 +6488,9 @@ technician: "",
 items: [],
 notes: "",
 overallPass: true,
-verifyType: "programmata"
+verifyType: "programmata",
+technicianSignature: "",
+departmentSignature: ""
 };
 var _f = React.useState(function () {
 var init = initial || blank;
@@ -6482,6 +6499,7 @@ if (!initial && init.assetId) { var ci0 = getPpmChecklist((assets || []).find(fu
 return init;
 });
 var f = _f[0], setF = _f[1];
+React.useEffect(function () { if (f.technicianSignature) return; var sig = techSignature(technicians, f.technician); if (sig) setF(function (x) { return Object.assign({}, x, { technicianSignature: sig }); }); }, [f.technician]);
 React.useEffect(function () {
 if (initial) return;
 if (!assetId) { setF(function (x) { return Object.assign(Object.assign({}, x), { assetId: "", items: [] }); }); return; }
@@ -6492,6 +6510,7 @@ function sv(k) { return function (e) { var val = (e && e.target) ? e.target.valu
 function setItemStatus(i, st) { setF(function (x) { var it = (x.items || []).slice(); it[i] = Object.assign(Object.assign({}, it[i]), { status: st }); return Object.assign(Object.assign({}, x), { items: it }); }); }
 function setItemNote(i, v) { setF(function (x) { var it = (x.items || []).slice(); it[i] = Object.assign(Object.assign({}, it[i]), { note: v }); return Object.assign(Object.assign({}, x), { items: it }); }); }
 function doSave() {
+if (!f.technicianSignature) { showToast && showToast("Firma del tecnico obbligatoria", "#ef4444"); return; }
 if (!assetId) { showToast && showToast("Seleziona un apparecchio", "#ef4444"); return; }
 var asset = (assets || []).find(function (a) { return a.id === assetId; }) || {};
 onSave(Object.assign(Object.assign({}, f), { assetId: assetId, customerId: f.customerId || asset.customerId || "" }));
@@ -6550,6 +6569,9 @@ aIec.map(function (r) { return React.createElement("option", { key: r.id, value:
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "iec", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, "Esegui"))),
 React.createElement(Btn, { onClick: function () { onPdf(livePpm); } }, "\u2193 Scarica PDF unico"));
 })() : React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", borderTop: "1px solid var(--border-2)", paddingTop: 12 } }, "Salva la checklist, poi riapri la PPM per collegare verifica funzionale e VSE e scaricare il PDF unico."),
+React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+React.createElement(SignaturePad, { label: "Firma Tecnico verificatore (obbligatoria)", value: f.technicianSignature || "", onChange: function (v) { setF(function (x) { return Object.assign({}, x, { technicianSignature: v }); }); }, height: 120 }),
+React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: function (v) { setF(function (x) { return Object.assign({}, x, { departmentSignature: v }); }); }, height: 120 })),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
 React.createElement(Btn, { onClick: doSave }, "Salva PPM")));
@@ -8571,9 +8593,9 @@ const ts = Date.now().toString();
 const tpl = allTemplates[p.templateId] || null;
 let funcNext = null;
 if (tpl && tpl.intervalMonths) { const d = new Date(today); if (!isNaN(d.getTime())) { d.setMonth(d.getMonth() + (parseInt(tpl.intervalMonths, 10) || 0)); funcNext = d.toISOString().slice(0, 10); } }
-const funcRep = withCreateMeta({ id: "FV" + ts.slice(-9), reportNumber: getNextReportNumber(funcReports, "VF"), assetId: p.assetId, customerId: cid, templateId: p.templateId, date: today, technician: p.technician || "", sections: p.funcSections || {}, overallPass: !!p.funcPass, verifyStatus: "completata", verifyType: "periodica", nextDate: funcNext, notes: "", published: true });
-const iecRep = withCreateMeta({ id: "R" + ts.slice(-7), reportNumber: getNextReportNumber(iecReports, "VSE"), assetId: p.assetId, customerId: cid, date: today, technician: p.technician || "", norm: p.iecConfig.norm, equipClass: p.iecConfig.equipClass, patientType: p.iecConfig.patientType, leakageMethod: p.iecConfig.leakageMethod, verifyType: "periodica", verifyStatus: "completata", measures: p.iecMeasures || [], visual: { housing: null, cable: null, connectors: null, labels: null, docs: null }, overallPass: !!p.vsePass, notes: "", published: true });
-const ppm = withCreateMeta({ id: "PPM" + ts.slice(-6), reportNumber: getNextReportNumber(ppmReports, "PPM"), assetId: p.assetId, customerId: cid, date: today, technician: p.technician || "", items: p.maint || [], categoryId: p.categoryId, overallPass: !!p.overall, notes: p.notes || "", funcReportId: funcRep.id, iecReportId: iecRep.id, published: true });
+const funcRep = withCreateMeta({ id: "FV" + ts.slice(-9), reportNumber: getNextReportNumber(funcReports, "VF"), assetId: p.assetId, customerId: cid, templateId: p.templateId, date: today, technician: p.technician || "", sections: p.funcSections || {}, overallPass: !!p.funcPass, verifyStatus: "completata", verifyType: "periodica", nextDate: funcNext, notes: "", technicianSignature: p.technicianSignature || "", departmentSignature: p.departmentSignature || "", published: true });
+const iecRep = withCreateMeta({ id: "R" + ts.slice(-7), reportNumber: getNextReportNumber(iecReports, "VSE"), assetId: p.assetId, customerId: cid, date: today, technician: p.technician || "", norm: p.iecConfig.norm, equipClass: p.iecConfig.equipClass, patientType: p.iecConfig.patientType, leakageMethod: p.iecConfig.leakageMethod, verifyType: "periodica", verifyStatus: "completata", measures: p.iecMeasures || [], visual: { housing: null, cable: null, connectors: null, labels: null, docs: null }, overallPass: !!p.vsePass, notes: "", technicianSignature: p.technicianSignature || "", departmentSignature: p.departmentSignature || "", published: true });
+const ppm = withCreateMeta({ id: "PPM" + ts.slice(-6), reportNumber: getNextReportNumber(ppmReports, "PPM"), assetId: p.assetId, customerId: cid, date: today, technician: p.technician || "", items: p.maint || [], categoryId: p.categoryId, overallPass: !!p.overall, notes: p.notes || "", funcReportId: funcRep.id, iecReportId: iecRep.id, technicianSignature: p.technicianSignature || "", departmentSignature: p.departmentSignature || "", published: true });
 setFuncReports(rs => [...rs, funcRep]);
 setIecReports(rs => [...rs, iecRep]);
 setPpmReports(rs => [...rs, ppm]);
