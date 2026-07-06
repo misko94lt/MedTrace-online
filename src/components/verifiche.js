@@ -1,6 +1,6 @@
 /* MedTrace — verifiche: wizard e form Funzionale + IEC 62353, firma, suggerimento strumenti (estratti da app.js, v2.90) */
-import { TecnicoPicker, Btn, chkRow } from "./shared.js";
-import { Hint, useMedia, AssetCombobox, ErrorSummary } from "./ui.js";
+import { TecnicoPicker, Btn, chkRow, techSignature } from "./shared.js";
+import { Hint, useMedia, AssetCombobox, ErrorSummary, SignaturePad } from "./ui.js";
 import { FORM_FLD, FORM_INP, FORM_LBL } from "../constants/ui.js";
 import { FUNC_TEMPLATES, cndToTemplate, guessTemplate } from "../constants/funcTemplates.js";
 import { getNextReportNumber, iecGetMeasures } from "../lib/reports.js";
@@ -46,7 +46,8 @@ const secFilled = (sec) => { var sd = f.sections[sec.id] || { items: {}, measure
 const stepFilled = (st) => { if (st.key === "setup") return !!f.assetId && !!f.templateId; if (st.key === "funcsec") return secFilled(st.sec); return true; };
 const doneCount = steps.filter(stepFilled).length;
 const go = (i) => { setStep(Math.max(0, Math.min(TOT - 1, i))); try { window.scrollTo(0, 0); } catch (e) { } };
-const doSave = () => { if (!f.assetId) return; const cid = ast ? ast.customerId : null; onSave(Object.assign({}, f, { customerId: cid, overallPass: funcPass })); };
+React.useEffect(() => { if (sObj.key !== "esito" || f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [sObj.key]);
+const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { showToast && showToast("Firma del tecnico obbligatoria", "#ef4444"); go(TOT - 1); return; } const cid = ast ? ast.customerId : null; onSave(Object.assign({}, f, { customerId: cid, overallPass: funcPass })); };
 
 const selStyle = { width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 };
 const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", marginBottom: 4, display: "block" };
@@ -98,7 +99,10 @@ h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginT
 h("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 4 } }, "Verifica funzionale secondo " + ((tpl && tpl.label) || ""))),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Template", (tpl && tpl.label) || f.templateId], ["Tecnico", f.technician || "—"], ["Esito", funcPass ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 3 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: i === 3 ? (funcPass ? TEAL : RED) : "var(--text)" } }, r[1])))),
-h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })));
+h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
+h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+h(SignaturePad, { label: "Firma Tecnico verificatore (obbligatoria)", value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
+h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
 }
 
 return h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
@@ -154,6 +158,7 @@ return Object.assign(Object.assign({}, init), { sections: {} });
 return init;
 });
 const [errors, setErrors] = React.useState({});
+React.useEffect(() => { if (f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [f.technician]);
 const sv = k => e => setF(x => (Object.assign(Object.assign({}, x), { [k]: e.target.value })));
 React.useEffect(() => {
 setF(x => (Object.assign(Object.assign({}, x), { templateId })));
@@ -430,7 +435,7 @@ React.createElement("input", { value: f.departmentName || "", onChange: sv("depa
 React.createElement("div", { style: FLD },
 React.createElement("label", { style: LBL }, "Referente (opzionale)"),
 React.createElement("input", { value: f.departmentContact || "", onChange: sv("departmentContact"), placeholder: "es. Caposala Rossi", style: INP })))))),
-(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!selectedAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||selectedAssetId,overallPass:f.verifyStatus==="non_disponibile"?null:pass,templateId:templateId});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;var _miss=[];if(tpl.requireAllItems){for(var _si=0;_si<tpl.sections.length;_si++){var _sec=tpl.sections[_si];var _sd=(f.sections[_sec.id]||{items:{},measures:{}});var _its=_sec.items||[];for(var _ii=0;_ii<_its.length;_ii++){var _vv=_sd.items[_its[_ii].id];if(_vv!==true&&_vv!==false){if(_miss.indexOf(_sec.title)<0)_miss.push(_sec.title);}}}}if(_miss.length){showToast&&showToast("Completa tutti i controlli prima di concludere: "+_miss.join(", "),"#ef4444");return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},"Chiudi"),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},"Riapri verifica"),React.createElement(Btn,{onClick:_saveDraft},"Salva modifiche")):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},"Salva bozza"),React.createElement(Btn,{onClick:_conclude},"Concludi e blocca")));})()));
+(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!selectedAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||selectedAssetId,overallPass:f.verifyStatus==="non_disponibile"?null:pass,templateId:templateId});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;if(f.verifyStatus!=="non_disponibile"&&!f.technicianSignature){showToast&&showToast("Firma del tecnico obbligatoria per concludere","#ef4444");return;}var _miss=[];if(tpl.requireAllItems){for(var _si=0;_si<tpl.sections.length;_si++){var _sec=tpl.sections[_si];var _sd=(f.sections[_sec.id]||{items:{},measures:{}});var _its=_sec.items||[];for(var _ii=0;_ii<_its.length;_ii++){var _vv=_sd.items[_its[_ii].id];if(_vv!==true&&_vv!==false){if(_miss.indexOf(_sec.title)<0)_miss.push(_sec.title);}}}}if(_miss.length){showToast&&showToast("Completa tutti i controlli prima di concludere: "+_miss.join(", "),"#ef4444");return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},"Chiudi"),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},"Riapri verifica"),React.createElement(Btn,{onClick:_saveDraft},"Salva modifiche")):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},"Salva bozza"),React.createElement(Btn,{onClick:_conclude},"Concludi e blocca")));})()));
 }
 export function IecWizardForm({ initial, assetId: propAssetId, assets, customers, existingReports, instruments, technicians, onSave, onClose, isAdmin, onClassic }) {
 const h = React.createElement;
@@ -475,7 +480,8 @@ const ast = (assets || []).find(a => a.id === f.assetId);
 const stepFilled = (st) => { if (st.key === "setup") return !!f.assetId; if (st.key === "visiva") return visFilled; if (st.key === "meas") return measFilled(st.m); return true; };
 const doneCount = steps.filter(st => stepFilled(st)).length;
 const go = (i) => { setStep(Math.max(0, Math.min(TOT - 1, i))); setTutOpen(false); try { window.scrollTo(0, 0); } catch (e) { } };
-const doSave = () => { if (!f.assetId) return; onSave(Object.assign({}, f, { overallPass: overall })); };
+React.useEffect(() => { if (sObj.key !== "esito" || f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [sObj.key]);
+const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Firma del tecnico obbligatoria", color: "#ef4444" } })); } catch (e) { } go(TOT - 1); return; } onSave(Object.assign({}, f, { overallPass: overall })); };
 
 const selStyle = { width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 };
 const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", marginBottom: 4, display: "block" };
@@ -552,7 +558,10 @@ h("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 4 } }, in
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Classe / Tipo", f.equipClass + " · " + f.patientType], ["Norma", f.norm === "61010" ? "IEC 61010-1" : f.norm === "60601" ? "IEC 60601-1" : "IEC 62353"], ["Tecnico", f.technician || "—"], ["Esito", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: i === 4 ? (overall ? TEAL : RED) : "var(--text)" } }, r[1])))),
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"),
-h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali, raccomandazioni…", style: { width: "100%", minHeight: 70, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })));
+h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali, raccomandazioni…", style: { width: "100%", minHeight: 70, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
+h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
+h(SignaturePad, { label: "Firma Tecnico verificatore (obbligatoria)", value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
+h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
 }
 
 // --- shell ---
@@ -919,6 +928,7 @@ return Object.assign(Object.assign({}, init), { measures: getMeasures(init.norm 
 return Object.assign(Object.assign({}, init), { visual: init.visual || { housing: null, cable: null, connectors: null, labels: null, docs: null } });
 });
 const [errors, setErrors] = React.useState({});
+React.useEffect(() => { if (f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [f.technician]);
 const sv = k => e => setF(x => (Object.assign(Object.assign({}, x), { [k]: e.target.value })));
 const setVis = (k, v) => setF(x => (Object.assign(Object.assign({}, x), { visual: Object.assign(Object.assign({}, x.visual), { [k]: v }) })));
 const setMeas = (id, val) => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(m => m.id === id ? Object.assign(Object.assign({}, m), { value: val }) : m) })));
@@ -1244,7 +1254,7 @@ React.createElement("input", { value: f.departmentName || "", onChange: sv("depa
 React.createElement("div", { style: FLD },
 React.createElement("label", { style: LBL }, "Referente (opzionale)"),
 React.createElement("input", { value: f.departmentContact || "", onChange: sv("departmentContact"), placeholder: "es. Caposala Rossi", style: INP })))))),
-(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!propAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||propAssetId||"",overallPass:f.verifyStatus==="non_disponibile"?null:f.overallPass});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},"Chiudi"),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},"Riapri verifica"),React.createElement(Btn,{onClick:_saveDraft},"Salva modifiche")):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},"Salva bozza"),React.createElement(Btn,{onClick:_conclude},"Concludi e blocca")));})()));
+(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!propAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||propAssetId||"",overallPass:f.verifyStatus==="non_disponibile"?null:f.overallPass});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;if(f.verifyStatus!=="non_disponibile"&&!f.technicianSignature){try{window.dispatchEvent(new CustomEvent("toast",{detail:{msg:"Firma del tecnico obbligatoria per concludere",color:"#ef4444"}}));}catch(e){}return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},"Chiudi"),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},"Riapri verifica"),React.createElement(Btn,{onClick:_saveDraft},"Salva modifiche")):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},"Salva bozza"),React.createElement(Btn,{onClick:_conclude},"Concludi e blocca")));})()));
 }
 const INSTRUMENTS_BY_TPL = {
 defibrillatore: { req: ["Analizzatore di defibrillazione/energia (es. Fluke Impulse 7000DP)", "Analizzatore sicurezza elettrica IEC 62353"], opt: ["Box carichi 25–200 Ω", "Simulatore ECG"] },
@@ -1296,88 +1306,3 @@ React.createElement("ul", { style: { margin: "0 0 8px", paddingLeft: 18, fontSiz
 (info.opt && info.opt.length) ? React.createElement("ul", { style: { margin: 0, paddingLeft: 18, fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.5 } }, info.opt.map(function (s, i) { return React.createElement("li", { key: i }, s); })) : null,
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 8, fontStyle: "italic" } }, "Modelli citati come esempi neutri. Verifica la taratura degli strumenti e i limiti esatti su norme/manuali ufficiali.")));
 }
-const SignaturePad = ({ value, onChange, label, height = 140 }) => {
-const canvasRef = React.useRef(null);
-const isDrawing = React.useRef(false);
-const lastPoint = React.useRef(null);
-const [hasContent, setHasContent] = React.useState(!!value);
-React.useEffect(() => {
-const canvas = canvasRef.current;
-if (!canvas)
-return;
-const rect = canvas.getBoundingClientRect();
-const dpr = window.devicePixelRatio || 1;
-canvas.width = rect.width * dpr;
-canvas.height = rect.height * dpr;
-const ctx = canvas.getContext("2d");
-ctx.scale(dpr, dpr);
-ctx.lineCap = "round";
-ctx.lineJoin = "round";
-ctx.strokeStyle = "#000";
-ctx.lineWidth = 2;
-ctx.fillStyle = "#fff";
-ctx.fillRect(0, 0, rect.width, rect.height);
-if (value) {
-const img = new Image();
-img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
-img.src = value;
-}
-}, [height]);
-const getXY = (e) => {
-const canvas = canvasRef.current;
-const rect = canvas.getBoundingClientRect();
-if (e.touches && e.touches.length > 0) {
-return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-}
-return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-};
-const start = (e) => {
-e.preventDefault();
-isDrawing.current = true;
-lastPoint.current = getXY(e);
-};
-const draw = (e) => {
-if (!isDrawing.current)
-return;
-e.preventDefault();
-const canvas = canvasRef.current;
-const ctx = canvas.getContext("2d");
-const p = getXY(e);
-let pressure = 0.5;
-if (e.pointerType === "pen" && e.pressure)
-pressure = e.pressure;
-else if (e.touches && e.touches[0] && e.touches[0].force)
-pressure = e.touches[0].force;
-ctx.lineWidth = 1 + pressure * 2.5;
-ctx.beginPath();
-ctx.moveTo(lastPoint.current.x, lastPoint.current.y);
-ctx.lineTo(p.x, p.y);
-ctx.stroke();
-lastPoint.current = p;
-setHasContent(true);
-};
-const end = (e) => {
-if (!isDrawing.current)
-return;
-isDrawing.current = false;
-const canvas = canvasRef.current;
-const b64 = canvas.toDataURL("image/png");
-onChange && onChange(b64);
-};
-const clear = () => {
-const canvas = canvasRef.current;
-const ctx = canvas.getContext("2d");
-const rect = canvas.getBoundingClientRect();
-ctx.fillStyle = "#fff";
-ctx.fillRect(0, 0, rect.width, rect.height);
-setHasContent(false);
-onChange && onChange("");
-};
-return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-label && React.createElement("label", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 600 } }, label),
-React.createElement("div", { style: { position: "relative", border: "1px solid var(--border)", borderRadius: 8, background: "#fff", overflow: "hidden" } },
-React.createElement("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: height + "px", touchAction: "none", cursor: "crosshair" }, onMouseDown: start, onMouseMove: draw, onMouseUp: end, onMouseLeave: end, onTouchStart: start, onTouchMove: draw, onTouchEnd: end, onPointerDown: start, onPointerMove: draw, onPointerUp: end }),
-!hasContent && (React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "var(--text-2)", fontSize: 13, fontStyle: "italic" } }, "Firma qui (usa S-Pen o dito)"))),
-React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: 6 } },
-React.createElement("button", { type: "button", onClick: clear, style: { background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 6, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, "Cancella firma"))));
-};

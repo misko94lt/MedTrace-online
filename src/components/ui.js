@@ -554,3 +554,90 @@ cust && React.createElement("div", { style: { color: "var(--text-2)", fontSize: 
 }),
 filtered.length === 100 && (React.createElement("div", { style: { padding: "6px 12px", fontSize: 10, color: "var(--text-3)", textAlign: "center", borderTop: "1px solid var(--border-2)", fontStyle: "italic" } }, "Solo primi 100 risultati \u00B7 affina la ricerca per vedere pi\u00F9 specifico")))))))));
 };
+
+/* — firma su canvas (spostata dal modulo verifiche: ora serve anche alle impostazioni tecnici, v2.92) — */
+export const SignaturePad = ({ value, onChange, label, height = 140 }) => {
+const canvasRef = React.useRef(null);
+const isDrawing = React.useRef(false);
+const lastPoint = React.useRef(null);
+const [hasContent, setHasContent] = React.useState(!!value);
+React.useEffect(() => {
+const canvas = canvasRef.current;
+if (!canvas)
+return;
+const rect = canvas.getBoundingClientRect();
+const dpr = window.devicePixelRatio || 1;
+canvas.width = rect.width * dpr;
+canvas.height = rect.height * dpr;
+const ctx = canvas.getContext("2d");
+ctx.scale(dpr, dpr);
+ctx.lineCap = "round";
+ctx.lineJoin = "round";
+ctx.strokeStyle = "#000";
+ctx.lineWidth = 2;
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, 0, rect.width, rect.height);
+if (value) {
+const img = new Image();
+img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+img.src = value;
+}
+}, [height]);
+const getXY = (e) => {
+const canvas = canvasRef.current;
+const rect = canvas.getBoundingClientRect();
+if (e.touches && e.touches.length > 0) {
+return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+}
+return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+};
+const start = (e) => {
+e.preventDefault();
+isDrawing.current = true;
+lastPoint.current = getXY(e);
+};
+const draw = (e) => {
+if (!isDrawing.current)
+return;
+e.preventDefault();
+const canvas = canvasRef.current;
+const ctx = canvas.getContext("2d");
+const p = getXY(e);
+let pressure = 0.5;
+if (e.pointerType === "pen" && e.pressure)
+pressure = e.pressure;
+else if (e.touches && e.touches[0] && e.touches[0].force)
+pressure = e.touches[0].force;
+ctx.lineWidth = 1 + pressure * 2.5;
+ctx.beginPath();
+ctx.moveTo(lastPoint.current.x, lastPoint.current.y);
+ctx.lineTo(p.x, p.y);
+ctx.stroke();
+lastPoint.current = p;
+setHasContent(true);
+};
+const end = (e) => {
+if (!isDrawing.current)
+return;
+isDrawing.current = false;
+const canvas = canvasRef.current;
+const b64 = canvas.toDataURL("image/png");
+onChange && onChange(b64);
+};
+const clear = () => {
+const canvas = canvasRef.current;
+const ctx = canvas.getContext("2d");
+const rect = canvas.getBoundingClientRect();
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, 0, rect.width, rect.height);
+setHasContent(false);
+onChange && onChange("");
+};
+return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+label && React.createElement("label", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 600 } }, label),
+React.createElement("div", { style: { position: "relative", border: "1px solid var(--border)", borderRadius: 8, background: "#fff", overflow: "hidden" } },
+React.createElement("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: height + "px", touchAction: "none", cursor: "crosshair" }, onMouseDown: start, onMouseMove: draw, onMouseUp: end, onMouseLeave: end, onTouchStart: start, onTouchMove: draw, onTouchEnd: end, onPointerDown: start, onPointerMove: draw, onPointerUp: end }),
+!hasContent && (React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "var(--text-2)", fontSize: 13, fontStyle: "italic" } }, "Firma qui (usa S-Pen o dito)"))),
+React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: 6 } },
+React.createElement("button", { type: "button", onClick: clear, style: { background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 6, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, "Cancella firma"))));
+};

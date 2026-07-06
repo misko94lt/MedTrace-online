@@ -1,6 +1,7 @@
 /* Componenti condivisi: selettore/gestore tecnici, lista allegati e helper. Estratto verbatim da app.js, fase 1. */
 import { __awaiter, __rest } from "../lib/tslib.js";
 import { FORM_INP, FORM_LBL, FORM_FLD, FORM_ROW, FORM_COL, FORM_SECTION, FORM_BTN_PRIMARY, FORM_BTN_GHOST, STATUS_COLOR } from "../constants/ui.js";
+import { SignaturePad } from "./ui.js";
 
 export function TecnicoPicker({ value, onChange, technicians, label }) {
 const list = (value || "").split(",").map(x => x.trim()).filter(Boolean);
@@ -31,22 +32,38 @@ React.createElement("button", { type: "button", onClick: () => setList(list.filt
 }
 
 export function TecniciManager({ technicians, onChange }) {
-const list = (technicians || []).map(t => typeof t === "string" ? t : ((t && t.name) || "")).filter(Boolean);
+const raw = (technicians || []).map(t => typeof t === "string" ? { name: t } : (t || {})).filter(t => t && t.name);
 const [name, setName] = React.useState("");
-const add = () => { const nm = name.trim(); if (nm && !list.some(x => x.toLowerCase() === nm.toLowerCase()))
-onChange([...list, nm]); setName(""); };
-const remove = nm => onChange(list.filter(x => x !== nm));
+const [sigFor, setSigFor] = React.useState(null);
+const add = () => { const nm = name.trim(); if (nm && !raw.some(x => String(x.name).toLowerCase() === nm.toLowerCase()))
+onChange(raw.concat([{ name: nm }])); setName(""); };
+const remove = nm => onChange(raw.filter(x => x.name !== nm));
+const setSig = (nm, sig) => onChange(raw.map(x => x.name === nm ? Object.assign({}, x, { signature: sig || "" }) : x));
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55 } }, "I tecnici registrati qui compaiono in una tendina quando crei un Job o una verifica, cos\\u00ec li assegni con un tocco (anche pi\\u00f9 d'uno). Puoi sempre scrivere un nome a mano."),
-list.length > 0 ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, list.map(t => (React.createElement("div", { key: t, style: { display: "flex", alignItems: "center", justifyContent: "space-between", background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 9, padding: "10px 14px" } },
-React.createElement("span", { style: { fontSize: 13.5, color: "var(--text)", fontWeight: 600 } }, t),
-React.createElement("button", { type: "button", onClick: () => remove(t), title: "Rimuovi", style: { background: "transparent", border: "none", color: "#ef4444", fontSize: 16, cursor: "pointer" } }, "\\u2715")))))) : React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Nessun tecnico ancora. Aggiungine uno qui sotto."),
+React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55 } }, "I tecnici registrati qui compaiono in una tendina quando crei un Job o una verifica. La firma salvata qui viene proposta in automatico nei report, cos\u00ec non serve rifirmare ogni volta."),
+raw.length > 0 ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, raw.map(t => (React.createElement("div", { key: t.name, style: { background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 9, padding: "10px 14px" } },
+React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } },
+React.createElement("span", { style: { fontSize: 13.5, color: "var(--text)", fontWeight: 600 } }, t.name),
+React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+React.createElement("button", { type: "button", onClick: () => setSigFor(sigFor === t.name ? null : t.name), style: { background: "transparent", border: "1px solid " + (t.signature ? "#2dd4bf" : "var(--border)"), borderRadius: 7, color: t.signature ? "#2dd4bf" : "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px" } }, t.signature ? "Firma \u2713" : "Firma"),
+React.createElement("button", { type: "button", onClick: () => remove(t.name), title: "Rimuovi", style: { background: "transparent", border: "none", color: "#ef4444", fontSize: 16, cursor: "pointer" } }, "\u2715"))),
+sigFor === t.name ? React.createElement("div", { style: { marginTop: 10 } },
+React.createElement(SignaturePad, { label: "Firma di " + t.name + " (proposta in automatico nei report)", value: t.signature || "", onChange: v => setSig(t.name, v), height: 120 })) : null))))) : React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Nessun tecnico ancora. Aggiungine uno qui sotto."),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("input", { value: name, onChange: e => setName(e.target.value), onKeyDown: e => { if (e.key === "Enter") {
 e.preventDefault();
 add();
 } }, placeholder: "Nome tecnico (es. Mario Rossi)", style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13.5 } }),
 React.createElement("button", { type: "button", onClick: add, style: { background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201C", padding: "0 16px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, "Aggiungi"))));
+}
+
+export function techSignature(technicians, nameStr) {
+const names = String(nameStr || "").split(",").map(x => x.trim()).filter(Boolean);
+for (const nm of names) {
+const t = (technicians || []).find(x => x && typeof x === "object" && String(x.name || "").toLowerCase() === nm.toLowerCase());
+if (t && t.signature) return t.signature;
+}
+return "";
 }
 
 export function chkRow(on, onToggle, title, subtitle) {
