@@ -48,7 +48,7 @@ throw error;
 });
 },
 };
-const APP_VERSION = "2.86";
+const APP_VERSION = "2.87";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -10008,7 +10008,7 @@ if (matched.length)
 showToast(matched.length + " apparecchi aggiornati dalla scansione RFID");
 return { when: now, total: (rows || []).length, updated: matched.length, unknown: unknown, crit: crit, byLoc: byLoc };
 };
-const reconSimulate = () => { const we = (assets || []).filter(a => a.epc); if (!we.length) { showToast("Nessun apparecchio ha un EPC associato", "#f59e0b"); return; } let s = we.filter(() => Math.random() < 0.7); if (!s.length) s = we.slice(0, Math.min(5, we.length)); const lines = s.map(a => a.epc); lines.push("E20099AA00DEADBEEF000001"); setReconInput(lines.join("\n")); };
+const reconSimulate = () => { const we = (assets || []).filter(a => a.epc); if (!we.length) { setReconInput("E20099AA00DEADBEEF000001 E20099AA00CAFEBABE000002"); showToast("Parco senza tag: generati 2 EPC di prova, premi Scansiona e associali", "#2dd4bf"); return; } let s = we.filter(() => Math.random() < 0.7); if (!s.length) s = we.slice(0, Math.min(5, we.length)); const lines = s.map(a => a.epc); lines.push("E20099AA00DEADBEEF000001"); setReconInput(lines.join("\n")); };
 React.useEffect(() => { const onScan = (e) => { try { const rows = parseRfidScan(e.detail); if (rows.length) importRfidScan(rows); } catch (err) { } }; window.addEventListener("medtrace-rfid-scan", onScan); return () => window.removeEventListener("medtrace-rfid-scan", onScan); }, [assets]);
 React.useEffect(() => { if (tab !== "ricognizione" && reconListening) { stopWedge(); setReconListening(false); } }, [tab, reconListening]);
 React.useEffect(() => () => { stopWedge(); }, []);
@@ -12555,3 +12555,4 @@ React.createElement(SubscriptionBanner, null)));
 }
 App;
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+export { App, AppMain }; // export di test: render_check renderizza AppMain direttamente (nell'app vera ci si arriva solo da loggati)
