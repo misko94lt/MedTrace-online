@@ -1,6 +1,6 @@
 /* MedTrace — verifiche: wizard e form Funzionale + IEC 62353, firma, suggerimento strumenti (estratti da app.js, v2.90) */
 import { TecnicoPicker, Btn, chkRow, techSignature } from "./shared.js";
-import { Hint, useMedia, AssetCombobox, ErrorSummary, SignaturePad } from "./ui.js";
+import { Hint, useMedia, AssetCombobox, ErrorSummary, SignaturePad, TechSignatureField } from "./ui.js";
 import { FORM_FLD, FORM_INP, FORM_LBL } from "../constants/ui.js";
 import { FUNC_TEMPLATES, cndToTemplate, guessTemplate } from "../constants/funcTemplates.js";
 import { getNextReportNumber, iecGetMeasures } from "../lib/reports.js";
@@ -101,7 +101,7 @@ h("div", { style: { background: "var(--surface)", border: "1px solid var(--borde
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Template", (tpl && tpl.label) || f.templateId], ["Tecnico", f.technician || "—"], ["Esito", funcPass ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 3 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: i === 3 ? (funcPass ? TEAL : RED) : "var(--text)" } }, r[1])))),
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
-h(SignaturePad, { label: "Firma Tecnico verificatore (obbligatoria)", value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
+h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
 h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
 }
 
@@ -398,7 +398,7 @@ React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 2
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(SignaturePad, { label: "Firma Tecnico verificatore", value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
 React.createElement(SignaturePad, { label: "Firma Referente reparto (presa visione)", value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 }))))) : (React.createElement(React.Fragment, null,
 tpl.sections.map(sec => {
 const isNA = sd_isNA(sec.id);
@@ -426,7 +426,7 @@ React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 3
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(SignaturePad, { label: "Firma Tecnico verificatore", value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
 React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
 React.createElement("div", { style: { marginTop: 8, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
 React.createElement("div", { style: FLD },
@@ -560,7 +560,7 @@ h("div", { style: { background: "var(--surface)", border: "1px solid var(--borde
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"),
 h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali, raccomandazioni…", style: { width: "100%", minHeight: 70, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
-h(SignaturePad, { label: "Firma Tecnico verificatore (obbligatoria)", value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
+h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
 h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
 }
 
@@ -1168,7 +1168,7 @@ React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 2
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(SignaturePad, { label: "Firma Tecnico verificatore", value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
 React.createElement(SignaturePad, { label: "Firma Referente reparto (per presa visione)", value: f.departmentSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 }))))) : (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, "Ispezione visiva"),
@@ -1245,7 +1245,7 @@ React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 3
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(SignaturePad, { label: "Firma Tecnico verificatore", value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
 React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
 React.createElement("div", { style: { marginTop: 8, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
 React.createElement("div", { style: FLD },

@@ -641,3 +641,14 @@ React.createElement("canvas", { ref: canvasRef, style: { display: "block", width
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: 6 } },
 React.createElement("button", { type: "button", onClick: clear, style: { background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 6, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, "Cancella firma"))));
 };
+
+/* — campo firma tecnico: compatto se la firma viene dal profilo, pad completo altrimenti (v2.94) — */
+export function TechSignatureField({ value, onChange, profileSig, techName, label, height = 120 }) {
+const [editing, setEditing] = React.useState(false);
+const fromProfile = !!value && !!profileSig && value === profileSig && !editing;
+if (fromProfile)
+return React.createElement("div", { style: { background: "var(--surface)", border: "1px solid #2dd4bf55", borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 } },
+React.createElement("div", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 600 } }, "\u2713 Firma tecnico applicata dal profilo" + (techName ? " di " + techName : "")),
+React.createElement("button", { type: "button", onClick: () => setEditing(true), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, "Firma diversa"));
+return React.createElement(SignaturePad, { label: label || "Firma Tecnico verificatore (obbligatoria)", value: value || "", onChange: onChange, height: height });
+}
