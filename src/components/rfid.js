@@ -1,7 +1,8 @@
 /* MedTrace — UI RFID: picker per associare un EPC sconosciuto a un apparecchio (v2.85) */
 
-export function RfidAssocPicker({ epc, assets, onAssign, onClose }) {
+export function RfidAssocPicker({ epc, assets, onAssign, onClose, wards, onAssignWard }) {
 const [q, setQ] = React.useState("");
+const [wq, setWq] = React.useState("");
 const list = React.useMemo(() => {
 const s = String(q || "").trim().toLowerCase();
 const all = assets || [];
@@ -19,5 +20,11 @@ React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, a.name || a.assetCode || a.id),
 React.createElement("div", { style: { fontSize: 10.5, color: "var(--text-3)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, (a.brand || "") + (a.model ? (" " + a.model) : "") + (a.assetCode ? (" \u00b7 " + a.assetCode) : ""))),
 a.epc ? React.createElement("span", { style: { fontSize: 9.5, fontWeight: 800, color: "#f59e0b", background: "#f59e0b18", padding: "2px 6px", borderRadius: 4, whiteSpace: "nowrap" } }, "ha gi\u00e0 tag") : null)),
-!list.length && React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-3)", fontStyle: "italic", padding: "6px 2px" } }, "Nessun risultato")));
+!list.length && React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-3)", fontStyle: "italic", padding: "6px 2px" } }, "Nessun risultato")),
+React.createElement("div", { style: { borderTop: "1px solid var(--border-2)", marginTop: 8, paddingTop: 8 } },
+React.createElement("div", { style: { fontSize: 10.5, color: "var(--text-3)", fontWeight: 700, marginBottom: 5 } }, "Oppure segna come TAG-REPARTO (scansionarlo imposter\u00e0 il reparto):"),
+React.createElement("div", { style: { display: "flex", gap: 6 } },
+React.createElement("input", { value: wq, onChange: e => setWq(e.target.value), list: "rfid-ward-dl", placeholder: "Nome reparto (es. Cardiologia)", style: { flex: 1, minWidth: 0, boxSizing: "border-box", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 } }),
+React.createElement("datalist", { id: "rfid-ward-dl" }, (wards || []).map(w => React.createElement("option", { key: w, value: w }))),
+React.createElement("button", { onClick: () => { const n = String(wq || "").trim(); if (n && onAssignWard) onAssignWard(n); }, disabled: !String(wq || "").trim(), style: { background: String(wq || "").trim() ? "#2dd4bf" : "var(--surface)", border: "none", borderRadius: 8, color: String(wq || "").trim() ? "#04201c" : "var(--text-4)", padding: "9px 12px", fontSize: 12, fontWeight: 800, cursor: String(wq || "").trim() ? "pointer" : "default", whiteSpace: "nowrap" } }, "Salva"))));
 }

@@ -83,3 +83,8 @@ return { date: new Date().toISOString(), epcs: epcs };
 }
 
 export function isWedgeActive() { return _active; }
+
+/* Tag-reparto: asset convenzionale con brand TAG-REPARTO e name = nome del reparto.
+   Vive tra gli apparecchi (è un cespite fisico etichettato) e sincronizza gratis. */
+export const WARD_TAG_BRAND = "TAG-REPARTO";
+export function isWardTag(a) { return !!a && String(a.brand || "").trim().toUpperCase() === WARD_TAG_BRAND; }
