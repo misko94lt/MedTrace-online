@@ -1,3 +1,4 @@
+import { CND_TO_TPL } from "./cnd.js";
 /* FUNC_TEMPLATES - 32 template di verifica funzionale (estratto verbatim da app.js, fase 1) */
 export const FUNC_TEMPLATES = {
 "bbraun_infusomat_space_tsc": {
@@ -1418,7 +1419,6 @@ measures: [
 };
 
 /* — mappe e lookup template (spostati con il taglio verifiche, v2.90) — */
-import { CND_TO_TPL } from "./cnd.js";
 export const FUNC_TEMPLATE_MAP = [
 { keys: ["audiometro", "audiometria", "audiometer"], id: "audiometro" },
 { keys: ["spirometro", "spirometria", "spirometer"], id: "spirometro" },
