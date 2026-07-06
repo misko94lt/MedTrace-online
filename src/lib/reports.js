@@ -466,3 +466,92 @@ openPrintWindow(html);
 }
 
 export function setInstrumentsRegistry(v) { _instrumentsRegistry = v || []; }
+
+/* — numerazione report e misure IEC (spostati con il taglio verifiche, v2.90) — */
+export const getNextReportNumber = (reports, prefix) => {
+const year = new Date().getFullYear();
+const pattern = new RegExp("^" + prefix + "-" + year + "-(\\d+)$");
+let maxNum = 0;
+(reports || []).forEach(r => {
+const m = (r.reportNumber || "").match(pattern);
+if (m)
+maxNum = Math.max(maxNum, parseInt(m[1], 10));
+});
+const next = String(maxNum + 1).padStart(3, "0");
+return prefix + "-" + year + "-" + next;
+};
+export function iecGetMeasures(norm, cls, patientType, method, sfc, fixed) {
+if (norm === "61010")
+return [
+{ id: "pe", name: "Resistenza conduttore di protezione (PE)", unit: "Ω", limit: "≤ 0.1", limitVal: 0.1, value: "" },
+{ id: "ins", name: "Resistenza di isolamento (500 Vdc)", unit: "MΩ", limit: "≥ 1", limitVal: 1, value: "", invertPass: true },
+{ id: "id1", name: "Corrente di dispersione — carcassa", unit: "mA", limit: "≤ 3.5", limitVal: 3.5, value: "" },
+{ id: "id2", name: "Corrente di dispersione — circuito prova", unit: "mA", limit: "≤ 0.5", limitVal: 0.5, value: "" },
+];
+if (norm === "60601") {
+const pt60 = patientType || "BF";
+const plNC = pt60 === "CF" ? 10 : 100;
+const plSFC = pt60 === "CF" ? 50 : 500;
+const mapVal = pt60 === "CF" ? 50 : 5000;
+const arr = [];
+if (cls === "I") {
+arr.push({ id: "pe", name: "Resistenza conduttore di protezione (PE)", unit: "Ω", limit: "≤ 0.1", limitVal: 0.1, value: "" });
+arr.push({ id: "earth_nc", name: "Dispersione verso terra (earth) — NC", unit: "µA", limit: "≤ 5000", limitVal: 5000, value: "" });
+}
+if (cls !== "III")
+arr.push({ id: "encl_nc", name: "Dispersione involucro (touch) — NC", unit: "µA", limit: "≤ 100", limitVal: 100, value: "" });
+arr.push({ id: "pat_nc", name: "Dispersione paziente " + pt60 + " — NC", unit: "µA", limit: "≤ " + plNC, limitVal: plNC, value: "" });
+arr.push({ id: "aux_nc", name: "Corrente ausiliaria paziente " + pt60 + " — NC", unit: "µA", limit: "≤ " + plNC, limitVal: plNC, value: "" });
+if (sfc) {
+if (cls === "I")
+arr.push({ id: "earth_sfc", name: "Dispersione verso terra (earth) — SFC", unit: "µA", limit: "≤ 10000", limitVal: 10000, value: "" });
+if (cls !== "III")
+arr.push({ id: "encl_sfc", name: "Dispersione involucro (touch) — SFC", unit: "µA", limit: "≤ 500", limitVal: 500, value: "" });
+arr.push({ id: "pat_sfc", name: "Dispersione paziente " + pt60 + " — SFC", unit: "µA", limit: "≤ " + plSFC, limitVal: plSFC, value: "" });
+arr.push({ id: "aux_sfc", name: "Corrente ausiliaria paziente " + pt60 + " — SFC", unit: "µA", limit: "≤ " + plSFC, limitVal: plSFC, value: "" });
+if (pt60 !== "B")
+arr.push({ id: "map_sfc", name: "Dispersione paziente — rete su PA (MAP) " + pt60 + " — SFC", unit: "µA", limit: "≤ " + mapVal, limitVal: mapVal, value: "" });
+}
+return arr;
+}
+const pt = patientType || "BF";
+const m = method || "diretto";
+const eqLim = {
+"I": { diretto: 500, differenziale: 500, alternativo: 1000 },
+"II": { diretto: 100, differenziale: 100, alternativo: 500 },
+};
+const eqVal = eqLim[cls] ? eqLim[cls][m] : 500;
+const methodLabel = m === "diretto" ? "metodo diretto" : m === "differenziale" ? "metodo differenziale" : "metodo alternativo";
+const apLim = {
+"B": null,
+"BF": { lim: "≤ 5000", val: 5000 },
+"CF": { lim: "≤ 50", val: 50 },
+};
+const ap = apLim[pt];
+if (cls === "III")
+return [
+{ id: "ins_pa", name: "Resistenza isolamento parte applicata — rete (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
+];
+if (cls === "II")
+return [
+{ id: "ins_main", name: "Resistenza isolamento — rete vs accessibili (500 Vdc)", unit: "MΩ", limit: "≥ 7", limitVal: 7, value: "", invertPass: true },
+{ id: "ins_pa", name: "Resistenza isolamento parte applicata — rete (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "id_eq", name: "Equipment Leakage Cl.II (" + methodLabel + ")", unit: "µA", limit: "≤ " + eqVal, limitVal: eqVal, value: "" },
+...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
+];
+if (fixed) {
+return [
+{ id: "pe", name: "Resistenza di terra → nodo equipotenziale", unit: "Ω", limit: "≤ 0.3", limitVal: 0.3, value: "", editableLimit: true },
+{ id: "encl", name: "Dispersione involucro (touch) — parti non a terra", unit: "µA", limit: "≤ 100", limitVal: 100, value: "" },
+...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
+];
+}
+return [
+{ id: "pe", name: "Resistenza conduttore di protezione (PE)", unit: "Ω", limit: "≤ 0.3", limitVal: 0.3, value: "" },
+{ id: "ins_main", name: "Resistenza isolamento — rete vs PE (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "ins_pa", name: "Resistenza isolamento parte applicata — rete (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "id_eq", name: "Equipment Leakage Cl.I (" + methodLabel + ")", unit: "µA", limit: "≤ " + eqVal, limitVal: eqVal, value: "" },
+...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
+];
+}

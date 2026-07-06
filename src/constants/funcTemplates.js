@@ -1416,3 +1416,36 @@ measures: [
 ]
 },
 };
+
+/* — mappe e lookup template (spostati con il taglio verifiche, v2.90) — */
+import { CND_TO_TPL } from "./cnd.js";
+export const FUNC_TEMPLATE_MAP = [
+{ keys: ["audiometro", "audiometria", "audiometer"], id: "audiometro" },
+{ keys: ["spirometro", "spirometria", "spirometer"], id: "spirometro" },
+{ keys: ["frigoemoteca", "frigoemoteche", "emoteca", "frigo emoteca", "frigorifero emocomponenti", "frigo farmaci", "frigo emazie"], id: "frigoemoteca" },
+{ keys: ["bilancia", "pesapersone", "pesa persone", "pesaneonati", "pesa neonati"], id: "bilancia" },
+{ keys: ["concentratore di ossigeno", "concentratore ossigeno", "concentratore o2", "oxygen concentrator"], id: "concentratore_ossigeno" },
+{ keys: ["elettroencefalografo", "encefalografo", "elettroencefalografia", "eeg"], id: "eeg" },
+{ keys: ["pulsossimetro", "pulsossimetria", "saturimetro", "spo2", "ossimetro", "pulse ox"], id: "pulsossimetro" },
+{ keys: ["defibrillatore manuale", "defib manual", "cardioversore"], id: "defibrillatore" },
+{ keys: ["dae", "aed", "defibrillatore automatico", "defibrillatore semiautomatico"], id: "dae" },
+{ keys: ["aspiratore chirurgico", "aspiratore mucosità", "aspiratore secreti", "aspiratore"], id: "aspiratore_chirurgico" },
+{ keys: ["elettrobisturi", "bisturi elettrico", "hf chirurgico", "chirurgia hf"], id: "elettrobisturi" },
+{ keys: ["monitor multipar", "monitor paziente", "multiparametrico", "bedside monitor"], id: "monitor_multipar" },
+{ keys: ["ventilatore", "respiratore", "polmonare"], id: "ventilatore" },
+{ keys: ["pompa infus", "siringa infus", "infusore", "syringe pump"], id: "pompa_infusionale" },
+{ keys: ["infusomat space", "infusomat"], id: "bbraun_infusomat_space_tsc" },
+{ keys: ["ecografo", "ecografia", "ultrasound"], id: "ecografo" },
+{ keys: ["letto elettr", "barella motor"], id: "letto_elettrico" },
+];
+export function cndToTemplate(cnd) { if (!cnd) return ""; var best = "", bl = 0; for (var i = 0; i < CND_TO_TPL.length; i++) { var p = CND_TO_TPL[i][0]; if (String(cnd).indexOf(p) === 0 && p.length > bl) { best = CND_TO_TPL[i][1]; bl = p.length; } } return best; }
+export function guessTemplate(assetName) {
+if (!assetName)
+return "generico";
+const n = assetName.toLowerCase();
+for (const { keys, id } of FUNC_TEMPLATE_MAP) {
+if (keys.some(k => n.includes(k)))
+return id;
+}
+return "generico";
+}

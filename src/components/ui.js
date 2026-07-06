@@ -379,3 +379,178 @@ React.createElement("button", { onClick: () => answer(true), style: { background
 border: 'none', borderRadius: 8, color: '#000', padding: '9px 18px', cursor: 'pointer',
 fontSize: 13, fontWeight: 700, touchAction: 'manipulation' } }, "OK")))));
 }
+
+/* — combobox apparecchi e riepilogo errori (spostati con il taglio verifiche, v2.90) — */
+export const ErrorSummary = ({ errors }) => {
+const ref = React.useRef(null);
+const [shake, setShake] = React.useState(0);
+const errorList = Object.entries(errors).filter(([k, v]) => v);
+React.useEffect(() => {
+if (errorList.length > 0 && ref.current) {
+try {
+ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+catch (e) {
+ref.current.scrollIntoView(true);
+}
+setShake(s => s + 1);
+if (navigator.vibrate)
+try {
+navigator.vibrate([30, 50, 30]);
+}
+catch (e) { }
+}
+}, [Object.keys(errors).join(",")]);
+if (errorList.length === 0)
+return null;
+return (React.createElement("div", { ref: ref, key: shake, style: {
+background: "#ef444415",
+border: "1px solid #ef4444aa",
+borderRadius: 8,
+padding: "12px 16px",
+marginBottom: 8,
+fontSize: 12,
+color: "#ef4444",
+boxShadow: "0 0 0 3px #ef444422",
+animation: "mtShake .45s cubic-bezier(.36,.07,.19,.97) both"
+} },
+React.createElement("div", { style: { fontWeight: 800, marginBottom: 6, fontSize: 13, display: "flex", alignItems: "center", gap: 6 } },
+React.createElement("span", { style: { fontSize: 16 } }, "\u26A0"),
+React.createElement("span", null, errorList.length === 1 ? "Un campo da completare prima di salvare" : errorList.length + " campi da completare prima di salvare")),
+React.createElement("ul", { style: { margin: 0, paddingLeft: 22, fontSize: 12, lineHeight: 1.7, color: "#fca5a5" } }, errorList.map(([k, v]) => React.createElement("li", { key: k }, v)))));
+};
+export const AssetCombobox = ({ value, onChange, assets, customers, placeholder = "Cerca apparecchio…", error, autoFocus = false }) => {
+const [open, setOpen] = React.useState(false);
+const [query, setQuery] = React.useState("");
+const [highlighted, setHighlighted] = React.useState(0);
+const wrapperRef = React.useRef(null);
+const inputRef = React.useRef(null);
+const selected = assets.find(a => a.id === value);
+const filtered = React.useMemo(() => {
+if (!query.trim())
+return assets.slice(0, 50);
+const q = query.toLowerCase();
+return assets.filter(a => {
+var _a;
+const cust = ((_a = customers === null || customers === void 0 ? void 0 : customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "";
+return [a.assetCode, a.name, a.brand, a.model, a.serial, a.location, a.id, cust]
+.filter(Boolean)
+.some(f => String(f).toLowerCase().includes(q));
+}).slice(0, 100);
+}, [query, assets, customers]);
+React.useEffect(() => {
+if (!open)
+return;
+const handler = (e) => {
+if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+setOpen(false);
+setQuery("");
+}
+};
+document.addEventListener("mousedown", handler);
+document.addEventListener("touchstart", handler);
+return () => {
+document.removeEventListener("mousedown", handler);
+document.removeEventListener("touchstart", handler);
+};
+}, [open]);
+React.useEffect(() => {
+if (open && inputRef.current)
+inputRef.current.focus();
+}, [open]);
+React.useEffect(() => { setHighlighted(0); }, [query]);
+const handleSelect = (asset) => {
+onChange(asset.id);
+setOpen(false);
+setQuery("");
+};
+const handleKey = (e) => {
+if (e.key === "ArrowDown") {
+e.preventDefault();
+setHighlighted(h => Math.min(h + 1, filtered.length - 1));
+}
+else if (e.key === "ArrowUp") {
+e.preventDefault();
+setHighlighted(h => Math.max(h - 1, 0));
+}
+else if (e.key === "Enter") {
+e.preventDefault();
+if (filtered[highlighted])
+handleSelect(filtered[highlighted]);
+}
+else if (e.key === "Escape") {
+setOpen(false);
+setQuery("");
+}
+};
+const INP_BASE = {
+background: "var(--surface)",
+border: "1px solid " + (error ? "#ef4444" : "var(--border)"),
+borderRadius: 8,
+padding: "9px 11px",
+color: "var(--text)",
+fontSize: 13,
+outline: "none",
+width: "100%",
+boxSizing: "border-box",
+cursor: "pointer"
+};
+return (React.createElement("div", { ref: wrapperRef, style: { position: "relative", width: "100%" } }, !open ? (React.createElement("div", { onClick: () => setOpen(true), style: Object.assign(Object.assign({}, INP_BASE), { display: "flex", alignItems: "center", gap: 8, minHeight: 38 }) }, selected ? (React.createElement(React.Fragment, null,
+React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 7, minWidth: 0 } },
+selected.assetCode && React.createElement("span", { style: { color: "#5eead4", fontSize: 11.5, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0 } }, selected.assetCode),
+React.createElement("span", { style: { color: "var(--text)", fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, selected.name)),
+React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } },
+[selected.brand, selected.model].filter(Boolean).join(" "),
+selected.serial && React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", marginLeft: 6 } },
+"\u00B7 S/N: ",
+selected.serial))),
+React.createElement("button", { type: "button", onClick: (e) => { e.stopPropagation(); onChange(""); }, title: "Rimuovi selezione", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: "2px 6px", touchAction: "manipulation" } }, "\u2715"),
+React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11 } }, "\u25BE"))) : (React.createElement(React.Fragment, null,
+React.createElement("span", { style: { flex: 1, color: "var(--text-3)", fontSize: 13 } }, placeholder),
+React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11 } }, "\u25BE"))))) : (React.createElement(React.Fragment, null,
+React.createElement("input", { ref: inputRef, type: "text", value: query, onChange: e => setQuery(e.target.value), onKeyDown: handleKey, placeholder: "Cerca per codice, nome, marca, S/N, ubicazione\u2026", style: Object.assign(Object.assign({}, INP_BASE), { cursor: "text" }) }),
+React.createElement("div", { style: {
+position: "absolute",
+top: "calc(100% + 4px)",
+left: 0,
+right: 0,
+background: "var(--bg-2)",
+border: "1px solid var(--border)",
+borderRadius: 8,
+maxHeight: 320,
+overflowY: "auto",
+zIndex: 1000,
+boxShadow: "0 8px 24px rgba(0,0,0,0.4)"
+} }, filtered.length === 0 ? (React.createElement("div", { style: { padding: "16px", textAlign: "center", color: "var(--text-3)", fontSize: 12 } }, assets.length === 0 ? "Nessun apparecchio registrato" : "Nessun risultato per \"" + query + "\"")) : (React.createElement(React.Fragment, null,
+!query.trim() && assets.length > 50 && (React.createElement("div", { style: { padding: "6px 12px", fontSize: 10, color: "var(--text-3)", borderBottom: "1px solid var(--border-2)", background: "#0a0a0e", fontStyle: "italic" } },
+"Mostro primi 50 \u00B7 digita per cercare tra tutti i ",
+assets.length)),
+filtered.map((a, i) => {
+var _a;
+const cust = (_a = customers === null || customers === void 0 ? void 0 : customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name;
+const isHigh = i === highlighted;
+const isSel = a.id === value;
+return (React.createElement("div", { key: a.id, onClick: () => handleSelect(a), onMouseEnter: () => setHighlighted(i), style: {
+padding: "9px 12px",
+cursor: "pointer",
+borderBottom: "1px solid var(--border-2)",
+background: isHigh ? "#2dd4bf11" : (isSel ? "var(--border-2)" : "transparent"),
+borderLeft: isSel ? "3px solid #2dd4bf" : "3px solid transparent",
+transition: "all .1s"
+} },
+React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 7, lineHeight: 1.3 } },
+a.assetCode && React.createElement("span", { style: { color: "#5eead4", fontSize: 11.5, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0 } }, a.assetCode),
+React.createElement("span", { style: { color: "var(--text)", fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, a.name)),
+React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, marginTop: 2, lineHeight: 1.4 } },
+[a.brand, a.model].filter(Boolean).join(" "),
+a.serial && React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", marginLeft: 6 } },
+"\u00B7 S/N: ",
+a.serial),
+a.location && React.createElement("span", { style: { marginLeft: 6 } },
+"\u00B7 ",
+a.location)),
+cust && React.createElement("div", { style: { color: "var(--text-2)", fontSize: 10, marginTop: 2 } }, cust)));
+}),
+filtered.length === 100 && (React.createElement("div", { style: { padding: "6px 12px", fontSize: 10, color: "var(--text-3)", textAlign: "center", borderTop: "1px solid var(--border-2)", fontStyle: "italic" } }, "Solo primi 100 risultati \u00B7 affina la ricerca per vedere pi\u00F9 specifico")))))))));
+};
