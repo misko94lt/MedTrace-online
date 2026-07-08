@@ -111,7 +111,7 @@ const props = {
 const MAX_STEP = 7;
 for (const name of ["FuncWizard", "IecWizard", "PpmWizard"]) {
   const W = mod[name];
-  if (!W) { console.log(`⚠ ${name}: annidato, non testabile unitariamente finché il monolite non è splittato → test rinviato a Fase 1 (quando sarà un modulo importabile)`); continue; }
+  if (!W) { console.log(`⚠ ${name}: estratto in modulo → render testato in test/wizard_check.js`); continue; }
   const errs = [];
   for (let step = 0; step <= MAX_STEP; step++) {
     CALL = 0; CURRENT_STEP = step;
