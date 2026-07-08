@@ -711,3 +711,9 @@ WebkitTapHighlightColor: "transparent",
 transition: "all .15s"
 } }, a.label)))))));
 };
+
+/* — badge stato e factory icone SVG (spostati col taglio apparecchi, v3.00) — */
+export const Badge = ({ text, color }) => (React.createElement("span", { style: { background: color + "18", color, border: "1px solid " + (color) + "40", borderRadius: 20, padding: "2px 10px", fontSize: 10, fontWeight: 700, letterSpacing: .5, textTransform: "uppercase", whiteSpace: "nowrap" } }, text));
+export function _ic(kids) {
+return React.createElement("svg", { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" }, kids);
+}

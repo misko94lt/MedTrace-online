@@ -551,3 +551,6 @@ return false;
 export function setBootData(v) { _bootData = v; }
 export function setBootDone(v) { _bootDone = v; }
 export function getBootDone() { return _bootDone; }
+
+/* — flag build demo (spostata col taglio apparecchi, v3.00) — */
+export const DEMO_LOCKED = false;

@@ -44,3 +44,6 @@ export const FORM_BTN_GHOST = { background: "var(--surface-2)", border: "1px sol
 export const CATEGORIES = ['Tester IEC/Sicurezza elettrica', 'Multimetro', 'Oscilloscopio',
 'Analizzatore defibrillatori', 'Analizzatore infusionali', 'Simulatore paziente',
 'Misuratore pressione', 'Termometro di riferimento', 'Calibratore', 'Altro'];
+
+/* — footer standard dei form (spostato col taglio apparecchi, v3.00) — */
+export const FORM_FOOTER = { display: "flex", gap: 10, justifyContent: "flex-end", paddingTop: 16, marginTop: 16, borderTop: "1px solid var(--border-2)" };
