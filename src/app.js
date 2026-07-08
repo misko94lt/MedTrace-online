@@ -23,7 +23,7 @@ import { EmptyState } from "./components/ui.js";
 import { AssetCombobox, ErrorSummary } from "./components/ui.js";
 import { getNextReportNumber, iecGetMeasures } from "./lib/reports.js";
 import { cndToTemplate, guessTemplate } from "./constants/funcTemplates.js";
-import { AlertChip, AreaTrend, BarChart, ConfirmDialog, Donut, ExcelTable, Grid, Hint, Inp, KpiCard, Modal, PromptDialog, Sel, Span2, Txt, appConfirm, appPromptCb, useMedia } from "./components/ui.js";
+import { AlertChip, AreaTrend, BarChart, ConfirmDialog, Donut, ExcelTable, Grid, Hint, Inp, KpiCard, Modal, PromptDialog, Sel, Span2, Txt, appConfirm, appPromptCb, useMedia, ICON_MONITOR, ICON_TOOL, ICON_BUILDING } from "./components/ui.js";
 /* MedTrace v2.05 ONLINE */
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaSignUp = (email, pw) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.signUp({ email, password: pw }); };
@@ -64,7 +64,7 @@ throw error;
 });
 },
 };
-const APP_VERSION = "3.00";
+const APP_VERSION = "3.01";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -1201,9 +1201,6 @@ return;
 onSave(f);
 } }, "Salva"))));
 }
-const ICON_MONITOR = _ic([React.createElement("rect", { key: "a", x: 2, y: 3, width: 20, height: 14, rx: 2 }), React.createElement("path", { key: "b", d: "M8 21h8M12 17v4" })]);
-const ICON_TOOL = _ic(React.createElement("path", { d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" }));
-const ICON_BUILDING = _ic([React.createElement("rect", { key: "a", x: 4, y: 3, width: 16, height: 18, rx: 1 }), React.createElement("path", { key: "b", d: "M9 8h.01M15 8h.01M9 12h.01M15 12h.01M10 21v-4h4v4" })]);
 function parseRfidScan(json) {
 const out = [];
 const norm = (e) => String(e == null ? "" : e).trim();
