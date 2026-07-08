@@ -659,3 +659,55 @@ React.createElement("div", { style: { fontSize: 12.5, color: "var(--text)", font
 React.createElement("button", { type: "button", onClick: () => { setEditing(true); onChange && onChange(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, "Firma diversa"));
 return React.createElement(SignaturePad, { label: label || "Firma Tecnico verificatore (obbligatoria)", value: value || "", onChange: onChange, height: height });
 }
+
+/* — stato vuoto riusabile (spostato con il taglio PPM, v2.97) — */
+export const EmptyState = ({ icon, title, subtitle, actions = [], compact = false }) => {
+return (React.createElement("div", { style: {
+textAlign: "center",
+padding: compact ? "30px 18px" : "48px 24px",
+background: "var(--bg-2)",
+borderRadius: 14,
+border: "1px dashed var(--border)",
+maxWidth: 460,
+margin: "12px auto"
+} },
+icon && (React.createElement("div", { style: {
+fontSize: compact ? 36 : 48,
+marginBottom: 14,
+opacity: 0.4,
+filter: "grayscale(0.3)"
+} }, icon)),
+title && (React.createElement("div", { style: {
+fontSize: compact ? 14 : 16,
+fontWeight: 700,
+color: "var(--text)",
+marginBottom: subtitle ? 6 : 16
+} }, title)),
+subtitle && (React.createElement("div", { style: {
+fontSize: 12,
+color: "var(--text-3)",
+lineHeight: 1.6,
+marginBottom: actions.length > 0 ? 20 : 0,
+maxWidth: 360,
+marginLeft: "auto",
+marginRight: "auto"
+} }, subtitle)),
+actions.length > 0 && (React.createElement("div", { style: {
+display: "flex",
+gap: 10,
+justifyContent: "center",
+flexWrap: "wrap"
+} }, actions.map((a, i) => (React.createElement("button", { key: i, onClick: a.onClick, style: {
+background: a.primary ? "#2dd4bf" : "transparent",
+color: a.primary ? "#0a0a0e" : "var(--text-2)",
+border: a.primary ? "none" : "1px solid var(--border)",
+borderRadius: 8,
+padding: "9px 18px",
+fontSize: 13,
+fontWeight: 700,
+cursor: "pointer",
+touchAction: "manipulation",
+WebkitTapHighlightColor: "transparent",
+transition: "all .15s"
+} }, a.label)))))));
+};

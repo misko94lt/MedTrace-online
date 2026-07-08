@@ -2,7 +2,7 @@
    naming file, export bulk ZIP. Estratto da app.js, fase 1 - unico ritocco: setter del registro (ESM read-only). */
 import { __awaiter, __rest } from "./tslib.js";
 import { mtEnsurePdfLibs, mtRenderReportPdfBlob, downloadJSON, openPrintWindow } from "./export.js";
-import { FUNC_TEMPLATES } from "../constants/funcTemplates.js";
+import { FUNC_TEMPLATES, cndToTemplate, guessTemplate } from "../constants/funcTemplates.js";
 
 function mtBulkExportZip(reports, kind, ctx, onProgress, onDone, onError) {
 mtEnsurePdfLibs(function(ok){
@@ -554,4 +554,76 @@ return [
 { id: "id_eq", name: "Equipment Leakage Cl.I (" + methodLabel + ")", unit: "µA", limit: "≤ " + eqVal, limitVal: eqVal, value: "" },
 ...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
 ];
+}
+
+/* — PDF unico PPM (spostato con il taglio PPM, v2.97) — */
+export function generatePPMPDF(ppm, asset, customer, company, templates, funcRep, iecRep) {
+asset = asset || {}; customer = customer || {}; company = company || {}; ppm = ppm || {};
+function esc(s) { return (s == null ? "" : String(s)).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+var secHead = function (n, t) { return '<div style="font-size:12px;font-weight:800;color:#0E7490;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #0E7490;padding-bottom:3px;margin:16px 0 8px">' + esc(n) + ' &middot; ' + esc(t) + '</div>'; };
+var items = ppm.items || [];
+var clRows = items.map(function (it) {
+var st = it.status === "na" ? '<span class="badge" style="background:#e5e7eb;color:#6b7280">N/A</span>' : '<span class="badge pass">&#10003; Fatto</span>';
+return '<tr><td>' + esc(it.text) + '</td><td style="text-align:center">' + st + '</td><td>' + esc(it.note || "") + '</td></tr>';
+}).join("");
+// Sezione funzionale
+var funcHtml;
+if (funcRep) {
+var tpl = (templates && templates[funcRep.templateId]) || null;
+var fEsito = funcRep.verifyStatus === "non_disponibile" ? "NON ESEGUITA" : (funcRep.overallPass ? "CONFORME" : "NON CONFORME");
+var fColor = funcRep.verifyStatus === "non_disponibile" ? "#d97706" : (funcRep.overallPass ? "#059669" : "#dc2626");
+var secRows = "";
+if (tpl && tpl.sections) {
+secRows = tpl.sections.map(function (sec) {
+var sd = (funcRep.sections || {})[sec.id] || { items: {}, measures: {} };
+if (sd._sectionNA) return '<tr style="opacity:.7"><td>' + esc(sec.title) + '</td><td style="text-align:center"><span class="badge" style="background:#e5e7eb;color:#6b7280">N/A</span></td></tr>';
+var fail = false;
+(sec.items || []).forEach(function (it) { if (sd.items[it.id] === false) fail = true; });
+(sec.measures || []).forEach(function (m) { var raw = sd.measures[m.id]; if (raw === "na") return; var v = parseFloat(raw); if (isNaN(v)) return; if (m.limitMin !== undefined && v < m.limitMin) fail = true; if (m.limitVal !== undefined) { if (m.invertPass) { if (v < m.limitVal) fail = true; } else { if (v > m.limitVal) fail = true; } } });
+return '<tr><td>' + esc(sec.title) + '</td><td style="text-align:center"><span class="badge ' + (fail ? "fail" : "pass") + '">' + (fail ? "&#10007; NC" : "&#10003; OK") + '</span></td></tr>';
+}).join("");
+}
+funcHtml = secHead("2", "Verifica funzionale")
++ '<div style="font-size:11px;color:#334155;margin-bottom:8px">' + esc((tpl && tpl.label) || funcRep.templateId || "") + ' &middot; ' + esc(funcRep.reportNumber || funcRep.id || "") + ' &middot; ' + esc(funcRep.date || "") + ' &middot; <b style="color:' + fColor + '">' + fEsito + '</b></div>'
++ (secRows ? '<table><thead><tr><th>Sezione</th><th style="text-align:center">Esito</th></tr></thead><tbody>' + secRows + '</tbody></table>' : "");
+} else {
+funcHtml = secHead("2", "Verifica funzionale") + '<div style="font-size:11px;color:#d97706">Non eseguita / non collegata a questa PPM</div>';
+}
+// Sezione VSE
+var iecHtml;
+if (iecRep) {
+var measFilled = (iecRep.measures || []).filter(function (m) { return m.na || (m.value !== "" && m.value != null && !isNaN(parseFloat(m.value))); });
+var measRows = measFilled.map(function (m) {
+if (m.na) return '<tr style="opacity:.7"><td>' + esc(m.name) + '</td><td style="text-align:center;font-family:monospace">' + esc(m.limit) + '</td><td style="text-align:center">&mdash;</td><td style="text-align:center">' + esc(m.unit) + '</td><td style="text-align:center"><span class="badge" style="background:#e5e7eb;color:#6b7280">N/A</span></td></tr>';
+var v = parseFloat(m.value), lv = parseFloat(m.limitVal); var pass = (m.limitMin == null || v >= parseFloat(m.limitMin)) && (m.limitVal == null || (m.invertPass ? v >= lv : v <= lv));
+return '<tr><td>' + esc(m.name) + '</td><td style="text-align:center;font-family:monospace">' + esc(m.limit) + '</td><td style="text-align:center;font-family:monospace;font-weight:700">' + esc(m.value) + '</td><td style="text-align:center">' + esc(m.unit) + '</td><td style="text-align:center"><span class="badge ' + (pass ? "pass" : "fail") + '">' + (pass ? "&#10003; PASS" : "&#10007; FAIL") + '</span></td></tr>';
+}).join("");
+var iEsito = iecRep.verifyStatus === "non_disponibile" ? "NON ESEGUITA" : (iecRep.overallPass ? "CONFORME" : "NON CONFORME");
+var iColor = iecRep.verifyStatus === "non_disponibile" ? "#d97706" : (iecRep.overallPass ? "#059669" : "#dc2626");
+iecHtml = secHead("3", "Sicurezza elettrica (CEI EN 62353)")
++ '<div style="font-size:11px;color:#334155;margin-bottom:8px">' + esc(iecRep.reportNumber || iecRep.id || "") + ' &middot; ' + esc(iecRep.date || "") + ' &middot; <b style="color:' + iColor + '">' + iEsito + '</b></div>'
++ (measRows ? '<table><thead><tr><th>Misura</th><th style="text-align:center">Limite</th><th style="text-align:center">Valore</th><th style="text-align:center">U.M.</th><th style="text-align:center">Esito</th></tr></thead><tbody>' + measRows + '</tbody></table>' : "");
+} else {
+iecHtml = secHead("3", "Sicurezza elettrica (CEI EN 62353)") + '<div style="font-size:11px;color:#d97706">Non eseguita / non collegata a questa PPM</div>';
+}
+var checklistOk = ppm.overallPass !== false;
+var funcOk = !funcRep || funcRep.verifyStatus === "non_disponibile" || funcRep.overallPass;
+var iecOk = !iecRep || iecRep.verifyStatus === "non_disponibile" || iecRep.overallPass;
+var allOk = checklistOk && funcOk && iecOk;
+var ovColor = allOk ? "#059669" : "#dc2626";
+var ovLabel = allOk ? "CONFORME" : "NON CONFORME";
+var html = '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>PPM ' + esc(asset.name || "") + '</title><style>' + PDF_STYLE + '</style></head><body><div class="wrap"><div class="side"></div><div class="main">'
++ '<div class="header"><div><h1>Manutenzione Programmata</h1><div class="sub">' + esc(company.name || "MedTrace") + '</div></div><div class="right"><div class="doctype">PPM</div><div class="docnum">' + esc(ppm.reportNumber || ppm.id || "") + '</div><div class="docdate">' + esc(ppm.date || "") + '</div></div></div>'
++ '<div style="display:flex;flex-wrap:wrap;gap:6px 22px;font-size:11px;margin:10px 0;color:#334155"><div><b>Apparecchio:</b> ' + esc((asset.name || "") + " " + (asset.model || "")) + '</div><div><b>S/N:</b> ' + esc(asset.serial || "") + '</div><div><b>Cliente:</b> ' + esc(customer.name || "") + '</div><div><b>Tecnico:</b> ' + esc(ppm.technician || "") + '</div></div>'
++ '<div style="background:' + ovColor + ';color:#fff;font-weight:800;text-align:center;padding:10px;border-radius:4px;margin:8px 0 4px;letter-spacing:1px">ESITO COMPLESSIVO: ' + ovLabel + '</div>'
++ secHead("1", "Manutenzione (checklist)") + '<table><thead><tr><th>Voce</th><th style="text-align:center">Stato</th><th>Nota</th></tr></thead><tbody>' + (clRows || '<tr><td colspan="3" style="text-align:center;color:#94a3b8">Nessuna voce</td></tr>') + '</tbody></table>'
++ funcHtml + iecHtml
++ (ppm.notes ? (secHead("", "Note") + '<div style="font-size:11px;color:#334155">' + esc(ppm.notes) + '</div>') : "")
++ '<div class="sign-row" style="display:flex;justify-content:space-around;gap:24px;margin-top:26px;text-align:center">'
++ '<div style="flex:1;max-width:260px">' + (ppm.technicianSignature ? '<img src="' + ppm.technicianSignature + '" style="max-height:55px;max-width:200px;display:block;margin:0 auto"/>' : '<div style="height:55px"></div>') + '<div style="border-top:1px solid #94A3B8;padding-top:4px;font-size:9.5px;color:#64748B">Firma Tecnico<br/><strong style="color:#1e293b;font-size:11px">' + (ppm.technician || '') + '</strong></div></div>'
++ ((ppm.departmentSignature || ppm.departmentContact || ppm.departmentName) ? '<div style="flex:1;max-width:260px">' + (ppm.departmentSignature ? '<img src="' + ppm.departmentSignature + '" style="max-height:55px;max-width:200px;display:block;margin:0 auto"/>' : '<div style="height:55px"></div>') + '<div style="border-top:1px solid #94A3B8;padding-top:4px;font-size:9.5px;color:#64748B">Firma Referente Reparto / Cliente<br/><strong style="color:#1e293b;font-size:11px">' + (ppm.departmentContact || ppm.departmentName || '') + '</strong></div></div>' : '')
++ '</div>'
++ '<div style="margin-top:14px;padding:9px 11px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;font-size:7.8px;color:#64748b;line-height:1.5"><div style="font-weight:700;color:#475569;margin-bottom:3px">Avvertenze e limitazioni</div><b>a)</b> Verbale di verifica, non atto di certificazione; i risultati si riferiscono al solo esemplare provato e alle prove eseguite. &nbsp; <b>b)</b> Sicurezza elettrica secondo IEC 62353 (CEI EN 62353); le prove funzionali sono buona tecnica di categoria, per il singolo modello prevale il manuale del fabbricante. &nbsp; <b>c)</b> L\'esito positivo attesta che i parametri rientrano nei valori previsti, non l\'idoneità a impieghi specifici (riferirsi a normative e linee guida). &nbsp; <b>d)</b> ' + esc(company.name || '[Ragione sociale]') + ' non risponde di danni derivanti dall\'inosservanza dei manuali del fabbricante; il Cliente è tenuto a usare l\'apparecchio secondo le istruzioni del Costruttore.</div>'
++ '</div></div></body></html>';
+openPrintWindow(html);
 }
