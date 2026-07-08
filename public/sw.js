@@ -1,5 +1,5 @@
 /* MedTrace Service Worker — caches app shell for offline use */
-const CACHE_VERSION = 'medtrace-v3-23';
+const CACHE_VERSION = 'medtrace-v3-24';
 const CACHE_URLS = [
   './',
   './index.html',
