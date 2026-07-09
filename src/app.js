@@ -67,7 +67,7 @@ throw error;
 });
 },
 };
-const APP_VERSION = "3.03";
+const APP_VERSION = "3.04";
 (function () { try {
 var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"; document.head.appendChild(l);
 var st = document.createElement("style"); st.textContent = "body,input,button,select,textarea,h1,h2,h3{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;}"; document.head.appendChild(st);
@@ -2297,212 +2297,6 @@ const PROC_TYPES = [
 'Calibrazione', 'Verifica sicurezza elettrica', 'Troubleshooting',
 'Sostituzione componente', 'Aggiornamento firmware', 'Cleaning/Disinfezione', 'Altro',
 ];
-function AIDraftModal({ onUseDraft, onClose }) {
-const [manualText, setManualText] = React.useState("");
-const [tipo, setTipo] = React.useState("manutenzione");
-const [modello, setModello] = React.useState("");
-const [loading, setLoading] = React.useState(false);
-const [result, setResult] = React.useState("");
-const [error, setError] = React.useState("");
-const FLD = { background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 8, color: "var(--text)", fontSize: 13, padding: "9px 11px", outline: "none", width: "100%", boxSizing: "border-box", fontFamily: "inherit" };
-const genera = () => __awaiter(this, void 0, void 0, function* () {
-if (!manualText.trim()) {
-setError("Incolla prima il testo del manuale.");
-return;
-}
-setError("");
-setLoading(true);
-setResult("");
-const cosa = tipo === "manutenzione"
-? "una PROCEDURA DI MANUTENZIONE/SMONTAGGIO passo-passo, numerata, con eventuali avvertenze di sicurezza e attrezzi necessari"
-: "una CHECKLIST DI VERIFICA FUNZIONALE, come elenco di controlli con esito atteso (OK/NO), pronta da spuntare";
-const sys = "Sei un assistente tecnico per la manutenzione di apparecchiature elettromedicali. " +
-"Lavori ESCLUSIVAMENTE sul testo del manuale che ti viene fornito. " +
-"NON inventare valori, passaggi o controlli che non sono nel testo: se un'informazione manca, scrivi esattamente [DA VERIFICARE SUL MANUALE]. " +
-"Scrivi in italiano, in modo chiaro e operativo. Non aggiungere disclaimer, li gestisce gia' l'app.";
-const prompt = "Dal seguente testo di manuale" + (modello ? (" dell'apparecchio " + modello) : "") + ", genera " + cosa + ".\n\n" +
-"Restituisci SOLO il contenuto della bozza, senza introduzioni.\n\n=== TESTO MANUALE ===\n" + manualText.slice(0, 12000);
-try {
-const resp = yield fetch("https://api.anthropic.com/v1/messages", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-model: "claude-sonnet-4-20250514",
-max_tokens: 1500,
-system: sys,
-messages: [{ role: "user", content: prompt }],
-}),
-});
-if (!resp.ok) {
-throw new Error("HTTP " + resp.status);
-}
-const data = yield resp.json();
-const text = (data.content || []).map(b => b.type === "text" ? b.text : "").filter(Boolean).join("\n").trim();
-if (!text) {
-throw new Error("Risposta vuota");
-}
-setResult(text);
-}
-catch (e) {
-setError("Non è stato possibile generare la bozza. La funzione AI richiede la connessione e la configurazione dell'API nel deploy. Dettaglio: " + (e.message || e));
-}
-finally {
-setLoading(false);
-}
-});
-const usaComeProc = () => {
-onUseDraft({
-modelName: modello || "",
-category: tipo === "manutenzione" ? "Manutenzione" : "Verifica",
-type: tipo === "manutenzione" ? "Preventiva" : "Funzionale",
-notes: "⚠ BOZZA GENERATA DA AI — DA VERIFICARE SUL MANUALE PRIMA DELL'USO\n\n" + result,
-_aiDraft: true,
-});
-};
-return (React.createElement("div", null,
-React.createElement("div", { style: { background: "#f59e0b15", border: "1px solid #f59e0b55", borderRadius: 8, padding: "11px 13px", marginBottom: 16, fontSize: 11.5, color: "#fbbf24", lineHeight: 1.5 } },
-React.createElement("strong", null, "\u26A0 Bozza, non documento ufficiale."),
-" L'AI genera una proposta basata solo sul testo che incolli. Va ",
-React.createElement("strong", null, "verificata sul manuale del costruttore da un tecnico qualificato"),
-" prima dell'uso. Non sostituisce la documentazione ufficiale n\u00E9 solleva da responsabilit\u00E0. Dove manca un dato comparir\u00E0 ",
-React.createElement("code", null, "[DA VERIFICARE SUL MANUALE]"),
-"."),
-!result && (React.createElement(React.Fragment, null,
-React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, "Cosa generare"),
-React.createElement("div", { style: { display: "flex", gap: 8 } }, [["manutenzione", "\uD83D\uDD27 Procedura manutenzione"], ["checklist", "✓ Checklist verifica funzionale"]].map(([v, l]) => {
-const on = tipo === v;
-return React.createElement("button", { key: v, onClick: () => setTipo(v), style: { flex: 1, background: on ? "#1F7468" : "var(--card)", border: "1px solid " + (on ? "#2dd4bf" : "var(--border-3)"), borderRadius: 8, padding: "9px 8px", cursor: "pointer", color: on ? "#04201C" : "var(--text-strong)", fontSize: 12, fontWeight: on ? 800 : 600 } }, l);
-}))),
-React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, "Modello apparecchio (facoltativo)"),
-React.createElement("input", { value: modello, onChange: e => setModello(e.target.value), placeholder: "es. Defibrillatore XYZ 2000", style: FLD })),
-React.createElement("div", { style: { marginBottom: 14 } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, "Testo del manuale (incolla la sezione che ti interessa)"),
-React.createElement("textarea", { value: manualText, onChange: e => setManualText(e.target.value), rows: 9, placeholder: "Incolla qui il testo del manuale relativo alla manutenzione o alla verifica\u2026", style: Object.assign(Object.assign({}, FLD), { resize: "vertical", lineHeight: 1.5 }) }),
-React.createElement("div", { style: { fontSize: 10.5, color: "var(--text-4)", marginTop: 4 } }, "Suggerimento: incolla solo le pagine pertinenti (non l'intero manuale). Max ~12.000 caratteri.")),
-error && React.createElement("div", { style: { background: "#ef444415", border: "1px solid #ef444455", borderRadius: 8, padding: "10px 12px", marginBottom: 12, fontSize: 12, color: "#fca5a5", lineHeight: 1.5 } }, error),
-React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: 8 } },
-React.createElement("button", { onClick: onClose, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", padding: "9px 14px", fontSize: 12.5, fontWeight: 700, cursor: "pointer" } }, "Annulla"),
-React.createElement("button", { onClick: genera, disabled: loading, style: { background: loading ? "#0d948855" : "#1F7468", border: "none", borderRadius: 7, color: "#04201C", padding: "9px 16px", fontSize: 12.5, fontWeight: 800, cursor: loading ? "default" : "pointer" } }, loading ? "Genero…" : "Genera bozza")))),
-result && (React.createElement(React.Fragment, null,
-React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-3)", borderRadius: 8, padding: "13px 15px", marginBottom: 14, maxHeight: "45vh", overflow: "auto", fontSize: 12.5, color: "var(--text)", lineHeight: 1.6, whiteSpace: "pre-line" } }, result),
-React.createElement("div", { style: { display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap" } },
-React.createElement("button", { onClick: () => { setResult(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", padding: "9px 14px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u2190 Rigenera"),
-React.createElement("div", { style: { display: "flex", gap: 8 } },
-React.createElement("button", { onClick: () => { try {
-navigator.clipboard.writeText(result);
-}
-catch (e) { } }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", padding: "9px 14px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "Copia"),
-React.createElement("button", { onClick: usaComeProc, style: { background: "#2dd4bf", border: "none", borderRadius: 7, color: "#04201C", padding: "9px 16px", fontSize: 12.5, fontWeight: 800, cursor: "pointer" } }, "Usa come bozza procedura \u2192")))))));
-}
-function ProceduresPage({ procedures, setProcedures, instruments, parts, assets, showToast, setTab, moveToTrash }) {
-const [modal, setModal] = React.useState(null);
-const [search, setSearch] = React.useState('');
-const [filterCat, setFilterCat] = React.useState('all');
-const [filterType, setFilterType] = React.useState('all');
-const [viewProcId, setViewProcId] = React.useState(null);
-const filtered = procedures.filter(p => {
-if (search) {
-const q = search.toLowerCase();
-const hit = [p.modelName, p.brand, p.category, p.type, p.notes]
-.filter(Boolean).some(s => s.toLowerCase().includes(q));
-if (!hit)
-return false;
-}
-if (filterCat !== 'all' && p.category !== filterCat)
-return false;
-if (filterType !== 'all' && p.type !== filterType)
-return false;
-return true;
-});
-const saveProc = (proc) => {
-if (proc.id) {
-const upd = withUpdateMeta(proc);
-setProcedures(prev => prev.map(p => p.id === proc.id ? upd : p));
-}
-else {
-const newP = withCreateMeta(proc);
-setProcedures(prev => [...prev, newP]);
-}
-setModal(null);
-showToast('✓ Procedura salvata');
-};
-const delProc = (id) => {
-if (!confirm('Spostare questa procedura nel cestino?'))
-return;
-const rec = procedures.find(p => p.id === id);
-if (moveToTrash && rec)
-moveToTrash("procedures", rec);
-setProcedures(prev => prev.filter(p => p.id !== id));
-setViewProcId(null);
-showToast('Spostato nel cestino', '#f59e0b');
-};
-const duplicateProc = (proc) => {
-const copy = Object.assign(Object.assign({}, proc), { id: 'P' + Date.now(), modelName: proc.modelName + ' (copia)', createdAt: new Date().toISOString() });
-setProcedures(prev => [...prev, copy]);
-showToast('✓ Duplicata');
-};
-if (viewProcId) {
-const proc = procedures.find(p => p.id === viewProcId);
-if (!proc) {
-setViewProcId(null);
-return null;
-}
-return React.createElement(ProcedureDetail, { proc: proc, onEdit: () => setModal({ type: 'form', data: proc }), onDuplicate: () => duplicateProc(proc), onDelete: () => delProc(proc.id), onBack: () => setViewProcId(null), showToast: showToast });
-}
-return (React.createElement("div", { style: { padding: '16px 20px', maxWidth: 1100, margin: '0 auto' } },
-React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16, flexWrap: 'wrap', gap: 10 } },
-React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 20, fontWeight: 900 } }, "Procedure Tecniche"),
-React.createElement("p", { style: { color: 'var(--text-3)', margin: '3px 0 0', fontSize: 12 } }, "Guide passo-passo per modello specifico (knowledge base interna)")),
-React.createElement("div", { style: { display: 'flex', gap: 8, flexWrap: 'wrap' } },
-false && (React.createElement("button", { onClick: () => setModal({ type: 'aiDraft' }), style: { background: 'var(--surface-2)', color: '#c084fc', border: '1px solid #a855f744', borderRadius: 9, padding: '10px 15px', cursor: 'pointer', fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap' } }, "\u2728 Genera bozza con AI")),
-React.createElement("button", { onClick: () => setModal({ type: 'form', data: null }), style: FORM_BTN_PRIMARY }, "+ Nuova procedura"))),
-React.createElement("div", { style: { display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' } },
-React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Cerca per modello, marca, categoria\u2026", style: { flex: 1, minWidth: 200, background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 12px', color: 'var(--text-bright)', fontSize: 13, outline: 'none' } }),
-React.createElement("select", { value: filterCat, onChange: e => setFilterCat(e.target.value), style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 12px', color: 'var(--text-2)', fontSize: 12 } },
-React.createElement("option", { value: "all" }, "Tutte le categorie"),
-PROC_CATEGORIES.map(c => React.createElement("option", { key: c, value: c }, c))),
-React.createElement("select", { value: filterType, onChange: e => setFilterType(e.target.value), style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 12px', color: 'var(--text-2)', fontSize: 12 } },
-React.createElement("option", { value: "all" }, "Tutti i tipi"),
-PROC_TYPES.map(t => React.createElement("option", { key: t, value: t }, t)))),
-React.createElement("div", { style: { fontSize: 11, color: 'var(--text-3)', marginBottom: 12 } },
-filtered.length,
-" di ",
-procedures.length,
-" procedure"),
-filtered.length === 0 ? (React.createElement("div", null, procedures.length === 0 ? (React.createElement(EmptyState, { icon: "\uD83D\uDCDA", title: "Nessuna procedura ancora", subtitle: "Crea procedure tecniche passo-passo come una knowledge base in stile iFixit. Aggiungi passi numerati, valori attesi, foto e checklist.", actions: [
-{ label: "+ Crea procedura", onClick: () => setModal({ type: 'form', data: null }), primary: true }
-] })) : (React.createElement("div", { style: { textAlign: 'center', padding: 48, color: 'var(--text-3)', background: 'var(--surface)', borderRadius: 12, border: '1px solid #2A2A38', fontSize: 13 } }, "Nessuna procedura corrisponde ai filtri")))) : (React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 8 } }, filtered.map(p => (React.createElement("div", { key: p.id, onClick: () => setViewProcId(p.id), style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 10, padding: '14px 16px', cursor: 'pointer', transition: 'all .15s' }, onMouseEnter: e => e.currentTarget.style.borderColor = '#2dd4bf66', onMouseLeave: e => e.currentTarget.style.borderColor = 'var(--border-4)' },
-React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10, flexWrap: 'wrap' } },
-React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-React.createElement("div", { style: { display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 5 } },
-p.category && React.createElement("span", { style: { fontSize: 10, background: '#2dd4bf18', color: '#2dd4bf', border: '1px solid #2dd4bf33', borderRadius: 20, padding: '1px 8px', fontWeight: 700 } }, p.category),
-p.type && React.createElement("span", { style: { fontSize: 10, background: '#a855f718', color: '#a855f7', border: '1px solid #a855f733', borderRadius: 20, padding: '1px 8px', fontWeight: 700 } }, p.type)),
-React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: 'var(--text-bright)', marginBottom: 3 } },
-p.brand && React.createElement("span", { style: { color: 'var(--text-2)' } }, p.brand),
-" ",
-p.modelName),
-React.createElement("div", { style: { fontSize: 11, color: 'var(--text-3)', display: 'flex', gap: 14, flexWrap: 'wrap' } },
-p.steps && React.createElement("span", null,
-"\uD83D\uDCCB ",
-p.steps.length,
-" step"),
-p.estimatedMinutes && React.createElement("span", null,
-"\u23F1 ~",
-p.estimatedMinutes,
-" min"),
-p.toolsRequired && p.toolsRequired.length > 0 && React.createElement("span", null,
-"\uD83D\uDD27 ",
-p.toolsRequired.length,
-" strumenti"))),
-React.createElement("div", { style: { flexShrink: 0, fontSize: 18, color: 'var(--text-3)' } }, "\u203A"))))))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === 'form' && (React.createElement(Modal, { title: modal.data ? 'Modifica Procedura' : 'Nuova Procedura', wide: true, onClose: () => setModal(null) },
-React.createElement(ProcedureForm, { initial: modal.data, instruments: instruments, parts: parts, onSave: saveProc, onClose: () => setModal(null) }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === 'aiDraft' && (React.createElement(Modal, { title: "\u2728 Genera bozza con AI", wide: true, onClose: () => setModal(null) },
-React.createElement(AIDraftModal, { onUseDraft: (proc) => { setModal({ type: 'form', data: proc }); }, onClose: () => setModal(null) })))));
-}
 function ProcedureDetail({ proc, onEdit, onDuplicate, onDelete, onBack, showToast }) {
 var _a;
 return (React.createElement("div", { style: { padding: '16px 20px', maxWidth: 900, margin: '0 auto' } },
@@ -2560,127 +2354,6 @@ React.createElement("div", { style: { fontSize: 13, color: '#c0c0d0', whiteSpace
 React.createElement("div", { style: { textAlign: 'center', fontSize: 10, color: 'var(--text-4)', marginTop: 20 } },
 "Creata il ",
 (proc.createdAt || '').slice(0, 10))));
-}
-function ProcedureForm({ initial, instruments, parts, onSave, onClose }) {
-const [form, setForm] = React.useState(Object.assign({ brand: '', modelName: '', category: '', type: '', description: '', estimatedMinutes: '', toolsRequired: [], partsTypical: [], steps: [], notes: '' }, (initial || {})));
-const [errors, setErrors] = React.useState({});
-const set = (k, v) => setForm(f => (Object.assign(Object.assign({}, f), { [k]: v })));
-const addStep = () => {
-setForm(f => (Object.assign(Object.assign({}, f), { steps: [...(f.steps || []), { title: '', description: '', expectedValue: '', warning: '', image: '' }] })));
-};
-const updStep = (i, key, val) => {
-setForm(f => (Object.assign(Object.assign({}, f), { steps: f.steps.map((s, idx) => idx === i ? Object.assign(Object.assign({}, s), { [key]: val }) : s) })));
-};
-const moveStep = (i, dir) => {
-setForm(f => {
-const ns = [...f.steps];
-const target = i + dir;
-if (target < 0 || target >= ns.length)
-return f;
-[ns[i], ns[target]] = [ns[target], ns[i]];
-return Object.assign(Object.assign({}, f), { steps: ns });
-});
-};
-const delStep = (i) => {
-if (!confirm('Eliminare questo passo?'))
-return;
-setForm(f => (Object.assign(Object.assign({}, f), { steps: f.steps.filter((_, idx) => idx !== i) })));
-};
-const uploadStepImage = (i, file) => __awaiter(this, void 0, void 0, function* () {
-if (!file)
-return;
-if (file.size > 3 * 1024 * 1024) {
-alert('Immagine troppo grande (>3MB). Comprimi prima.');
-return;
-}
-try {
-const att = yield fileToAttachment(file);
-updStep(i, 'image', att.dataUrl);
-}
-catch (e) {
-alert('Errore: ' + e.message);
-}
-});
-const INP = FORM_INP;
-const LBL = FORM_LBL;
-const ROW = FORM_ROW;
-return (React.createElement("div", { style: { maxHeight: '70vh', overflowY: 'auto', paddingRight: 6 } },
-React.createElement(ErrorSummary, { errors: errors }),
-React.createElement("div", { style: ROW },
-React.createElement("div", { style: { flex: 1, minWidth: 140 } },
-React.createElement("label", { style: LBL }, "Marca"),
-React.createElement("input", { style: INP, value: form.brand, onChange: e => set('brand', e.target.value), placeholder: "es. Philips" })),
-React.createElement("div", { style: { flex: 2, minWidth: 140 } },
-React.createElement("label", { style: LBL }, "Modello *"),
-React.createElement("input", { style: INP, value: form.modelName, onChange: e => set('modelName', e.target.value), placeholder: "es. HeartStart MRx" }))),
-React.createElement("div", { style: ROW },
-React.createElement("div", { style: { flex: 1, minWidth: 140 } },
-React.createElement("label", { style: LBL }, "Categoria"),
-React.createElement("select", { style: INP, value: form.category, onChange: e => set('category', e.target.value) },
-React.createElement("option", { value: "" }, "\u2014 Seleziona \u2014"),
-PROC_CATEGORIES.map(c => React.createElement("option", { key: c, value: c }, c)))),
-React.createElement("div", { style: { flex: 1, minWidth: 140 } },
-React.createElement("label", { style: LBL }, "Tipo procedura"),
-React.createElement("select", { style: INP, value: form.type, onChange: e => set('type', e.target.value) },
-React.createElement("option", { value: "" }, "\u2014 Seleziona \u2014"),
-PROC_TYPES.map(t => React.createElement("option", { key: t, value: t }, t)))),
-React.createElement("div", { style: { width: 140 } },
-React.createElement("label", { style: LBL }, "Tempo (min)"),
-React.createElement("input", { type: "number", style: INP, value: form.estimatedMinutes, onChange: e => set('estimatedMinutes', e.target.value), placeholder: "60" }))),
-React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("label", { style: LBL }, "Descrizione breve"),
-React.createElement("textarea", { style: Object.assign(Object.assign({}, INP), { minHeight: 50, resize: 'vertical' }), value: form.description, onChange: e => set('description', e.target.value), placeholder: "A cosa serve, contesto, frequenza consigliata\u2026" })),
-React.createElement("div", { style: ROW },
-React.createElement("div", { style: { flex: 1, minWidth: 140 } },
-React.createElement("label", { style: LBL }, "Strumenti necessari (separati da virgola)"),
-React.createElement("input", { style: INP, value: (form.toolsRequired || []).join(', '), onChange: e => set('toolsRequired', e.target.value.split(',').map(s => s.trim()).filter(Boolean)), placeholder: "es. Fluke Impulse 7000, Multimetro" })),
-React.createElement("div", { style: { flex: 1, minWidth: 140 } },
-React.createElement("label", { style: LBL }, "Ricambi tipici"),
-React.createElement("input", { style: INP, value: (form.partsTypical || []).join(', '), onChange: e => set('partsTypical', e.target.value.split(',').map(s => s.trim()).filter(Boolean)), placeholder: "es. Batteria, elettrodi" }))),
-React.createElement("div", { style: { borderTop: '1px solid #2A2A38', margin: '18px 0 12px', paddingTop: 14 } },
-React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 } },
-React.createElement("div", { style: { fontSize: 12, color: '#2dd4bf', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 } },
-"Passi della procedura (",
-(form.steps || []).length,
-")"),
-React.createElement("button", { type: "button", onClick: addStep, style: { background: '#2dd4bf', color: '#000', border: 'none', borderRadius: 6, padding: '5px 14px', cursor: 'pointer', fontSize: 11, fontWeight: 800 } }, "+ Aggiungi passo")),
-(form.steps || []).length === 0 ? (React.createElement("div", { style: { padding: 20, background: 'var(--bg)', border: '1px dashed #2A2A38', borderRadius: 8, color: 'var(--text-3)', textAlign: 'center', fontSize: 12 } }, "Nessun passo. Clicca \"+ Aggiungi passo\" per iniziare.")) : form.steps.map((step, i) => (React.createElement("div", { key: i, style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 8, padding: 12, marginBottom: 8 } },
-React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 } },
-React.createElement("div", { style: { display: 'flex', alignItems: 'center', gap: 8 } },
-React.createElement("div", { style: { background: '#2dd4bf', color: '#000', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 11 } }, i + 1),
-React.createElement("span", { style: { color: 'var(--text-3)', fontSize: 11 } },
-"Passo ",
-i + 1)),
-React.createElement("div", { style: { display: 'flex', gap: 4 } },
-React.createElement("button", { type: "button", onClick: () => moveStep(i, -1), disabled: i === 0, style: { background: 'var(--surface-2)', border: '1px solid #2a3040', borderRadius: 4, color: 'var(--text-2)', padding: '2px 7px', cursor: i === 0 ? 'not-allowed' : 'pointer', fontSize: 11, opacity: i === 0 ? .3 : 1 } }, "\u2191"),
-React.createElement("button", { type: "button", onClick: () => moveStep(i, 1), disabled: i === form.steps.length - 1, style: { background: 'var(--surface-2)', border: '1px solid #2a3040', borderRadius: 4, color: 'var(--text-2)', padding: '2px 7px', cursor: i === form.steps.length - 1 ? 'not-allowed' : 'pointer', fontSize: 11, opacity: i === form.steps.length - 1 ? .3 : 1 } }, "\u2193"),
-React.createElement("button", { type: "button", onClick: () => delStep(i), style: { background: 'var(--surface-2)', border: '1px solid #ef444433', borderRadius: 4, color: '#ef4444', padding: '2px 7px', cursor: 'pointer', fontSize: 11 } }, "\u2715"))),
-React.createElement("input", { style: Object.assign(Object.assign({}, INP), { marginBottom: 6 }), value: step.title || '', onChange: e => updStep(i, 'title', e.target.value), placeholder: "Titolo del passo (es. Test scarica 200J)" }),
-React.createElement("textarea", { style: Object.assign(Object.assign({}, INP), { minHeight: 60, resize: 'vertical', marginBottom: 6 }), value: step.description || '', onChange: e => updStep(i, 'description', e.target.value), placeholder: "Descrizione dettagliata. Cosa fare, come collegarlo, dove guardare\u2026" }),
-React.createElement("div", { style: { display: 'flex', gap: 8, marginBottom: 6, flexWrap: 'wrap' } },
-React.createElement("input", { style: Object.assign(Object.assign({}, INP), { flex: 1, minWidth: 120 }), value: step.expectedValue || '', onChange: e => updStep(i, 'expectedValue', e.target.value), placeholder: "Valore atteso (es. 195-205 J)" }),
-React.createElement("input", { style: Object.assign(Object.assign({}, INP), { flex: 1, minWidth: 120 }), value: step.warning || '', onChange: e => updStep(i, 'warning', e.target.value), placeholder: "\u26A0 Avvertenza (opzionale)" })),
-step.image ? (React.createElement("div", { style: { display: 'flex', alignItems: 'center', gap: 8, padding: 6, background: 'var(--surface)', borderRadius: 6, border: '1px solid #2A2A38' } },
-React.createElement("img", { src: step.image, style: { width: 60, height: 60, objectFit: 'cover', borderRadius: 4 } }),
-React.createElement("span", { style: { fontSize: 11, color: 'var(--text-3)', flex: 1 } }, "Immagine caricata"),
-React.createElement("button", { type: "button", onClick: () => updStep(i, 'image', ''), style: { background: 'var(--surface-2)', border: '1px solid #ef444433', borderRadius: 4, color: '#ef4444', padding: '3px 10px', cursor: 'pointer', fontSize: 11, fontWeight: 700 } }, "Rimuovi"))) : (React.createElement("label", { style: { display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', background: 'var(--surface)', border: '1px dashed #2dd4bf44', borderRadius: 6, padding: '5px 12px', color: '#2dd4bf', fontSize: 11, fontWeight: 700 } },
-React.createElement("input", { type: "file", accept: "image/*", onChange: e => { var _a; return uploadStepImage(i, (_a = e.target.files) === null || _a === void 0 ? void 0 : _a[0]); }, style: { display: 'none' } }),
-"\uD83D\uDDBC + Aggiungi 1 foto (max 3MB)")))))),
-React.createElement("div", { style: { marginBottom: 14 } },
-React.createElement("label", { style: LBL }, "Note e tips appresi sul campo"),
-React.createElement("textarea", { style: Object.assign(Object.assign({}, INP), { minHeight: 70, resize: 'vertical' }), value: form.notes, onChange: e => set('notes', e.target.value), placeholder: "Errori comuni, accorgimenti, esperienze utili\u2026" })),
-React.createElement("div", { style: { display: 'flex', gap: 8, justifyContent: 'flex-end', paddingTop: 10, borderTop: '1px solid #2A2A38', position: 'sticky', bottom: 0, background: 'var(--surface-2)', margin: '0 -6px', padding: '12px 6px' } },
-React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Annulla"),
-React.createElement("button", { onClick: () => {
-var _a;
-const errs = {};
-if (!((_a = form.modelName) === null || _a === void 0 ? void 0 : _a.trim()))
-errs.modelName = "Il modello/titolo è obbligatorio";
-setErrors(errs);
-if (Object.keys(errs).length > 0)
-return;
-onSave(form);
-}, style: FORM_BTN_PRIMARY }, initial ? 'Salva modifiche' : 'Crea procedura'))));
 }
 const STATUS_COLOR_PORTAL = {
 'aperto': '#ef4444',
@@ -3343,7 +3016,7 @@ setUserRole(prev => prev || saved || "tecnico");
 return () => { annullato = true; };
 }, []);
 const canSee = (sectionId) => {
-const SECTION_ALIAS = { scadenze: "agenda", help: "procedures", ricognizione: "assets", scheda: "assets" };
+const SECTION_ALIAS = { scadenze: "agenda", procedures: "help", ricognizione: "assets", scheda: "assets" };
 const sid = SECTION_ALIAS[sectionId] || sectionId;
 if (userRole === "superuser")
 return true;
@@ -4722,7 +4395,7 @@ items: [
 {
 id: "g_sys", label: "DOCUMENTAZIONE & AIUTO",
 items: [
-{ id: "procedures", label: "Aiuto & Procedure", icon: "›" },
+{ id: "help", label: "Guida", icon: "›" },
 ]
 },
 ];
@@ -6077,10 +5750,8 @@ return d < 0 ? "#ef333308" : d <= 30 ? "#f59e0b08" : "";
 { key: "status", label: "Stato", opts: ["operativo", "in manutenzione", "fuori servizio"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
 ], rows: items, actions: row => (React.createElement("button", { onClick: () => setModal({ type: "iec", data: null, assetId: row.assetId }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 5, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, "Verifica")) })))))),
 tab === "richieste" && (React.createElement(RichiestePage, { richieste: richieste, assets: assets, customers: customers, onConvert: convertRichiesta, onRefresh: loadRichieste, online: !OFFLINE_MODE })),
-(tab === "procedures" || tab === "help") && (React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" } }, [["procedures", "\uD83D\uDCCB Procedure"], ["help", "❓ Guida"]].map(pair => (React.createElement("button", { key: pair[0], onClick: () => setTab(pair[0]), style: { background: tab === pair[0] ? "#2dd4bf22" : "var(--card)", border: "1px solid " + (tab === pair[0] ? "#2dd4bf" : "var(--border-2)"), borderRadius: 999, padding: "7px 16px", color: tab === pair[0] ? "#5eead4" : "var(--text-2)", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, pair[1]))))),
-tab === "help" && React.createElement(HelpTab, { helpOpen: helpOpen, setHelpOpen: setHelpOpen }),
+(tab === "help" || tab === "procedures") && React.createElement(HelpTab, { helpOpen: helpOpen, setHelpOpen: setHelpOpen }),
 tab === "instruments" && (React.createElement(InstrumentsPage, { instruments: instruments, setInstruments: setInstruments, showToast: showToast, checkLocked: checkLocked })),
-tab === "procedures" && (React.createElement(ProceduresPage, { procedures: procedures, setProcedures: setProcedures, assets: assets, showToast: showToast, moveToTrash: moveToTrash })),
 tab === "recalls" && (React.createElement(RecallsPage, { recalls: recalls, setRecalls: setRecalls, assets: assets, customers: customers, showToast: showToast, moveToTrash: moveToTrash, checkLocked: checkLocked, openRecallId: recallFocus, onRecallFocused: function () { setRecallFocus(null); } })),
 tab === "quotes" && (React.createElement(QuotesPage, { checkLocked: checkLocked, quotes: quotes, setQuotes: setQuotes, customers: customers, jobs: jobs, parts: parts, company: company, showToast: showToast, moveToTrash: moveToTrash })),
 (tab === "agenda" || tab === "scadenze") && (React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" } }, [["agenda", "\uD83D\uDCC5 Agenda manutenzioni"], ["scadenze", "⏰ Scadenze verifiche"]].map(pair => (React.createElement("button", { key: pair[0], onClick: () => setTab(pair[0]), style: { background: tab === pair[0] ? "#2dd4bf22" : "var(--card)", border: "1px solid " + (tab === pair[0] ? "#2dd4bf" : "var(--border-2)"), borderRadius: 999, padding: "7px 16px", color: tab === pair[0] ? "#5eead4" : "var(--text-2)", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, pair[1]))))),
