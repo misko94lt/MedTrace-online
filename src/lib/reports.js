@@ -1,7 +1,9 @@
+import { QUOTE_STATUS_COLOR } from "../constants/ui.js";
+import { jobShortCode, jobTipoLabel } from "./util.js";
 /* Generatori HTML/PDF dei report (funzionale, IEC), stile PDF, registro strumenti (privato, con setter),
    naming file, export bulk ZIP. Estratto da app.js, fase 1 - unico ritocco: setter del registro (ESM read-only). */
 import { __awaiter, __rest } from "./tslib.js";
-import { mtEnsurePdfLibs, mtRenderReportPdfBlob, downloadJSON, openPrintWindow } from "./export.js";
+import { mtEnsurePdfLibs, mtRenderReportPdfBlob, downloadJSON, openPrintWindow, showPDFPreview } from "./export.js";
 import { FUNC_TEMPLATES, cndToTemplate, guessTemplate } from "../constants/funcTemplates.js";
 
 function mtBulkExportZip(reports, kind, ctx, onProgress, onDone, onError) {
@@ -626,4 +628,232 @@ var html = '<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>PP
 + '<div style="margin-top:14px;padding:9px 11px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;font-size:7.8px;color:#64748b;line-height:1.5"><div style="font-weight:700;color:#475569;margin-bottom:3px">Avvertenze e limitazioni</div><b>a)</b> Verbale di verifica, non atto di certificazione; i risultati si riferiscono al solo esemplare provato e alle prove eseguite. &nbsp; <b>b)</b> Sicurezza elettrica secondo IEC 62353 (CEI EN 62353); le prove funzionali sono buona tecnica di categoria, per il singolo modello prevale il manuale del fabbricante. &nbsp; <b>c)</b> L\'esito positivo attesta che i parametri rientrano nei valori previsti, non l\'idoneità a impieghi specifici (riferirsi a normative e linee guida). &nbsp; <b>d)</b> ' + esc(company.name || '[Ragione sociale]') + ' non risponde di danni derivanti dall\'inosservanza dei manuali del fabbricante; il Cliente è tenuto a usare l\'apparecchio secondo le istruzioni del Costruttore.</div>'
 + '</div></div></body></html>';
 openPrintWindow(html);
+}
+
+/* — PDF intervento e preventivo (spostati col taglio job/fatturazione, v3.02) — */
+export function generateJobPDF(job, assets, parts, customers, company) {
+const asset = assets.find(a => a.id === job.assetId) || {};
+const customer = customers.find(c => c.id === (job.customerId || asset.customerId)) || {};
+const partsTotal = (job.parts || []).reduce((s, p) => {
+const pt = parts.find(x => x.id === p.partId);
+return s + (pt ? (pt.sellPrice || pt.unitPrice) * p.qty : 0);
+}, 0);
+const laborTotal = job.laborHours * job.laborRate;
+const total = partsTotal + laborTotal;
+const PRI = { urgente: '#dc2626', alta: '#ea580c', normale: '#7c3aed', bassa: '#6b7280' };
+const STA = { aperto: '#2563eb', 'in corso': '#d97706', chiuso: '#059669', 'fuori servizio': '#dc2626' };
+const partsRows = (job.parts || []).map(p => {
+const pt = parts.find(x => x.id === p.partId) || {};
+const price = pt.sellPrice || pt.unitPrice || 0;
+return `<tr>
+<td style="font-family:monospace;font-size:10px">${pt.code || p.partId}</td>
+<td>${pt.name || '—'}</td>
+<td style="text-align:right">${p.qty}</td>
+<td style="text-align:right">€${price.toFixed(2)}</td>
+<td style="text-align:right;font-weight:700">€${(price * p.qty).toFixed(2)}</td>
+</tr>`;
+}).join('');
+const tlRows = (job.timeline || []).map(t => `
+<tr>
+<td>${t.date}</td>
+<td>${t.type}</td>
+<td>${t.note || '—'}</td>
+<td style="text-align:right">${t.hours ? t.hours + 'h' : '—'}</td>
+</tr>`).join('');
+const html = `<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8">
+<title>Rapporto ${jobShortCode(job)}</title>
+<style>${PDF_STYLE}</style></head><body><div class="wrap"><div class="side"></div><div class="main">
+<div class="header">
+<div>${company.logo ? `<img src="${company.logo}" class="brand-logo"/>` : `<h1>${(company.name || 'Documento')}</h1>`}${(company.logo && company.logoHasName) ? '' : `<div class="sub" style="font-weight:700;color:#0F172A;font-size:13px">${company.name || ''}</div>`}<div class="sub">${company.subtitle || ''}</div></div>
+<div class="right">
+<div class="doctype">Rapporto di intervento</div>
+<div class="docnum">${jobShortCode(job)} · ${job.openDate || ""}</div>
+<div style="font-size:10px;margin-top:4px">
+<span class="badge" style="background:${PRI[job.priority] || '#6b7280'}22;color:${PRI[job.priority] || '#6b7280'};border:1px solid ${PRI[job.priority] || '#6b7280'}44">${job.priority.toUpperCase()}</span>
+&nbsp;<span class="badge" style="background:${STA[job.status] || '#6b7280'}22;color:${STA[job.status] || '#6b7280'};border:1px solid ${STA[job.status] || '#6b7280'}44">${job.status.toUpperCase()}</span>
+</div>
+</div>
+</div>
+${customer.name ? `<div class="section">
+<div class="section-title">Cliente</div>
+<div class="kv-grid">
+<div class="kv"><span class="kv-label">Ragione sociale</span><span class="kv-value">${customer.name}</span></div>
+${customer.vat ? `<div class="kv"><span class="kv-label">P.IVA</span><span class="kv-value">${customer.vat}</span></div>` : ''}
+${customer.address ? `<div class="kv"><span class="kv-label">Indirizzo</span><span class="kv-value">${customer.address}</span></div>` : ''}
+</div>
+</div>` : ''}
+<div class="section">
+<div class="section-title">Apparecchio</div>
+<div class="kv-grid">
+<div class="kv"><span class="kv-label">Nome</span><span class="kv-value">${asset.name || job.assetId}</span></div>
+<div class="kv"><span class="kv-label">Marca / Modello</span><span class="kv-value">${asset.brand || ''} ${asset.model || ''}</span></div>
+<div class="kv"><span class="kv-label">N° Serie</span><span class="kv-value" style="font-family:monospace">${asset.serial || '—'}</span></div>
+<div class="kv"><span class="kv-label">Ubicazione</span><span class="kv-value">${asset.location || '—'}</span></div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Dettagli Intervento</div>
+<div class="kv-grid">
+<div class="kv"><span class="kv-label">Tipo</span><span class="kv-value" style="text-transform:capitalize">${job.type}</span></div>
+<div class="kv"><span class="kv-label">Tecnico</span><span class="kv-value">${job.assignee || '—'}</span></div>
+<div class="kv"><span class="kv-label">Data apertura</span><span class="kv-value">${job.openDate}</span></div>
+<div class="kv"><span class="kv-label">Data chiusura</span><span class="kv-value">${job.closeDate || '—'}</span></div>
+</div>
+${job.description ? `<div class="desc-box" style="margin-top:8px">${job.description}</div>` : ''}
+${(job.timeline && job.timeline.length > 0) ? `
+<div style="margin-top:14px;padding-top:10px;border-top:1px solid #e5e7eb">
+<div style="font-size:11px;font-weight:700;color:#1e293b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Timeline interventi</div>
+<table style="width:100%;font-size:10px;border-collapse:collapse">
+<thead><tr style="background:#f1f5f9;color:#64748b">
+<th style="padding:5px 6px;text-align:left;border:1px solid #cbd5e1;width:90px">Data / Ora</th>
+<th style="padding:5px 6px;text-align:left;border:1px solid #cbd5e1;width:140px">Tipo</th>
+<th style="padding:5px 6px;text-align:left;border:1px solid #cbd5e1">Descrizione</th>
+<th style="padding:5px 6px;text-align:right;border:1px solid #cbd5e1;width:50px">Min.</th>
+<th style="padding:5px 6px;text-align:left;border:1px solid #cbd5e1;width:100px">Tecnico</th>
+</tr></thead>
+<tbody>
+${job.timeline.map(t => `
+<tr>
+<td style="padding:5px 6px;border:1px solid #e5e7eb;font-family:monospace">${t.date || ''} ${t.time || ''}</td>
+<td style="padding:5px 6px;border:1px solid #e5e7eb">${(t.type || '').replace(/_/g, ' ')}</td>
+<td style="padding:5px 6px;border:1px solid #e5e7eb">${t.description || ''}</td>
+<td style="padding:5px 6px;border:1px solid #e5e7eb;text-align:right;font-family:monospace">${t.durationMin || 0}</td>
+<td style="padding:5px 6px;border:1px solid #e5e7eb">${t.technician || ''}</td>
+</tr>
+`).join('')}
+</tbody>
+<tfoot><tr style="background:#f8fafc;font-weight:700">
+<td colspan="3" style="padding:5px 6px;border:1px solid #e5e7eb;text-align:right">Tempo totale lavorato:</td>
+<td style="padding:5px 6px;border:1px solid #e5e7eb;text-align:right;font-family:monospace">${job.timeline.reduce((s, t) => s + (+t.durationMin || 0), 0)}</td>
+<td style="padding:5px 6px;border:1px solid #e5e7eb;font-family:monospace">${(job.timeline.reduce((s, t) => s + (+t.durationMin || 0), 0) / 60).toFixed(1)}h</td>
+</tr></tfoot>
+</table>
+</div>` : ''}
+${job.notes ? `<div style="margin-top:6px;font-size:10px;color:#64748b"><strong>Note:</strong> ${job.notes}</div>` : ''}
+</div>
+<div class="section">
+<div class="section-title">Parti Utilizzate</div>
+<table>
+<thead><tr><th>Codice</th><th>Parte</th><th style="text-align:right">Qtà</th><th style="text-align:right">P. Unit.</th><th style="text-align:right">Totale</th></tr></thead>
+<tbody>${partsRows || '<tr><td colspan="5" style="text-align:center;color:#94a3b8">Nessuna parte utilizzata</td></tr>'}</tbody>
+</table>
+</div>
+${tlRows ? `<div class="section">
+<div class="section-title">Cronologia Intervento</div>
+<table>
+<thead><tr><th>Data</th><th>Tipo</th><th>Descrizione</th><th style="text-align:right">Ore</th></tr></thead>
+<tbody>${tlRows}</tbody>
+</table>
+</div>` : ''}
+<div style="display:flex;justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:4px;margin-top:4px">
+<div style="display:flex;justify-content:space-between;width:260px;padding:4px 0;border-bottom:1px solid #e2e8f0"><span style="color:#64748b">Parti</span><span style="font-weight:700">€${partsTotal.toFixed(2)}</span></div>
+<div style="display:flex;justify-content:space-between;width:260px;padding:4px 0;border-bottom:1px solid #e2e8f0"><span style="color:#64748b">Manodopera (${job.laborHours}h × €${job.laborRate}/h)</span><span style="font-weight:700">€${laborTotal.toFixed(2)}</span></div>
+<div class="total-box" style="width:260px"><span class="label">TOTALE INTERVENTO</span><span class="amount">€${total.toFixed(2)}</span></div>
+</div>
+<div style="margin-top:32px;display:flex">
+<div style="width:200px;border-top:1px solid #94a3b8;padding-top:6px;text-align:center;font-size:10px;color:#64748b">Firma Tecnico Verificatore<br><br>${job.assignee || ''}</div>
+</div>
+<div class="footer">
+<span>${(company.name || 'Documento')} — Generato il ${new Date().toLocaleDateString('it-IT')}</span>
+<span>${job.id} · ${asset.serial || ''}</span>
+</div>
+</div></div></body></html>`;
+openPrintWindow(html);
+}
+export function generateQuotePDF(quote, customer, company, assets, jobs) {
+var _a, _b, _c, _d, _e;
+const job = jobs === null || jobs === void 0 ? void 0 : jobs.find(j => j.id === quote.jobId);
+const asset = job ? assets === null || assets === void 0 ? void 0 : assets.find(a => a.id === job.assetId) : null;
+const sc = QUOTE_STATUS_COLOR[quote.status] || '#64748b';
+const grand = ((_a = quote._totals) === null || _a === void 0 ? void 0 : _a.grand) || 0;
+const subtotal = ((_b = quote._totals) === null || _b === void 0 ? void 0 : _b.subtotal) || 0;
+const vatAmt = ((_c = quote._totals) === null || _c === void 0 ? void 0 : _c.vat) || 0;
+const laborRows = (quote.laborLines || []).map(l => `<tr><td>${l.label}</td><td style="text-align:center">${l.hours}h × €${l.rate}/h</td><td style="text-align:right;font-weight:700">€${(l.hours * l.rate).toFixed(2)}</td></tr>`).join('');
+const partRows = (quote.partLines || []).map(l => `<tr><td>${l.type === 'warehouse' ? '\uD83D\uDCE6 ' : ''}${l.description}</td><td style="text-align:center">${l.qty} × €${Number(l.unitPrice).toFixed(2)}${!quote.vatExempt ? ` (+${l.vat}% IVA)` : ''}</td><td style="text-align:right;font-weight:700">€${(l.qty * l.unitPrice).toFixed(2)}</td></tr>`).join('');
+const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1a2e; background: #fff; }
+.header { background: linear-gradient(135deg, #2dd4bf, #1F7468); color: white; padding: 28px 32px; display: flex; justify-content: space-between; align-items: flex-start; }
+.header h1 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+.header .sub { font-size: 10px; opacity: .85; line-height: 1.5; }
+.header-logo { height: 28px !important; width: 36px !important; max-height:28px !important; max-width:36px !important; object-fit:contain; display:block; margin-bottom:8px; }
+.badge { display:inline-block; background:rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.4); border-radius:6px; padding:4px 12px; font-size:13px; font-weight:800; margin-top:6px; }
+.body { padding: 24px 32px; }
+.meta-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.meta-box { background:#f8fafc; border-radius:8px; padding:12px 14px; }
+.meta-label { font-size:9px; color:#64748b; text-transform:uppercase; letter-spacing:.7px; font-weight:700; margin-bottom:4px; }
+.meta-value { font-size:13px; font-weight:700; color:#1a1a2e; }
+.section-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#64748b; margin-bottom:8px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-top:18px; }
+table { width:100%; border-collapse:collapse; font-size:11px; }
+th { background:#f1f5f9; text-align:left; padding:7px 10px; font-size:9px; text-transform:uppercase; letter-spacing:.5px; color:#64748b; font-weight:700; }
+td { padding:7px 10px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+.totals { margin-top:16px; background:#f8fafc; border-radius:8px; padding:14px 16px; }
+.total-row { display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; color:#475569; }
+.total-grand { display:flex; justify-content:space-between; font-size:16px; font-weight:900; color:#1F7468; padding-top:8px; border-top:2px solid #2dd4bf; margin-top:8px; }
+.notes { margin-top:16px; background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 14px; font-size:11px; color:#92400e; }
+.footer { margin-top:24px; padding-top:10px; border-top:1px solid #e2e8f0; text-align:center; font-size:9px; color:#94a3b8; }
+.validity { font-size:10px; opacity:.8; margin-top:4px; }
+</style></head><body><div class="wrap"><div class="side"></div><div class="main">
+<div class="header">
+<div>
+${company.logo ? `<img src="${company.logo}" class="brand-logo"/>` : ''}
+${(company.logo && company.logoHasName) ? '' : `<h1>${(company.name || 'Documento')}</h1>`}
+<div class="sub">${company.subtitle || 'Gestione Apparecchiature Elettromedicali'}</div>
+${company.address ? `<div class="sub">${company.address}</div>` : ''}
+${company.vat ? `<div class="sub">P.IVA: ${company.vat}</div>` : ''}
+</div>
+<div style="text-align:right">
+<div style="font-size:11px;opacity:.8;margin-bottom:4px">PREVENTIVO</div>
+<div style="font-size:26px;font-weight:900;letter-spacing:-1px">${quote.number}</div>
+<div class="validity">Data: ${quote.date}</div>
+${quote.validUntil ? `<div class="validity">Valido fino al: ${quote.validUntil}</div>` : ''}
+<div class="badge">${(quote.status || '').toUpperCase()}</div>
+</div>
+</div>
+<div class="body">
+<div class="meta-grid">
+<div class="meta-box">
+<div class="meta-label">Cliente</div>
+<div class="meta-value">${(customer === null || customer === void 0 ? void 0 : customer.name) || '—'}</div>
+${(customer === null || customer === void 0 ? void 0 : customer.address) ? `<div style="font-size:11px;color:#475569;margin-top:3px">${customer.address}</div>` : ''}
+${(customer === null || customer === void 0 ? void 0 : customer.vat) ? `<div style="font-size:11px;color:#475569">P.IVA: ${customer.vat}</div>` : ''}
+</div>
+<div class="meta-box">
+<div class="meta-label">Oggetto</div>
+<div class="meta-value">${asset ? asset.name : (job ? `Rif. job ${job.id}` : 'Intervento tecnico')}</div>
+${(asset === null || asset === void 0 ? void 0 : asset.brand) || (asset === null || asset === void 0 ? void 0 : asset.model) ? `<div style="font-size:11px;color:#475569;margin-top:2px">${[asset.brand, asset.model].filter(Boolean).join(' ')}</div>` : ''}
+${(asset === null || asset === void 0 ? void 0 : asset.serial) ? `<div style="font-size:11px;color:#475569">S/N: ${asset.serial}</div>` : ''}
+${job ? `<div style="font-size:10px;color:#94a3b8;margin-top:2px">Rif. job: ${job.id}</div>` : ''}
+</div>
+</div>
+${(quote.laborLines || []).length > 0 ? `
+<div class="section-title">Manodopera</div>
+<table>
+<thead><tr><th style="width:60%">Descrizione</th><th style="width:25%">Dettaglio</th><th style="width:15%">Importo</th></tr></thead>
+<tbody>${laborRows}</tbody>
+</table>` : ''}
+${(quote.partLines || []).length > 0 ? `
+<div class="section-title">Materiali e Ricambi</div>
+<table>
+<thead><tr><th style="width:55%">Descrizione</th><th style="width:30%">Q.tà × Prezzo</th><th style="width:15%">Importo</th></tr></thead>
+<tbody>${partRows}</tbody>
+</table>` : ''}
+<div class="totals">
+<div class="total-row"><span>Manodopera</span><span>€${(((_d = quote._totals) === null || _d === void 0 ? void 0 : _d.labor) || 0).toFixed(2)}</span></div>
+<div class="total-row"><span>Materiali</span><span>€${(((_e = quote._totals) === null || _e === void 0 ? void 0 : _e.parts) || 0).toFixed(2)}</span></div>
+<div class="total-row"><span>Imponibile</span><span>€${subtotal.toFixed(2)}</span></div>
+${!quote.vatExempt ? `<div class="total-row"><span>IVA</span><span>€${vatAmt.toFixed(2)}</span></div>` : '<div class="total-row"><span>Esente IVA</span><span>—</span></div>'}
+<div class="total-grand"><span>TOTALE</span><span>€${grand.toFixed(2)}</span></div>
+</div>
+${quote.paymentTerms ? `<div style="margin-top:14px;font-size:11px;color:#475569"><strong>Condizioni di pagamento:</strong> ${quote.paymentTerms}</div>` : ''}
+${quote.notes ? `<div class="notes"><strong>Note:</strong> ${quote.notes}</div>` : ''}
+<div class="footer">
+${(company.name || 'Documento')} — Preventivo generato il ${new Date().toLocaleDateString('it-IT')}<br>
+Questo documento non ha valore fiscale — per la fatturazione utilizzare il software di fatturazione elettronica
+</div>
+</div>
+</div></div></body></html>`;
+showPDFPreview(html, `preventivo-${quote.number}.pdf`);
 }

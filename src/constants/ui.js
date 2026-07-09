@@ -47,3 +47,12 @@ export const CATEGORIES = ['Tester IEC/Sicurezza elettrica', 'Multimetro', 'Osci
 
 /* — footer standard dei form (spostato col taglio apparecchi, v3.00) — */
 export const FORM_FOOTER = { display: "flex", gap: 10, justifyContent: "flex-end", paddingTop: 16, marginTop: 16, borderTop: "1px solid var(--border-2)" };
+
+/* — colori stato preventivi (spostati col taglio fatturazione, v3.02) — */
+export const QUOTE_STATUS_COLOR = {
+'bozza': 'var(--text-3)',
+'inviato': '#3b82f6',
+'accettato': '#22c55e',
+'rifiutato': '#ef4444',
+'scaduto': '#f59e0b',
+};
