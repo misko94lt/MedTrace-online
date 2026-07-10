@@ -762,8 +762,7 @@ const jobSign = (job.technicianSignature || job.departmentSignature) ? ('<div cl
 + (job.technicianSignature ? '<div style="flex:1;max-width:260px"><img src="' + job.technicianSignature + '" style="max-height:55px;max-width:200px;display:block;margin:0 auto"/><div style="border-top:1px solid #94A3B8;padding-top:4px;font-size:9.5px;color:#64748B">Firma Tecnico<br/><strong style="color:#1e293b;font-size:11px">' + (job.assignee || '') + '</strong></div></div>' : '')
 + (job.departmentSignature ? '<div style="flex:1;max-width:260px"><img src="' + job.departmentSignature + '" style="max-height:55px;max-width:200px;display:block;margin:0 auto"/><div style="border-top:1px solid #94A3B8;padding-top:4px;font-size:9.5px;color:#64748B">Firma Referente Reparto</div></div>' : '')
 + '</div>') : '';
-html = html.replace('</body>', jobSign + '</body>');
-openPrintWindow(html);
+openPrintWindow(html.replace('</body>', jobSign + '</body>'));
 }
 export function generateQuotePDF(quote, customer, company, assets, jobs) {
 var _a, _b, _c, _d, _e;
