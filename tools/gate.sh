@@ -11,6 +11,7 @@ echo "GATE eslint baseline OK (2 problems attesi: DEMO_SEED)"
 node test/boot_check.js
 node test/render_check.js
 node test/wizard_check.js
+node test/pdf_check.js
 node test/validate.cjs
 npm run build 2>&1 | tail -1
 echo "GATE COMPLETO: TUTTO VERDE"
