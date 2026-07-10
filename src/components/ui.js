@@ -722,3 +722,99 @@ return React.createElement("svg", { width: 17, height: 17, viewBox: "0 0 24 24",
 export const ICON_MONITOR = _ic([React.createElement("rect", { key: "a", x: 2, y: 3, width: 20, height: 14, rx: 2 }), React.createElement("path", { key: "b", d: "M8 21h8M12 17v4" })]);
 export const ICON_TOOL = _ic(React.createElement("path", { d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" }));
 export const ICON_BUILDING = _ic([React.createElement("rect", { key: "a", x: 4, y: 3, width: 16, height: 18, rx: 1 }), React.createElement("path", { key: "b", d: "M9 8h.01M15 8h.01M9 12h.01M15 12h.01M10 21v-4h4v4" })]);
+
+/* — filtro a tendina, ricerca mobile, card swipe (spostati col taglio strumenti, v3.05) — */
+export const MobileSearch = ({ value, onChange, count, total, placeholder }) => (React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "8px 12px", marginBottom: 10 } },
+React.createElement("span", { style: { fontSize: 14, color: "var(--text-3)" } }, "\uD83D\uDD0D"),
+React.createElement("input", { "data-mt-search": "1", value: value, onChange: e => onChange(e.target.value), placeholder: placeholder || "Cerca…", style: { flex: 1, background: "transparent", border: "none", color: "var(--text)", fontSize: 14, outline: "none", minWidth: 0 } }),
+value && (React.createElement("button", { onClick: () => onChange(""), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 16, cursor: "pointer", padding: "0 4px", touchAction: "manipulation" } }, "\u2715")),
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap" } },
+count,
+"/",
+total)));
+export const SwipeableCard = ({ children, onDelete, threshold = 80 }) => {
+const [dx, setDx] = React.useState(0);
+const [startX, setStartX] = React.useState(null);
+const [startY, setStartY] = React.useState(null);
+const [locked, setLocked] = React.useState(false);
+const onTouchStart = (e) => {
+const t = e.touches[0];
+setStartX(t.clientX);
+setStartY(t.clientY);
+setLocked(false);
+};
+const onTouchMove = (e) => {
+if (startX === null)
+return;
+const t = e.touches[0];
+const deltaX = t.clientX - startX;
+const deltaY = t.clientY - startY;
+if (!locked) {
+if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+setLocked(true);
+}
+else if (Math.abs(deltaY) > 8) {
+setStartX(null);
+setStartY(null);
+setDx(0);
+return;
+}
+}
+if (locked) {
+if (deltaX < 0)
+setDx(Math.max(deltaX, -140));
+else
+setDx(0);
+}
+};
+const onTouchEnd = () => {
+if (dx < -threshold) {
+setDx(-100);
+setTimeout(() => { onDelete && onDelete(); setDx(0); }, 80);
+}
+else {
+setDx(0);
+}
+setStartX(null);
+setStartY(null);
+setLocked(false);
+};
+return (React.createElement("div", { style: { position: "relative", overflow: "hidden", borderRadius: 12 } },
+React.createElement("div", { style: { position: "absolute", inset: 0, background: "linear-gradient(90deg, transparent 0%, #ef4444 60%)", display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 20px", pointerEvents: "none" } },
+React.createElement("span", { style: { color: "#fff", fontSize: 14, fontWeight: 800, opacity: dx < -30 ? 1 : 0, transition: "opacity .15s" } }, "\u2715 Elimina")),
+React.createElement("div", { onTouchStart: onTouchStart, onTouchMove: onTouchMove, onTouchEnd: onTouchEnd, style: {
+transform: `translateX(${dx}px)`,
+transition: startX === null ? "transform .2s ease" : "none",
+position: "relative",
+background: "transparent",
+} }, children)));
+};
+export const FilterDropdown = ({ filters, onChange, onClearAll }) => {
+const [open, setOpen] = React.useState(false);
+const activeCount = Object.values(filters).filter(f => f.value).length;
+return (React.createElement("div", { style: { marginBottom: 10 } },
+React.createElement("button", { onClick: () => setOpen(o => !o), style: {
+width: "100%",
+display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8,
+background: activeCount > 0 ? "#2dd4bf15" : "var(--bg-2)",
+border: "1px solid " + (activeCount > 0 ? "#2dd4bf55" : "var(--border-2)"),
+borderRadius: 10, padding: "9px 14px",
+color: activeCount > 0 ? "#2dd4bf" : "var(--text-2)", fontSize: 13, fontWeight: 700,
+cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
+} },
+React.createElement("span", { style: { display: "flex", alignItems: "center", gap: 8 } },
+"Filtri ",
+activeCount > 0 && React.createElement("span", { style: { background: "#2dd4bf", color: "#000", borderRadius: 10, padding: "1px 8px", fontSize: 11, fontWeight: 800 } }, activeCount)),
+React.createElement("span", { style: { fontSize: 11, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" } }, "\u25BC")),
+open && (React.createElement("div", { style: { marginTop: 8, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10 } },
+Object.entries(filters).map(([key, fdef]) => (React.createElement("div", { key: key },
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 5 } }, fdef.label),
+React.createElement("select", { value: fdef.value, onChange: e => onChange(key, e.target.value), style: {
+width: "100%", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6,
+padding: "7px 10px", color: "var(--text)", fontSize: 13, outline: "none",
+fontFamily: "inherit", appearance: "none", paddingRight: 30,
+} },
+React.createElement("option", { value: "" }, "\u2014 Tutti \u2014"),
+fdef.options.map(opt => (React.createElement("option", { key: opt, value: opt }, opt))))))),
+activeCount > 0 && (React.createElement("button", { onClick: onClearAll, style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 6, padding: "7px 10px", cursor: "pointer", fontSize: 12, fontWeight: 700, marginTop: 4, touchAction: "manipulation" } }, "\u2715 Pulisci tutti i filtri"))))));
+};
