@@ -1,3 +1,4 @@
+import { t, getLang, setLang } from "../constants/i18n.js";
 /* MedTrace — impostazioni: azienda, tecnici, permessi, storage, import RFID, migrazione foto, abbonamento (estratti da app.js, v3.06) */
 import { Inp, Modal, Grid, Span2, appConfirm, EmptyState } from "./ui.js";
 import { Btn, TecniciManager } from "./shared.js";
@@ -418,6 +419,11 @@ alert("Dati azienda salvati.");
 }
 }) }, "Salva dati azienda")))),
 React.createElement(Section, { icon: "\u2699\uFE0F", title: "Preferenze" },
+React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 10 } },
+React.createElement("span", { style: { fontSize: 13, color: "var(--text)" } }, t("Lingua dell'app")),
+React.createElement("select", { value: getLang(), onChange: e => setLang(e.target.value), style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 13 } },
+React.createElement("option", { value: "it" }, "Italiano"),
+React.createElement("option", { value: "en" }, "English"))),
 React.createElement("div", { onClick: () => { const v = !comp.stickerPrompt; setComp(x => (Object.assign(Object.assign({}, x), { stickerPrompt: v }))); onUpdateCompany(Object.assign(Object.assign({}, company), { stickerPrompt: v })); }, style: { display: "flex", alignItems: "flex-start", gap: 12, cursor: "pointer" } },
 React.createElement("div", { style: {
 width: 46, height: 27, borderRadius: 14, flexShrink: 0, marginTop: 1,
