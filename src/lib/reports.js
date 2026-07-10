@@ -862,3 +862,215 @@ Questo documento non ha valore fiscale — per la fatturazione utilizzare il sof
 </div></div></body></html>`;
 showPDFPreview(html, `preventivo-${quote.number}.pdf`);
 }
+
+/* — PDF fattura e report cliente (trasloco finale, v3.07) — */
+export function generateInvoicePDF(invoice, customer, jobs, assets, parts, company) {
+const subtotal = (invoice.items || []).reduce((s, it) => s + it.qty * it.unitPrice, 0);
+const totalVAT = (invoice.items || []).reduce((s, it) => s + it.qty * it.unitPrice * it.vat / 100, 0);
+const grandTotal = subtotal + totalVAT;
+const STA = { bozza: '#6b7280', emessa: '#2563eb', pagata: '#059669', scaduta: '#dc2626', annullato: '#dc2626' };
+const itemRows = (invoice.items || []).map(it => `<tr>
+<td>${it.description}</td>
+<td style="text-align:right">${it.qty}</td>
+<td style="text-align:right">€${it.unitPrice.toFixed(2)}</td>
+<td style="text-align:right">${it.vat}%</td>
+<td style="text-align:right;font-weight:700">€${(it.qty * it.unitPrice).toFixed(2)}</td>
+</tr>`).join('');
+const html = `<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8">
+<title>Preventivo ${invoice.number}</title>
+<style>${PDF_STYLE}</style></head><body><div class="wrap"><div class="side"></div><div class="main">
+<div class="header">
+<div>
+${company.logo ? `<img src="${company.logo}" class="brand-logo"/>` : `<h1>${(company.name || 'Documento')}</h1>`}
+${(company.logo && company.logoHasName) ? '' : `<div class="sub" style="font-weight:700;color:#0F172A;font-size:13px">${company.name || ''}</div>`}
+<div class="sub">${company.address || ''}</div>
+${company.vat ? `<div class="sub">P.IVA: ${company.vat}</div>` : ''}
+</div>
+<div class="right">
+<div class="doctype">Preventivo</div>
+<div class="docnum">${invoice.number}</div>
+<div style="font-size:10px;margin-top:4px">
+<span class="badge" style="background:${STA[invoice.status] || '#6b7280'}22;color:${STA[invoice.status] || '#6b7280'};border:1px solid ${STA[invoice.status] || '#6b7280'}44">${invoice.status.toUpperCase()}</span>
+</div>
+<div style="font-size:10px;margin-top:4px;opacity:.8">Data: ${invoice.date}${invoice.dueDate ? ' · Scad: ' + invoice.dueDate : ''}</div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Cliente</div>
+<div style="font-size:14px;font-weight:700;margin-bottom:4px">${(customer === null || customer === void 0 ? void 0 : customer.name) || '—'}</div>
+${(customer === null || customer === void 0 ? void 0 : customer.address) ? `<div style="font-size:11px;color:#64748b">${customer.address}</div>` : ''}
+${(customer === null || customer === void 0 ? void 0 : customer.vat) ? `<div style="font-size:11px;color:#64748b">P.IVA: ${customer.vat}</div>` : ''}
+${(customer === null || customer === void 0 ? void 0 : customer.fiscalCode) ? `<div style="font-size:11px;color:#64748b">C.F.: ${customer.fiscalCode}</div>` : ''}
+</div>
+<div class="section">
+<div class="section-title">Voci Preventivo</div>
+<table>
+<thead><tr><th>Descrizione</th><th style="text-align:right">Q.tà</th><th style="text-align:right">Prezzo Unit.</th><th style="text-align:right">IVA</th><th style="text-align:right">Importo</th></tr></thead>
+<tbody>${itemRows}</tbody>
+</table>
+</div>
+<div style="display:flex;justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:4px">
+<div style="display:flex;justify-content:space-between;width:280px;padding:4px 0;border-bottom:1px solid #e2e8f0"><span style="color:#64748b">Imponibile</span><span style="font-weight:700">€${subtotal.toFixed(2)}</span></div>
+<div style="display:flex;justify-content:space-between;width:280px;padding:4px 0;border-bottom:1px solid #e2e8f0"><span style="color:#64748b">IVA</span><span style="font-weight:700">€${totalVAT.toFixed(2)}</span></div>
+<div class="total-box" style="width:280px"><span class="label">TOTALE FATTURA</span><span class="amount">€${grandTotal.toFixed(2)}</span></div>
+</div>
+${invoice.paymentTerms ? `<div style="margin-top:16px;padding:10px;background:#f8fafc;border-radius:4px;font-size:10px"><strong>Modalità di pagamento:</strong> ${invoice.paymentTerms}${company.iban ? '<br><strong>IBAN:</strong> ' + company.iban : ''}</div>` : ''}
+${invoice.notes ? `<div style="margin-top:8px;font-size:10px;color:#64748b"><strong>Note:</strong> ${invoice.notes}</div>` : ''}
+<div class="footer">
+<span>${(company.name || 'Documento')} — Generato il ${new Date().toLocaleDateString('it-IT')}</span>
+<span>${invoice.number}</span>
+</div>
+</div></div></body></html>`;
+openPrintWindow(html);
+}
+export function generateClientReportPDF(customer, assets, iecReports, funcReports, jobs, company) {
+const myAssets = assets.filter(a => a.customerId === customer.id);
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const STATUS_LABEL = {
+operativo: "Operativo", "in manutenzione": "In manutenzione",
+"fuori servizio": "Fuori servizio", dismesso: "Dismesso",
+};
+const STATUS_COLOR = {
+operativo: "#059669", "in manutenzione": "#d97706",
+"fuori servizio": "#dc2626", dismesso: "#6b7280",
+};
+const totOperativi = myAssets.filter(a => a.status === "operativo" || !a.status).length;
+const totFuoriServizio = myAssets.filter(a => a.status === "fuori servizio").length;
+const scadute = myAssets.filter(a => {
+if (!a.nextService)
+return false;
+const d = new Date(a.nextService);
+d.setHours(0, 0, 0, 0);
+return d < today;
+}).length;
+const verificheCliente = iecReports.filter(r => r.customerId === customer.id).length
++ funcReports.filter(r => r.customerId === customer.id).length;
+const sorted = [...myAssets].sort((a, b) => {
+if (!a.nextService)
+return 1;
+if (!b.nextService)
+return -1;
+return new Date(a.nextService) - new Date(b.nextService);
+});
+const rows = sorted.map(a => {
+const st = a.status || "operativo";
+let scadColor = "#1a202c", scadNote = "";
+if (a.nextService) {
+const d = new Date(a.nextService);
+d.setHours(0, 0, 0, 0);
+const days = Math.round((d - today) / 86400000);
+if (days < 0) {
+scadColor = "#dc2626";
+scadNote = " (scaduta)";
+}
+else if (days <= 30) {
+scadColor = "#d97706";
+scadNote = " (" + days + "gg)";
+}
+}
+return `<tr>
+<td style="font-weight:700">${a.name || "—"}</td>
+<td>${[a.brand, a.model].filter(Boolean).join(" ") || "—"}</td>
+<td style="font-family:monospace;font-size:10px">${a.serial || "—"}</td>
+<td>${a.location || "—"}</td>
+<td><span class="badge" style="background:${STATUS_COLOR[st]}22;color:${STATUS_COLOR[st]}">${STATUS_LABEL[st] || st}</span></td>
+<td>${a.lastService || "—"}</td>
+<td style="color:${scadColor};font-weight:${scadNote ? "700" : "400"}">${a.nextService ? a.nextService + scadNote : "—"}</td>
+</tr>`;
+}).join("");
+const assetById = {};
+myAssets.forEach(a => assetById[a.id] = a);
+const allVerifiche = [
+...iecReports.filter(r => r.customerId === customer.id || assetById[r.assetId])
+.map(r => {
+var _a, _b;
+return ({ date: r.date || "", kind: "Sicurezza elettrica", norm: r.norm === '61010' ? 'IEC 61010' : r.norm === '60601' ? 'IEC 60601-1' : 'EN 62353',
+asset: ((_a = assetById[r.assetId]) === null || _a === void 0 ? void 0 : _a.name) || "—", serial: ((_b = assetById[r.assetId]) === null || _b === void 0 ? void 0 : _b.serial) || "",
+num: r.reportNumber || r.id || "", pass: r.overallPass });
+}),
+...funcReports.filter(r => r.customerId === customer.id || assetById[r.assetId])
+.map(r => {
+var _a, _b;
+return ({ date: r.date || "", kind: "Funzionale", norm: r.templateName || r.template || "—",
+asset: ((_a = assetById[r.assetId]) === null || _a === void 0 ? void 0 : _a.name) || "—", serial: ((_b = assetById[r.assetId]) === null || _b === void 0 ? void 0 : _b.serial) || "",
+num: r.reportNumber || r.id || "", pass: r.overallPass });
+}),
+].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+const verRows = allVerifiche.map(v => {
+const esito = v.pass === true ? '<span class="badge" style="background:#05966922;color:#059669">CONFORME</span>'
+: v.pass === false ? '<span class="badge" style="background:#dc262622;color:#dc2626">NON CONF.</span>'
+: '<span class="badge" style="background:#94a3b822;color:#64748b">—</span>';
+return `<tr>
+<td>${v.date || "—"}</td>
+<td style="font-weight:700">${v.asset}</td>
+<td style="font-family:monospace;font-size:10px">${v.serial || "—"}</td>
+<td>${v.kind}</td>
+<td>${v.norm}</td>
+<td>${esito}</td>
+</tr>`;
+}).join("");
+const dateStr = new Date().toLocaleDateString("it-IT", { day: "2-digit", month: "long", year: "numeric" });
+const html = `<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8">
+<title>Report parco macchine - ${customer.name}</title>
+<style>${PDF_STYLE}
+.stat-row { display:flex; gap:10px; margin:12px 0; }
+.stat { flex:1; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; text-align:center; }
+.stat .n { font-size:22px; font-weight:900; color:#1F7468; }
+.stat .l { font-size:9px; color:#64748b; text-transform:uppercase; letter-spacing:.5px; margin-top:3px; }
+</style></head><body><div class="wrap"><div class="side"></div><div class="main">
+<div class="header">
+<div>
+${company.logo ? `<img src="${company.logo}" class="brand-logo"/>` : `<h1>${company.name || "Report"}</h1>`}
+${(company.logo && company.logoHasName) ? '' : `<div class="sub" style="font-weight:700;color:#0F172A;font-size:13px">${company.name || ''}</div>`}
+<div class="sub">${company.subtitle || ""}</div>
+</div>
+<div class="right">
+<div class="doctype">Fascicolo Parco Macchine</div>
+<div class="docdate">${dateStr}</div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Cliente</div>
+<div class="kv-grid">
+<div class="kv"><span class="kv-label">Ragione sociale</span><span class="kv-value">${customer.name}</span></div>
+${customer.vat ? `<div class="kv"><span class="kv-label">P.IVA</span><span class="kv-value">${customer.vat}</span></div>` : ""}
+${customer.address ? `<div class="kv"><span class="kv-label">Indirizzo</span><span class="kv-value">${customer.address}</span></div>` : ""}
+${customer.contact ? `<div class="kv"><span class="kv-label">Riferimento</span><span class="kv-value">${customer.contact}</span></div>` : ""}
+</div>
+</div>
+<div class="stat-row">
+<div class="stat"><div class="n">${myAssets.length}</div><div class="l">Apparecchi</div></div>
+<div class="stat"><div class="n" style="color:#059669">${totOperativi}</div><div class="l">Operativi</div></div>
+<div class="stat"><div class="n" style="color:${totFuoriServizio > 0 ? '#dc2626' : '#1F7468'}">${totFuoriServizio}</div><div class="l">Fuori servizio</div></div>
+<div class="stat"><div class="n" style="color:${scadute > 0 ? '#dc2626' : '#1F7468'}">${scadute}</div><div class="l">Verifiche scadute</div></div>
+<div class="stat"><div class="n">${verificheCliente}</div><div class="l">Verifiche svolte</div></div>
+</div>
+<div class="section">
+<div class="section-title">Elenco apparecchi (${myAssets.length})</div>
+${myAssets.length === 0 ? '<div style="color:#94a3b8;padding:16px;text-align:center">Nessun apparecchio registrato per questo cliente.</div>' : `
+<table>
+<thead><tr>
+<th>Apparecchio</th><th>Marca/Modello</th><th>N. Serie</th><th>Ubicazione</th>
+<th>Stato</th><th>Ultima manut.</th><th>Prossima manut.</th>
+</tr></thead>
+<tbody>${rows}</tbody>
+</table>`}
+</div>
+<div class="section">
+<div class="section-title">Elenco verifiche (${allVerifiche.length})</div>
+${allVerifiche.length === 0 ? '<div style="color:#94a3b8;padding:16px;text-align:center">Nessuna verifica registrata per questo cliente.</div>' : `
+<table>
+<thead><tr>
+<th>Data</th><th>Apparecchio</th><th>N. Serie</th><th>Tipo</th><th>Norma/Modello</th><th>Esito</th>
+</tr></thead>
+<tbody>${verRows}</tbody>
+</table>`}
+</div>
+<div class="footer">
+<div>${company.name || ""} ${company.vat ? "· P.IVA " + company.vat : ""}</div>
+<div>Generato il ${dateStr}</div>
+</div>
+</div></div></body></html>`;
+openPrintWindow(html);
+}

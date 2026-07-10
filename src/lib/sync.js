@@ -619,3 +619,23 @@ catch (e) { }
 return _subInfo;
 });
 }
+
+/* — boot dati con scelta locale/IDB (trasloco finale, v3.07) — */
+export async function bootLoadData() {
+if (getBootDone()) return;
+let idbRaw, lsRaw;
+try { lsRaw = localStorage.getItem(STORAGE_KEY); } catch (e) { }
+try { idbRaw = await idbGet(STORAGE_KEY); } catch (e) { }
+let idbObj = null, lsObj = null;
+try { if (idbRaw && typeof idbRaw === "string") idbObj = JSON.parse(idbRaw); } catch (e) { }
+try { if (lsRaw) lsObj = JSON.parse(lsRaw); } catch (e) { }
+let chosen = null, chosenRaw = null;
+const idbLen = (typeof idbRaw === "string") ? idbRaw.length : 0;
+const lsLen = lsRaw ? lsRaw.length : 0;
+if (idbObj && lsObj) { if (idbLen >= lsLen) { chosen = idbObj; chosenRaw = idbRaw; } else { chosen = lsObj; chosenRaw = lsRaw; } }
+else if (idbObj) { chosen = idbObj; chosenRaw = idbRaw; }
+else if (lsObj) { chosen = lsObj; chosenRaw = lsRaw; }
+setBootData(chosen);
+setBootDone(true);
+try { if (chosenRaw && chosenRaw !== (typeof idbRaw === "string" ? idbRaw : null)) idbSet(STORAGE_KEY, chosenRaw); } catch (e) { }
+}

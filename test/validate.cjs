@@ -68,8 +68,8 @@ const body =
 
 let mod;
 try {
-  const factory = new Function("React", "ReactDOM", "window", "document", "localStorage", "sessionStorage", "navigator", "location", body);
-  mod = factory(mockReact, { createRoot: () => ({ render: noop }) }, fakeWindow, fakeDocument, storage, storage, fakeWindow.navigator, fakeWindow.location);
+  const factory = new Function("React", "ReactDOM", "window", "document", "localStorage", "sessionStorage", "navigator", "location", "App", "AppMain", "bootLoadData", body);
+  mod = factory(mockReact, { createRoot: () => ({ render: noop }) }, fakeWindow, fakeDocument, storage, storage, fakeWindow.navigator, fakeWindow.location, function App() { }, function AppMain() { }, noop);
 } catch (e) {
   console.error("CARICAMENTO FALLITO:", e.message);
   console.error(String(e.stack || "").split("\n").slice(0, 4).join("\n"));
