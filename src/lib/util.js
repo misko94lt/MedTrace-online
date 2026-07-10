@@ -148,3 +148,6 @@ const p = n => String(n).padStart(2, "0");
 const dmy = p(d.getDate()) + "/" + p(d.getMonth() + 1) + "/" + d.getFullYear();
 return /T\d{2}:\d{2}/.test(str) ? (dmy + " " + p(d.getHours()) + ":" + p(d.getMinutes())) : dmy;
 }
+
+/* — formattazione MB (spostata col taglio impostazioni, v3.06) — */
+export function fmtMB(chars) { const mb = chars / 1048576; return (mb >= 10 ? mb.toFixed(1) : mb.toFixed(2)).replace(".", ",") + " MB"; }

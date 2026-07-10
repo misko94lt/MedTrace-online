@@ -554,3 +554,68 @@ export function getBootDone() { return _bootDone; }
 
 /* — flag build demo (spostata col taglio apparecchi, v3.00) — */
 export const DEMO_LOCKED = false;
+
+/* — auth e canale db legacy (spostati col taglio impostazioni, v3.06) — */
+export const supaSignUp = (email, pw) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.signUp({ email, password: pw }); };
+export const supaSignIn = (email, pw) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.signInWithPassword({ email, password: pw }); };
+export const supaSignOut = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.signOut(); };
+export const supaDB = {
+getAll(table) {
+return __awaiter(this, void 0, void 0, function* () {
+const { data, error } = yield getSupa().from(table).select('*').order('created_at', { ascending: false });
+if (error)
+throw error;
+return data || [];
+});
+},
+insert(table, record) {
+return __awaiter(this, void 0, void 0, function* () {
+const { data, error } = yield getSupa().from(table).insert(record).select().single();
+if (error)
+throw error;
+return data;
+});
+},
+update(table, id, updates) {
+return __awaiter(this, void 0, void 0, function* () {
+const { data, error } = yield getSupa().from(table).update(updates).eq('id', id).select().single();
+if (error)
+throw error;
+return data;
+});
+},
+delete(table, id) {
+return __awaiter(this, void 0, void 0, function* () {
+const { error } = yield getSupa().from(table).delete().eq('id', id);
+if (error)
+throw error;
+});
+},
+};
+
+/* — stato abbonamento (spostato col taglio impostazioni, v3.06) — */
+let _subInfo = null;
+let _subFetched = false;
+export function subScaduto() { return !!(_subInfo && _subInfo.scaduto); }
+export function fetchSubStatus() {
+return __awaiter(this, void 0, void 0, function* () {
+if (_subFetched)
+return _subInfo;
+_subFetched = true;
+try {
+if (typeof OFFLINE_MODE !== "undefined" && OFFLINE_MODE)
+return null;
+if (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED)
+return null;
+const c = yield getSupabaseClient();
+if (!c)
+return null;
+const { data, error } = yield c.rpc("stato_abbonamento");
+if (!error && data && typeof data === "object") {
+_subInfo = data;
+}
+}
+catch (e) { }
+return _subInfo;
+});
+}

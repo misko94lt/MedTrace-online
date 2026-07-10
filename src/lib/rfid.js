@@ -88,3 +88,23 @@ export function isWedgeActive() { return _active; }
    Vive tra gli apparecchi (è un cespite fisico etichettato) e sincronizza gratis. */
 export const WARD_TAG_BRAND = "TAG-REPARTO";
 export function isWardTag(a) { return !!a && String(a.brand || "").trim().toUpperCase() === WARD_TAG_BRAND; }
+
+/* — parser scansioni RFID da file/evento (spostato col taglio impostazioni, v3.06) — */
+export function parseRfidScan(json) {
+const out = [];
+const norm = (e) => String(e == null ? "" : e).trim();
+if (Array.isArray(json)) {
+json.forEach(it => {
+if (typeof it === "string") out.push({ epc: norm(it), location: "", date: "" });
+else if (it && typeof it === "object") out.push({ epc: norm(it.epc || it.EPC || it.tag || it.tagId || ""), location: norm(it.location || it.reparto || it.dept || it.department || ""), date: norm(it.date || it.timestamp || it.time || it.seenAt || "") });
+});
+} else if (json && typeof json === "object" && Array.isArray(json.epcs)) {
+const loc = norm(json.location || json.reparto || json.dept || "");
+const dt = norm(json.date || json.timestamp || json.time || "");
+json.epcs.forEach(e => {
+if (typeof e === "string") out.push({ epc: norm(e), location: loc, date: dt });
+else if (e && e.epc) out.push({ epc: norm(e.epc), location: norm(e.location || loc), date: norm(e.date || dt) });
+});
+}
+return out.filter(r => r.epc);
+}
