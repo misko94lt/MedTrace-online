@@ -1,4 +1,4 @@
-import { t } from "../constants/i18n.js";
+import { t, getLang, setLang } from "../constants/i18n.js";
 import { FORM_INP, FORM_LBL } from "../constants/ui.js";
 /* MedTrace — accesso: login/registrazione (estratto da app.js, v3.06) */
 import { Inp, appConfirm } from "./ui.js";
@@ -173,5 +173,7 @@ error && React.createElement("div", { style: { background: error.includes('email
 React.createElement("button", { onClick: handle, disabled: loading, style: { width: '100%', background: '#2dd4bf', color: '#000', border: 'none', borderRadius: 8, padding: 13, fontSize: 14, fontWeight: 800, cursor: loading ? 'wait' : 'pointer', opacity: loading ? .7 : 1, fontFamily: 'inherit' } }, loading ? t('Caricamento…') : mode === 'login' ? t('Accedi') : mode === 'create' ? t('Crea organizzazione') : t('Crea account')),
 React.createElement("div", { style: { textAlign: 'center', marginTop: 18 } },
 React.createElement("button", { onClick: () => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }, style: { background: 'none', border: 'none', color: 'var(--text-3)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' } }, mode === 'login' ? t('Non hai un account? Registrati') : t('Hai già un account? Accedi')))),
+React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 8, marginTop: 14 } },
+["it", "en"].map(l => React.createElement("button", { key: l, type: "button", onClick: () => setLang(l), style: { background: getLang() === l ? "var(--surface-3)" : "transparent", border: "1px solid " + (getLang() === l ? "#2dd4bf" : "var(--border)"), borderRadius: 7, color: getLang() === l ? "#2dd4bf" : "var(--text-3)", fontSize: 11, fontWeight: 800, cursor: "pointer", padding: "5px 12px", letterSpacing: "0.06em" } }, l === "it" ? "IT \uD83C\uDDEE\uD83C\uDDF9" : "EN \uD83C\uDDEC\uD83C\uDDE7"))),
 React.createElement("p", { style: { textAlign: 'center', color: 'var(--text-4)', fontSize: 11, marginTop: 20 } }, t("MedTrace \u00B7 Software gestione elettromedicali")))));
 }
