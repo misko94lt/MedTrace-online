@@ -189,4 +189,5 @@ export const EN = {
 "Verifica collegata": "Linked test",
 "Verifica sicurezza elettrica": "Electrical safety test",
 "Viaggio / trasferta (€)": "Travel / call-out (€)",
+"Cambia lingua e ricarica l'app": "Switch language and reload the app",
 };
