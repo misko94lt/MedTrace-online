@@ -1,3 +1,4 @@
+import { t as __t } from "../constants/i18n.js";
 /* MedTrace — fatturazione: preventivi (form+pagina), fatture, numerazione, aliquote IVA (estratti da app.js, v3.02) */
 import { Grid, Inp, Modal, Sel, Txt } from "./ui.js";
 import { Btn } from "./shared.js";
@@ -74,12 +75,12 @@ return (j.customerId || (asset === null || asset === void 0 ? void 0 : asset.cus
 });
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Sel, { label: "Cliente", value: f.customerId, onChange: s("customerId") },
+React.createElement(Sel, { label: __t("Cliente"), value: f.customerId, onChange: s("customerId") },
 React.createElement("option", { value: "" }, "\u2014 Seleziona \u2014"),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name))),
-React.createElement(Inp, { label: "Data preventivo", type: "date", value: f.date, onChange: s("date") })),
+React.createElement(Inp, { label: __t("Data preventivo"), type: "date", value: f.date, onChange: s("date") })),
 f.customerId && customerJobs.length > 0 && (React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "10px 14px", border: "1px solid var(--border)" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, "Importa da un job chiuso del cliente"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, __t("Importa da un job chiuso del cliente")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } }, customerJobs.map(j => {
 const used = f.jobIds.includes(j.id);
 return (React.createElement("button", { key: j.id, onClick: () => !used && importFromJob(j.id), disabled: used, style: {
@@ -95,15 +96,15 @@ j.openDate || "",
 jobShortCode(j)));
 })))),
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "12px 14px", border: "1px solid var(--border)" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, "Aggiungi servizio in blocco (es. contratto per tot macchine)"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, __t("Aggiungi servizio in blocco (es. contratto per tot macchine)")),
 React.createElement("datalist", { id: "servizi-comuni" }, SERVIZI_COMUNI.map(sv => React.createElement("option", { key: sv, value: sv }))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 80px 100px auto", gap: 6, alignItems: "center" } },
-React.createElement("input", { list: "servizi-comuni", value: bulkSvc, onChange: e => setBulkSvc(e.target.value), placeholder: "Servizio (es. Verifica sicurezza elettrica)", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "8px 10px", color: "var(--text)", outline: "none", minWidth: 0 } }),
-React.createElement("input", { type: "number", value: bulkN, onChange: e => setBulkN(e.target.value), placeholder: "N\u00B0 macch.", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "8px 10px", color: "var(--text)", outline: "none" } }),
+React.createElement("input", { list: "servizi-comuni", value: bulkSvc, onChange: e => setBulkSvc(e.target.value), placeholder: __t("Servizio (es. Verifica sicurezza elettrica)"), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "8px 10px", color: "var(--text)", outline: "none", minWidth: 0 } }),
+React.createElement("input", { type: "number", value: bulkN, onChange: e => setBulkN(e.target.value), placeholder: __t("N\u00B0 macch."), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "8px 10px", color: "var(--text)", outline: "none" } }),
 React.createElement("input", { type: "number", step: "0.01", value: bulkPrice, onChange: e => setBulkPrice(e.target.value), placeholder: "\u20AC/macch.", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "8px 10px", color: "var(--text)", outline: "none" } }),
 React.createElement(Btn, { sm: true, onClick: addBulk }, "+ Aggiungi")),
 (parseInt(bulkN, 10) > 0 && parseFloat(bulkPrice) > 0) && (React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 7 } },
-"Totale riga: ",
+__t("Totale riga: "),
 React.createElement("strong", { style: { color: "#22c55e" } },
 "\u20AC",
 ((parseInt(bulkN, 10) || 0) * (parseFloat(bulkPrice) || 0)).toFixed(2)),
@@ -114,24 +115,24 @@ bulkPrice,
 ")"))),
 React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 } },
-React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, "Righe preventivo"),
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, __t("Righe preventivo")),
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: addItem }, "+ Riga")),
 f.items.length > 0 && (React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 70px 90px 60px auto", gap: 6, padding: "0 10px 4px", fontSize: 9.5, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, fontWeight: 700 } },
-React.createElement("span", null, "Descrizione"),
-React.createElement("span", { style: { textAlign: "center" } }, "Q.t\u00E0"),
-React.createElement("span", { style: { textAlign: "center" } }, "Prezzo \u20AC"),
+React.createElement("span", null, __t("Descrizione")),
+React.createElement("span", { style: { textAlign: "center" } }, __t("Q.t\u00E0")),
+React.createElement("span", { style: { textAlign: "center" } }, __t("Prezzo \u20AC")),
 React.createElement("span", { style: { textAlign: "center" } }, "IVA %"),
 React.createElement("span", null))),
 f.items.map((it, i) => (React.createElement("div", { key: i, style: { background: "var(--surface)", borderRadius: 8, padding: 10, marginBottom: 8, display: "grid", gridTemplateColumns: "1fr 70px 90px 60px auto", gap: 6, alignItems: "center" } },
-React.createElement("input", { value: it.description, onChange: e => setItem(i, "description", e.target.value), placeholder: "Descrizione", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", outline: "none", minWidth: 0 } }),
-React.createElement("input", { type: "number", value: it.qty, onChange: e => setItem(i, "qty", e.target.value), placeholder: "Q.t\u00E0", step: "0.5", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", outline: "none" } }),
+React.createElement("input", { value: it.description, onChange: e => setItem(i, "description", e.target.value), placeholder: __t("Descrizione"), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", outline: "none", minWidth: 0 } }),
+React.createElement("input", { type: "number", value: it.qty, onChange: e => setItem(i, "qty", e.target.value), placeholder: __t("Q.t\u00E0"), step: "0.5", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", outline: "none" } }),
 React.createElement("input", { type: "number", value: it.unitPrice, onChange: e => setItem(i, "unitPrice", e.target.value), placeholder: "\u20AC", step: "0.01", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", outline: "none" } }),
 React.createElement("input", { type: "number", value: it.vat, onChange: e => setItem(i, "vat", e.target.value), placeholder: "IVA%", style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", outline: "none" } }),
 React.createElement(Btn, { sm: true, variant: "danger", onClick: () => remItem(i) }, "\u2715")))),
-f.items.length === 0 && React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, "Nessuna riga. Aggiungi con \"+ Riga\" o importa da un job.")),
+f.items.length === 0 && React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, __t("Nessuna riga. Aggiungi con \"+ Riga\" o importa da un job."))),
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 16px" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 6 } },
-React.createElement("span", { style: { color: "var(--text-2)" } }, "Imponibile"),
+React.createElement("span", { style: { color: "var(--text-2)" } }, __t("Imponibile")),
 React.createElement("span", { style: { color: "var(--text)", fontWeight: 700 } },
 "\u20AC",
 subtotal.toFixed(2))),
@@ -148,20 +149,20 @@ grandTotal.toFixed(2)))),
 React.createElement("div", null,
 React.createElement("button", { onClick: () => setShowDetails(v => !v), style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 14px", cursor: "pointer", color: "var(--text-2)", fontSize: 12.5, fontWeight: 600 } },
 React.createElement("span", null,
-"Altri dettagli ",
+__t("Altri dettagli "),
 showDetails ? "" : "(numero, stato, scadenza, pagamento, note)"),
 React.createElement("span", { style: { transform: showDetails ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "\u203A")),
 showDetails && (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14, marginTop: 14, padding: "4px 2px" } },
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Numero preventivo", value: f.number, onChange: s("number") }),
-React.createElement(Sel, { label: "Stato", value: f.status, onChange: s("status") }, ["bozza", "emessa", "pagata", "scaduta", "annullato"].map(v => React.createElement("option", { key: v }, v))),
-React.createElement(Inp, { label: "Data scadenza", type: "date", value: f.dueDate, onChange: s("dueDate") }),
+React.createElement(Inp, { label: __t("Numero preventivo"), value: f.number, onChange: s("number") }),
+React.createElement(Sel, { label: __t("Stato"), value: f.status, onChange: s("status") }, ["bozza", "emessa", "pagata", "scaduta", "annullato"].map(v => React.createElement("option", { key: v }, v))),
+React.createElement(Inp, { label: __t("Data scadenza"), type: "date", value: f.dueDate, onChange: s("dueDate") }),
 React.createElement("div", null)),
-React.createElement(Inp, { label: "Modalit\u00E0 di pagamento", value: f.paymentTerms, onChange: s("paymentTerms") }),
-React.createElement(Txt, { label: "Note", value: f.notes, onChange: s("notes") })))),
+React.createElement(Inp, { label: __t("Modalit\u00E0 di pagamento"), value: f.paymentTerms, onChange: s("paymentTerms") }),
+React.createElement(Txt, { label: __t("Note"), value: f.notes, onChange: s("notes") })))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
-React.createElement(Btn, { onClick: () => onSave(f) }, "Salva"))));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
+React.createElement(Btn, { onClick: () => onSave(f) }, __t("Salva")))));
 }
 const IVA_RATES = [0, 4, 5, 10, 22];
 const IVA_DEFAULT_Q = 22;
@@ -196,7 +197,7 @@ const s = k => e => setF(x => (Object.assign(Object.assign({}, x), { [k]: e.targ
 const sCheck = k => e => setF(x => (Object.assign(Object.assign({}, x), { [k]: e.target.checked })));
 const addLabor = () => setF(x => (Object.assign(Object.assign({}, x), { laborLines: [...x.laborLines, {
 id: Date.now() + Math.random(),
-label: 'Manodopera',
+label: __t('Manodopera'),
 hours: 1,
 rate: 55,
 }] })));
@@ -267,18 +268,18 @@ const LBL = FORM_LBL;
 return (React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 14, maxHeight: '72vh', overflowY: 'auto', paddingRight: 4 } },
 React.createElement("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 } },
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "N\u00B0 Preventivo"),
+React.createElement("label", { style: LBL }, __t("N\u00B0 Preventivo")),
 React.createElement("input", { style: INP, value: f.number, onChange: s('number') })),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Stato"),
+React.createElement("label", { style: LBL }, __t("Stato")),
 React.createElement("select", { style: INP, value: f.status, onChange: s('status') }, Object.keys(QUOTE_STATUS_COLOR).map(v => React.createElement("option", { key: v, value: v }, v.charAt(0).toUpperCase() + v.slice(1))))),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Cliente"),
+React.createElement("label", { style: LBL }, __t("Cliente")),
 React.createElement("select", { style: INP, value: f.customerId, onChange: s('customerId') },
 React.createElement("option", { value: "" }, "\u2014 Seleziona cliente \u2014"),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name)))),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Job collegato"),
+React.createElement("label", { style: LBL }, __t("Job collegato")),
 React.createElement("select", { style: INP, value: f.jobId, onChange: e => { s('jobId')(e); if (e.target.value)
 importFromJob(e.target.value); } },
 React.createElement("option", { value: "" }, "\u2014 Nessuno / importa manuale \u2014"),
@@ -295,14 +296,14 @@ j.status,
 ")");
 }))),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Data preventivo"),
+React.createElement("label", { style: LBL }, __t("Data preventivo")),
 React.createElement("input", { type: "date", style: INP, value: f.date, onChange: s('date') })),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Valido fino al"),
+React.createElement("label", { style: LBL }, __t("Valido fino al")),
 React.createElement("input", { type: "date", style: INP, value: f.validUntil, onChange: s('validUntil') }))),
 React.createElement("label", { style: { display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 12, color: 'var(--text-2)' } },
 React.createElement("input", { type: "checkbox", checked: f.vatExempt, onChange: sCheck('vatExempt') }),
-"Esente IVA (art. 10, regime forfettario, ecc.)"),
+__t("Esente IVA (art. 10, regime forfettario, ecc.)")),
 React.createElement("div", { style: { borderTop: '1px solid #2A2A38', paddingTop: 12 } },
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 } },
 React.createElement("span", { style: { fontSize: 11, color: '#2dd4bf', fontWeight: 700, textTransform: 'uppercase', letterSpacing: .8 } },
@@ -310,14 +311,14 @@ React.createElement("span", { style: { fontSize: 11, color: '#2dd4bf', fontWeigh
 f.laborLines.length,
 " voci)"),
 React.createElement("button", { onClick: addLabor, style: { background: 'var(--surface-2)', border: '1px solid #2dd4bf44', borderRadius: 6, color: '#2dd4bf', padding: '4px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 700 } }, "+ Voce")),
-f.laborLines.length === 0 && (React.createElement("div", { style: { textAlign: 'center', color: 'var(--text-4)', padding: '10px 0', fontSize: 12 } }, "Nessuna voce manodopera")),
+f.laborLines.length === 0 && (React.createElement("div", { style: { textAlign: 'center', color: 'var(--text-4)', padding: '10px 0', fontSize: 12 } }, __t("Nessuna voce manodopera"))),
 f.laborLines.map(l => (React.createElement("div", { key: l.id, style: { display: 'grid', gridTemplateColumns: '1fr 70px 70px auto', gap: 6, marginBottom: 6, alignItems: 'center' } },
-React.createElement("input", { style: INP, value: l.label, onChange: e => updLabor(l.id, 'label', e.target.value), placeholder: "Descrizione (es. Trasferta, Ore lavoro, Installazione\u2026)" }),
+React.createElement("input", { style: INP, value: l.label, onChange: e => updLabor(l.id, 'label', e.target.value), placeholder: __t("Descrizione (es. Trasferta, Ore lavoro, Installazione\u2026)") }),
 React.createElement("input", { type: "number", style: Object.assign(Object.assign({}, INP), { textAlign: 'center' }), value: l.hours, onChange: e => updLabor(l.id, 'hours', e.target.value), placeholder: "ore", step: "0.5" }),
 React.createElement("input", { type: "number", style: Object.assign(Object.assign({}, INP), { textAlign: 'center' }), value: l.rate, onChange: e => updLabor(l.id, 'rate', e.target.value), placeholder: "\u20AC/h" }),
 React.createElement("button", { onClick: () => delLabor(l.id), style: { background: '#ef444415', border: '1px solid #ef444430', borderRadius: 5, color: '#ef4444', padding: '6px 8px', cursor: 'pointer', fontSize: 11 } }, "\u2715")))),
 f.laborLines.length > 0 && (React.createElement("div", { style: { textAlign: 'right', fontSize: 12, color: 'var(--text-2)', marginTop: 4 } },
-"Subtotale manodopera: ",
+__t("Subtotale manodopera: "),
 React.createElement("strong", { style: { color: 'var(--text-bright)' } },
 "\u20AC",
 laborTotal.toFixed(2))))),
@@ -330,42 +331,42 @@ f.partLines.length,
 React.createElement("div", { style: { display: 'flex', gap: 6 } },
 React.createElement("button", { onClick: addPartFree, style: { background: 'var(--surface-2)', border: '1px solid #a855f744', borderRadius: 6, color: '#a855f7', padding: '4px 10px', cursor: 'pointer', fontSize: 11, fontWeight: 700 } }, "+ Riga libera"))),
 parts.length > 0 && (React.createElement("div", { style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 10px', marginBottom: 8 } },
-React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginBottom: 5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: .7 } }, "Aggiungi dal magazzino (senza scalare stock)"),
+React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginBottom: 5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: .7 } }, __t("Aggiungi dal magazzino (senza scalare stock)")),
 React.createElement("div", { style: { display: 'flex', flexWrap: 'wrap', gap: 5 } }, parts.filter(p => p.qty > 0 || true).map(p => (React.createElement("button", { key: p.id, onClick: () => addPartWarehouse(p), style: { background: 'var(--surface-2)', border: '1px solid #2A2A38', borderRadius: 6, color: 'var(--text-2)', padding: '3px 9px', cursor: 'pointer', fontSize: 10 } },
 "+ ",
 p.name,
 p.code ? ` (${p.code})` : '',
 " \u2014 \u20AC",
 (p.sellPrice || p.unitPrice || 0).toFixed(2))))))),
-f.partLines.length === 0 && (React.createElement("div", { style: { textAlign: 'center', color: 'var(--text-4)', padding: '10px 0', fontSize: 12 } }, "Nessun materiale")),
+f.partLines.length === 0 && (React.createElement("div", { style: { textAlign: 'center', color: 'var(--text-4)', padding: '10px 0', fontSize: 12 } }, __t("Nessun materiale"))),
 f.partLines.map(l => (React.createElement("div", { key: l.id, style: { display: 'grid', gridTemplateColumns: '1fr 55px 70px 55px auto', gap: 6, marginBottom: 6, alignItems: 'center' } },
 React.createElement("div", null,
 l.type === 'warehouse' && (React.createElement("div", { style: { fontSize: 9, color: '#a855f7', fontWeight: 700, marginBottom: 2 } }, "\uD83D\uDCE6 MAGAZZINO")),
-React.createElement("input", { style: INP, value: l.description, onChange: e => updPart(l.id, 'description', e.target.value), placeholder: "Descrizione ricambio / materiale" })),
-React.createElement("input", { type: "number", style: Object.assign(Object.assign({}, INP), { textAlign: 'center' }), value: l.qty, onChange: e => updPart(l.id, 'qty', e.target.value), placeholder: "Q.t\u00E0", step: "1" }),
+React.createElement("input", { style: INP, value: l.description, onChange: e => updPart(l.id, 'description', e.target.value), placeholder: __t("Descrizione ricambio / materiale") })),
+React.createElement("input", { type: "number", style: Object.assign(Object.assign({}, INP), { textAlign: 'center' }), value: l.qty, onChange: e => updPart(l.id, 'qty', e.target.value), placeholder: __t("Q.t\u00E0"), step: "1" }),
 React.createElement("input", { type: "number", style: Object.assign(Object.assign({}, INP), { textAlign: 'center' }), value: l.unitPrice, onChange: e => updPart(l.id, 'unitPrice', e.target.value), placeholder: "\u20AC cad.", step: "0.01" }),
 React.createElement("select", { style: Object.assign(Object.assign({}, INP), { padding: '8px 4px', textAlign: 'center' }), value: l.vat, onChange: e => updPart(l.id, 'vat', e.target.value) }, IVA_RATES.map(r => React.createElement("option", { key: r, value: r },
 r,
 "%"))),
 React.createElement("button", { onClick: () => delPart(l.id), style: { background: '#ef444415', border: '1px solid #ef444430', borderRadius: 5, color: '#ef4444', padding: '6px 8px', cursor: 'pointer', fontSize: 11 } }, "\u2715")))),
 f.partLines.length > 0 && (React.createElement("div", { style: { textAlign: 'right', fontSize: 12, color: 'var(--text-2)', marginTop: 4 } },
-"Subtotale materiali: ",
+__t("Subtotale materiali: "),
 React.createElement("strong", { style: { color: 'var(--text-bright)' } },
 "\u20AC",
 partsSubtotal.toFixed(2))))),
 React.createElement("div", { style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 10, padding: '14px 16px' } },
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 5 } },
-React.createElement("span", { style: { color: 'var(--text-3)' } }, "Manodopera"),
+React.createElement("span", { style: { color: 'var(--text-3)' } }, __t("Manodopera")),
 React.createElement("span", { style: { color: 'var(--text-bright)', fontWeight: 700 } },
 "\u20AC",
 laborTotal.toFixed(2))),
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 5 } },
-React.createElement("span", { style: { color: 'var(--text-3)' } }, "Materiali"),
+React.createElement("span", { style: { color: 'var(--text-3)' } }, __t("Materiali")),
 React.createElement("span", { style: { color: 'var(--text-bright)', fontWeight: 700 } },
 "\u20AC",
 partsSubtotal.toFixed(2))),
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 8, paddingBottom: 8, borderBottom: '1px solid #2A2A38' } },
-React.createElement("span", { style: { color: 'var(--text-3)' } }, "Imponibile"),
+React.createElement("span", { style: { color: 'var(--text-3)' } }, __t("Imponibile")),
 React.createElement("span", { style: { color: 'var(--text-bright)', fontWeight: 700 } },
 "\u20AC",
 subtotal.toFixed(2))),
@@ -380,14 +381,14 @@ React.createElement("span", { style: { color: '#22c55e', fontWeight: 900 } },
 "\u20AC",
 grandTotal.toFixed(2)))),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Condizioni di pagamento"),
+React.createElement("label", { style: LBL }, __t("Condizioni di pagamento")),
 React.createElement("input", { style: INP, value: f.paymentTerms, onChange: s('paymentTerms') })),
 React.createElement("div", null,
-React.createElement("label", { style: LBL }, "Note / condizioni speciali"),
-React.createElement("textarea", { style: Object.assign(Object.assign({}, INP), { minHeight: 60, resize: 'vertical' }), value: f.notes, onChange: s('notes'), placeholder: "Note aggiuntive, esclusioni, condizioni speciali\u2026" })),
+React.createElement("label", { style: LBL }, __t("Note / condizioni speciali")),
+React.createElement("textarea", { style: Object.assign(Object.assign({}, INP), { minHeight: 60, resize: 'vertical' }), value: f.notes, onChange: s('notes'), placeholder: __t("Note aggiuntive, esclusioni, condizioni speciali\u2026") })),
 React.createElement("div", { style: { display: 'flex', gap: 8, justifyContent: 'flex-end', paddingTop: 10, borderTop: '1px solid #2A2A38', position: 'sticky', bottom: 0, background: 'var(--surface-2)', margin: '0 -4px', padding: '12px 4px' } },
-React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Annulla"),
-React.createElement("button", { onClick: () => onSave(Object.assign(Object.assign({}, f), { _totals: { labor: laborTotal, parts: partsSubtotal, subtotal, vat: vatTotal, grand: grandTotal } })), style: FORM_BTN_PRIMARY }, initial ? 'Salva modifiche' : 'Crea preventivo'))));
+React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, __t("Annulla")),
+React.createElement("button", { onClick: () => onSave(Object.assign(Object.assign({}, f), { _totals: { labor: laborTotal, parts: partsSubtotal, subtotal, vat: vatTotal, grand: grandTotal } })), style: FORM_BTN_PRIMARY }, initial ? __t('Salva modifiche') : __t('Crea preventivo')))));
 }
 export function QuotesPage({ quotes, setQuotes, customers, jobs, assets, parts, company, showToast, moveToTrash, checkLocked }) {
 const [modal, setModal] = React.useState(null);
@@ -398,7 +399,7 @@ const exists = quotes.some(x => x.id === q.id);
 if (exists) {
 const upd = withUpdateMeta(q);
 setQuotes(qs => qs.map(x => x.id === q.id ? upd : x));
-showToast('Preventivo aggiornato');
+showToast(__t('Preventivo aggiornato'));
 }
 else {
 const newQ = withCreateMeta(q);
@@ -410,13 +411,13 @@ setModal(null);
 const delQuote = (id) => {
 if (checkLocked())
 return;
-if (!confirm('Spostare questo preventivo nel cestino?'))
+if (!confirm(__t('Spostare questo preventivo nel cestino?')))
 return;
 const rec = quotes.find(q => q.id === id);
 if (moveToTrash && rec)
 moveToTrash("quotes", rec);
 setQuotes(qs => qs.filter(q => q.id !== id));
-showToast('Spostato nel cestino', '#f59e0b');
+showToast(__t('Spostato nel cestino'), '#f59e0b');
 };
 const filtered = quotes.filter(q => {
 if (filterStatus !== 'all' && q.status !== filterStatus)
@@ -435,27 +436,27 @@ const valueOpen = quotes.filter(q => q.status === 'inviato').reduce((s, q) => { 
 return (React.createElement("div", { style: { padding: '16px 20px', maxWidth: 1100, margin: '0 auto' } },
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16, flexWrap: 'wrap', gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 20, fontWeight: 900 } }, "Preventivi"),
-React.createElement("p", { style: { color: 'var(--text-3)', margin: '3px 0 0', fontSize: 12 } }, "Quotazioni da job \u2192 PDF professionale")),
+React.createElement("h1", { style: { margin: 0, fontSize: 20, fontWeight: 900 } }, __t("Preventivi")),
+React.createElement("p", { style: { color: 'var(--text-3)', margin: '3px 0 0', fontSize: 12 } }, __t("Quotazioni da job \u2192 PDF professionale"))),
 React.createElement("button", { onClick: () => setModal({ type: 'form', data: null }), style: FORM_BTN_PRIMARY }, "+ Nuovo preventivo")),
 React.createElement("div", { style: { display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' } }, [
-{ label: 'In corso (bozza+inviati)', value: totalOpen, color: '#3b82f6' },
-{ label: 'Accettati', value: totalAccepted, color: '#22c55e' },
-{ label: 'Valore inviati', value: `€${valueOpen.toFixed(0)}`, color: '#2dd4bf' },
-{ label: 'Totale', value: quotes.length, color: 'var(--text-3)' },
+{ label: __t('In corso (bozza+inviati)'), value: totalOpen, color: '#3b82f6' },
+{ label: __t('Accettati'), value: totalAccepted, color: '#22c55e' },
+{ label: __t('Valore inviati'), value: `€${valueOpen.toFixed(0)}`, color: '#2dd4bf' },
+{ label: __t('Totale'), value: quotes.length, color: 'var(--text-3)' },
 ].map(k => (React.createElement("div", { key: k.label, style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderTop: `3px solid ${k.color}`, borderRadius: 10, padding: '10px 16px', flex: 1, minWidth: 110 } },
 React.createElement("div", { style: { fontSize: 20, fontWeight: 900, color: k.color, fontFamily: 'monospace' } }, k.value),
 React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 3, textTransform: 'uppercase', letterSpacing: .7, fontWeight: 600 } }, k.label))))),
 React.createElement("div", { style: { display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' } },
-React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Cerca numero, cliente\u2026", style: { flex: 1, minWidth: 180, background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 12px', color: 'var(--text-bright)', fontSize: 13, outline: 'none' } }),
+React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: __t("Cerca numero, cliente\u2026"), style: { flex: 1, minWidth: 180, background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 12px', color: 'var(--text-bright)', fontSize: 13, outline: 'none' } }),
 React.createElement("select", { value: filterStatus, onChange: e => setFilterStatus(e.target.value), style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 8, padding: '8px 12px', color: 'var(--text-2)', fontSize: 12 } },
-React.createElement("option", { value: "all" }, "Tutti gli stati"),
+React.createElement("option", { value: "all" }, __t("Tutti gli stati")),
 Object.keys(QUOTE_STATUS_COLOR).map(s => React.createElement("option", { key: s, value: s }, s.charAt(0).toUpperCase() + s.slice(1))))),
 filtered.length === 0 ? (React.createElement("div", { style: { textAlign: 'center', padding: 48, color: 'var(--text-3)', background: 'var(--surface)', borderRadius: 12, border: '1px solid #2A2A38' } }, quotes.length === 0 ? (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { fontSize: 36, marginBottom: 10, opacity: .4 } }, "\uD83D\uDCCB"),
-React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: 'var(--text-2)', marginBottom: 6 } }, "Nessun preventivo ancora"),
-React.createElement("div", { style: { fontSize: 12, marginBottom: 14 } }, "Apri un job, usa il bottone \"Crea preventivo\" oppure creane uno da qui"),
-React.createElement("button", { onClick: () => setModal({ type: 'form', data: null }), style: FORM_BTN_PRIMARY }, "+ Nuovo preventivo"))) : 'Nessun risultato')) : (React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 8 } }, filtered.slice().sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || '')).map(q => {
+React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: 'var(--text-2)', marginBottom: 6 } }, __t("Nessun preventivo ancora")),
+React.createElement("div", { style: { fontSize: 12, marginBottom: 14 } }, __t("Apri un job, usa il bottone \"Crea preventivo\" oppure creane uno da qui")),
+React.createElement("button", { onClick: () => setModal({ type: 'form', data: null }), style: FORM_BTN_PRIMARY }, "+ Nuovo preventivo"))) : __t('Nessun risultato'))) : (React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 8 } }, filtered.slice().sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || '')).map(q => {
 var _a, _b, _c;
 const customer = customers.find(c => c.id === q.customerId);
 const job = jobs.find(j => j.id === q.jobId);
@@ -488,6 +489,6 @@ React.createElement("button", { onClick: () => generateQuotePDF(q, customer, com
 React.createElement("button", { onClick: () => setModal({ type: 'form', data: q }), style: { background: 'var(--surface-3)', border: '1px solid #2a3040', borderRadius: 6, color: 'var(--text-2)', padding: '4px 10px', cursor: 'pointer', fontSize: 11 } }, "\u270F"),
 React.createElement("button", { onClick: () => delQuote(q.id), style: { background: '#ef444415', border: '1px solid #ef444430', borderRadius: 6, color: '#ef4444', padding: '4px 8px', cursor: 'pointer', fontSize: 11 } }, "\u2715"))))));
 }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === 'form' && (React.createElement(Modal, { title: modal.data ? 'Modifica Preventivo' : 'Nuovo Preventivo', wide: true, onClose: () => setModal(null) },
+(modal === null || modal === void 0 ? void 0 : modal.type) === 'form' && (React.createElement(Modal, { title: modal.data ? __t('Modifica Preventivo') : __t('Nuovo Preventivo'), wide: true, onClose: () => setModal(null) },
 React.createElement(QuoteForm, { initial: modal.data, customers: customers, jobs: jobs, assets: assets, parts: parts, quotes: quotes, onSave: saveQuote, onClose: () => setModal(null) })))));
 }
