@@ -87,9 +87,7 @@ function SettingsSection({ icon, title, color, children, accent, defaultOpen }) 
 const [open, setOpen] = React.useState(!!defaultOpen);
 return (React.createElement("div", { style: { background: "var(--surface)", borderRadius: 14, border: "1px solid " + (accent || "#24242F"), overflow: "hidden" } },
 React.createElement("button", { type: "button", onClick: () => setOpen(o => !o), style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 9, width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "15px 18px", textAlign: "left" } },
-React.createElement("span", { style: { display: "flex", alignItems: "center", gap: 9 } },
-icon ? React.createElement("span", { style: { fontSize: 15 } }, icon) : null,
-React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: color || "var(--text)", letterSpacing: .3 } }, title)),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: color || "var(--text)", letterSpacing: .3 } }, title),
 React.createElement("span", { style: { color: "var(--text-3)", fontSize: 12, transform: open ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "\u203a")),
 open ? React.createElement("div", { style: { padding: "0 18px 18px" } }, children) : null));
 }
@@ -360,6 +358,13 @@ reader.readAsText(file);
 };
 const isLogged = !(typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED) && (typeof getSupa === "function") && getSupa();
 return (React.createElement(Modal, { title: "Impostazioni", wide: true, onClose: onClose },
+React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: "12px 14px", marginBottom: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 } },
+React.createElement("div", null,
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, __t("Lingua dell'app")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, __t("Cambia lingua e ricarica l'app"))),
+React.createElement("select", { value: getLang(), onChange: e => setLang(e.target.value), style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 12px", fontSize: 13, fontWeight: 600 } },
+React.createElement("option", { value: "it" }, "Italiano"),
+React.createElement("option", { value: "en" }, "English"))),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 isAdmin && (React.createElement(Section, { icon: "\uD83C\uDFE2", title: "Dati azienda" },
 isSuperuser && !comp.name && (React.createElement("div", { style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 8, padding: "10px 13px", marginBottom: 14, fontSize: 12, color: "#f59e0b", lineHeight: 1.5 } }, "\u26A0 Inserisci il nome della tua azienda \u2014 apparir\u00E0 su tutti i PDF (rapporti, verifiche, preventivi).")),
@@ -423,13 +428,7 @@ alert("Dati azienda salvati.");
 }
 }) }, "Salva dati azienda")))),
 React.createElement(Section, { icon: "\u2699\uFE0F", title: "Preferenze" },
-React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: "12px 14px", marginBottom: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 } },
-React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, "\uD83C\uDF10 " + __t("Lingua dell'app")),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, __t("Cambia lingua e ricarica l'app"))),
-React.createElement("select", { value: getLang(), onChange: e => setLang(e.target.value), style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 12px", fontSize: 13, fontWeight: 600 } },
-React.createElement("option", { value: "it" }, "Italiano"),
-React.createElement("option", { value: "en" }, "English"))),
+
 React.createElement("div", { onClick: () => { const v = !comp.stickerPrompt; setComp(x => (Object.assign(Object.assign({}, x), { stickerPrompt: v }))); onUpdateCompany(Object.assign(Object.assign({}, company), { stickerPrompt: v })); }, style: { display: "flex", alignItems: "flex-start", gap: 12, cursor: "pointer" } },
 React.createElement("div", { style: {
 width: 46, height: 27, borderRadius: 14, flexShrink: 0, marginTop: 1,
