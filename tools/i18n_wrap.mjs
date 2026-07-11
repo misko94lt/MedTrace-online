@@ -31,9 +31,9 @@ for (const file of process.argv.slice(2)) {
     chain.pop();
   })(ast);
   targets.sort((a, b) => b.start - a.start);
-  for (const tg of targets) src = src.slice(0, tg.start) + "t(" + src.slice(tg.start, tg.end) + ")" + src.slice(tg.end);
+  for (const tg of targets) src = src.slice(0, tg.start) + "__t(" + src.slice(tg.start, tg.end) + ")" + src.slice(tg.end);
   const rel = file.startsWith("src/lib/") || file.startsWith("src/constants/") ? "./i18n.js" : "../constants/i18n.js";
-  const imp = file.startsWith("src/lib/") ? 'import { t } from "../constants/i18n.js";\n' : 'import { t } from "' + rel + '";\n';
+  const imp = file.startsWith("src/lib/") ? 'import { t as __t } from "../constants/i18n.js";\n' : 'import { t as __t } from "' + rel + '";\n';
   src = imp + src;
   try { parse(src, { ecmaVersion: "latest", sourceType: "module" }); } catch (e) { console.error(file + " NON PARSA: " + e.message); process.exit(1); }
   fs.writeFileSync(file, src);
