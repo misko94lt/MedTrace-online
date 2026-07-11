@@ -1,3 +1,4 @@
+import { t as __t } from "../constants/i18n.js";
 /* MedTrace — dashboard e pianificazione: KPI, agenda, scadenze (con mail), piano manuale (estratti da app.js, v2.99) */
 import { AreaTrend, EmptyState } from "./ui.js";
 import { downloadXLSX } from "../lib/export.js";
@@ -44,10 +45,10 @@ stato: s.days < 0 ? "SCADUTA" : (s.days === 0 ? "oggi" : "tra " + s.days + " gg"
 });
 };
 const XLS_COLS = [
-{ key: "cliente", label: "Cliente" }, { key: "apparecchio", label: "Apparecchio" },
-{ key: "marca", label: "Marca" }, { key: "modello", label: "Modello" }, { key: "serial", label: "Matricola" },
-{ key: "tipo", label: "Tipo verifica" }, { key: "ultima", label: "Ultima verifica" },
-{ key: "scadenza", label: "Prossima scadenza" }, { key: "stato", label: "Stato" },
+{ key: "cliente", label: __t("Cliente") }, { key: "apparecchio", label: __t("Apparecchio") },
+{ key: "marca", label: __t("Marca") }, { key: "modello", label: __t("Modello") }, { key: "serial", label: __t("Matricola") },
+{ key: "tipo", label: __t("Tipo verifica") }, { key: "ultima", label: __t("Ultima verifica") },
+{ key: "scadenza", label: __t("Prossima scadenza") }, { key: "stato", label: __t("Stato") },
 ];
 const exportAll = () => {
 if (typeof downloadXLSX === "function")
@@ -66,19 +67,19 @@ return (React.createElement("div", { key: s.assetId + s.tipoKind + i, style: { b
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { display: "flex", gap: 7, alignItems: "center", flexWrap: "wrap", marginBottom: 2 } },
 React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, s.assetName),
-React.createElement("span", { style: { fontSize: 9, fontWeight: 700, color: s.tipoKind === "iec" ? "#c084fc" : "#5eead4", background: (s.tipoKind === "iec" ? "#a855f7" : "#1F7468") + "22", border: "1px solid " + (s.tipoKind === "iec" ? "#a855f7" : "#1F7468") + "44", borderRadius: 4, padding: "1px 6px" } }, s.tipoKind === "iec" ? "Sic. Elettrica" : "Funzionale")),
+React.createElement("span", { style: { fontSize: 9, fontWeight: 700, color: s.tipoKind === "iec" ? "#c084fc" : "#5eead4", background: (s.tipoKind === "iec" ? "#a855f7" : "#1F7468") + "22", border: "1px solid " + (s.tipoKind === "iec" ? "#a855f7" : "#1F7468") + "44", borderRadius: 4, padding: "1px 6px" } }, s.tipoKind === "iec" ? __t("Sic. Elettrica") : __t("Funzionale"))),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)" } },
 s.serial ? "S/N " + s.serial + " · " : "",
-"Scade ",
+__t("Scade "),
 React.createElement("strong", { style: { color: col } }, fmt(s.dueDate)),
 " \u00B7 ",
 label)),
-React.createElement("button", { onClick: () => onOpenAsset(s.assetId), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "5px 10px", fontSize: 11, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, "Scheda \u203A")));
+React.createElement("button", { onClick: () => onOpenAsset(s.assetId), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "5px 10px", fontSize: 11, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, __t("Scheda \u203A"))));
 };
 return (React.createElement("div", { style: { maxWidth: 900, margin: "0 auto" } },
 React.createElement("div", { style: { marginBottom: 18 } },
-React.createElement("h1", { style: { margin: "0 0 4px", fontSize: 22, fontWeight: 900, color: "var(--text-bright)" } }, "Scadenze & Promemoria"),
-React.createElement("p", { style: { color: "var(--text-3)", margin: 0, fontSize: 13 } }, "Verifiche in scadenza calcolate dagli intervalli di ogni apparecchio, raggruppate per cliente.")),
+React.createElement("h1", { style: { margin: "0 0 4px", fontSize: 22, fontWeight: 900, color: "var(--text-bright)" } }, __t("Scadenze & Promemoria")),
+React.createElement("p", { style: { color: "var(--text-3)", margin: 0, fontSize: 13 } }, __t("Verifiche in scadenza calcolate dagli intervalli di ogni apparecchio, raggruppate per cliente."))),
 React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 12 } }, [30, 60, 90].map(g => {
 const on = range === g;
 return (React.createElement("button", { key: g, onClick: () => setRange(g), style: {
@@ -86,7 +87,7 @@ flex: 1, background: on ? "#1F7468" : "var(--card)", border: "1px solid " + (on 
 borderRadius: 9, padding: "10px 8px", cursor: "pointer", color: on ? "#04201C" : "var(--text-strong)",
 fontSize: 13, fontWeight: on ? 800 : 600
 } },
-"Prossimi ",
+__t("Prossimi "),
 g,
 " giorni"));
 })),
@@ -98,7 +99,7 @@ gruppi.length,
 " clienti"),
 React.createElement("button", { onClick: exportAll, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 7, color: "#2dd4bf", padding: "8px 13px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\uD83D\uDCCA Esporta tutto in Excel"))),
 visibili.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 20px", color: "var(--text-4)", background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10 } },
-"Nessuna verifica in scadenza nei prossimi ",
+__t("Nessuna verifica in scadenza nei prossimi "),
 range,
 " giorni. \uD83D\uDC4D")) : (gruppi.map((g, gi) => {
 var _a, _b, _c;
@@ -106,7 +107,7 @@ const hasCust = !!g.customer;
 return (React.createElement("div", { key: ((_a = g.customer) === null || _a === void 0 ? void 0 : _a.id) || "none" + gi, style: { marginBottom: 16, border: "1px solid var(--border-2)", borderRadius: 10, overflow: "hidden" } },
 React.createElement("div", { style: { background: "var(--card)", padding: "11px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" } },
 React.createElement("div", { style: { minWidth: 0 } },
-React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: hasCust ? "var(--text)" : "var(--text-2)" } }, ((_b = g.customer) === null || _b === void 0 ? void 0 : _b.name) || "Cliente non assegnato"),
+React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: hasCust ? "var(--text)" : "var(--text-2)" } }, ((_b = g.customer) === null || _b === void 0 ? void 0 : _b.name) || __t("Cliente non assegnato")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)" } },
 g.items.length,
 " ",
@@ -114,8 +115,8 @@ g.items.length === 1 ? "apparecchio" : "apparecchi",
 " in scadenza",
 ((_c = g.customer) === null || _c === void 0 ? void 0 : _c.email) ? " · " + g.customer.email : "")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexShrink: 0 } },
-React.createElement("button", { onClick: () => exportCustomer(g), title: "Scarica Excel di questo cliente", style: { background: "#2dd4bf12", border: "1px solid #2dd4bf44", borderRadius: 6, color: "#2dd4bf", padding: "6px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, "\uD83D\uDCCA Excel"),
-React.createElement("button", { onClick: () => onEmail(g), disabled: !hasCust, title: hasCust ? "Email al cliente con elenco in scadenza" : "Nessun cliente assegnato", style: { background: hasCust ? "#2dd4bf15" : "var(--surface-2)", border: "1px solid " + (hasCust ? "#2dd4bf44" : "var(--border)"), borderRadius: 6, color: hasCust ? "#2dd4bf" : "var(--text-4)", padding: "6px 10px", fontSize: 11, fontWeight: 700, cursor: hasCust ? "pointer" : "default", whiteSpace: "nowrap" } }, "\u2709 Promemoria"))),
+React.createElement("button", { onClick: () => exportCustomer(g), title: __t("Scarica Excel di questo cliente"), style: { background: "#2dd4bf12", border: "1px solid #2dd4bf44", borderRadius: 6, color: "#2dd4bf", padding: "6px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, "\uD83D\uDCCA Excel"),
+React.createElement("button", { onClick: () => onEmail(g), disabled: !hasCust, title: hasCust ? __t("Email al cliente con elenco in scadenza") : __t("Nessun cliente assegnato"), style: { background: hasCust ? "#2dd4bf15" : "var(--surface-2)", border: "1px solid " + (hasCust ? "#2dd4bf44" : "var(--border)"), borderRadius: 6, color: hasCust ? "#2dd4bf" : "var(--text-4)", padding: "6px 10px", fontSize: 11, fontWeight: 700, cursor: hasCust ? "pointer" : "default", whiteSpace: "nowrap" } }, "\u2709 Promemoria"))),
 g.items.map(Row)));
 }))));
 }
@@ -174,7 +175,7 @@ catch (e) {
 return "";
 } })(),
 }));
-const cols = [{ key: "apparecchio", label: "Apparecchio" }, { key: "marca", label: "Marca" }, { key: "modello", label: "Modello" }, { key: "serial", label: "Matricola" }, { key: "tipo", label: "Tipo verifica" }, { key: "ultima", label: "Ultima verifica" }, { key: "scadenza", label: "Prossima scadenza" }];
+const cols = [{ key: "apparecchio", label: __t("Apparecchio") }, { key: "marca", label: __t("Marca") }, { key: "modello", label: __t("Modello") }, { key: "serial", label: __t("Matricola") }, { key: "tipo", label: __t("Tipo verifica") }, { key: "ultima", label: __t("Ultima verifica") }, { key: "scadenza", label: __t("Prossima scadenza") }];
 const nome = ((customer === null || customer === void 0 ? void 0 : customer.name) || "cliente").replace(/[^a-zA-Z0-9]/g, "_").slice(0, 40);
 if (typeof downloadXLSX === "function")
 downloadXLSX("scadenze_" + nome + ".xlsx", rows, cols, "Scadenze");
@@ -182,28 +183,28 @@ downloadXLSX("scadenze_" + nome + ".xlsx", rows, cols, "Scadenze");
 const FLD = { background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 8, color: "var(--text)", fontSize: 13, padding: "9px 11px", outline: "none", width: "100%", boxSizing: "border-box", fontFamily: "inherit" };
 return (React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.5, marginBottom: 14 } },
-"Email pronta per ",
+__t("Email pronta per "),
 React.createElement("strong", { style: { color: "var(--text)" } }, ref),
 " \u2014 ",
 items.length,
 " ",
 items.length === 1 ? "apparecchio" : "apparecchi",
 " in scadenza.",
-items.length > 1 && React.createElement("span", { style: { display: "block", marginTop: 4 } }, "Scarica l'Excel e allegalo all'email (la posta non permette di allegare file in automatico)."),
-!emailTo && React.createElement("span", { style: { display: "block", color: "#f59e0b", marginTop: 4 } }, "Nessuna email salvata per questo cliente: aprendo la posta dovrai inserire il destinatario a mano. Puoi aggiungerla nell'anagrafica del cliente.")),
+items.length > 1 && React.createElement("span", { style: { display: "block", marginTop: 4 } }, __t("Scarica l'Excel e allegalo all'email (la posta non permette di allegare file in automatico).")),
+!emailTo && React.createElement("span", { style: { display: "block", color: "#f59e0b", marginTop: 4 } }, __t("Nessuna email salvata per questo cliente: aprendo la posta dovrai inserire il destinatario a mano. Puoi aggiungerla nell'anagrafica del cliente."))),
 items.length > 1 && (React.createElement("div", { style: { marginBottom: 14 } },
 React.createElement("button", { onClick: exportExcel, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 8, color: "#2dd4bf", padding: "10px 14px", fontSize: 12.5, fontWeight: 700, cursor: "pointer", width: "100%" } },
 "\uD83D\uDCCA Scarica Excel da allegare (",
 items.length,
 " apparecchi)"))),
 React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, "Oggetto"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, __t("Oggetto")),
 React.createElement("input", { value: subject, onChange: e => setSubject(e.target.value), style: FLD })),
 React.createElement("div", { style: { marginBottom: 14 } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, "Testo"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .6, fontWeight: 700, marginBottom: 5 } }, __t("Testo")),
 React.createElement("textarea", { value: body, onChange: e => setBody(e.target.value), rows: 12, style: Object.assign(Object.assign({}, FLD), { resize: "vertical", lineHeight: 1.5 }) })),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" } },
-React.createElement("button", { onClick: () => copy(body, "testo"), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", padding: "9px 13px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, copied === "testo" ? "✓ Copiato" : "Copia testo"),
+React.createElement("button", { onClick: () => copy(body, "testo"), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", padding: "9px 13px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, copied === "testo" ? "✓ Copiato" : __t("Copia testo")),
 React.createElement("a", { href: mailtoUrl, style: { background: "#2dd4bf", border: "none", borderRadius: 7, color: "#04201C", padding: "9px 15px", fontSize: 12.5, fontWeight: 800, cursor: "pointer", textDecoration: "none" } }, "\u2709 Apri nell'app email"))));
 }
 export function KpiPage({ assets, jobs, customers, iecReports, funcReports, parts, isMobile }) {
@@ -221,7 +222,7 @@ completamento: { t: "Tasso di completamento", d: "Percentuale di interventi aper
 preventiva: { t: "Quota preventiva", d: "Percentuale di interventi che sono manutenzione preventiva (programmata) invece che correttiva (su guasto). Una quota alta è segno di buona gestione: previeni invece di rincorrere i guasti. Sotto il 40% diventa rossa." },
 costo: { t: "Costo manutenzione", d: "Somma dei costi degli interventi nel periodo: manodopera (ore per tariffa) più trasferta più ricambi. La media per apparecchio aiuta a capire quali macchine costano di più da mantenere rispetto al loro valore." },
 };
-const infoDot = (id) => React.createElement("span", { onClick: (e) => { e.stopPropagation(); setKpiHelp(id); }, title: "Cosa significa?", style: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 15, height: 15, borderRadius: "50%", border: "1px solid var(--border)", color: "var(--text-3)", fontSize: 10, fontWeight: 700, fontStyle: "italic", marginLeft: 6, cursor: "pointer", verticalAlign: "middle", flexShrink: 0, lineHeight: 1 } }, "i");
+const infoDot = (id) => React.createElement("span", { onClick: (e) => { e.stopPropagation(); setKpiHelp(id); }, title: __t("Cosa significa?"), style: { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 15, height: 15, borderRadius: "50%", border: "1px solid var(--border)", color: "var(--text-3)", fontSize: 10, fontWeight: 700, fontStyle: "italic", marginLeft: 6, cursor: "pointer", verticalAlign: "middle", flexShrink: 0, lineHeight: 1 } }, "i");
 const K = React.useMemo(() => {
 const addM = (dateStr, months) => { const d = new Date(dateStr); if (isNaN(d))
 return null; d.setMonth(d.getMonth() + (parseInt(months, 10) || 12)); return d; };
@@ -384,24 +385,24 @@ const Bar = ({ h, color, title }) => React.createElement("div", { title: title, 
 return (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: isMobile ? 14 : 18, fontWeight: 900, display: isMobile ? "none" : "block" } }, "KPI & Statistiche"),
+React.createElement("h1", { style: { margin: 0, fontSize: isMobile ? 14 : 18, fontWeight: 900, display: isMobile ? "none" : "block" } }, __t("KPI & Statistiche")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: isMobile ? 0 : "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 K.nAssets,
 " apparecchi nel filtro")),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
 React.createElement("select", { style: selS, value: custFilter, onChange: e => setCustFilter(e.target.value) },
-React.createElement("option", { value: "" }, "Tutti i clienti"),
+React.createElement("option", { value: "" }, __t("Tutti i clienti")),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name))),
 React.createElement("select", { style: selS, value: period, onChange: e => setPeriod(parseInt(e.target.value, 10)) },
-React.createElement("option", { value: 30 }, "Ultimi 30 giorni"),
-React.createElement("option", { value: 90 }, "Ultimi 90 giorni"),
-React.createElement("option", { value: 365 }, "Ultimi 12 mesi"),
-React.createElement("option", { value: 0 }, "Da sempre")))),
-kpiHelp && KPI_INFO[kpiHelp] ? React.createElement("div", { onClick: () => setKpiHelp(null), style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 18 } }, React.createElement("div", { onClick: (e) => e.stopPropagation(), style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: 18, maxWidth: 420, width: "100%", boxShadow: "0 12px 40px rgba(0,0,0,0.5)" } }, React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--text-strong)", marginBottom: 8 } }, KPI_INFO[kpiHelp].t), React.createElement("div", { style: { fontSize: 13.5, color: "var(--text)", lineHeight: 1.55 } }, KPI_INFO[kpiHelp].d), React.createElement("button", { onClick: () => setKpiHelp(null), style: { marginTop: 14, width: "100%", background: "#2dd4bf", color: "#fff", border: "none", borderRadius: 8, padding: "9px 0", fontSize: 14, fontWeight: 700, cursor: "pointer" } }, "Ho capito"))) : null,
+React.createElement("option", { value: 30 }, __t("Ultimi 30 giorni")),
+React.createElement("option", { value: 90 }, __t("Ultimi 90 giorni")),
+React.createElement("option", { value: 365 }, __t("Ultimi 12 mesi")),
+React.createElement("option", { value: 0 }, __t("Da sempre"))))),
+kpiHelp && KPI_INFO[kpiHelp] ? React.createElement("div", { onClick: () => setKpiHelp(null), style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 18 } }, React.createElement("div", { onClick: (e) => e.stopPropagation(), style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, padding: 18, maxWidth: 420, width: "100%", boxShadow: "0 12px 40px rgba(0,0,0,0.5)" } }, React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: "var(--text-strong)", marginBottom: 8 } }, KPI_INFO[kpiHelp].t), React.createElement("div", { style: { fontSize: 13.5, color: "var(--text)", lineHeight: 1.55 } }, KPI_INFO[kpiHelp].d), React.createElement("button", { onClick: () => setKpiHelp(null), style: { marginTop: 14, width: "100%", background: "#2dd4bf", color: "#fff", border: "none", borderRadius: 8, padding: "9px 0", fontSize: 14, fontWeight: 700, cursor: "pointer" } }, __t("Ho capito")))) : null,
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4,1fr)", gap: 12, marginBottom: 14 } },
 React.createElement("div", { style: card },
 React.createElement("div", { style: Object.assign(Object.assign({}, big), { color: K.confPct === null ? "var(--text-3)" : K.confPct >= 90 ? "#22c55e" : K.confPct >= 70 ? "#f59e0b" : "#ef4444" }) }, K.confPct === null ? "—" : K.confPct + "%"),
-React.createElement("div", { style: sub }, "Parco conforme", infoDot("conformita")),
+React.createElement("div", { style: sub }, __t("Parco conforme"), infoDot("conformita")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } },
 K.conformi,
 " ok \u00B7 ",
@@ -411,7 +412,7 @@ K.maiVerificati,
 " mai verificati")),
 React.createElement("div", { style: card },
 React.createElement("div", { style: Object.assign(Object.assign({}, big), { color: K.scaduti > 0 ? "#ef4444" : "#22c55e" }) }, K.scaduti),
-React.createElement("div", { style: sub }, "Verifiche scadute", infoDot("scaduti")),
+React.createElement("div", { style: sub }, __t("Verifiche scadute"), infoDot("scaduti")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } },
 K.d30,
 " entro 30g \u00B7 ",
@@ -421,31 +422,31 @@ K.d90,
 " a 90g")),
 React.createElement("div", { style: card },
 React.createElement("div", { style: big }, K.mttr === null ? "—" : K.mttr + " gg"),
-React.createElement("div", { style: sub }, "Tempo medio riparazione", infoDot("mttr")),
+React.createElement("div", { style: sub }, __t("Tempo medio riparazione"), infoDot("mttr")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } },
 K.nChiusi,
 " correttivi chiusi nel periodo")),
 React.createElement("div", { style: card },
 React.createElement("div", { style: Object.assign(Object.assign({}, big), { color: K.ritorniPct === null ? "var(--text)" : K.ritorniPct <= 10 ? "#22c55e" : K.ritorniPct <= 25 ? "#f59e0b" : "#ef4444" }) }, K.ritorniPct === null ? "—" : K.ritorniPct + "%"),
-React.createElement("div", { style: sub }, "Ritorni entro 30 giorni", infoDot("ritorni")),
+React.createElement("div", { style: sub }, __t("Ritorni entro 30 giorni"), infoDot("ritorni")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } }, "stesso apparecchio, nuovo guasto"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(3,1fr)", gap: 12, marginBottom: 14 } },
 React.createElement("div", { style: card },
 React.createElement("div", { style: big }, K.mtbf === null ? "\u2014" : K.mtbf + " gg"),
-React.createElement("div", { style: sub }, "Tempo tra guasti (MTBF)", infoDot("mtbf")),
+React.createElement("div", { style: sub }, __t("Tempo tra guasti (MTBF)"), infoDot("mtbf")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } }, K.nGuasti + " guasti nel periodo \u00b7 stima")),
 React.createElement("div", { style: card },
 React.createElement("div", { style: Object.assign(Object.assign({}, big), { color: K.completPct === null ? "var(--text-3)" : K.completPct >= 80 ? "#22c55e" : K.completPct >= 50 ? "#f59e0b" : "#ef4444" }) }, K.completPct === null ? "\u2014" : K.completPct + "%"),
-React.createElement("div", { style: sub }, "Tasso completamento", infoDot("completamento")),
+React.createElement("div", { style: sub }, __t("Tasso completamento"), infoDot("completamento")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } }, K.nClosedP + " chiusi su " + K.nOpenedP + " aperti")),
 React.createElement("div", { style: card },
 React.createElement("div", { style: Object.assign(Object.assign({}, big), { color: K.pmPct === null ? "var(--text-3)" : K.pmPct >= 60 ? "#22c55e" : K.pmPct >= 40 ? "#f59e0b" : "#ef4444" }) }, K.pmPct === null ? "\u2014" : K.pmPct + "%"),
-React.createElement("div", { style: sub }, "Quota preventiva", infoDot("preventiva")),
+React.createElement("div", { style: sub }, __t("Quota preventiva"), infoDot("preventiva")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 6 } }, K.prevN + " prev \u00b7 " + K.corrN + " corr"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12, marginBottom: 14 } },
 React.createElement("div", { style: card },
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } },
-"Interventi per mese ",
+__t("Interventi per mese "),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)" } },
 "(",
 React.createElement("span", { style: { color: "#2dd4bf" } }, "\u25A0 prev."),
@@ -466,7 +467,7 @@ React.createElement("br", null),
 tot || "")));
 }))),
 React.createElement("div", { style: card },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "Verifiche eseguite per mese"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, __t("Verifiche eseguite per mese")),
 React.createElement("div", { style: { display: "flex", alignItems: "flex-end", gap: 8, height: 118 } }, K.months.map((m, i) => (React.createElement("div", { key: i, style: { flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end" }, title: m.label + ": " + m.ver },
 React.createElement(Bar, { h: 86 * m.ver / maxVer, color: "#5eead4" }),
 React.createElement("div", { style: { fontSize: 9, color: "var(--text-3)", textAlign: "center", marginTop: 3 } },
@@ -475,22 +476,22 @@ React.createElement("br", null),
 m.ver || ""))))))),
 React.createElement("div", { style: Object.assign(Object.assign({}, card), { marginBottom: 12 }) },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 8 } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700 } }, "Andamento nel tempo"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700 } }, __t("Andamento nel tempo")),
 React.createElement("div", { style: { display: "flex", gap: 4 } }, [6, 12, 24].map(r => React.createElement("button", { key: r, onClick: () => setTrendRange(r), style: { background: trendRange === r ? "#2dd4bf" : "var(--surface-2)", color: trendRange === r ? "#fff" : "var(--text-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "4px 10px", fontSize: 12, fontWeight: 600, cursor: "pointer" } }, r + "m")))),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginBottom: 6 } }, "Conformità del parco (%)"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginBottom: 6 } }, __t("Conformità del parco (%)")),
 React.createElement(AreaTrend, { data: trend, valueKey: "conf", color: "#2dd4bf", height: 96, suffix: "%" }),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", margin: "12px 0 6px" } }, "Costo manutenzione (€/mese)"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", margin: "12px 0 6px" } }, __t("Costo manutenzione (€/mese)")),
 React.createElement(AreaTrend, { data: trend, valueKey: "cost", color: "#f59e0b", height: 96, money: true })),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12, marginBottom: 12 } },
 React.createElement("div", { style: card },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "Costo manutenzione (periodo)", infoDot("costo")),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, __t("Costo manutenzione (periodo)"), infoDot("costo")),
 React.createElement("div", { style: big }, "€ " + Math.round(K.totalCost || 0).toLocaleString("it-IT")),
-React.createElement("div", { style: sub }, "Totale interventi nel periodo"),
+React.createElement("div", { style: sub }, __t("Totale interventi nel periodo")),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", marginTop: 8 } }, "Media per apparecchio: € " + Math.round(K.avgCost || 0).toLocaleString("it-IT")),
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 4, fontStyle: "italic" } }, "manodopera + trasferta + ricambi")),
 React.createElement("div", { style: card },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "Apparecchi più costosi"),
-(!K.topCost || K.topCost.length === 0) ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Nessun costo nel periodo.") :
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, __t("Apparecchi più costosi")),
+(!K.topCost || K.topCost.length === 0) ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, __t("Nessun costo nel periodo.")) :
 K.topCost.map(t => (React.createElement("div", { key: t.id, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "6px 0", borderBottom: "1px solid var(--border-2)", fontSize: 13 } },
 React.createElement("div", { style: { minWidth: 0 } },
 React.createElement("div", { style: { fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, t.name, " ", t.code ? React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: "#2dd4bf" } }, t.code) : null),
@@ -498,8 +499,8 @@ React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)" } }, 
 React.createElement("div", { style: { fontWeight: 800, color: "#f59e0b", whiteSpace: "nowrap" } }, "€ " + Math.round(t.cost).toLocaleString("it-IT"))))))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12 } },
 React.createElement("div", { style: card },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "Apparecchi pi\u00F9 problematici"),
-K.top.length === 0 ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Nessun correttivo nel periodo.") :
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, __t("Apparecchi pi\u00F9 problematici")),
+K.top.length === 0 ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, __t("Nessun correttivo nel periodo.")) :
 K.top.map(t => (React.createElement("div", { key: t.id, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "6px 0", borderBottom: "1px solid var(--border-2)", fontSize: 13 } },
 React.createElement("div", { style: { minWidth: 0 } },
 React.createElement("div", { style: { fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } },
@@ -509,8 +510,8 @@ t.code ? React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', mo
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)" } }, t.cust)),
 React.createElement("div", { style: { fontWeight: 800, color: "#f59e0b" } }, t.n))))),
 React.createElement("div", { style: card },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "Clienti per impegno nel periodo"),
-K.topCust.length === 0 ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Nessun intervento nel periodo.") :
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, marginBottom: 10 } }, __t("Clienti per impegno nel periodo")),
+K.topCust.length === 0 ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, __t("Nessun intervento nel periodo.")) :
 K.topCust.map((c, i) => (React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "6px 0", borderBottom: "1px solid var(--border-2)", fontSize: 13 } },
 React.createElement("div", { style: { fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, c.name),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", whiteSpace: "nowrap" } },
@@ -562,7 +563,7 @@ color: days < 0 ? '#ef4444' : days <= 60 ? '#f59e0b' : '#a855f7',
 date: i.calExpiry, dateObj: date,
 title: (i.brand || '') + ' ' + (i.model || ''),
 customerName: 'Strumenti interni', customerId: '__instruments__',
-location: '', subtitle: i.category || 'Strumento di misura',
+location: '', subtitle: i.category || __t('Strumento di misura'),
 days,
 status: days < 0 ? ('scaduta da ' + Math.abs(days) + 'gg') : ('tra ' + days + 'gg'),
 onAction: () => goTab('instruments'),
@@ -577,7 +578,7 @@ events.push({
 id: 'job-' + j.id, type: 'job',
 color: j.priority === 'urgente' ? '#ef4444' : j.priority === 'alta' ? '#f97316' : 'var(--text-3)',
 date: (j.openDate || TODAY.toISOString().slice(0, 10)), dateObj: date,
-title: j.description || 'Intervento',
+title: j.description || __t('Intervento'),
 customerName: customer ? customer.name : 'Senza cliente',
 customerId: (j.customerId || (asset === null || asset === void 0 ? void 0 : asset.customerId) || ''),
 location: (asset === null || asset === void 0 ? void 0 : asset.location) || '',
@@ -652,8 +653,8 @@ React.createElement("div", { style: { fontSize: 10, color: 'var(--text-4)' } }, 
 return (React.createElement("div", null,
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 900 } }, "Agenda & Pianificazione"),
-React.createElement("p", { style: { color: 'var(--text-3)', margin: '2px 0 0', fontSize: 12 } }, "Cosa c'\u00E8 da fare, organizzato per non perdere niente"))),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 900 } }, __t("Agenda & Pianificazione")),
+React.createElement("p", { style: { color: 'var(--text-3)', margin: '2px 0 0', fontSize: 12 } }, __t("Cosa c'\u00E8 da fare, organizzato per non perdere niente")))),
 React.createElement("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 } },
 React.createElement("button", { onClick: () => setMonthOffset(monthOffset - 1), style: { background: 'var(--surface)', border: '1px solid #2a3040', borderRadius: 8, color: 'var(--text-2)', padding: '7px 14px', cursor: 'pointer', fontSize: 16 } }, "\u2039"),
 React.createElement("div", { style: { textAlign: 'center', minWidth: 170 } },
@@ -666,16 +667,16 @@ React.createElement("button", { onClick: () => setMonthOffset(monthOffset + 1), 
 React.createElement("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: 10, marginBottom: 16 } },
 React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid #1e2a3a', borderRadius: 10, padding: '12px 14px' } },
 React.createElement("div", { style: { fontSize: 26, fontWeight: 900, color: '#2dd4bf', fontFamily: 'monospace', lineHeight: 1 } }, stats.total),
-React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, "Da fare")),
+React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, __t("Da fare"))),
 React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid ' + (stats.overdue > 0 ? '#ef444444' : 'var(--border-2)'), borderRadius: 10, padding: '12px 14px' } },
 React.createElement("div", { style: { fontSize: 26, fontWeight: 900, color: '#ef4444', fontFamily: 'monospace', lineHeight: 1 } }, stats.overdue),
-React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, "Scadute")),
+React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, __t("Scadute"))),
 React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid #1e2a3a', borderRadius: 10, padding: '12px 14px' } },
 React.createElement("div", { style: { fontSize: 26, fontWeight: 900, color: '#f59e0b', fontFamily: 'monospace', lineHeight: 1 } }, stats.thisWeek),
-React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, "Entro 7gg")),
+React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, __t("Entro 7gg"))),
 React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid #1e2a3a', borderRadius: 10, padding: '12px 14px' } },
 React.createElement("div", { style: { fontSize: 26, fontWeight: 900, color: 'var(--text-2)', fontFamily: 'monospace', lineHeight: 1 } }, byClient.length),
-React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, "Clienti"))),
+React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', marginTop: 5, textTransform: 'uppercase', letterSpacing: .6, fontWeight: 700 } }, __t("Clienti")))),
 React.createElement("div", { style: { display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 } }, [
 { id: 'all', label: 'Tutto (' + stats.total + ')' },
 { id: 'maintenance', label: 'Verifiche (' + stats.maint + ')' },
@@ -688,11 +689,11 @@ border: '1px solid ' + (filterType === f.id ? '#2dd4bf66' : 'var(--border)'),
 borderRadius: 20, padding: '4px 13px', cursor: 'pointer', fontSize: 11.5, fontWeight: 700,
 } }, f.label)))),
 React.createElement("div", { style: { display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16, overflowX: 'auto', paddingBottom: 2 } },
-React.createElement(Tab, { id: "overview", label: "Priorit\u00E0" }),
-React.createElement(Tab, { id: "byClient", label: "Per cliente" }),
-React.createElement(Tab, { id: "byWeek", label: "Per settimana" }),
-React.createElement(Tab, { id: "calendar", label: "Calendario" })),
-stats.total === 0 && (React.createElement(EmptyState, { icon: "\uD83D\uDCC5", title: "Niente in programma per " + MONTHS_IT[viewMonth], subtitle: "Nessuna verifica, calibrazione o intervento in scadenza questo mese. Usa le frecce sopra per controllare gli altri mesi." })),
+React.createElement(Tab, { id: "overview", label: __t("Priorit\u00E0") }),
+React.createElement(Tab, { id: "byClient", label: __t("Per cliente") }),
+React.createElement(Tab, { id: "byWeek", label: __t("Per settimana") }),
+React.createElement(Tab, { id: "calendar", label: __t("Calendario") })),
+stats.total === 0 && (React.createElement(EmptyState, { icon: "\uD83D\uDCC5", title: "Niente in programma per " + MONTHS_IT[viewMonth], subtitle: __t("Nessuna verifica, calibrazione o intervento in scadenza questo mese. Usa le frecce sopra per controllare gli altri mesi.") })),
 stats.total > 0 && view === 'overview' && (React.createElement("div", null,
 stats.overdue > 0 && (React.createElement("div", { style: { marginBottom: 18 } },
 React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: '#ef4444', marginBottom: 8, textTransform: 'uppercase', letterSpacing: .6, display: 'flex', alignItems: 'center', gap: 6 } },
@@ -701,9 +702,9 @@ stats.overdue,
 ")"),
 monthEvents.filter(e => e.days < 0).map(e => React.createElement(EventRow, { key: e.id, e: e, showClient: true })))),
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: 'var(--text-2)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: .6 } }, "In programma (per scadenza)"),
+React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: 'var(--text-2)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: .6 } }, __t("In programma (per scadenza)")),
 monthEvents.filter(e => e.days >= 0).map(e => React.createElement(EventRow, { key: e.id, e: e, showClient: true })),
-monthEvents.filter(e => e.days >= 0).length === 0 && (React.createElement("div", { style: { color: 'var(--text-3)', fontSize: 12, padding: '12px', textAlign: 'center' } }, "Tutto il resto \u00E8 gi\u00E0 scaduto \u2014 recupera quelle sopra."))))),
+monthEvents.filter(e => e.days >= 0).length === 0 && (React.createElement("div", { style: { color: 'var(--text-3)', fontSize: 12, padding: '12px', textAlign: 'center' } }, __t("Tutto il resto \u00E8 gi\u00E0 scaduto \u2014 recupera quelle sopra.")))))),
 stats.total > 0 && view === 'byClient' && (React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 12 } }, byClient.map((g, gi) => (React.createElement("div", { key: gi, style: { background: 'var(--surface)', border: '1px solid ' + (g.overdue > 0 ? '#ef444433' : 'var(--border-2)'), borderRadius: 12, overflow: 'hidden' } },
 React.createElement("div", { style: { padding: '10px 14px', background: 'var(--bg-2)', borderBottom: '1px solid #1e2a3a', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 } },
 React.createElement("div", { style: { fontWeight: 800, fontSize: 14, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, g.name),
@@ -747,7 +748,7 @@ React.createElement("div", { style: { fontSize: 8, fontWeight: 600, opacity: .8 
 }
 return cells;
 })()),
-React.createElement("div", { style: { padding: '10px 14px', borderTop: '1px solid #1e2a3a', fontSize: 11, color: 'var(--text-3)', textAlign: 'center' } }, "Tocca un giorno per vedere i dettagli \u00B7 Il numero indica quante attivit\u00E0 ci sono")))));
+React.createElement("div", { style: { padding: '10px 14px', borderTop: '1px solid #1e2a3a', fontSize: 11, color: 'var(--text-3)', textAlign: 'center' } }, __t("Tocca un giorno per vedere i dettagli \u00B7 Il numero indica quante attivit\u00E0 ci sono"))))));
 }
 export function PianoManuale({ assets, setAssets, customers, year, setYear, showToast, goTab }) {
 const MONTHS_IT = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
@@ -788,11 +789,11 @@ return Object.assign(Object.assign({}, a), { plannedMonths: planned });
 };
 const applyBulk = () => {
 if (!bulkMonth) {
-alert('Seleziona un mese');
+alert(__t('Seleziona un mese'));
 return;
 }
 if (selectedIds.length === 0) {
-alert('Seleziona almeno un apparecchio');
+alert(__t('Seleziona almeno un apparecchio'));
 return;
 }
 const month = bulkMonth === 'none' ? null : parseInt(bulkMonth);
@@ -853,20 +854,20 @@ return (React.createElement("div", null,
 React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 10, padding: '14px 16px', marginBottom: 14 } },
 React.createElement("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 10 } },
 React.createElement("div", null,
-React.createElement("h3", { style: { margin: 0, fontSize: 15, fontWeight: 800, color: 'var(--text-bright)' } }, "Piano Manutenzione Manuale"),
-React.createElement("p", { style: { margin: '2px 0 0', fontSize: 11, color: 'var(--text-3)' } }, "Pianifica manualmente quando fare ogni apparecchio, indipendentemente dalla scadenza tecnica")),
+React.createElement("h3", { style: { margin: 0, fontSize: 15, fontWeight: 800, color: 'var(--text-bright)' } }, __t("Piano Manutenzione Manuale")),
+React.createElement("p", { style: { margin: '2px 0 0', fontSize: 11, color: 'var(--text-3)' } }, __t("Pianifica manualmente quando fare ogni apparecchio, indipendentemente dalla scadenza tecnica"))),
 React.createElement("div", { style: { display: 'flex', alignItems: 'center', gap: 8 } },
-React.createElement("span", { style: { color: 'var(--text-3)', fontSize: 12 } }, "Anno:"),
+React.createElement("span", { style: { color: 'var(--text-3)', fontSize: 12 } }, __t("Anno:")),
 React.createElement("select", { value: year, onChange: e => setYear(+e.target.value), style: { background: 'var(--surface-2)', border: '1px solid #2a3040', borderRadius: 6, padding: '5px 10px', color: 'var(--text)', fontSize: 12 } }, [year - 1, year, year + 1, year + 2].map(y => React.createElement("option", { key: y, value: y }, y))))),
 React.createElement("div", { style: { display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 0 } },
 React.createElement("select", { value: filterType, onChange: e => setFilterType(e.target.value), style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 6, padding: '5px 10px', color: 'var(--text-2)', fontSize: 11 } },
-React.createElement("option", { value: "all" }, "Tutte le categorie"),
+React.createElement("option", { value: "all" }, __t("Tutte le categorie")),
 categories.map(c => React.createElement("option", { key: c, value: c }, c))),
 React.createElement("select", { value: filterLocation, onChange: e => setFilterLocation(e.target.value), style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 6, padding: '5px 10px', color: 'var(--text-2)', fontSize: 11 } },
-React.createElement("option", { value: "all" }, "Tutte le ubicazioni"),
+React.createElement("option", { value: "all" }, __t("Tutte le ubicazioni")),
 locations.map(l => React.createElement("option", { key: l, value: l }, l))),
 React.createElement("select", { value: filterCustomer, onChange: e => setFilterCustomer(e.target.value), style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 6, padding: '5px 10px', color: 'var(--text-2)', fontSize: 11 } },
-React.createElement("option", { value: "all" }, "Tutti i clienti"),
+React.createElement("option", { value: "all" }, __t("Tutti i clienti")),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name))),
 React.createElement("span", { style: { marginLeft: 'auto', color: 'var(--text-3)', fontSize: 11, alignSelf: 'center' } },
 filtered.length,
@@ -875,18 +876,18 @@ unplanned.length,
 " non pianificati"))),
 React.createElement("div", { style: { background: 'var(--surface)', border: `1px solid ${selectedIds.length > 0 ? '#2dd4bf44' : 'var(--border-4)'}`, borderRadius: 10, padding: '10px 14px', marginBottom: 14,
 display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' } },
-React.createElement("button", { onClick: selectAllFiltered, style: { background: 'var(--surface-2)', border: '1px solid #2a3040', borderRadius: 6, color: 'var(--text-2)', padding: '5px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 700 } }, selectedIds.length === filtered.length && filtered.length > 0 ? 'Deseleziona tutti' : 'Seleziona tutti i filtrati'),
+React.createElement("button", { onClick: selectAllFiltered, style: { background: 'var(--surface-2)', border: '1px solid #2a3040', borderRadius: 6, color: 'var(--text-2)', padding: '5px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 700 } }, selectedIds.length === filtered.length && filtered.length > 0 ? __t('Deseleziona tutti') : __t('Seleziona tutti i filtrati')),
 React.createElement("span", { style: { color: 'var(--text-3)', fontSize: 12 } },
 selectedIds.length,
 " selezionat",
 selectedIds.length === 1 ? 'o' : 'i'),
 selectedIds.length > 0 && (React.createElement(React.Fragment, null,
-React.createElement("span", { style: { color: 'var(--text-3)', fontSize: 12, marginLeft: 'auto' } }, "Assegna a:"),
+React.createElement("span", { style: { color: 'var(--text-3)', fontSize: 12, marginLeft: 'auto' } }, __t("Assegna a:")),
 React.createElement("select", { value: bulkMonth, onChange: e => setBulkMonth(e.target.value), style: { background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 6, padding: '5px 10px', color: 'var(--text-bright)', fontSize: 12 } },
 React.createElement("option", { value: "" }, "\u2014 Mese \u2014"),
 MONTHS_IT.map((m, i) => React.createElement("option", { key: i, value: i + 1 }, m)),
-React.createElement("option", { value: "none" }, "Rimuovi pianificazione")),
-React.createElement("button", { onClick: applyBulk, style: { background: '#2dd4bf', color: '#000', border: 'none', borderRadius: 6, padding: '6px 14px', cursor: 'pointer', fontSize: 11, fontWeight: 800 } }, "Applica")))),
+React.createElement("option", { value: "none" }, __t("Rimuovi pianificazione"))),
+React.createElement("button", { onClick: applyBulk, style: { background: '#2dd4bf', color: '#000', border: 'none', borderRadius: 6, padding: '6px 14px', cursor: 'pointer', fontSize: 11, fontWeight: 800 } }, __t("Applica"))))),
 React.createElement("div", { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 10, marginBottom: 14 } }, Array.from({ length: 12 }, (_, m) => m + 1).map(month => {
 const items = byMonth[month];
 return (React.createElement("div", { key: month, style: { background: 'var(--surface)', border: `1px solid ${items.length > 0 ? '#2dd4bf33' : 'var(--border-4)'}`, borderRadius: 10, overflow: 'hidden' } },
@@ -895,7 +896,7 @@ borderBottom: `1px solid ${items.length > 0 ? '#2dd4bf33' : 'var(--border-4)'}`,
 display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
 React.createElement("span", { style: { fontWeight: 800, fontSize: 12, color: items.length > 0 ? 'var(--text-bright)' : 'var(--text-3)' } }, MONTHS_IT[month - 1]),
 items.length > 0 && (React.createElement("span", { style: { background: '#2dd4bf', color: '#000', borderRadius: 20, padding: '1px 7px', fontSize: 10, fontWeight: 900 } }, items.length))),
-React.createElement("div", { style: { padding: 6, minHeight: 60 } }, items.length === 0 ? (React.createElement("div", { style: { padding: '10px 6px', color: 'var(--text-4)', fontSize: 11, textAlign: 'center' } }, "Nessuno")) : items.map(asset => React.createElement(AssetCard, { key: asset.id, asset: asset, compact: true })))));
+React.createElement("div", { style: { padding: 6, minHeight: 60 } }, items.length === 0 ? (React.createElement("div", { style: { padding: '10px 6px', color: 'var(--text-4)', fontSize: 11, textAlign: 'center' } }, __t("Nessuno"))) : items.map(asset => React.createElement(AssetCard, { key: asset.id, asset: asset, compact: true })))));
 })),
 unplanned.length > 0 && (React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid #f59e0b33', borderRadius: 10, overflow: 'hidden' } },
 React.createElement("div", { style: { padding: '10px 14px', background: '#f59e0b15', borderBottom: '1px solid #f59e0b33',
@@ -904,9 +905,9 @@ React.createElement("span", { style: { fontWeight: 800, fontSize: 13, color: '#f
 "\u26A0 Non pianificati (",
 unplanned.length,
 ")"),
-React.createElement("span", { style: { fontSize: 10, color: 'var(--text-3)' } }, "Spunta gli apparecchi e usa \"Assegna a\" sopra, oppure scegli il mese dal menu su ogni riga")),
+React.createElement("span", { style: { fontSize: 10, color: 'var(--text-3)' } }, __t("Spunta gli apparecchi e usa \"Assegna a\" sopra, oppure scegli il mese dal menu su ogni riga"))),
 React.createElement("div", { style: { padding: 8, maxHeight: 300, overflowY: 'auto' } }, unplanned.map(asset => React.createElement(AssetCard, { key: asset.id, asset: asset, showSelect: true }))))),
-React.createElement("div", { style: { textAlign: 'center', marginTop: 14, fontSize: 10, color: 'var(--text-4)' } }, "Suggerimento: assegna gli apparecchi ai mesi per bilanciare il carico di lavoro nell'anno. Il piano manuale \u00E8 indipendente dalla scadenza tecnica (Prossimo servizio).")));
+React.createElement("div", { style: { textAlign: 'center', marginTop: 14, fontSize: 10, color: 'var(--text-4)' } }, __t("Suggerimento: assegna gli apparecchi ai mesi per bilanciare il carico di lavoro nell'anno. Il piano manuale \u00E8 indipendente dalla scadenza tecnica (Prossimo servizio)."))));
 }
 function detectCategory(name) {
 const n = (name || '').toLowerCase();
