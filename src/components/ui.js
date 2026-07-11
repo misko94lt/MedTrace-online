@@ -1,3 +1,4 @@
+import { t } from "../constants/i18n.js";
 /* MedTrace — mattoncini UI condivisi: input, modal, chip, grafici, tabella, dialog imperativi (estratti da app.js, v2.89) */
 import { __rest } from "../lib/tslib.js";
 import { downloadXLSX } from "../lib/export.js";
@@ -80,7 +81,7 @@ rows.length),
 exportName && filtered.length > 0 && (React.createElement("button", { onClick: () => {
 const expCols = cols.map(c => ({ key: c.key, label: c.label }));
 downloadXLSX(exportName + ".xlsx", filtered, expCols, exportName);
-}, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 5, color: "#2dd4bf", padding: "5px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }, title: "Esporta in Excel i risultati filtrati" }, "\u2B07 Excel"))),
+}, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 5, color: "#2dd4bf", padding: "5px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }, title: t("Esporta in Excel i risultati filtrati") }, "\u2B07 Excel"))),
 React.createElement("div", { style: { overflowX: isMobile ? "auto" : "visible", overflowY: "auto", border: "1px solid var(--border-2)", borderRadius: "0 0 10px 10px", background: "var(--surface)", maxHeight: "68vh" } },
 React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: isMobile ? 12 : 12.5, fontFamily: "inherit" } },
 React.createElement("thead", null,
@@ -89,7 +90,7 @@ cols.map(c => (React.createElement("th", { key: c.key, style: Object.assign(Obje
 c.label,
 " ",
 React.createElement("span", { style: { fontSize: 9, opacity: .6 } }, sort.key === c.key ? (sort.dir === "asc" ? "▲" : "▼") : "⇅")))),
-(onEdit || onDelete || actions) && React.createElement("th", { style: Object.assign(Object.assign({}, TH_S), { cursor: "default" }) }, "Azioni")),
+(onEdit || onDelete || actions) && React.createElement("th", { style: Object.assign(Object.assign({}, TH_S), { cursor: "default" }) }, t("Azioni"))),
 React.createElement("tr", null,
 cols.map(c => (React.createElement("td", { key: c.key, style: { padding: "3px 5px", background: "var(--bg-deep)", borderBottom: "1px solid var(--border-2)" } }, c.opts ? (() => {
 const sel = filters[c.key] || [];
@@ -100,7 +101,7 @@ rows.forEach(r => { const v = String(r[c.key] || ""); if (v)
 counts[v] = (counts[v] || 0) + 1; });
 const label = sel.length === 0 ? "Tutti" : sel.length === 1 ? sel[0] : sel.length + " selez.";
 return (React.createElement("div", { style: { position: "relative" } },
-React.createElement("button", { onClick: () => { setOptSearch(""); setOpenCol(open ? null : c.key); }, title: sel.length ? sel.join(", ") : "Filtra", style: { display: "flex", alignItems: "center", gap: 4, width: "100%", background: sel.length ? "#2dd4bf18" : "var(--card)", border: "1px solid " + (sel.length ? "#2dd4bf66" : "var(--border-2)"), borderRadius: 4, padding: "3px 6px", color: sel.length ? "#5eead4" : "var(--text-2)", fontSize: 11, cursor: "pointer", outline: "none", whiteSpace: "nowrap", overflow: "hidden" } },
+React.createElement("button", { onClick: () => { setOptSearch(""); setOpenCol(open ? null : c.key); }, title: sel.length ? sel.join(", ") : t("Filtra"), style: { display: "flex", alignItems: "center", gap: 4, width: "100%", background: sel.length ? "#2dd4bf18" : "var(--card)", border: "1px solid " + (sel.length ? "#2dd4bf66" : "var(--border-2)"), borderRadius: 4, padding: "3px 6px", color: sel.length ? "#5eead4" : "var(--text-2)", fontSize: 11, cursor: "pointer", outline: "none", whiteSpace: "nowrap", overflow: "hidden" } },
 React.createElement("span", { style: { flex: 1, textAlign: "left", overflow: "hidden", textOverflow: "ellipsis" } }, label),
 React.createElement("span", { style: { fontSize: 8, opacity: .7 } }, "\u25BC")),
 open && (React.createElement(React.Fragment, null,
@@ -111,13 +112,13 @@ React.createElement("div", { style: isMobileTbl
 isMobileTbl && React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 } },
 React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--text)" } }, c.label),
 React.createElement("button", { onClick: () => setOpenCol(null), style: { background: "none", border: "none", color: "var(--text-2)", fontSize: 22, cursor: "pointer", lineHeight: 1, padding: "0 4px" } }, "\u00D7")),
-present.length > 8 && (React.createElement("input", { autoFocus: true, placeholder: "Filtra voci\u2026", value: optSearch, onChange: e => setOptSearch(e.target.value), onMouseDown: e => e.stopPropagation(), style: { width: "100%", boxSizing: "border-box", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 5, padding: "5px 8px", color: "var(--text)", fontSize: 12, outline: "none", marginBottom: 6 } })),
+present.length > 8 && (React.createElement("input", { autoFocus: true, placeholder: t("Filtra voci\u2026"), value: optSearch, onChange: e => setOptSearch(e.target.value), onMouseDown: e => e.stopPropagation(), style: { width: "100%", boxSizing: "border-box", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 5, padding: "5px 8px", color: "var(--text)", fontSize: 12, outline: "none", marginBottom: 6 } })),
 React.createElement("div", { style: { display: "flex", gap: 6, padding: "0 6px 8px", borderBottom: "1px solid var(--border-2)", marginBottom: 4 } },
-React.createElement("button", { onClick: () => setAll(c.key, optSearch ? present.filter(o => o.toLowerCase().includes(optSearch.toLowerCase())) : present), style: { flex: 1, background: "none", border: "1px solid #2dd4bf44", borderRadius: 4, color: "#5eead4", fontSize: 10, fontWeight: 700, padding: "3px 0", cursor: "pointer" } }, optSearch ? "Tutti i visibili" : "Tutti"),
-React.createElement("button", { onClick: () => clearOne(c.key), style: { flex: 1, background: "none", border: "1px solid #ef444433", borderRadius: 4, color: "#ef4444", fontSize: 10, fontWeight: 700, padding: "3px 0", cursor: "pointer" } }, "Nessuno")),
+React.createElement("button", { onClick: () => setAll(c.key, optSearch ? present.filter(o => o.toLowerCase().includes(optSearch.toLowerCase())) : present), style: { flex: 1, background: "none", border: "1px solid #2dd4bf44", borderRadius: 4, color: "#5eead4", fontSize: 10, fontWeight: 700, padding: "3px 0", cursor: "pointer" } }, optSearch ? t("Tutti i visibili") : t("Tutti")),
+React.createElement("button", { onClick: () => clearOne(c.key), style: { flex: 1, background: "none", border: "1px solid #ef444433", borderRadius: 4, color: "#ef4444", fontSize: 10, fontWeight: 700, padding: "3px 0", cursor: "pointer" } }, t("Nessuno"))),
 (() => {
 const shown = optSearch ? present.filter(o => o.toLowerCase().includes(optSearch.toLowerCase())) : present;
-return shown.length === 0 ? React.createElement("div", { style: { padding: "6px 8px", fontSize: 11, color: "var(--text-4)" } }, "Nessuna voce") :
+return shown.length === 0 ? React.createElement("div", { style: { padding: "6px 8px", fontSize: 11, color: "var(--text-4)" } }, t("Nessuna voce")) :
 shown.sort().map(o => (React.createElement("label", { key: o, style: { display: "flex", alignItems: "center", gap: 8, padding: "5px 8px", borderRadius: 5, cursor: "pointer", fontSize: 12, color: "var(--text)" }, onMouseDown: e => e.preventDefault(), onClick: () => toggleVal(c.key, o) },
 React.createElement("span", { style: { width: 15, height: 15, flexShrink: 0, borderRadius: 3, border: "1px solid " + (sel.indexOf(o) >= 0 ? "#2dd4bf" : "var(--text-4)"), background: sel.indexOf(o) >= 0 ? "#2dd4bf" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "var(--bg-deep)", fontWeight: 900 } }, sel.indexOf(o) >= 0 ? "✓" : ""),
 React.createElement("span", { style: { flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, c.render ? c.render(o, {}) : o),
@@ -126,7 +127,7 @@ React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", fon
 })() : (React.createElement("input", { placeholder: "\u2026", value: txt[c.key] || "", onChange: e => setTextF(c.key, e.target.value), style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 4, padding: "3px 6px", color: "var(--text)", fontSize: 11, width: "100%", outline: "none" } }))))),
 (onEdit || onDelete || actions) && React.createElement("td", { style: { padding: "3px 5px", background: "var(--bg-deep)", borderBottom: "1px solid var(--border-2)" } }))),
 React.createElement("tbody", null, filtered.length === 0 ? (React.createElement("tr", null,
-React.createElement("td", { colSpan: cols.length + (onEdit || onDelete || actions ? 1 : 0), style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessun risultato"))) : filtered.map((row, i) => {
+React.createElement("td", { colSpan: cols.length + (onEdit || onDelete || actions ? 1 : 0), style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, t("Nessun risultato")))) : filtered.map((row, i) => {
 const bg = (rowBg && rowBg(row)) || "transparent";
 return (React.createElement("tr", { key: row.id || i, className: "mt-table-row", style: { background: bg, cursor: onRowClick ? "pointer" : undefined }, onDoubleClick: onRowClick ? () => onRowClick(row) : undefined },
 cols.map(c => (React.createElement("td", { key: c.key, style: Object.assign(Object.assign({}, TD_S), { whiteSpace: isMobile ? "nowrap" : "normal", maxWidth: isMobile ? 200 : 280, wordBreak: "normal", overflowWrap: "anywhere" }), title: String(row[c.key] || "") }, c.render ? c.render(row[c.key], row) : String(row[c.key] || "—")))),
@@ -243,7 +244,7 @@ const pts = (data || []).map((d, i) => ({ i: i, v: d[valueKey], label: d.label }
 const n = pts.length;
 const valid = pts.filter(p => p.v !== null && p.v !== undefined && !isNaN(p.v));
 if (valid.length < 2) {
-return React.createElement("div", { style: { height: height + 16, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-4)", fontSize: 11 } }, "Dati insufficienti per il grafico");
+return React.createElement("div", { style: { height: height + 16, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-4)", fontSize: 11 } }, t("Dati insufficienti per il grafico"));
 }
 const vals = valid.map(p => p.v);
 let vmin = Math.min.apply(null, vals), vmax = Math.max.apply(null, vals);
@@ -343,11 +344,11 @@ React.createElement("div", { style: { display: 'flex', gap: 10, justifyContent: 
 React.createElement("button", { onClick: () => answer(false), style: { background: 'var(--border-4)',
 border: '1px solid #3A3A4A', borderRadius: 8, color: 'var(--text-2)', padding: '9px 18px',
 cursor: 'pointer', fontSize: 13, fontWeight: 600, touchAction: 'manipulation',
-WebkitTapHighlightColor: 'transparent' } }, "Annulla"),
+WebkitTapHighlightColor: 'transparent' } }, t("Annulla")),
 React.createElement("button", { onClick: () => answer(true), style: { background: confirmBg,
 border: 'none', borderRadius: 8, color: confirmFg, padding: '9px 18px', cursor: 'pointer',
 fontSize: 13, fontWeight: 700, touchAction: 'manipulation',
-WebkitTapHighlightColor: 'transparent' } }, "Conferma")))));
+WebkitTapHighlightColor: 'transparent' } }, t("Conferma"))))));
 }
 export function PromptDialog() {
 const [state, setState] = React.useState({ open: false, msg: '', value: '', cb: null });
@@ -374,7 +375,7 @@ marginBottom: 16, boxSizing: 'border-box' } }),
 React.createElement("div", { style: { display: 'flex', gap: 10, justifyContent: 'flex-end' } },
 React.createElement("button", { onClick: () => answer(false), style: { background: 'var(--border-4)',
 border: '1px solid #3A3A4A', borderRadius: 8, color: 'var(--text-2)', padding: '9px 18px',
-cursor: 'pointer', fontSize: 13, fontWeight: 600, touchAction: 'manipulation' } }, "Annulla"),
+cursor: 'pointer', fontSize: 13, fontWeight: 600, touchAction: 'manipulation' } }, t("Annulla")),
 React.createElement("button", { onClick: () => answer(true), style: { background: '#2dd4bf',
 border: 'none', borderRadius: 8, color: '#000', padding: '9px 18px', cursor: 'pointer',
 fontSize: 13, fontWeight: 700, touchAction: 'manipulation' } }, "OK")))));
@@ -416,7 +417,7 @@ animation: "mtShake .45s cubic-bezier(.36,.07,.19,.97) both"
 } },
 React.createElement("div", { style: { fontWeight: 800, marginBottom: 6, fontSize: 13, display: "flex", alignItems: "center", gap: 6 } },
 React.createElement("span", { style: { fontSize: 16 } }, "\u26A0"),
-React.createElement("span", null, errorList.length === 1 ? "Un campo da completare prima di salvare" : errorList.length + " campi da completare prima di salvare")),
+React.createElement("span", null, errorList.length === 1 ? t("Un campo da completare prima di salvare") : errorList.length + " campi da completare prima di salvare")),
 React.createElement("ul", { style: { margin: 0, paddingLeft: 22, fontSize: 12, lineHeight: 1.7, color: "#fca5a5" } }, errorList.map(([k, v]) => React.createElement("li", { key: k }, v)))));
 };
 export const AssetCombobox = ({ value, onChange, assets, customers, placeholder = "Cerca apparecchio…", error, autoFocus = false }) => {
@@ -505,11 +506,11 @@ React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, over
 selected.serial && React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", marginLeft: 6 } },
 "\u00B7 S/N: ",
 selected.serial))),
-React.createElement("button", { type: "button", onClick: (e) => { e.stopPropagation(); onChange(""); }, title: "Rimuovi selezione", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: "2px 6px", touchAction: "manipulation" } }, "\u2715"),
+React.createElement("button", { type: "button", onClick: (e) => { e.stopPropagation(); onChange(""); }, title: t("Rimuovi selezione"), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: "2px 6px", touchAction: "manipulation" } }, "\u2715"),
 React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11 } }, "\u25BE"))) : (React.createElement(React.Fragment, null,
 React.createElement("span", { style: { flex: 1, color: "var(--text-3)", fontSize: 13 } }, placeholder),
 React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11 } }, "\u25BE"))))) : (React.createElement(React.Fragment, null,
-React.createElement("input", { ref: inputRef, type: "text", value: query, onChange: e => setQuery(e.target.value), onKeyDown: handleKey, placeholder: "Cerca per codice, nome, marca, S/N, ubicazione\u2026", style: Object.assign(Object.assign({}, INP_BASE), { cursor: "text" }) }),
+React.createElement("input", { ref: inputRef, type: "text", value: query, onChange: e => setQuery(e.target.value), onKeyDown: handleKey, placeholder: t("Cerca per codice, nome, marca, S/N, ubicazione\u2026"), style: Object.assign(Object.assign({}, INP_BASE), { cursor: "text" }) }),
 React.createElement("div", { style: {
 position: "absolute",
 top: "calc(100% + 4px)",
@@ -522,9 +523,9 @@ maxHeight: 320,
 overflowY: "auto",
 zIndex: 1000,
 boxShadow: "0 8px 24px rgba(0,0,0,0.4)"
-} }, filtered.length === 0 ? (React.createElement("div", { style: { padding: "16px", textAlign: "center", color: "var(--text-3)", fontSize: 12 } }, assets.length === 0 ? "Nessun apparecchio registrato" : "Nessun risultato per \"" + query + "\"")) : (React.createElement(React.Fragment, null,
+} }, filtered.length === 0 ? (React.createElement("div", { style: { padding: "16px", textAlign: "center", color: "var(--text-3)", fontSize: 12 } }, assets.length === 0 ? t("Nessun apparecchio registrato") : "Nessun risultato per \"" + query + "\"")) : (React.createElement(React.Fragment, null,
 !query.trim() && assets.length > 50 && (React.createElement("div", { style: { padding: "6px 12px", fontSize: 10, color: "var(--text-3)", borderBottom: "1px solid var(--border-2)", background: "#0a0a0e", fontStyle: "italic" } },
-"Mostro primi 50 \u00B7 digita per cercare tra tutti i ",
+t("Mostro primi 50 \u00B7 digita per cercare tra tutti i "),
 assets.length)),
 filtered.map((a, i) => {
 var _a;
@@ -552,7 +553,7 @@ a.location && React.createElement("span", { style: { marginLeft: 6 } },
 a.location)),
 cust && React.createElement("div", { style: { color: "var(--text-2)", fontSize: 10, marginTop: 2 } }, cust)));
 }),
-filtered.length === 100 && (React.createElement("div", { style: { padding: "6px 12px", fontSize: 10, color: "var(--text-3)", textAlign: "center", borderTop: "1px solid var(--border-2)", fontStyle: "italic" } }, "Solo primi 100 risultati \u00B7 affina la ricerca per vedere pi\u00F9 specifico")))))))));
+filtered.length === 100 && (React.createElement("div", { style: { padding: "6px 12px", fontSize: 10, color: "var(--text-3)", textAlign: "center", borderTop: "1px solid var(--border-2)", fontStyle: "italic" } }, t("Solo primi 100 risultati \u00B7 affina la ricerca per vedere pi\u00F9 specifico"))))))))));
 };
 
 /* — firma su canvas (spostata dal modulo verifiche: ora serve anche alle impostazioni tecnici, v2.92) — */
@@ -644,9 +645,9 @@ return (React.createElement("div", { style: { display: "flex", flexDirection: "c
 label && React.createElement("label", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 600 } }, label),
 React.createElement("div", { style: { position: "relative", border: "1px solid var(--border)", borderRadius: 8, background: "#fff", overflow: "hidden" } },
 React.createElement("canvas", { ref: canvasRef, style: { display: "block", width: "100%", height: height + "px", touchAction: "none", cursor: "crosshair" }, onMouseDown: start, onMouseMove: draw, onMouseUp: end, onMouseLeave: end, onTouchStart: start, onTouchMove: draw, onTouchEnd: end, onPointerDown: start, onPointerMove: draw, onPointerUp: end, onPointerCancel: end, onPointerLeave: end }),
-!hasContent && (React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "var(--text-2)", fontSize: 13, fontStyle: "italic" } }, "Firma qui (usa S-Pen o dito)"))),
+!hasContent && (React.createElement("div", { style: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", color: "var(--text-2)", fontSize: 13, fontStyle: "italic" } }, t("Firma qui (usa S-Pen o dito)")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: 6 } },
-React.createElement("button", { type: "button", onClick: clear, style: { background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 6, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, "Cancella firma"))));
+React.createElement("button", { type: "button", onClick: clear, style: { background: "transparent", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 6, padding: "4px 10px", fontSize: 11, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, t("Cancella firma")))));
 };
 
 /* — campo firma tecnico: compatto se la firma viene dal profilo, pad completo altrimenti (v2.94) — */
@@ -656,8 +657,8 @@ const fromProfile = !!value && !!profileSig && value === profileSig && !editing;
 if (fromProfile)
 return React.createElement("div", { style: { background: "var(--surface)", border: "1px solid #2dd4bf55", borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 } },
 React.createElement("div", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 600 } }, "\u2713 Firma tecnico applicata dal profilo" + (techName ? " di " + techName : "")),
-React.createElement("button", { type: "button", onClick: () => { setEditing(true); onChange && onChange(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, "Firma diversa"));
-return React.createElement(SignaturePad, { label: label || "Firma Tecnico verificatore (obbligatoria)", value: value || "", onChange: onChange, height: height });
+React.createElement("button", { type: "button", onClick: () => { setEditing(true); onChange && onChange(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, t("Firma diversa")));
+return React.createElement(SignaturePad, { label: label || t("Firma Tecnico verificatore (obbligatoria)"), value: value || "", onChange: onChange, height: height });
 }
 
 /* — stato vuoto riusabile (spostato con il taglio PPM, v2.97) — */
@@ -726,7 +727,7 @@ export const ICON_BUILDING = _ic([React.createElement("rect", { key: "a", x: 4, 
 /* — filtro a tendina, ricerca mobile, card swipe (spostati col taglio strumenti, v3.05) — */
 export const MobileSearch = ({ value, onChange, count, total, placeholder }) => (React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "8px 12px", marginBottom: 10 } },
 React.createElement("span", { style: { fontSize: 14, color: "var(--text-3)" } }, "\uD83D\uDD0D"),
-React.createElement("input", { "data-mt-search": "1", value: value, onChange: e => onChange(e.target.value), placeholder: placeholder || "Cerca…", style: { flex: 1, background: "transparent", border: "none", color: "var(--text)", fontSize: 14, outline: "none", minWidth: 0 } }),
+React.createElement("input", { "data-mt-search": "1", value: value, onChange: e => onChange(e.target.value), placeholder: placeholder || t("Cerca…"), style: { flex: 1, background: "transparent", border: "none", color: "var(--text)", fontSize: 14, outline: "none", minWidth: 0 } }),
 value && (React.createElement("button", { onClick: () => onChange(""), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 16, cursor: "pointer", padding: "0 4px", touchAction: "manipulation" } }, "\u2715")),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap" } },
 count,
@@ -803,7 +804,7 @@ color: activeCount > 0 ? "#2dd4bf" : "var(--text-2)", fontSize: 13, fontWeight: 
 cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } },
 React.createElement("span", { style: { display: "flex", alignItems: "center", gap: 8 } },
-"Filtri ",
+t("Filtri "),
 activeCount > 0 && React.createElement("span", { style: { background: "#2dd4bf", color: "#000", borderRadius: 10, padding: "1px 8px", fontSize: 11, fontWeight: 800 } }, activeCount)),
 React.createElement("span", { style: { fontSize: 11, transform: open ? "rotate(180deg)" : "none", transition: "transform .2s" } }, "\u25BC")),
 open && (React.createElement("div", { style: { marginTop: 8, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10 } },

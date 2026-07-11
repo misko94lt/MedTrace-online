@@ -1,3 +1,4 @@
+import { t } from "../constants/i18n.js";
 /* MedTrace — util condivisa: meta record, date, codici, foto cloud, recalls, normalizzazione import (estratti da app.js, v3.00) */
 import { __awaiter } from "./tslib.js";
 import { getSupabaseClient, getSupabaseConfig, OFFLINE_MODE, DEMO_LOCKED } from "./sync.js";

@@ -1,3 +1,4 @@
+import { t } from "../constants/i18n.js";
 /* Componenti condivisi: selettore/gestore tecnici, lista allegati e helper. Estratto verbatim da app.js, fase 1. */
 import { __awaiter, __rest } from "../lib/tslib.js";
 import { FORM_INP, FORM_LBL, FORM_FLD, FORM_ROW, FORM_COL, FORM_SECTION, FORM_BTN_PRIMARY, FORM_BTN_GHOST, STATUS_COLOR } from "../constants/ui.js";
@@ -14,7 +15,7 @@ const addManual = () => { const nm = manual.trim(); if (nm && !has(nm))
 setList([...list, nm]); setManual(""); };
 const PILL = on => ({ background: on ? "#2dd4bf22" : "var(--surface-3)", border: "1px solid " + (on ? "#2dd4bf" : "var(--border)"), color: on ? "#2dd4bf" : "var(--text-2)", borderRadius: 8, padding: "6px 11px", fontSize: 12.5, cursor: "pointer", fontWeight: 600 });
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-React.createElement("label", { style: { fontSize: 12, color: "var(--text-2)", fontWeight: 600 } }, label || "Tecnico/i"),
+React.createElement("label", { style: { fontSize: 12, color: "var(--text-2)", fontWeight: 600 } }, label || t("Tecnico/i")),
 techs.length > 0 && (React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } }, techs.map(t => React.createElement("button", { key: t, type: "button", onClick: () => toggle(t), style: PILL(has(t)) },
 has(t) ? "\u2713 " : "",
 t)))),
@@ -25,10 +26,10 @@ addManual();
 } }, placeholder: techs.length ? "altro nome a mano\u2026" : "scrivi il nome del tecnico", style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13.5 } }),
 React.createElement("button", { type: "button", onClick: addManual, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 8, color: "#2dd4bf", padding: "0 14px", fontSize: 18, cursor: "pointer", fontWeight: 700 } }, "+")),
 list.length > 0 && (React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" } },
-React.createElement("span", { style: { fontSize: 11.5, color: "var(--text-3)" } }, "Selezionati:"),
+React.createElement("span", { style: { fontSize: 11.5, color: "var(--text-3)" } }, t("Selezionati:")),
 list.map(nm => (React.createElement("span", { key: nm, style: { display: "inline-flex", alignItems: "center", gap: 6, background: "#2dd4bf18", border: "1px solid #2dd4bf55", color: "#2dd4bf", borderRadius: 8, padding: "4px 4px 4px 9px", fontSize: 12, fontWeight: 600 } },
 nm,
-React.createElement("button", { type: "button", onClick: () => setList(list.filter(x => x.toLowerCase() !== nm.toLowerCase())), title: "Rimuovi", style: { background: "transparent", border: "none", color: "#2dd4bf", fontSize: 13, lineHeight: 1, cursor: "pointer", padding: "0 4px" } }, "\u2715"))))))));
+React.createElement("button", { type: "button", onClick: () => setList(list.filter(x => x.toLowerCase() !== nm.toLowerCase())), title: t("Rimuovi"), style: { background: "transparent", border: "none", color: "#2dd4bf", fontSize: 13, lineHeight: 1, cursor: "pointer", padding: "0 4px" } }, "\u2715"))))))));
 }
 
 export function TecniciManager({ technicians, onChange }) {
@@ -40,21 +41,21 @@ onChange(raw.concat([{ name: nm }])); setName(""); };
 const remove = nm => onChange(raw.filter(x => x.name !== nm));
 const setSig = (nm, sig) => onChange(raw.map(x => x.name === nm ? Object.assign({}, x, { signature: sig || "" }) : x));
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55 } }, "I tecnici registrati qui compaiono in una tendina quando crei un Job o una verifica. La firma salvata qui viene proposta in automatico nei report, cos\u00ec non serve rifirmare ogni volta."),
+React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55 } }, t("I tecnici registrati qui compaiono in una tendina quando crei un Job o una verifica. La firma salvata qui viene proposta in automatico nei report, cos\u00ec non serve rifirmare ogni volta.")),
 raw.length > 0 ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, raw.map(t => (React.createElement("div", { key: t.name, style: { background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 9, padding: "10px 14px" } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } },
 React.createElement("span", { style: { fontSize: 13.5, color: "var(--text)", fontWeight: 600 } }, t.name),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-React.createElement("button", { type: "button", onClick: () => setSigFor(sigFor === t.name ? null : t.name), style: { background: "transparent", border: "1px solid " + (t.signature ? "#2dd4bf" : "var(--border)"), borderRadius: 7, color: t.signature ? "#2dd4bf" : "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px" } }, t.signature ? "Firma \u2713" : "Firma"),
-React.createElement("button", { type: "button", onClick: () => remove(t.name), title: "Rimuovi", style: { background: "transparent", border: "none", color: "#ef4444", fontSize: 16, cursor: "pointer" } }, "\u2715"))),
+React.createElement("button", { type: "button", onClick: () => setSigFor(sigFor === t.name ? null : t.name), style: { background: "transparent", border: "1px solid " + (t.signature ? "#2dd4bf" : "var(--border)"), borderRadius: 7, color: t.signature ? "#2dd4bf" : "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px" } }, t.signature ? t("Firma \u2713") : t("Firma")),
+React.createElement("button", { type: "button", onClick: () => remove(t.name), title: t("Rimuovi"), style: { background: "transparent", border: "none", color: "#ef4444", fontSize: 16, cursor: "pointer" } }, "\u2715"))),
 sigFor === t.name ? React.createElement("div", { style: { marginTop: 10 } },
-React.createElement(SignaturePad, { label: "Firma di " + t.name + " (proposta in automatico nei report)", value: t.signature || "", onChange: v => setSig(t.name, v), height: 120 })) : null))))) : React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Nessun tecnico ancora. Aggiungine uno qui sotto."),
+React.createElement(SignaturePad, { label: "Firma di " + t.name + " (proposta in automatico nei report)", value: t.signature || "", onChange: v => setSig(t.name, v), height: 120 })) : null))))) : React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, t("Nessun tecnico ancora. Aggiungine uno qui sotto.")),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("input", { value: name, onChange: e => setName(e.target.value), onKeyDown: e => { if (e.key === "Enter") {
 e.preventDefault();
 add();
-} }, placeholder: "Nome tecnico (es. Mario Rossi)", style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13.5 } }),
-React.createElement("button", { type: "button", onClick: add, style: { background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201C", padding: "0 16px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, "Aggiungi"))));
+} }, placeholder: t("Nome tecnico (es. Mario Rossi)"), style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13.5 } }),
+React.createElement("button", { type: "button", onClick: add, style: { background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201C", padding: "0 16px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, t("Aggiungi")))));
 }
 
 export function techSignature(technicians, nameStr) {
@@ -165,10 +166,10 @@ return 'FILE';
 };
 return (React.createElement("div", { style: { marginTop: compact ? 6 : 10 } },
 !compact && (React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: .8, fontWeight: 700, marginBottom: 6 } },
-"Allegati (",
+t("Allegati ("),
 (attachments || []).length,
 ")")),
-React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 8 } }, (attachments || []).length === 0 ? (React.createElement("div", { style: { fontSize: 11, color: 'var(--text-3)', padding: '6px 0', fontStyle: 'italic' } }, "Nessun allegato")) : (attachments || []).map(att => {
+React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 8 } }, (attachments || []).length === 0 ? (React.createElement("div", { style: { fontSize: 11, color: 'var(--text-3)', padding: '6px 0', fontStyle: 'italic' } }, t("Nessun allegato"))) : (attachments || []).map(att => {
 var _a;
 return (React.createElement("div", { key: att.id, style: {
 background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 6,
@@ -181,10 +182,10 @@ React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)' } },
 formatBytes(att.finalSize || att.size),
 " \u00B7 ",
 (att.uploadedAt || '').slice(0, 10))),
-React.createElement("button", { onClick: () => downloadAttachment(att), title: "Scarica", style: { background: 'var(--surface-3)', border: '1px solid #2dd4bf44', borderRadius: 4, color: '#2dd4bf', padding: '3px 8px', cursor: 'pointer', fontSize: 10, fontWeight: 700 } }, "Scarica"),
-((_a = att.type) === null || _a === void 0 ? void 0 : _a.startsWith('image/')) && (React.createElement("button", { onClick: () => window.open(att.dataUrl, '_blank'), title: "Visualizza", style: { background: 'var(--surface-3)', border: '1px solid #2a3040', borderRadius: 4, color: 'var(--text-2)', padding: '3px 8px', cursor: 'pointer', fontSize: 10, fontWeight: 700 } }, "Apri")),
+React.createElement("button", { onClick: () => downloadAttachment(att), title: t("Scarica"), style: { background: 'var(--surface-3)', border: '1px solid #2dd4bf44', borderRadius: 4, color: '#2dd4bf', padding: '3px 8px', cursor: 'pointer', fontSize: 10, fontWeight: 700 } }, t("Scarica")),
+((_a = att.type) === null || _a === void 0 ? void 0 : _a.startsWith('image/')) && (React.createElement("button", { onClick: () => window.open(att.dataUrl, '_blank'), title: t("Visualizza"), style: { background: 'var(--surface-3)', border: '1px solid #2a3040', borderRadius: 4, color: 'var(--text-2)', padding: '3px 8px', cursor: 'pointer', fontSize: 10, fontWeight: 700 } }, t("Apri"))),
 React.createElement("button", { onClick: () => { if (confirm('Eliminare "' + att.name + '"?'))
-onDelete(att.id); }, title: "Elimina", style: { background: 'var(--surface-3)', border: '1px solid #ef444433', borderRadius: 4, color: '#ef4444', padding: '3px 8px', cursor: 'pointer', fontSize: 10, fontWeight: 700 } }, "\u2715")));
+onDelete(att.id); }, title: t("Elimina"), style: { background: 'var(--surface-3)', border: '1px solid #ef444433', borderRadius: 4, color: '#ef4444', padding: '3px 8px', cursor: 'pointer', fontSize: 10, fontWeight: 700 } }, "\u2715")));
 })),
 React.createElement("label", { style: {
 display: 'inline-flex', alignItems: 'center', gap: 6, cursor: uploading ? 'wait' : 'pointer',
