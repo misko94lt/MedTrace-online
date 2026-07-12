@@ -819,3 +819,13 @@ React.createElement("option", { value: "" }, "\u2014 Tutti \u2014"),
 fdef.options.map(opt => (React.createElement("option", { key: opt, value: opt }, opt))))))),
 activeCount > 0 && (React.createElement("button", { onClick: onClearAll, style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 6, padding: "7px 10px", cursor: "pointer", fontSize: 12, fontWeight: 700, marginTop: 4, touchAction: "manipulation" } }, "\u2715 Pulisci tutti i filtri"))))));
 };
+
+/* Menu "\u22ef" per azioni secondarie: tiene pulite le barre delle liste (UX giro 3, v3.22) */
+export function OverflowMenu({ items }) {
+const [open, setOpen] = React.useState(false);
+return React.createElement("div", { style: { position: "relative", display: "inline-block" } },
+React.createElement("button", { onClick: () => setOpen(o => !o), "aria-label": "Altre azioni", title: "Altre azioni", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", width: 34, height: 34, fontSize: 17, fontWeight: 800, cursor: "pointer", lineHeight: 1, touchAction: "manipulation" } }, "\u22ef"),
+open && React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 900 }, onClick: () => setOpen(false) }),
+open && React.createElement("div", { style: { position: "absolute", right: 0, top: 38, zIndex: 901, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, boxShadow: "0 8px 24px rgba(0,0,0,.25)", minWidth: 190, overflow: "hidden" } },
+items.map((it, i) => React.createElement("button", { key: i, onClick: () => { setOpen(false); it.onClick(); }, style: { display: "block", width: "100%", textAlign: "left", background: "transparent", border: "none", borderBottom: i < items.length - 1 ? "1px solid var(--border-2)" : "none", color: "var(--text)", padding: "11px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, it.label))));
+}

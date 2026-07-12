@@ -10,7 +10,7 @@ import { OFFLINE_MODE, STORAGE_KEY, getSupa, getSupabaseClient, getSupabaseConfi
 import { startWedge, stopWedge, isWardTag, WARD_TAG_BRAND } from "../lib/rfid.js";
 import { RfidAssocPicker } from "./rfid.js";
 import { FuncVerifyForm, FuncWizardForm, IECReportForm, IecWizardForm } from "./verifiche.js";
-import { SignaturePad, TechSignatureField } from "./ui.js";
+import { SignaturePad, TechSignatureField, OverflowMenu } from "./ui.js";
 import { techSignature } from "./shared.js";
 import { fetchSubStatus, subScaduto } from "../lib/sync.js";
 import { SettingsModal } from "./settings.js";
@@ -42,7 +42,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.21";
+const APP_VERSION = "3.22";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -2949,10 +2949,11 @@ assets.filter(a => a.status === "fuori servizio").length,
 " fuori servizio")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 isMobile && assets.length > 0 && (React.createElement("button", { onClick: toggleAssetView, style: { background: "var(--card)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "6px 12px", color: "#5eead4", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, assetMobileView === "table" ? "▦ Schede" : "▤ Tabella")),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportAssets }, "\u2B07 Excel"),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => setModal({ type: "assetImport" }) }, "\u2B06 Importa"),
-" ",
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "asset", data: null }) }, "+ Nuovo"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "asset", data: null }) }, "+ Nuovo"),
+React.createElement(OverflowMenu, { items: [
+{ label: "\u2B07 Esporta Excel", onClick: exportAssets },
+{ label: "\u2B06 Importa Excel/CSV", onClick: () => setModal({ type: "assetImport" }) }
+] }))),
 !isMobile && assets.length > 0 && (() => {
 const _oper = assets.filter(a => a.status === "operativo").length;
 const _manut = assets.filter(a => a.status === "in manutenzione").length;
@@ -3051,8 +3052,7 @@ days !== null && React.createElement(AlertChip, { days: days })))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#a855f7", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u26A1 Sicur."),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#06b6d4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2713 Funz."),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Mod."),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); delAsset(a.id); }, title: "Elimina apparecchio", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Mod.")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_apparecchi", defaultSort: "assetCode", onRowClick: row => openAsset(row.id), rowBg: row => row.status === "fuori servizio" ? "#ef333308" : row.status === "in manutenzione" ? "#f59e0b08" : "", cols: [
 { key: "assetCode", label: "Codice", render: v => React.createElement("strong", { style: { color: "#5eead4", fontFamily: "'IBM Plex Mono', monospace" } }, v || "—") },
