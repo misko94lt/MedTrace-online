@@ -1396,7 +1396,7 @@ React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", line
 "Stampa \u2192 scegli la stampante. Per le etichette PP 50\u00D725 (Zebra) seleziona il formato ",
 React.createElement("b", null, "50\u00D725"),
 " e imposta nella stampante il supporto 50\u00D725 mm. Fai una prova: se non \u00E8 centrata, si calibra."),
-(isAssetSticker && custAssets.length > 1) ? React.createElement("button", { type: "button", onClick: doPrintBatch, style: { width: "100%", background: "#2dd4bf18", border: "1px solid #2dd4bf", color: "#2dd4bf", borderRadius: 10, padding: "11px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", marginBottom: 12, touchAction: "manipulation" } }, "\uD83C\uDFF7 Stampa etichette di TUTTI gli apparecchi di " + ((customer && customer.name) || "questo cliente") + " (" + custAssets.length + ")") : null,
+(isAssetSticker && custAssets.length > 1) ? React.createElement("button", { type: "button", onClick: doPrintBatch, style: { width: "100%", background: "#2dd4bf18", border: "1px solid #2dd4bf", color: "#2dd4bf", borderRadius: 10, padding: "11px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", marginBottom: 12, touchAction: "manipulation" } }, "Stampa etichette di TUTTI gli apparecchi di " + ((customer && customer.name) || "questo cliente") + " (" + custAssets.length + ")") : null,
 React.createElement("div", { style: FORM_FOOTER },
 React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Chiudi"),
 React.createElement("button", { onClick: doPrint, style: FORM_BTN_PRIMARY }, "Stampa sticker"))));
