@@ -42,7 +42,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.24";
+const APP_VERSION = "3.25";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -2336,6 +2336,33 @@ map.set(r.id, tRem >= tLoc ? r : esistente);
 });
 return [...map.values()];
 };
+/* Auto-pull al primo avvio autenticato con archivio locale vuoto:
+   evita l'app "vuota" su dispositivi nuovi (preview, telefono nuovo, PC ufficio).
+   Condizioni strette: online, non demo, utente loggato, zero apparecchi e clienti locali. */
+const autoPulledRef = React.useRef(false);
+React.useEffect(() => {
+const isOffline = (typeof OFFLINE_MODE !== "undefined" && OFFLINE_MODE);
+const isDemo = (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED);
+if (isOffline || isDemo || autoPulledRef.current) return;
+if ((assets || []).length > 0 || (customers || []).length > 0) return;
+let annullato = false;
+(async () => {
+try {
+const r = await supaGetUser();
+const u = r && r.data && r.data.user;
+if (annullato || !u) return;
+autoPulledRef.current = true;
+showToast("Scarico i tuoi dati dal cloud\u2026", "#2dd4bf");
+const snapshot = { assets, parts, jobs, orders, withdrawals, customers, invoices, quotes, instruments, procedures, iecReports, funcReports, recalls, company, customTemplates, cestino };
+const { merged, mergedTrash } = await supabaseSyncMerge(snapshot);
+if (annullato || !merged) return;
+handleCloudPull(merged, mergedTrash);
+const n = (merged.assets || []).length;
+if (n > 0) showToast("Sincronizzati " + n + " apparecchi dal cloud", "#22c55e");
+} catch (e) { /* resta vuoto: l'utente puo' sempre usare Sincronizza ora nelle impostazioni */ }
+})();
+return () => { annullato = true; };
+}, []);
 const handleCloudPull = (remote, remoteTrash) => {
 if (checkLocked())
 return;
