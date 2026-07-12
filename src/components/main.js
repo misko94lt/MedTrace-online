@@ -42,7 +42,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.23";
+const APP_VERSION = "3.24";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -1828,7 +1828,7 @@ setCestino(c => (Object.assign(Object.assign({}, c), { [tipo]: (c[tipo] || []).m
 supabaseDeleteById(tipo, id);
 showToast("Eliminato definitivamente", "#ef4444");
 };
-const delAsset = id => { if (checkLocked())
+const delAsset = id => { if (!isAdmin) { showToast("Solo admin e superuser possono eliminare apparecchi", "#ef4444"); return; } if (checkLocked())
 return; appConfirm("Spostare questo apparecchio nel cestino?", () => { const r = assets.find(x => x.id === id); moveToTrash("assets", r); setAssets(a => a.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
 const savePart = f => {
 if (checkLocked())
@@ -3023,7 +3023,7 @@ React.createElement("span", { style: { color: "var(--text-strong)", fontSize: 13
 React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, [a.serial && ("S/N " + a.serial), brandModel, a.location].filter(Boolean).join(" · ") || "—")),
 days !== null && React.createElement(AlertChip, { days: days })));
 }
-return (React.createElement(SwipeableCard, { key: a.id, onDelete: () => delAsset(a.id) },
+return (React.createElement(SwipeableCard, { key: a.id, onDelete: isAdmin ? (() => delAsset(a.id)) : undefined },
 React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 12, overflow: "hidden" } },
 React.createElement("div", { onClick: () => openAsset(a.id), style: { padding: "12px 14px 10px", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", borderBottom: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 5 } },
@@ -3049,11 +3049,12 @@ a.location && React.createElement("span", null,
 "",
 a.location)),
 days !== null && React.createElement(AlertChip, { days: days })))),
-React.createElement("div", { style: { display: "grid", gridTemplateColumns: "40px 1fr 1fr 1fr", gap: 0, background: "var(--bg)" } },
+React.createElement("div", { style: { display: "grid", gridTemplateColumns: isAdmin ? "40px 1fr 1fr 1fr 36px" : "40px 1fr 1fr 1fr", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: {}, kind: "asset", assetId: a.id }); }, title: "Sticker QR apparecchio", style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", touchAction: "manipulation" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#a855f7", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u26A1 Sicur."),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#06b6d4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2713 Funz."),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Mod.")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: isAdmin ? "1px solid var(--border-2)" : "none", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Mod."),
+isAdmin ? React.createElement("button", { onClick: (e) => { e.stopPropagation(); delAsset(a.id); }, title: "Elimina apparecchio (solo admin)", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715") : null))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_apparecchi", defaultSort: "assetCode", onRowClick: row => openAsset(row.id), rowBg: row => row.status === "fuori servizio" ? "#ef333308" : row.status === "in manutenzione" ? "#f59e0b08" : "", cols: [
 { key: "assetCode", label: "Codice", render: v => React.createElement("strong", { style: { color: "#5eead4", fontFamily: "'IBM Plex Mono', monospace" } }, v || "—") },
