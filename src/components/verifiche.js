@@ -64,17 +64,17 @@ h("div", null, h("span", { style: lblStyle }, "Apparecchio"),
 h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: "Cerca apparecchio…" })),
 f.assetId ? h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 f.templateId === "generico"
-? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 12.5, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 11.5, color: "var(--text-3)", marginTop: 2 } }, "Scegli qui sotto il protocollo corretto per questo apparecchio."))
-: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, "Protocollo: ", h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 11.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? "Chiudi" : "Cambia")),
+? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, "Scegli qui sotto il protocollo corretto per questo apparecchio."))
+: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, "Protocollo: ", h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? "Chiudi" : "Cambia")),
 (f.templateId === "generico" || tplOpen) ? h("select", { value: f.templateId, onChange: e => pickTpl(e.target.value), style: selStyle }, tplKeys.map(k => h("option", { key: k, value: k }, ((templates[k] || {}).label) || k))) : null,
-h("div", { style: { fontSize: 10.5, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, "Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti.")) : null,
+h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, "Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti.")) : null,
 h("div", null, h("span", { style: lblStyle }, "Data"), h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
 h(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians }),
 (instruments && instruments.length) ? h("div", null, h("span", { style: lblStyle }, "Strumento (facoltativo)"),
 h("select", { value: f.instrument, onChange: e => setF(x => Object.assign({}, x, { instrument: e.target.value })), style: selStyle },
 h("option", { value: "" }, "— nessuno —"),
 instruments.map(it => { const t = [it.brand, it.model].filter(Boolean).join(" ") + (it.internalCode ? (" (" + it.internalCode + ")") : ""); return h("option", { key: it.id || t, value: t }, t); }))) : null,
-onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 11.5, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0" } }, "Apparecchio non disponibile o modulo classico →") : null);
+onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 12, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0" } }, "Apparecchio non disponibile o modulo classico →") : null);
 } else if (sObj.key === "funcsec") {
 const sec = sObj.sec; const sd = f.sections[sec.id] || { items: {}, measures: {} };
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
@@ -84,21 +84,21 @@ h("span", { style: { fontSize: 13, color: "var(--text)", flex: 1, minWidth: 0, l
 okNo(sd.items[it.id], () => setFuncItem(sec.id, it.id, true), () => setFuncItem(sec.id, it.id, false), () => setFuncItem(sec.id, it.id, "na")))),
 (sec.measures || []).map(mm => { const raw = sd.measures[mm.id]; const isNA = raw === "na"; const verd = measVerdict(mm, raw);
 return h("div", { key: mm.id, style: { background: "var(--surface)", border: "1px solid " + (isNA ? "var(--border)" : verd === true ? TEAL + "66" : verd === false ? RED + "66" : "var(--border)"), borderRadius: 12, padding: "11px 13px" } },
-h("div", { style: { fontSize: 12.5, color: "var(--text)", marginBottom: 6 } }, mm.name),
+h("div", { style: { fontSize: 13, color: "var(--text)", marginBottom: 6 } }, mm.name),
 h("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-h("input", { type: "number", inputMode: "decimal", disabled: isNA, value: isNA ? "" : (raw || ""), onChange: e => setFuncMeas(sec.id, mm.id, e.target.value), placeholder: "—", style: { width: 110, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text)", padding: "8px 10px", fontSize: 15, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }),
+h("input", { type: "number", inputMode: "decimal", disabled: isNA, value: isNA ? "" : (raw || ""), onChange: e => setFuncMeas(sec.id, mm.id, e.target.value), placeholder: "—", style: { width: 110, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 14, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }),
 h("span", { style: { fontSize: 13, color: "var(--text-3)" } }, mm.unit),
-h("span", { style: { fontSize: 11.5, color: "var(--text-4)", marginLeft: "auto" } }, "lim. " + (mm.expected || mm.limit || ("" + mm.limitVal))),
-h("button", { type: "button", onClick: () => setFuncMeas(sec.id, mm.id, isNA ? "" : "na"), style: { background: isNA ? "#6b7280" : "var(--surface-2)", color: isNA ? "#fff" : "var(--text-4)", border: "1px solid " + (isNA ? "#6b7280" : "var(--border)"), borderRadius: 7, padding: "6px 9px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, "N/A")),
-verd != null ? h("div", { style: { fontSize: 11.5, fontWeight: 700, color: verd ? TEAL : RED, marginTop: 5 } }, verd ? "✓ Entro i limiti" : "✗ Fuori limite") : null); }));
+h("span", { style: { fontSize: 12, color: "var(--text-4)", marginLeft: "auto" } }, "lim. " + (mm.expected || mm.limit || ("" + mm.limitVal))),
+h("button", { type: "button", onClick: () => setFuncMeas(sec.id, mm.id, isNA ? "" : "na"), style: { background: isNA ? "#6b7280" : "var(--surface-2)", color: isNA ? "#fff" : "var(--text-4)", border: "1px solid " + (isNA ? "#6b7280" : "var(--border)"), borderRadius: 8, padding: "6px 9px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "N/A")),
+verd != null ? h("div", { style: { fontSize: 12, fontWeight: 700, color: verd ? TEAL : RED, marginTop: 5 } }, verd ? "✓ Entro i limiti" : "✗ Fuori limite") : null); }));
 } else {
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 h("div", { style: { background: funcPass ? TEAL + "1a" : RED + "1a", border: "1px solid " + (funcPass ? TEAL + "66" : RED + "66"), borderRadius: 16, padding: "20px", textAlign: "center" } },
 h("div", { style: { fontSize: 34, fontWeight: 800, color: funcPass ? TEAL : RED } }, funcPass ? "✓" : "✗"),
 h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, funcPass ? "Conforme" : "Non conforme"),
-h("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 4 } }, "Verifica funzionale secondo " + ((tpl && tpl.label) || ""))),
+h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, "Verifica funzionale secondo " + ((tpl && tpl.label) || ""))),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
-[["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Template", (tpl && tpl.label) || f.templateId], ["Tecnico", f.technician || "—"], ["Esito", funcPass ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 3 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: i === 3 ? (funcPass ? TEAL : RED) : "var(--text)" } }, r[1])))),
+[["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Template", (tpl && tpl.label) || f.templateId], ["Tecnico", f.technician || "—"], ["Esito", funcPass ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 3 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 13, fontWeight: 600, color: i === 3 ? (funcPass ? TEAL : RED) : "var(--text)" } }, r[1])))),
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
@@ -109,20 +109,20 @@ return h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
 h("div", { style: { padding: "2px 2px 14px" } },
 h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 } },
 h("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-h("span", { style: { fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: "#38bdf8", background: "#38bdf822", padding: "3px 8px", borderRadius: 99 } }, "Funzionale"),
+h("span", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: "#38bdf8", background: "#38bdf822", padding: "3px 8px", borderRadius: 99 } }, "Funzionale"),
 h("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT))),
-h("div", { style: { fontSize: 11.5, color: "var(--text-3)" } }, doneCount + "/" + TOT)),
+h("div", { style: { fontSize: 12, color: "var(--text-3)" } }, doneCount + "/" + TOT)),
 h("div", { style: { height: 6, background: "var(--surface-2)", borderRadius: 99, overflow: "hidden" } }, h("div", { style: { height: "100%", width: Math.round((cur / (TOT - 1)) * 100) + "%", background: "#38bdf8", borderRadius: 99, transition: "width .2s" } }))),
 h("div", { style: { marginBottom: 14 } },
 h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.name),
-h("div", { style: { fontSize: 12.5, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, tipo di verifica e dati" : sObj.key === "funcsec" ? "Voci di controllo e misure della sezione" : "Riepilogo e salvataggio")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, tipo di verifica e dati" : sObj.key === "funcsec" ? "Voci di controllo e misure della sezione" : "Riepilogo e salvataggio")),
 content,
 h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
-h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 13.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
+h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
 cur < TOT - 1
 ? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, "Avanti", h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
 : h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva verifica")),
-(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 11.5, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona apparecchio e template per continuare" : "Completa voci e misure della sezione") : null);
+(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona apparecchio e template per continuare" : "Completa voci e misure della sezione") : null);
 }
 export function FuncVerifyForm({ initial, assetId: propAssetId, assets, customers, existingReports, templates, instruments, technicians, onSave, onClose, isAdmin, showToast }) {
 const TPLS = templates || FUNC_TEMPLATES;
@@ -225,12 +225,12 @@ const isOpt = item.optional || /opzionale|optional/i.test(item.text || "");
 return (React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "7px 0", borderBottom: "1px solid var(--border)", gap: 10 } },
 React.createElement("span", { style: { fontSize: 12, color: val === "na" ? "var(--text-4)" : "var(--text-2)", flex: 1, textDecoration: val === "na" ? "line-through" : "none" } },
 item.text,
-isOpt && React.createElement("span", { style: { fontSize: 9, color: "var(--text-3)", marginLeft: 6, padding: "1px 5px", border: "1px solid var(--border)", borderRadius: 3 } }, "opz.")),
+isOpt && React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginLeft: 6, padding: "1px 5px", border: "1px solid var(--border)", borderRadius: 4 } }, "opz.")),
 React.createElement("div", { style: { display: "flex", gap: 4, flexShrink: 0 } }, STATES.map((s, i) => (React.createElement("button", { key: i, title: s.title, onClick: () => setItem(secId, item.id, s.v), style: {
 background: val === s.v ? s.col + "22" : "var(--surface)",
 border: "1px solid " + (val === s.v ? s.col + "66" : "var(--surface-3)"),
 color: val === s.v ? s.col : "var(--text-4)",
-borderRadius: 5, padding: "4px 8px", cursor: "pointer", fontSize: 11, fontWeight: 700, whiteSpace: "nowrap",
+borderRadius: 6, padding: "4px 8px", cursor: "pointer", fontSize: 11, fontWeight: 700, whiteSpace: "nowrap",
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, s.lbl))))));
 };
@@ -267,14 +267,14 @@ if (m.limitMin !== undefined)
 return "min ≥ " + m.limitMin + " " + u;
 return "";
 })();
-const __nameEl = React.createElement("span", { style: { fontSize: 12.5, color: fail ? "#fecaca" : "var(--text)", fontWeight: fail ? 700 : 500, textDecoration: isNA ? "line-through" : "none", overflowWrap: "anywhere", lineHeight: 1.3, minWidth: 0 } }, m.name);
+const __nameEl = React.createElement("span", { style: { fontSize: 13, color: fail ? "#fecaca" : "var(--text)", fontWeight: fail ? 700 : 500, textDecoration: isNA ? "line-through" : "none", overflowWrap: "anywhere", lineHeight: 1.3, minWidth: 0 } }, m.name);
 const __expEl = React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, m.expected || m.limit || "");
-const __inputEl = isNA ? React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontStyle: "italic", textAlign: "center" } }, "N/A") : React.createElement("input", { type: "number", step: "any", inputMode: "decimal", value: raw, onChange: e => setMeasure(secId, m.id, e.target.value), placeholder: "\u2014", style: { background: fail ? "#5b1414" : "var(--surface-2)", border: "2px solid " + (fail ? "#f87171" : "#33394a"), borderRadius: 5, padding: "6px 8px", color: fail ? "#ffe4e4" : "#ffffff", fontSize: 14, outline: "none", fontFamily: "'IBM Plex Mono', monospace", fontWeight: 800, boxShadow: fail ? "0 0 0 1px #ef4444" : "none", width: isMobile ? 96 : undefined, minWidth: 0 } });
+const __inputEl = isNA ? React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontStyle: "italic", textAlign: "center" } }, "N/A") : React.createElement("input", { type: "number", step: "any", inputMode: "decimal", value: raw, onChange: e => setMeasure(secId, m.id, e.target.value), placeholder: "\u2014", style: { background: fail ? "#5b1414" : "var(--surface-2)", border: "2px solid " + (fail ? "#f87171" : "#33394a"), borderRadius: 6, padding: "6px 8px", color: fail ? "#ffe4e4" : "#ffffff", fontSize: 14, outline: "none", fontFamily: "'IBM Plex Mono', monospace", fontWeight: 800, boxShadow: fail ? "0 0 0 1px #ef4444" : "none", width: isMobile ? 96 : undefined, minWidth: 0 } });
 const __unitEl = React.createElement("span", { style: { fontWeight: 800, fontSize: 14, textAlign: "center", color: pass === null ? "var(--text-3)" : pass ? "#34d399" : "#f87171", minWidth: isMobile ? 22 : undefined } }, m.unit);
-const __naBtn = React.createElement("button", { title: isNA ? "Ripristina misura" : "Marca come Non Applicabile", onClick: () => setMeasure(secId, m.id, isNA ? "" : "na"), style: { background: isNA ? "#64748b33" : "var(--surface-2)", border: "1px solid " + (isNA ? "#64748b66" : "#33394a"), color: isNA ? "var(--text-strong)" : "var(--text-2)", borderRadius: 5, padding: isMobile ? "5px 10px" : "4px 4px", cursor: "pointer", fontSize: isMobile ? 11 : 9, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0, touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, "N/A");
+const __naBtn = React.createElement("button", { title: isNA ? "Ripristina misura" : "Marca come Non Applicabile", onClick: () => setMeasure(secId, m.id, isNA ? "" : "na"), style: { background: isNA ? "#64748b33" : "var(--surface-2)", border: "1px solid " + (isNA ? "#64748b66" : "#33394a"), color: isNA ? "var(--text-strong)" : "var(--text-2)", borderRadius: 6, padding: isMobile ? "5px 10px" : "4px 4px", cursor: "pointer", fontSize: isMobile ? 11 : 9, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0, touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, "N/A");
 return (React.createElement("div", { style: { marginBottom: fail ? 8 : 6 } },
 (isMobile ? React.createElement("div", { style: { background: fail ? "#3a0f0f" : "var(--bg)", borderRadius: 6, padding: "8px 10px", opacity: isNA ? 0.55 : 1, border: fail ? "2px solid #ef4444" : "1px solid var(--border-2)" } }, React.createElement("div", { style: { marginBottom: 7 } }, __nameEl), React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } }, React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace", flex: "1 1 60px", minWidth: 0 } }, m.expected || m.limit || ""), __inputEl, __unitEl, __naBtn)) : React.createElement("div", { style: { display: "grid", gridTemplateColumns: "minmax(0,1fr) 90px 60px 38px 30px", gap: 6, alignItems: "center", background: fail ? "#3a0f0f" : "var(--bg)", borderRadius: 6, padding: "6px 8px", opacity: isNA ? 0.55 : 1, border: fail ? "2px solid #ef4444" : "1px solid var(--border-2)" } }, __nameEl, __expEl, __inputEl, __unitEl, __naBtn)),
-fail && limitText && (React.createElement("div", { style: { fontSize: 11.5, color: "#fff", background: "#dc2626", borderRadius: "0 0 6px 6px", margin: "0 2px", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, fontWeight: 600 } },
+fail && limitText && (React.createElement("div", { style: { fontSize: 12, color: "#fff", background: "#dc2626", borderRadius: "0 0 6px 6px", margin: "0 2px", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, fontWeight: 600 } },
 React.createElement("span", { style: { fontSize: 13 } }, "\u26A0"),
 React.createElement("span", null,
 "Fuori limite \u2014 ",
@@ -283,7 +283,7 @@ limitText,
 };
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
-(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 12.5 } }, React.createElement("span", { style: { fontSize: 15 } }, "\uD83D\uDD12"), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
+(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, "\uD83D\uDD12"), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
 React.createElement("div", { style: { background: pass ? "#22c55e1f" : "#ef44441f", border: `1px solid ${pass ? "#22c55e55" : "#ef444455"}`, borderRadius: 8, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } },
 "Template: ",
@@ -293,7 +293,7 @@ tpl.icon,
 tpl.label),
 " \u2014 ",
 tpl.norm),
-React.createElement("span", { style: { fontWeight: 900, fontSize: 15, letterSpacing: .3, color: pass ? "#04201C" : "#fff", background: pass ? "#2dd4bf" : "#ef4444", borderRadius: 6, padding: "5px 12px", whiteSpace: "nowrap" } }, pass ? "CONFORME" : "NON CONFORME")),
+React.createElement("span", { style: { fontWeight: 800, fontSize: 14, letterSpacing: .3, color: pass ? "#04201C" : "#fff", background: pass ? "#2dd4bf" : "#ef4444", borderRadius: 6, padding: "5px 12px", whiteSpace: "nowrap" } }, pass ? "CONFORME" : "NON CONFORME")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 13 } },
 !propAssetId && (React.createElement("div", { style: FLD },
 React.createElement("label", { style: LBL }, "Apparecchio"),
@@ -359,14 +359,14 @@ React.createElement("button", { type: "button", onClick: () => setF(x => (Object
 background: (f.verifyStatus || "completata") === "completata" ? "#22c55e22" : "var(--surface)",
 border: "1px solid " + ((f.verifyStatus || "completata") === "completata" ? "#22c55e66" : "var(--border)"),
 color: (f.verifyStatus || "completata") === "completata" ? "#22c55e" : "var(--text-2)",
-borderRadius: 7, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
+borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "\u2713 Verifica completata"),
 React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { verifyStatus: "non_disponibile" }))), style: {
 background: f.verifyStatus === "non_disponibile" ? "#f59e0b22" : "var(--surface)",
 border: "1px solid " + (f.verifyStatus === "non_disponibile" ? "#f59e0b66" : "var(--border)"),
 color: f.verifyStatus === "non_disponibile" ? "#f59e0b" : "var(--text-2)",
-borderRadius: 7, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
+borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "\u26A0 Apparecchio non disponibile")),
 f.verifyStatus === "non_disponibile" && (React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b33", borderRadius: 6, fontSize: 11, color: "#fbbf24" } }, "La verifica non sar\u00E0 eseguita. Sar\u00E0 generato un report di mancata esecuzione da far firmare al reparto."))),
@@ -411,13 +411,13 @@ isNA && " (N/A)"),
 background: isNA ? "#64748b22" : "var(--surface)",
 border: "1px solid " + (isNA ? "#64748b66" : "var(--border)"),
 color: isNA ? "var(--text-2)" : "var(--text-3)",
-borderRadius: 5, padding: "3px 8px", cursor: "pointer", fontSize: 10, fontWeight: 700, whiteSpace: "nowrap",
+borderRadius: 6, padding: "3px 8px", cursor: "pointer", fontSize: 10, fontWeight: 700, whiteSpace: "nowrap",
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, isNA ? "↻ Riabilita" : "N/A sez.")),
 sec.note && React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginBottom: 10, fontStyle: "italic", whiteSpace: "pre-line" } }, sec.note),
 !isNA && (sec.items || []).map(item => renderItemRow({ secId: sec.id, item })),
 !isNA && (sec.measures || []).length > 0 && (React.createElement("div", { style: { marginTop: (sec.items || []).length > 0 ? 10 : 0 } },
-React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 90px 60px 38px 30px", gap: 6, marginBottom: 6 } }, ["Misura", "Atteso", "Valore", "U.M.", ""].map((h, i) => React.createElement("div", { key: i, style: { fontSize: 9.5, color: "var(--text-2)", fontWeight: 700, textTransform: "uppercase", letterSpacing: .5 } }, h))),
+React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 90px 60px 38px 30px", gap: 6, marginBottom: 6 } }, ["Misura", "Atteso", "Valore", "U.M.", ""].map((h, i) => React.createElement("div", { key: i, style: { fontSize: 10, color: "var(--text-2)", fontWeight: 700, textTransform: "uppercase", letterSpacing: .5 } }, h))),
 (sec.measures || []).map(m => renderMeasureRow({ secId: sec.id, m }))))));
 }),
 React.createElement("div", { style: FLD },
@@ -518,14 +518,14 @@ h(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(
 h("select", { value: f.instrument, onChange: e => setF(x => Object.assign({}, x, { instrument: e.target.value })), style: selStyle },
 h("option", { value: "" }, "— nessuno —"),
 instruments.map(it => { const t = [it.brand, it.model].filter(Boolean).join(" ") + (it.internalCode ? (" (" + it.internalCode + ")") : ""); return h("option", { key: it.id || t, value: t }, t); }))) : null,
-onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 11.5, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0", marginTop: 2 } }, "Apparecchio non disponibile o serve il modulo classico →") : null);
+onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 12, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0", marginTop: 2 } }, "Apparecchio non disponibile o serve il modulo classico →") : null);
 } else if (sObj.key === "visiva") {
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
 visKeys.map(([k, label]) => h("div", { key: k, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--surface)", border: "1px solid " + (f.visual[k] === true ? TEAL + "66" : f.visual[k] === false ? RED + "66" : "var(--border)"), borderRadius: 12, padding: "12px 14px" } },
-h("span", { style: { fontSize: 13.5, color: "var(--text)", flex: 1 } }, label),
+h("span", { style: { fontSize: 14, color: "var(--text)", flex: 1 } }, label),
 h("div", { style: { display: "flex", gap: 6 } },
-h("button", { type: "button", onClick: () => setVis(k, true), style: { background: f.visual[k] === true ? TEAL : "var(--surface-2)", color: f.visual[k] === true ? "#04201C" : "var(--text-3)", border: "1px solid " + (f.visual[k] === true ? TEAL : "var(--border)"), borderRadius: 8, padding: "7px 12px", fontWeight: 700, fontSize: 12.5, cursor: "pointer" } }, "✓ OK"),
-h("button", { type: "button", onClick: () => setVis(k, false), style: { background: f.visual[k] === false ? RED : "var(--surface-2)", color: f.visual[k] === false ? "#fff" : "var(--text-3)", border: "1px solid " + (f.visual[k] === false ? RED : "var(--border)"), borderRadius: 8, padding: "7px 12px", fontWeight: 700, fontSize: 12.5, cursor: "pointer" } }, "✗ NO")))));
+h("button", { type: "button", onClick: () => setVis(k, true), style: { background: f.visual[k] === true ? TEAL : "var(--surface-2)", color: f.visual[k] === true ? "#04201C" : "var(--text-3)", border: "1px solid " + (f.visual[k] === true ? TEAL : "var(--border)"), borderRadius: 8, padding: "7px 12px", fontWeight: 700, fontSize: 13, cursor: "pointer" } }, "✓ OK"),
+h("button", { type: "button", onClick: () => setVis(k, false), style: { background: f.visual[k] === false ? RED : "var(--surface-2)", color: f.visual[k] === false ? "#fff" : "var(--text-3)", border: "1px solid " + (f.visual[k] === false ? RED : "var(--border)"), borderRadius: 8, padding: "7px 12px", fontWeight: 700, fontSize: 13, cursor: "pointer" } }, "✗ NO")))));
 } else if (sObj.key === "meas") {
 const mm = f.measures[sObj.idx];
 const verd = measVerdict(mm);
@@ -542,11 +542,11 @@ h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ?
 h("div", { style: { display: "flex", gap: 10, marginTop: 12 } },
 h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Limite normativo"), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
 h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Margine"), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
-h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "var(--text-3)", cursor: "pointer", marginBottom: 10 } },
+h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--text-3)", cursor: "pointer", marginBottom: 10 } },
 h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleNA(mm.id) }), "Non applicabile a questo apparecchio (N/A)"),
-h("button", { type: "button", onClick: () => setTutOpen(o => !o), style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: "11px 14px", color: "var(--text-2)", fontSize: 12.5, fontWeight: 600, cursor: "pointer" } }, h("span", null, "Come mi collego"), h("span", { style: { color: TEAL, transform: tutOpen ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "›")),
+h("button", { type: "button", onClick: () => setTutOpen(o => !o), style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: "11px 14px", color: "var(--text-2)", fontSize: 13, fontWeight: 600, cursor: "pointer" } }, h("span", null, "Come mi collego"), h("span", { style: { color: TEAL, transform: tutOpen ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "›")),
 tutOpen ? h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 10px 10px", padding: "12px 14px", marginTop: -4 } },
-["Spegni e scollega l'apparecchio dalla rete.", "Collega le sonde del tester secondo la misura (PE su masse, parte applicata, ecc.).", "Avvia la misura e attendi il valore stabile, poi trascrivilo."].map((t, i) => h("div", { key: i, style: { fontSize: 12.5, color: "var(--text-2)", lineHeight: 1.6, paddingLeft: 18, position: "relative", marginBottom: 4 } }, h("span", { style: { position: "absolute", left: 0, color: TEAL, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }, (i + 1) + "."), t))) : null);
+["Spegni e scollega l'apparecchio dalla rete.", "Collega le sonde del tester secondo la misura (PE su masse, parte applicata, ecc.).", "Avvia la misura e attendi il valore stabile, poi trascrivilo."].map((t, i) => h("div", { key: i, style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, paddingLeft: 18, position: "relative", marginBottom: 4 } }, h("span", { style: { position: "absolute", left: 0, color: TEAL, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }, (i + 1) + "."), t))) : null);
 } else {
 // esito
 const incomplete = steps.some(st => (st.key === "meas" || st.key === "visiva" || st.key === "setup") && !stepFilled(st));
@@ -554,9 +554,9 @@ content = h("div", { style: { display: "flex", flexDirection: "column", gap: 14 
 h("div", { style: { background: overall ? TEAL + "1a" : RED + "1a", border: "1px solid " + (overall ? TEAL + "66" : RED + "66"), borderRadius: 16, padding: "20px", textAlign: "center" } },
 h("div", { style: { fontSize: 34, fontWeight: 800, color: overall ? TEAL : RED } }, overall ? "✓" : "✗"),
 h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, overall ? "Conforme" : "Non conforme"),
-h("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 4 } }, incomplete ? "Attenzione: alcuni passi non sono ancora compilati" : "Tutte le prove eseguite secondo la norma selezionata")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, incomplete ? "Attenzione: alcuni passi non sono ancora compilati" : "Tutte le prove eseguite secondo la norma selezionata")),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
-[["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Classe / Tipo", f.equipClass + " · " + f.patientType], ["Norma", f.norm === "61010" ? "IEC 61010-1" : f.norm === "60601" ? "IEC 60601-1" : "IEC 62353"], ["Tecnico", f.technician || "—"], ["Esito", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: i === 4 ? (overall ? TEAL : RED) : "var(--text)" } }, r[1])))),
+[["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Classe / Tipo", f.equipClass + " · " + f.patientType], ["Norma", f.norm === "61010" ? "IEC 61010-1" : f.norm === "60601" ? "IEC 60601-1" : "IEC 62353"], ["Tecnico", f.technician || "—"], ["Esito", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 13, fontWeight: 600, color: i === 4 ? (overall ? TEAL : RED) : "var(--text)" } }, r[1])))),
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"),
 h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali, raccomandazioni…", style: { width: "100%", minHeight: 70, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
@@ -569,24 +569,24 @@ return h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
 // progress header (informativo)
 h("div", { style: { padding: "2px 2px 14px" } },
 h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 7 } },
-h("div", { style: { fontSize: 13.5, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT)),
-h("div", { style: { fontSize: 11.5, color: "var(--text-3)" } }, doneCount + "/" + TOT + " compilati")),
+h("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT)),
+h("div", { style: { fontSize: 12, color: "var(--text-3)" } }, doneCount + "/" + TOT + " compilati")),
 h("div", { style: { height: 6, background: "var(--surface-2)", borderRadius: 99, overflow: "hidden" } }, h("div", { style: { height: "100%", width: Math.round((cur / (TOT - 1)) * 100) + "%", background: TEAL, borderRadius: 99, transition: "width .2s" } }))),
 // step caption + title
 h("div", { style: { marginBottom: 14 } },
-sObj.key !== "meas" ? null : h("div", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 10.5, fontWeight: 600, letterSpacing: "1px", color: TEAL, textTransform: "uppercase", marginBottom: 6 } }, "Misura " + (sObj.idx + 1) + " di " + (f.measures || []).length),
+sObj.key !== "meas" ? null : h("div", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, fontWeight: 600, letterSpacing: "1px", color: TEAL, textTransform: "uppercase", marginBottom: 6 } }, "Misura " + (sObj.idx + 1) + " di " + (f.measures || []).length),
 h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.key === "setup" ? "Dati e configurazione" : sObj.key === "visiva" ? "Ispezione visiva e meccanica" : sObj.key === "meas" ? sObj.m.name : "Esito della verifica"),
-h("div", { style: { fontSize: 12.5, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, norma e parametri di prova" : sObj.key === "visiva" ? "Stato di cavo, spina, involucro, etichette" : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : "Giudizio complessivo e salvataggio")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, norma e parametri di prova" : sObj.key === "visiva" ? "Stato di cavo, spina, involucro, etichette" : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : "Giudizio complessivo e salvataggio")),
 // content
 content,
 // footer: indietro chiaro + avanti/salva chiaro
 h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
-h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 13.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
+h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
 cur < TOT - 1
 ? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, "Avanti", h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
 : h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva verifica")),
 // motivo se Avanti è bloccato
-(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 11.5, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona l'apparecchio per continuare" : sObj.key === "visiva" ? "Segna tutte le voci (OK/NO) per continuare" : "Inserisci il valore o segna N/A per continuare") : null);
+(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona l'apparecchio per continuare" : sObj.key === "visiva" ? "Segna tutte le voci (OK/NO) per continuare" : "Inserisci il valore o segna N/A per continuare") : null);
 }
 export function IECReportForm({ initial, assetId: propAssetId, assets, customers, existingReports, instruments, technicians, onSave, onClose, isAdmin }) {
 const MEAS_TUTORIAL = {
@@ -709,7 +709,7 @@ const C = { fill: "#161c2b", stroke: "#37425e", dut: "#6678a0", ana: "#2dd4bf", 
 const Card = ({ x, y, w, h, label, sub, tone }) => (React.createElement("g", null,
 React.createElement("rect", { x: x, y: y, width: w, height: h, rx: 12, fill: C.fill, stroke: tone || C.stroke, strokeWidth: 1.8 }),
 React.createElement("text", { x: x + w / 2, y: y + (sub ? h / 2 - 5 : h / 2 + 4), textAnchor: "middle", fill: C.txt, fontSize: 12, fontWeight: 700, fontFamily: "system-ui" }, label),
-sub ? React.createElement("text", { x: x + w / 2, y: y + h / 2 + 13, textAnchor: "middle", fill: C.faint, fontSize: 9.5, fontFamily: "system-ui" }, sub) : null));
+sub ? React.createElement("text", { x: x + w / 2, y: y + h / 2 + 13, textAnchor: "middle", fill: C.faint, fontSize: 10, fontFamily: "system-ui" }, sub) : null));
 const Dot = ({ x, y, c }) => (React.createElement("g", null,
 React.createElement("circle", { cx: x, cy: y, r: 7, fill: "none", stroke: c, strokeWidth: 1.4, opacity: 0.4 }),
 React.createElement("circle", { cx: x, cy: y, r: 4, fill: c, stroke: "#0a0a0f", strokeWidth: 1 })));
@@ -717,7 +717,7 @@ const Wire = ({ d, c, flow }) => React.createElement("path", { d: d, stroke: c, 
 const T = ({ x, y, t, a }) => React.createElement("text", { x: x, y: y, textAnchor: a || "middle", fill: C.sub, fontSize: 10, fontFamily: "system-ui" }, t);
 const Leg = ({ x, y, c, t }) => (React.createElement("g", null,
 React.createElement("rect", { x: x, y: y - 7, width: 16, height: 9, rx: 3, fill: c }),
-React.createElement("text", { x: x + 23, y: y + 1.5, fill: C.faint, fontSize: 10.5, fontFamily: "system-ui" }, t)));
+React.createElement("text", { x: x + 23, y: y + 1.5, fill: C.faint, fontSize: 11, fontFamily: "system-ui" }, t)));
 const Gnd = ({ x, y }) => (React.createElement("g", { stroke: C.neu, strokeWidth: 1.6, strokeLinecap: "round" },
 React.createElement("line", { x1: x, y1: y - 8, x2: x, y2: y }),
 React.createElement("line", { x1: x - 7, y1: y, x2: x + 7, y2: y }),
@@ -725,7 +725,7 @@ React.createElement("line", { x1: x - 4.5, y1: y + 3, x2: x + 4.5, y2: y + 3 }),
 React.createElement("line", { x1: x - 2, y1: y + 6, x2: x + 2, y2: y + 6 })));
 const MD = ({ x, y }) => (React.createElement("g", null,
 React.createElement("rect", { x: x, y: y, width: 48, height: 18, rx: 5, fill: "#0e1422", stroke: C.red, strokeWidth: 1.2 }),
-React.createElement("text", { x: x + 24, y: y + 12.5, textAnchor: "middle", fill: C.red, fontSize: 9.5, fontWeight: 700, fontFamily: "system-ui" }, "MD 1k\u03A9")));
+React.createElement("text", { x: x + 24, y: y + 12.5, textAnchor: "middle", fill: C.red, fontSize: 10, fontWeight: 700, fontFamily: "system-ui" }, "MD 1k\u03A9")));
 const wrap = (h, kids) => React.createElement("svg", { viewBox: "0 0 340 " + h, style: { width: "100%", maxWidth: 340, height: "auto" } }, kids);
 if (kind === "pe_mobile")
 return wrap(215, [
@@ -981,12 +981,12 @@ const INP = FORM_INP;
 const isMobile = useMedia("(max-width:600px)");
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
-(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 12.5 } }, React.createElement("span", { style: { fontSize: 15 } }, "\uD83D\uDD12"), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
+(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, "\uD83D\uDD12"), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
 React.createElement("div", { style: { background: f.overallPass ? "#22c55e1f" : "#ef44441f", border: `1px solid ${f.overallPass ? "#22c55e55" : "#ef444455"}`, borderRadius: 8, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } },
 "Norma: ",
 React.createElement("strong", { style: { color: "var(--text)" } }, f.norm === "61010" ? "IEC 61010-1 (Lab)" : f.norm === "60601" ? "IEC 60601-1 (Approfondita)" : "IEC 62353 (Elettromedicale)")),
-React.createElement("span", { style: { fontWeight: 900, fontSize: 15, letterSpacing: .3, color: f.overallPass ? "#04201C" : "#fff", background: f.overallPass ? "#2dd4bf" : "#ef4444", borderRadius: 6, padding: "5px 12px", whiteSpace: "nowrap" } }, f.overallPass ? "CONFORME" : "NON CONFORME")),
+React.createElement("span", { style: { fontWeight: 800, fontSize: 14, letterSpacing: .3, color: f.overallPass ? "#04201C" : "#fff", background: f.overallPass ? "#2dd4bf" : "#ef4444", borderRadius: 6, padding: "5px 12px", whiteSpace: "nowrap" } }, f.overallPass ? "CONFORME" : "NON CONFORME")),
 f.norm === "62353" && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "10px 14px", fontSize: 11, color: "var(--text-2)", lineHeight: 1.5 } },
 React.createElement("div", { style: { color: "var(--acc-teal)", fontWeight: 700, marginBottom: 4, fontSize: 11 } }, "\u2139 IEC 62353:2014 \u2014 Limiti test periodico"),
 React.createElement("div", null,
@@ -1038,14 +1038,14 @@ React.createElement("button", { type: "button", onClick: () => setF(x => (Object
 background: f.verifyStatus === "completata" ? "#22c55e22" : "var(--surface)",
 border: "1px solid " + (f.verifyStatus === "completata" ? "#22c55e66" : "var(--border)"),
 color: f.verifyStatus === "completata" ? "var(--acc-green)" : "var(--text-2)",
-borderRadius: 7, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
+borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "\u2713 Verifica completata"),
 React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { verifyStatus: "non_disponibile" }))), style: {
 background: f.verifyStatus === "non_disponibile" ? "#f59e0b22" : "var(--surface)",
 border: "1px solid " + (f.verifyStatus === "non_disponibile" ? "#f59e0b66" : "var(--border)"),
 color: f.verifyStatus === "non_disponibile" ? "var(--acc-amber)" : "var(--text-2)",
-borderRadius: 7, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
+borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "\u26A0 Apparecchio non disponibile")),
 f.verifyStatus === "non_disponibile" && (React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b33", borderRadius: 6, fontSize: 11, color: "#fbbf24" } }, "La verifica non sar\u00E0 eseguita. Sar\u00E0 generato un report di mancata esecuzione da far firmare al reparto."))),
@@ -1114,9 +1114,9 @@ f.norm === "60601" && (React.createElement("div", { style: FLD },
 React.createElement("label", { style: Object.assign(Object.assign({}, LBL), { display: "flex", alignItems: "center" }) },
 "Prove di Primo Guasto (SFC)",
 React.createElement(Hint, { text: "Le prove in condizione di primo guasto (interruzione di un conduttore, terra aperta, rete sulla parte applicata) sono pi\u00F9 approfondite ma sollecitano l'apparecchio. Disattivale per eseguire solo la Condizione Normale (NC)." })),
-React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { sfc: !(x.sfc !== false) }))), style: { display: "flex", alignItems: "center", gap: 10, background: "var(--surface)", border: "1px solid " + ((f.sfc !== false) ? "#2dd4bf66" : "var(--border)"), borderRadius: 7, padding: "10px 12px", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
-React.createElement("div", { style: { width: 38, height: 22, borderRadius: 11, background: (f.sfc !== false) ? "#2dd4bf" : "var(--border)", position: "relative", flexShrink: 0 } },
-React.createElement("div", { style: { position: "absolute", top: 2, left: (f.sfc !== false) ? 18 : 2, width: 18, height: 18, borderRadius: 9, background: "#fff" } })),
+React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { sfc: !(x.sfc !== false) }))), style: { display: "flex", alignItems: "center", gap: 10, background: "var(--surface)", border: "1px solid " + ((f.sfc !== false) ? "#2dd4bf66" : "var(--border)"), borderRadius: 8, padding: "10px 12px", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
+React.createElement("div", { style: { width: 38, height: 22, borderRadius: 12, background: (f.sfc !== false) ? "#2dd4bf" : "var(--border)", position: "relative", flexShrink: 0 } },
+React.createElement("div", { style: { position: "absolute", top: 2, left: (f.sfc !== false) ? 18 : 2, width: 18, height: 18, borderRadius: 10, background: "#fff" } })),
 React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: (f.sfc !== false) ? "#2dd4bf" : "var(--text-2)" } }, (f.sfc !== false) ? "Incluse (NC + SFC)" : "Escluse (solo NC)")),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 3 } }, (f.sfc !== false) ? "Verifica completa: condizione normale e primo guasto." : "Solo condizione normale — non sollecita l'apparecchio."))),
 React.createElement("div", { style: FLD },
@@ -1178,12 +1178,12 @@ React.createElement("div", { style: { display: "flex", gap: 6 } }, [true, false,
 background: f.visual[k] === v ? (v === true ? "#22c55e22" : v === false ? "#ef444422" : "var(--surface-3)") : "var(--surface)",
 border: `1px solid ${f.visual[k] === v ? (v === true ? "#22c55e44" : v === false ? "#ef444433" : "var(--surface-4)") : "var(--surface-3)"}`,
 color: f.visual[k] === v ? (v === true ? "#22c55e" : v === false ? "#ef4444" : "var(--text-3)") : "var(--text-4)",
-borderRadius: 5, padding: "3px 9px", cursor: "pointer", fontSize: 11, fontWeight: 700
+borderRadius: 6, padding: "3px 9px", cursor: "pointer", fontSize: 11, fontWeight: 700
 } }, v === true ? "✓ OK" : v === false ? "✗ NO" : "N/D")))))))),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, "Misure elettriche"),
-!isMobile && (React.createElement("div", { style: { display: "grid", gridTemplateColumns: prevReport ? "minmax(0,1fr) 70px 80px 50px 56px 44px" : "minmax(0,1fr) 90px 90px 56px 56px", gap: 8, marginBottom: 6, padding: "0 10px" } }, (prevReport ? ["Parametro", "Limite", "Valore", "Unità", "Prec.", "Trend"] : ["Parametro", "Limite", "Valore", "Unità", "Esito"]).map(h => React.createElement("div", { key: h, style: { fontSize: 9, color: "var(--text-4)", fontWeight: 700, textTransform: "uppercase" } }, h)))),
-prevReport && (React.createElement("div", { style: { fontSize: 10.5, color: "#5eead4", background: "#2dd4bf12", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "6px 10px", marginBottom: 4 } },
+!isMobile && (React.createElement("div", { style: { display: "grid", gridTemplateColumns: prevReport ? "minmax(0,1fr) 70px 80px 50px 56px 44px" : "minmax(0,1fr) 90px 90px 56px 56px", gap: 8, marginBottom: 6, padding: "0 10px" } }, (prevReport ? ["Parametro", "Limite", "Valore", "Unità", "Prec.", "Trend"] : ["Parametro", "Limite", "Valore", "Unità", "Esito"]).map(h => React.createElement("div", { key: h, style: { fontSize: 10, color: "var(--text-4)", fontWeight: 700, textTransform: "uppercase" } }, h)))),
+prevReport && (React.createElement("div", { style: { fontSize: 11, color: "#5eead4", background: "#2dd4bf12", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "6px 10px", marginBottom: 4 } },
 "Confronto con la verifica precedente del ",
 prevReport.date,
 prevReport.overallPass === false ? " (esito: NON conforme)" : "",
@@ -1204,12 +1204,12 @@ trend = worse ? "worse" : "better";
 return (React.createElement(React.Fragment, { key: m.id },
 isMobile ? (React.createElement("div", { style: { marginBottom: 10, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "12px 14px" } },
 React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 6, marginBottom: 8 } },
-React.createElement("span", { style: { fontSize: 12.5, color: "var(--text-strong)", fontWeight: 600, flex: 1, minWidth: 0, overflowWrap: "anywhere", lineHeight: 1.3 } }, m.name),
+React.createElement("span", { style: { fontSize: 13, color: "var(--text-strong)", fontWeight: 600, flex: 1, minWidth: 0, overflowWrap: "anywhere", lineHeight: 1.3 } }, m.name),
 tutorialFor(m.id, f.fixedInstall) && React.createElement("span", { onClick: () => setTutorialOpen(tutorialOpen === m.id ? null : m.id), title: "Come mi collego", style: { cursor: "pointer", color: "var(--acc-teal)", border: "1px solid #2dd4bf66", borderRadius: "50%", width: 20, height: 20, minWidth: 20, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 } }, "i")),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", opacity: m.na ? .5 : 1 } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 5 } },
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", textTransform: "uppercase" } }, "Limite"),
-m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: "Limite modificabile", style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 5, padding: "5px 7px", color: "var(--acc-teal)", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace", width: 70, outline: "none" } })) : (React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit))),
+m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: "Limite modificabile", style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "5px 7px", color: "var(--acc-teal)", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace", width: 70, outline: "none" } })) : (React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit))),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 5, flex: 1, minWidth: 120 } },
 React.createElement("input", { type: "number", step: "0.001", disabled: m.na, value: m.na ? "" : m.value, onChange: e => setMeas(m.id, e.target.value), placeholder: m.na ? "non applicabile" : "valore", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", fontSize: 14, outline: "none", fontFamily: "'IBM Plex Mono', monospace", flex: 1, minWidth: 0 } }),
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)", minWidth: 24 } }, m.unit)),
@@ -1218,9 +1218,9 @@ isOptional(m.id) && React.createElement("button", { onClick: () => toggleNA(m.id
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", display: "flex", alignItems: "center", gap: 6, minWidth: 0 } },
 React.createElement("span", { style: { minWidth: 0, overflowWrap: "anywhere" } }, m.name),
 tutorialFor(m.id, f.fixedInstall) && React.createElement("span", { onClick: () => setTutorialOpen(tutorialOpen === m.id ? null : m.id), title: "Come mi collego", style: { cursor: "pointer", color: "var(--acc-teal)", border: "1px solid #2dd4bf66", borderRadius: "50%", width: 16, height: 16, minWidth: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0 } }, "i"),
-isOptional(m.id) && React.createElement("span", { onClick: () => toggleNA(m.id), title: m.na ? "Misura segnata non applicabile — tocca per riattivare" : "Segna come non applicabile (prova opzionale)", style: { cursor: "pointer", fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 4, border: "1px solid " + (m.na ? "#2dd4bf" : "var(--border)"), color: m.na ? "#5eead4" : "var(--text-4)", background: m.na ? "#2dd4bf18" : "transparent", flexShrink: 0 } }, "N/A")),
-m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: "Limite modificabile", style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 5, padding: "4px 6px", color: "var(--acc-teal)", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", width: "100%", outline: "none" } })) : (React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit)),
-React.createElement("input", { type: "number", step: "0.001", disabled: m.na, value: m.na ? "" : m.value, onChange: e => setMeas(m.id, e.target.value), placeholder: m.na ? "N/A" : "—", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 5, padding: "4px 7px", color: "var(--text)", fontSize: 12, outline: "none", fontFamily: "'IBM Plex Mono', monospace", minWidth: 0 } }),
+isOptional(m.id) && React.createElement("span", { onClick: () => toggleNA(m.id), title: m.na ? "Misura segnata non applicabile — tocca per riattivare" : "Segna come non applicabile (prova opzionale)", style: { cursor: "pointer", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, border: "1px solid " + (m.na ? "#2dd4bf" : "var(--border)"), color: m.na ? "#5eead4" : "var(--text-4)", background: m.na ? "#2dd4bf18" : "transparent", flexShrink: 0 } }, "N/A")),
+m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: "Limite modificabile", style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "4px 6px", color: "var(--acc-teal)", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", width: "100%", outline: "none" } })) : (React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit)),
+React.createElement("input", { type: "number", step: "0.001", disabled: m.na, value: m.na ? "" : m.value, onChange: e => setMeas(m.id, e.target.value), placeholder: m.na ? "N/A" : "—", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, padding: "4px 7px", color: "var(--text)", fontSize: 12, outline: "none", fontFamily: "'IBM Plex Mono', monospace", minWidth: 0 } }),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, m.unit),
 m.na ? (React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: "var(--text-3)", textAlign: "center" } }, "N/A")) : prevReport ? (React.createElement(React.Fragment, null,
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", textAlign: "center" } }, prevVal !== null ? prevVal : "—"),
@@ -1297,12 +1297,12 @@ const [open, setOpen] = React.useState(false);
 if (!info) return null;
 return React.createElement("div", { style: { background: "var(--ok-bg)", border: "1px solid #2dd4bf55", borderRadius: 8, padding: "8px 10px", margin: "6px 0" } },
 React.createElement("div", { onClick: () => setOpen(function (o) { return !o; }), style: { display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" } },
-React.createElement("span", { style: { fontSize: 12.5, fontWeight: 700, color: "#5eead4" } }, "\uD83E\uDDF0 Strumenti di test consigliati"),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5eead4" } }, "\uD83E\uDDF0 Strumenti di test consigliati"),
 React.createElement("span", { style: { fontSize: 13, color: "#5eead4", fontWeight: 700 } }, open ? "−" : "+")),
 open && React.createElement("div", { style: { marginTop: 8 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#ef4444", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, "Indispensabili"),
-React.createElement("ul", { style: { margin: "0 0 8px", paddingLeft: 18, fontSize: 11.5, color: "var(--text)", lineHeight: 1.5 } }, (info.req || []).map(function (s, i) { return React.createElement("li", { key: i }, s); })),
+React.createElement("ul", { style: { margin: "0 0 8px", paddingLeft: 18, fontSize: 12, color: "var(--text)", lineHeight: 1.5 } }, (info.req || []).map(function (s, i) { return React.createElement("li", { key: i }, s); })),
 (info.opt && info.opt.length) ? React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, "Consigliati") : null,
-(info.opt && info.opt.length) ? React.createElement("ul", { style: { margin: 0, paddingLeft: 18, fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.5 } }, info.opt.map(function (s, i) { return React.createElement("li", { key: i }, s); })) : null,
+(info.opt && info.opt.length) ? React.createElement("ul", { style: { margin: 0, paddingLeft: 18, fontSize: 12, color: "var(--text-2)", lineHeight: 1.5 } }, info.opt.map(function (s, i) { return React.createElement("li", { key: i }, s); })) : null,
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 8, fontStyle: "italic" } }, "Modelli citati come esempi neutri. Verifica la taratura degli strumenti e i limiti esatti su norme/manuali ufficiali.")));
 }

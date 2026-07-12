@@ -96,15 +96,15 @@ errore: { t: "Stato non disponibile", c: "var(--text-2)", bg: "#94a3b815" },
 const b = BADGE[stato] || { t: "Verifico…", c: "var(--text-3)", bg: "#64748b15" };
 return (React.createElement("div", { style: { border: "1px solid var(--border-2)", borderRadius: 10, padding: "13px 15px", background: "var(--bg)" } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" } },
-React.createElement("div", { style: { fontSize: 12.5, fontWeight: 800, color: "var(--text)" } }, "\uD83D\uDD11 Portale cliente"),
-React.createElement("span", { style: { fontSize: 11.5, fontWeight: 700, color: b.c, background: b.bg, border: "1px solid " + b.c + "44", borderRadius: 7, padding: "4px 9px" } }, b.t)),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--text)" } }, "\uD83D\uDD11 Portale cliente"),
+React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: b.c, background: b.bg, border: "1px solid " + b.c + "44", borderRadius: 8, padding: "4px 9px" } }, b.t)),
 isSuperuser ? (React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 11, flexWrap: "wrap" } },
 stato === "non_abilitato" && React.createElement(Btn, { sm: true, disabled: busy, onClick: abilita }, busy ? __t("Abilito…") : "\uD83D\uDD11 Abilita portale"),
 stato === "invitato" && (React.createElement(React.Fragment, null,
 React.createElement(Btn, { sm: true, disabled: busy, onClick: abilita }, busy ? "…" : "↻ Rigenera invito"),
 React.createElement(Btn, { sm: true, variant: "ghost", disabled: busy, onClick: revoca }, __t("Revoca")))),
 stato === "attivo" && React.createElement(Btn, { sm: true, variant: "ghost", disabled: busy, onClick: revoca }, busy ? "…" : __t("Revoca accesso")))) : (React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 9 } }, __t("Solo il superuser pu\u00F2 abilitare o revocare l'accesso al portale."))),
-msg && React.createElement("div", { style: { fontSize: 11.5, color: msg.indexOf("✗") === 0 || msg.indexOf("⚠") === 0 ? "#f59e0b" : "#2dd4bf", marginTop: 9, lineHeight: 1.5 } }, msg),
+msg && React.createElement("div", { style: { fontSize: 12, color: msg.indexOf("✗") === 0 || msg.indexOf("⚠") === 0 ? "#f59e0b" : "#2dd4bf", marginTop: 9, lineHeight: 1.5 } }, msg),
 isSuperuser && stato === "non_abilitato" && (React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 8, lineHeight: 1.5 } }, __t("User\u00E0 l'email dell'anagrafica qui sopra. Il cliente entrer\u00E0 nel portale con quella email (link di accesso): al primo ingresso viene collegato automaticamente.")))));
 }
 export function RichiestePage({ richieste, assets, customers, onConvert, onRefresh, online }) {
@@ -142,14 +142,14 @@ yield supaDB.delete("richieste", r.id);
 }
 catch (e) { } yield onRefresh(); setBusyId(null); }), "danger"); };
 return (React.createElement("div", { style: { maxWidth: 780, margin: "0 auto" } },
-netOff && (React.createElement("div", { style: { marginBottom: 12, padding: "10px 13px", background: "var(--warn-bg)", border: "1px solid #f59e0b44", borderRadius: 9, color: "#fbbf24", fontSize: 12, lineHeight: 1.5 } }, "\uD83D\uDCF4 Sei offline: le richieste vivono sul cloud, quindi l'elenco potrebbe non essere aggiornato e le azioni richiedono connessione.")),
+netOff && (React.createElement("div", { style: { marginBottom: 12, padding: "10px 13px", background: "var(--warn-bg)", border: "1px solid #f59e0b44", borderRadius: 10, color: "#fbbf24", fontSize: 12, lineHeight: 1.5 } }, "\uD83D\uDCF4 Sei offline: le richieste vivono sul cloud, quindi l'elenco potrebbe non essere aggiornato e le azioni richiedono connessione.")),
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, gap: 10, flexWrap: "wrap" } },
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 20, fontWeight: 900, color: "var(--text)" } }, __t("Richieste clienti")),
+React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--text)" } }, __t("Richieste clienti")),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Richieste di intervento arrivate dal portale"))),
 React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center" } },
-React.createElement("div", { style: { display: "flex", background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 9, overflow: "hidden" } }, [{ v: "attive", l: "Da gestire" }, { v: "tutte", l: "Tutte" }].map(o => (React.createElement("button", { key: o.v, onClick: () => setFilter(o.v), style: { background: filter === o.v ? "#2dd4bf22" : "transparent", color: filter === o.v ? "#2dd4bf" : "var(--text-2)", border: "none", padding: "8px 14px", fontSize: 12, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, o.l)))),
-React.createElement("button", { onClick: onRefresh, title: __t("Aggiorna"), style: { background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 9, padding: "8px 13px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u21BB"))),
+React.createElement("div", { style: { display: "flex", background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, overflow: "hidden" } }, [{ v: "attive", l: "Da gestire" }, { v: "tutte", l: "Tutte" }].map(o => (React.createElement("button", { key: o.v, onClick: () => setFilter(o.v), style: { background: filter === o.v ? "#2dd4bf22" : "transparent", color: filter === o.v ? "#2dd4bf" : "var(--text-2)", border: "none", padding: "8px 14px", fontSize: 12, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, o.l)))),
+React.createElement("button", { onClick: onRefresh, title: __t("Aggiorna"), style: { background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text-2)", borderRadius: 10, padding: "8px 13px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u21BB"))),
 !online && React.createElement("div", { style: { padding: "12px 14px", background: "#f59e0b18", border: "1px solid #f59e0b55", borderRadius: 10, color: "#f59e0b", fontSize: 12, marginBottom: 14 } }, __t("Le richieste arrivano dal cloud: serve la connessione e l'accesso.")),
 rows.length === 0 ? (React.createElement("div", { style: { padding: "30px 20px", textAlign: "center", color: "var(--text-3)", fontSize: 13, background: "var(--bg-2)", border: "1px dashed var(--border-2)", borderRadius: 12 } }, filter === "attive" ? __t("Nessuna richiesta da gestire.") : __t("Nessuna richiesta."))) : (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } }, rows.map(r => {
 const busy = busyId === r.id;
@@ -157,7 +157,7 @@ const done = r.status === "convertita" || r.status === "chiusa";
 return (React.createElement("div", { key: r.id, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderLeft: "3px solid " + (STC[r.status] || "var(--text-3)"), borderRadius: 12, padding: "14px 16px" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10, marginBottom: 6, flexWrap: "wrap" } },
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-React.createElement("div", { style: { fontSize: 15, fontWeight: 800, color: "var(--text)" } }, assetLabel(r.asset_id)),
+React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--text)" } }, assetLabel(r.asset_id)),
 custLabel(r.customer_id) && React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", marginTop: 2 } },
 "\uD83C\uDFE2 ",
 custLabel(r.customer_id))),

@@ -73,12 +73,12 @@ React.createElement("button", { type: "button", onClick: suggest, style: FORM_BT
 : React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 (f.affected || []).map(af => React.createElement("div", { key: af.assetId, style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "10px 12px" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 8 } },
-React.createElement("span", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 600, lineHeight: 1.3 } }, assetLabel(af.assetId)),
+React.createElement("span", { style: { fontSize: 13, color: "var(--text)", fontWeight: 600, lineHeight: 1.3 } }, assetLabel(af.assetId)),
 React.createElement("button", { type: "button", onClick: () => rmAff(af.assetId), title: __t("Rimuovi"), style: { background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: 14, fontWeight: 700, flexShrink: 0, padding: 0 } }, "\u2715")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 } },
 React.createElement("div", null, React.createElement("label", { style: Object.assign({}, FORM_LBL, { marginBottom: 3 }) }, __t("Stato azione")), React.createElement("select", { value: af.status || "Da verificare", onChange: e => updAff(af.assetId, "status", e.target.value), style: Object.assign({}, FORM_INP, { padding: "8px 10px", fontSize: 13, borderColor: (RECALL_ASTATUS_COLOR[af.status || "Da verificare"] || "#888") + "66" }) }, RECALL_ASSET_STATUS.map(o => React.createElement("option", { key: o, value: o }, o)))),
 React.createElement("div", null, React.createElement("label", { style: Object.assign({}, FORM_LBL, { marginBottom: 3 }) }, __t("Data azione")), React.createElement("input", { type: "date", value: af.date || "", onChange: e => updAff(af.assetId, "date", e.target.value), style: Object.assign({}, FORM_INP, { padding: "8px 10px", fontSize: 13 }) }))),
-React.createElement("input", { value: af.note || "", onChange: e => updAff(af.assetId, "note", e.target.value), placeholder: __t("Nota (es. n. lotto, intervento eseguito…)"), style: Object.assign({}, FORM_INP, { padding: "8px 10px", fontSize: 12.5, marginTop: 8 }) }))))),
+React.createElement("input", { value: af.note || "", onChange: e => updAff(af.assetId, "note", e.target.value), placeholder: __t("Nota (es. n. lotto, intervento eseguito…)"), style: Object.assign({}, FORM_INP, { padding: "8px 10px", fontSize: 13, marginTop: 8 }) }))))),
 React.createElement("div", { style: FORM_FOOTER },
 React.createElement("button", { type: "button", onClick: onClose, style: FORM_BTN_GHOST }, __t("Annulla")),
 React.createElement("button", { type: "button", onClick: submit, style: FORM_BTN_PRIMARY }, __t("Salva avviso"))));
@@ -143,7 +143,7 @@ React.createElement("div", { style: { display: "flex", flexDirection: "column", 
 r.severity && React.createElement(Badge, { text: r.severity, color: RECALL_SEV_COLOR[r.severity] || "var(--text-3)" }),
 r.status && React.createElement(Badge, { text: r.status, color: RECALL_STATUS_COLOR[r.status] || "var(--text-3)" }))),
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginTop: 10, flexWrap: "wrap" } },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", display: "flex", gap: 10, flexWrap: "wrap" } },
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", display: "flex", gap: 10, flexWrap: "wrap" } },
 r.actionType && React.createElement("span", null, r.actionType),
 r.date && React.createElement("span", null, r.date),
 tot > 0 && React.createElement("span", { style: { color: pend > 0 ? "#f59e0b" : "#22c55e", fontWeight: 700 } }, tot + " app." + (pend > 0 ? (" · " + pend + " da gestire") : " · tutti gestiti"))),
@@ -227,7 +227,7 @@ const activeFilterCount = (filterStatus ? 1 : 0) + (filterCategory ? 1 : 0);
 return (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 900, display: isMobile ? "none" : "block" } }, __t("Strumenti di Misura")),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Strumenti di Misura")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 instruments.length,
 " strumenti \u00B7 ",
@@ -244,7 +244,7 @@ React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMo
 { label: __t('In scadenza'), value: expiring, color: '#f59e0b' },
 { label: __t('Scaduti'), value: expired, color: '#ef4444' },
 ].map(k => (React.createElement("div", { key: k.label, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "12px 14px" } },
-React.createElement("div", { style: { fontSize: 24, fontWeight: 900, color: k.color, fontFamily: "'IBM Plex Mono', monospace", lineHeight: 1 } }, k.value),
+React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: k.color, fontFamily: "'IBM Plex Mono', monospace", lineHeight: 1 } }, k.value),
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 5, textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, k.label))))),
 instruments.length === 0 ? (React.createElement(EmptyState, { icon: "\uD83D\uDD2C", title: __t("Nessuno strumento di misura"), subtitle: __t("Registra i tuoi analizzatori, simulatori e multimetri: marca, modello, n\u00B0 serie, certificato di calibrazione e scadenza. Garantisce la rintracciabilit\u00E0 delle tue verifiche."), actions: [
 { label: "+ Nuovo strumento", onClick: () => setModal({ type: 'form', data: null }), primary: true }
@@ -272,7 +272,7 @@ React.createElement("strong", { style: { color: "var(--text)", fontSize: 14, fle
 inst.brand,
 " ",
 inst.model),
-React.createElement("span", { style: { padding: "2px 8px", background: status.color + "22", color: status.color, borderRadius: 5, fontSize: 10, fontWeight: 800, whiteSpace: "nowrap" } }, status.label)),
+React.createElement("span", { style: { padding: "2px 8px", background: status.color + "22", color: status.color, borderRadius: 6, fontSize: 10, fontWeight: 800, whiteSpace: "nowrap" } }, status.label)),
 inst.internalCode && React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", marginBottom: 3 } },
 __t("Codice: "),
 inst.internalCode),
@@ -512,7 +512,7 @@ const clean = Object.assign(Object.assign({}, tpl), { sections: tpl.sections.map
 onSave(clean);
 };
 const SEC_BOX = { background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 10, padding: 14, marginBottom: 14 };
-const MINI_BTN = { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "5px 10px", cursor: "pointer", fontSize: 11.5, fontWeight: 700 };
+const MINI_BTN = { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "5px 10px", cursor: "pointer", fontSize: 12, fontWeight: 700 };
 const DEL_BTN = { background: "#ef444415", border: "1px solid #ef444433", borderRadius: 6, color: "#ef4444", padding: "4px 9px", cursor: "pointer", fontSize: 12, fontWeight: 700, flexShrink: 0 };
 return (React.createElement("div", null,
 React.createElement(ErrorSummary, { errors: errors }),

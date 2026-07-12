@@ -615,7 +615,7 @@ const selStyle = { width: "100%", background: "var(--bg-2)", color: "var(--text)
 const lab = { fontSize: 11, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 4 };
 if (step === 3 && result)
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-React.createElement("div", { style: { fontSize: 15, fontWeight: 600, color: "#22c55e" } }, "\u2713 Importazione completata"),
+React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#22c55e" } }, "\u2713 Importazione completata"),
 React.createElement("div", { style: { fontSize: 14, color: "var(--text-strong)", lineHeight: 1.7 } },
 "Creati: ",
 React.createElement("b", null, result.created),
@@ -749,7 +749,7 @@ React.createElement(Sel, { label: "Stato", value: f.status, onChange: s("status"
 React.createElement(Inp, { label: "Interv. Sicurezza Elettrica (mesi)", type: "number", value: f.intervalIec, onChange: s("intervalIec") }),
 React.createElement(Inp, { label: "Interv. Funzionale (mesi)", type: "number", value: f.intervalFunc, onChange: s("intervalFunc") }),
 React.createElement(Inp, { label: "Interv. Manut. Programmata / PPM (mesi)", type: "number", value: f.intervalPpm, onChange: s("intervalPpm"), hint: "Periodicità indicata dal costruttore" })),
-React.createElement("button", { onClick: () => setShowAdv(v => !v), style: { background: "transparent", border: "1px dashed var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "9px", cursor: "pointer", fontSize: 12.5, fontWeight: 700 } }, showAdv ? "− Nascondi dettagli avanzati" : "+ Mostra dettagli avanzati (date, norma, garanzia…)"),
+React.createElement("button", { onClick: () => setShowAdv(v => !v), style: { background: "transparent", border: "1px dashed var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "9px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, showAdv ? "− Nascondi dettagli avanzati" : "+ Mostra dettagli avanzati (date, norma, garanzia…)"),
 showAdv && React.createElement(Grid, { cols: "1fr 1fr" },
 React.createElement(Inp, { label: "Ultimo servizio", type: "date", value: f.lastService, onChange: s("lastService") }),
 React.createElement(Inp, { label: "Prossimo servizio", type: "date", value: f.nextService, onChange: s("nextService") }),
@@ -1028,7 +1028,7 @@ const lastFunc = assetFunc[0] || null;
 const warrantyDays = asset.warrantyExpiry ? Math.round((new Date(asset.warrantyExpiry) - new Date()) / 86400000) : null;
 const serviceDays = asset.nextService ? Math.round((new Date(asset.nextService) - new Date()) / 86400000) : null;
 const S = { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "14px 16px" };
-const LBL = { fontSize: 9, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 3 };
+const LBL = { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 3 };
 const VAL = { fontSize: 13, color: "var(--text)", fontWeight: 600 };
 const TABS = [{ id: "overview", label: " Scheda" }, { id: "timeline", label: "\uD83D\uDD51 Storico" }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "⚡ Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
 const riskColor = { A: "#22c55e", B: "#f59e0b", C: "#ef4444" };
@@ -1039,7 +1039,7 @@ return (React.createElement("div", { style: { display: "flex", flexDirection: "c
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "14px 16px", marginBottom: 14, border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 8 } },
 React.createElement("span", { style: { fontSize: 17, fontWeight: 700, color: "#5eead4", fontFamily: "'IBM Plex Mono', monospace", letterSpacing: .5 } }, asset.assetCode || asset.id),
-asset.riskClass && React.createElement("span", { style: { background: riskColor[asset.riskClass] + "22", color: riskColor[asset.riskClass], border: "1px solid " + riskColor[asset.riskClass] + "55", borderRadius: 5, padding: "2px 8px", fontSize: 10, fontWeight: 700 } },
+asset.riskClass && React.createElement("span", { style: { background: riskColor[asset.riskClass] + "22", color: riskColor[asset.riskClass], border: "1px solid " + riskColor[asset.riskClass] + "55", borderRadius: 6, padding: "2px 8px", fontSize: 10, fontWeight: 700 } },
 "Cl. ",
 asset.riskClass),
 React.createElement(Badge, { text: asset.status, color: STATUS_COLOR[asset.status] || "var(--text-3)" })),
@@ -1075,15 +1075,15 @@ React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14,
 { label: "Ultima Sicurezza", value: lastIec ? lastIec.date : "mai", color: (lastIec === null || lastIec === void 0 ? void 0 : lastIec.overallPass) ? "#22c55e" : "#ef4444" },
 { label: "Ultima verif.", value: lastFunc ? lastFunc.date : "mai", color: "var(--text-3)" },
 ].map(k => (React.createElement("div", { key: k.label, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "8px 14px", flex: 1, minWidth: 100 } },
-React.createElement("div", { style: { fontSize: 9, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .7, fontWeight: 700 } }, k.label),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .7, fontWeight: 700 } }, k.label),
 React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: k.color, marginTop: 3, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1 } }, k.value))))),
 React.createElement("div", { style: { display: "flex", gap: 4, marginBottom: 12, borderBottom: "2px solid var(--border-2)", paddingBottom: 0, overflowX: "auto", flexWrap: "nowrap", scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch", maxWidth: "100%" } }, TABS.map(t => (React.createElement("button", { key: t.id, onClick: () => setTab(t.id), style: {
 background: "none", border: "none", borderBottom: tab === t.id ? "2px solid #2dd4bf" : "2px solid transparent",
 color: tab === t.id ? "#5eead4" : "var(--text-3)", padding: "8px 14px", cursor: "pointer",
-fontSize: 12.5, fontWeight: tab === t.id ? 700 : 500, marginBottom: -2, whiteSpace: "nowrap", flexShrink: 0
+fontSize: 13, fontWeight: tab === t.id ? 700 : 500, marginBottom: -2, whiteSpace: "nowrap", flexShrink: 0
 } }, t.label)))),
 tab === "overview" && (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, overflow: "auto", maxHeight: CMAX } },
-assetHasOpenRecall(asset.id, recalls) && React.createElement("div", { onClick: function () { var rc = assetOpenRecall(asset.id, recalls); if (rc && onOpenRecall) onOpenRecall(rc.id); }, onMouseEnter: function (e) { e.currentTarget.style.background = "#4a1616"; }, onMouseLeave: function (e) { e.currentTarget.style.background = "#3a1212"; }, style: { background: "#3a1212", border: "1px solid #ef444466", borderRadius: 8, color: "#fca5a5", padding: "10px 12px", fontSize: 12.5, fontWeight: 700, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, transition: "background .12s ease" } }, React.createElement("span", null, "⚠ Avviso di sicurezza aperto su questo apparecchio — azione da eseguire"), React.createElement("span", { style: { fontSize: 11, opacity: .85, whiteSpace: "nowrap" } }, "Apri ›")),
+assetHasOpenRecall(asset.id, recalls) && React.createElement("div", { onClick: function () { var rc = assetOpenRecall(asset.id, recalls); if (rc && onOpenRecall) onOpenRecall(rc.id); }, onMouseEnter: function (e) { e.currentTarget.style.background = "#4a1616"; }, onMouseLeave: function (e) { e.currentTarget.style.background = "#3a1212"; }, style: { background: "#3a1212", border: "1px solid #ef444466", borderRadius: 8, color: "#fca5a5", padding: "10px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, transition: "background .12s ease" } }, React.createElement("span", null, "⚠ Avviso di sicurezza aperto su questo apparecchio — azione da eseguire"), React.createElement("span", { style: { fontSize: 11, opacity: .85, whiteSpace: "nowrap" } }, "Apri ›")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 10 } },
 React.createElement("div", { style: S },
 React.createElement("div", { style: LBL }, "Identificazione"),
@@ -1120,7 +1120,7 @@ React.createElement("span", { style: { fontSize: 11, color: "var(--text)", fontF
 asset.lastLocation
 ? React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline" } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, "Ultima posizione"),
-React.createElement("span", { style: { fontSize: 12.5, color: "var(--acc-teal)", fontWeight: 700 } }, asset.lastLocation + (asset.lastLocationDate ? (" \u00B7 " + fmtDateTimeIt(asset.lastLocationDate)) : "")))
+React.createElement("span", { style: { fontSize: 13, color: "var(--acc-teal)", fontWeight: 700 } }, asset.lastLocation + (asset.lastLocationDate ? (" \u00B7 " + fmtDateTimeIt(asset.lastLocationDate)) : "")))
 : React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontStyle: "italic" } }, asset.epc ? "Tag associato, mai scansionato" : "Mai rilevato"))
 : React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontStyle: "italic" } }, "Nessun tag RFID associato \u2014 aggiungilo in modifica apparecchio")),
 asset.notes && React.createElement("div", { style: Object.assign(Object.assign({}, S), { fontSize: 12, color: "var(--text-2)", lineHeight: 1.6 }) },
@@ -1135,8 +1135,8 @@ React.createElement("div", { style: { display: "flex", justifyContent: "space-be
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", marginBottom: 2 } },
 React.createElement("span", { style: { fontSize: 13 } }, e.icon),
-React.createElement("span", { style: { fontSize: 12.5, fontWeight: 700, color: "var(--text)" } }, e.title),
-e.badge && React.createElement("span", { style: { fontSize: 9, fontWeight: 700, color: e.color, background: e.color + "22", border: "1px solid " + e.color + "44", borderRadius: 4, padding: "1px 6px", textTransform: "uppercase", letterSpacing: .3 } }, e.badge)),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, e.title),
+e.badge && React.createElement("span", { style: { fontSize: 10, fontWeight: 700, color: e.color, background: e.color + "22", border: "1px solid " + e.color + "44", borderRadius: 4, padding: "1px 6px", textTransform: "uppercase", letterSpacing: .3 } }, e.badge)),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", lineHeight: 1.4 } }, e.sub)),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" } }, e.date || "—")))))))))),
 tab === "jobs" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetJobs.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessun job per questo apparecchio")) : assetJobs.map(j => {
@@ -1189,11 +1189,11 @@ r.verifyType),
 r.notes && React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 3 } }, r.notes)),
 React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" } },
 React.createElement("span", { style: { fontWeight: 800, fontSize: 13, color: r.overallPass ? "#22c55e" : "#ef4444" } }, r.overallPass ? "✓ OK" : "✗ NO"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateIECPDF(r, asset, customer, company); }, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 5, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } })))))))),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateIECPDF(r, asset, customer, company); }, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } })))))))),
 tab === "documenti" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX } },
 React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "16px 18px" } },
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", marginBottom: 4 } }, "Documenti dell'apparecchio"),
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-3)", marginBottom: 12, lineHeight: 1.5 } }, "Conformit\u00E0 CE, manuali, certificati, rapporti esterni. PDF, immagini, Word, Excel \u2014 max 5MB a file."),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginBottom: 12, lineHeight: 1.5 } }, "Conformit\u00E0 CE, manuali, certificati, rapporti esterni. PDF, immagini, Word, Excel \u2014 max 5MB a file."),
 React.createElement(AttachmentsList, { attachments: asset.documents || [], onAdd: (att) => onAddDoc && onAddDoc(att), onDelete: (id) => onDeleteDoc && onDeleteDoc(id), showToast: showToast })))),
 tab === "func" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetFunc.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessuna verifica funzionale per questo apparecchio")) : assetFunc.map(r => {
 const tpl = (templates || FUNC_TEMPLATES || {})[r.templateId] || { label: "Generico", icon: "›" };
@@ -1213,7 +1213,7 @@ r.technician || "—"),
 r.notes && React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 3 } }, r.notes)),
 React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" } },
 React.createElement("span", { style: { fontWeight: 800, fontSize: 13, color: r.overallPass ? "#22c55e" : "#ef4444" } }, r.overallPass ? "✓ OK" : "✗ NO"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateFuncPDF(r, asset, customer, company); }, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 5, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } })))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateFuncPDF(r, asset, customer, company); }, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } })))));
 })))));
 }
 export function StickerModal({ report, asset, customer, company, kind, onClose, assets }) {
@@ -1356,10 +1356,10 @@ React.createElement("div", { style: { width: 360, maxWidth: "100%", border: "2px
 React.createElement("div", { style: { width: 104, height: 104, flexShrink: 0 }, dangerouslySetInnerHTML: { __html: qrSvg || "" } }),
 React.createElement("div", { style: { flex: 1, minWidth: 0, color: "#000", display: "flex", flexDirection: "column", gap: 3 } }, isAssetSticker ? (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { fontSize: 8.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: .4, color: "#666" } }, "Codice apparecchio"),
-React.createElement("div", { style: { fontSize: 24, fontWeight: 900, lineHeight: 1.1, color: "#000", wordBreak: "break-all" } }, (asset === null || asset === void 0 ? void 0 : asset.assetCode) || (asset === null || asset === void 0 ? void 0 : asset.id) || "—"),
-React.createElement("div", { style: { fontSize: 9.5, color: "#777", marginTop: 8, lineHeight: 1.4 } }, "Il QR apre la scheda con tutte le info (S/N, marca, modello, storico, scadenze) \u2014 sempre aggiornate."))) : (React.createElement(React.Fragment, null,
+React.createElement("div", { style: { fontSize: 24, fontWeight: 800, lineHeight: 1.1, color: "#000", wordBreak: "break-all" } }, (asset === null || asset === void 0 ? void 0 : asset.assetCode) || (asset === null || asset === void 0 ? void 0 : asset.id) || "—"),
+React.createElement("div", { style: { fontSize: 10, color: "#777", marginTop: 8, lineHeight: 1.4 } }, "Il QR apre la scheda con tutte le info (S/N, marca, modello, storico, scadenze) \u2014 sempre aggiornate."))) : (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { fontSize: 8.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: .4, color: "#666" } }, verLabel),
-React.createElement("div", { style: { fontSize: 16, fontWeight: 900, lineHeight: 1.15, color: "#000", wordBreak: "break-word" } }, (asset === null || asset === void 0 ? void 0 : asset.name) || "Apparecchio"),
+React.createElement("div", { style: { fontSize: 16, fontWeight: 800, lineHeight: 1.15, color: "#000", wordBreak: "break-word" } }, (asset === null || asset === void 0 ? void 0 : asset.name) || "Apparecchio"),
 React.createElement("div", { style: { height: 1, background: "#e5e7eb", margin: "3px 0" } }),
 React.createElement("div", { style: { fontSize: 11, color: "#333", lineHeight: 1.4 } },
 "S/N: ",
@@ -1368,16 +1368,16 @@ React.createElement("div", { style: { fontSize: 11, color: "#333", lineHeight: 1
 reportNum,
 " \u00B7 ",
 dateStr),
-React.createElement("div", { style: { fontSize: 10.5, color: "#666" } }, norm),
+React.createElement("div", { style: { fontSize: 11, color: "#666" } }, norm),
 nextDueStr && React.createElement("div", { style: { fontSize: 11, color: "#0F172A", lineHeight: 1.4, marginTop: 2 } },
 React.createElement("strong", null,
 nextLabel,
 ":"),
 " ",
 nextDueStr),
-React.createElement("div", { style: { display: "inline-block", alignSelf: "flex-start", fontSize: 10, fontWeight: 900, padding: "3px 10px", borderRadius: 5, marginTop: 5,
+React.createElement("div", { style: { display: "inline-block", alignSelf: "flex-start", fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 6, marginTop: 5,
 background: esitoOk ? "#16a34a" : "#dc2626", color: "#fff", letterSpacing: .5 } }, esito)))))),
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-3)", lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px", marginBottom: 16 } }, isAssetSticker
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px", marginBottom: 16 } }, isAssetSticker
 ? React.createElement("span", null,
 React.createElement("strong", { style: { color: "#2dd4bf" } }, "Sticker apparecchio:"),
 " inquadrando il QR con la fotocamera del telefono si apre l'app sulla scheda di questo apparecchio. Funziona se l'app \u00E8 installata/aperta su quel dispositivo.")
@@ -1389,14 +1389,14 @@ React.createElement("strong", { style: { color: "#2dd4bf" } }, "QR online:"),
 React.createElement("strong", { style: { color: "#f59e0b" } }, "QR offline:"),
 " contiene le info della verifica (macchina, data, esito). Per far aprire il report online dal QR, attiva la sincronizzazione cloud nelle Impostazioni."))),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 12 } },
-React.createElement("span", { style: { fontSize: 12.5, color: "var(--text-2)", fontWeight: 600 } }, "Formato:"),
-[25, 24, 18, 12].map(wmm => (React.createElement("button", { key: wmm, type: "button", onClick: () => setTapeW(wmm), style: { background: tapeW === wmm ? "#2dd4bf22" : "var(--surface)", border: "1px solid " + (tapeW === wmm ? "#2dd4bf" : "var(--border)"), color: tapeW === wmm ? "#2dd4bf" : "var(--text-2)", borderRadius: 7, padding: "7px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } },
+React.createElement("span", { style: { fontSize: 13, color: "var(--text-2)", fontWeight: 600 } }, "Formato:"),
+[25, 24, 18, 12].map(wmm => (React.createElement("button", { key: wmm, type: "button", onClick: () => setTapeW(wmm), style: { background: tapeW === wmm ? "#2dd4bf22" : "var(--surface)", border: "1px solid " + (tapeW === wmm ? "#2dd4bf" : "var(--border)"), color: tapeW === wmm ? "#2dd4bf" : "var(--text-2)", borderRadius: 8, padding: "7px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } },
 (wmm === 25 ? "50\u00D725" : (wmm + " mm")))))),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", lineHeight: 1.5, marginBottom: 14 } },
 "Stampa \u2192 scegli la stampante. Per le etichette PP 50\u00D725 (Zebra) seleziona il formato ",
 React.createElement("b", null, "50\u00D725"),
 " e imposta nella stampante il supporto 50\u00D725 mm. Fai una prova: se non \u00E8 centrata, si calibra."),
-(isAssetSticker && custAssets.length > 1) ? React.createElement("button", { type: "button", onClick: doPrintBatch, style: { width: "100%", background: "#2dd4bf18", border: "1px solid #2dd4bf", color: "#2dd4bf", borderRadius: 9, padding: "11px 14px", fontSize: 12.5, fontWeight: 700, cursor: "pointer", marginBottom: 12, touchAction: "manipulation" } }, "\uD83C\uDFF7 Stampa etichette di TUTTI gli apparecchi di " + ((customer && customer.name) || "questo cliente") + " (" + custAssets.length + ")") : null,
+(isAssetSticker && custAssets.length > 1) ? React.createElement("button", { type: "button", onClick: doPrintBatch, style: { width: "100%", background: "#2dd4bf18", border: "1px solid #2dd4bf", color: "#2dd4bf", borderRadius: 10, padding: "11px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", marginBottom: 12, touchAction: "manipulation" } }, "\uD83C\uDFF7 Stampa etichette di TUTTI gli apparecchi di " + ((customer && customer.name) || "questo cliente") + " (" + custAssets.length + ")") : null,
 React.createElement("div", { style: FORM_FOOTER },
 React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Chiudi"),
 React.createElement("button", { onClick: doPrint, style: FORM_BTN_PRIMARY }, "\uD83D\uDDA8 Stampa sticker"))));

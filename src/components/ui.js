@@ -13,8 +13,8 @@ return () => mq.removeEventListener("change", h);
 }, [q]);
 return m;
 }
-const TH_S = { background: "var(--bg-2)", color: "var(--text-3)", padding: "11px 16px", textAlign: "left", fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: .7, borderBottom: "1px solid var(--border)", whiteSpace: "nowrap", cursor: "pointer", userSelect: "none", position: "sticky", top: 0, zIndex: 2 };
-const TD_S = { padding: "11px 16px", borderBottom: "1px solid var(--border-2)", fontSize: 12.5, color: "var(--text)", whiteSpace: "nowrap", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", verticalAlign: "middle" };
+const TH_S = { background: "var(--bg-2)", color: "var(--text-3)", padding: "11px 16px", textAlign: "left", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: .7, borderBottom: "1px solid var(--border)", whiteSpace: "nowrap", cursor: "pointer", userSelect: "none", position: "sticky", top: 0, zIndex: 2 };
+const TD_S = { padding: "11px 16px", borderBottom: "1px solid var(--border-2)", fontSize: 13, color: "var(--text)", whiteSpace: "nowrap", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", verticalAlign: "middle" };
 export function ExcelTable({ cols, rows, onEdit, onDelete, actions, defaultSort, rowBg, onRowClick, exportName }) {
 var _a;
 const isMobile = useMedia("(max-width:900px)");
@@ -73,7 +73,7 @@ const toggleSort = k => setSort(s => s.key === k ? Object.assign(Object.assign({
 return (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", padding: "8px 10px", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderBottom: "none", borderRadius: "10px 10px 0 0", flexWrap: "wrap" } },
 React.createElement("input", { placeholder: " Cerca\u2026", value: gs, onChange: e => setGs(e.target.value), style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 6, padding: "5px 10px", color: "var(--text)", fontSize: 12, outline: "none", width: 200 } }),
-hasF && React.createElement("button", { onClick: clearF, style: { background: "none", border: "1px solid #ef444433", borderRadius: 5, color: "#ef4444", padding: "4px 10px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2715 Azzera"),
+hasF && React.createElement("button", { onClick: clearF, style: { background: "none", border: "1px solid #ef444433", borderRadius: 6, color: "#ef4444", padding: "4px 10px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2715 Azzera"),
 React.createElement("span", { style: { marginLeft: "auto", fontSize: 11, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace" } },
 filtered.length,
 "/",
@@ -81,7 +81,7 @@ rows.length),
 exportName && filtered.length > 0 && (React.createElement("button", { onClick: () => {
 const expCols = cols.map(c => ({ key: c.key, label: c.label }));
 downloadXLSX(exportName + ".xlsx", filtered, expCols, exportName);
-}, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 5, color: "#2dd4bf", padding: "5px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }, title: __t("Esporta in Excel i risultati filtrati") }, "\u2B07 Excel"))),
+}, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 6, color: "#2dd4bf", padding: "5px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }, title: __t("Esporta in Excel i risultati filtrati") }, "\u2B07 Excel"))),
 React.createElement("div", { style: { overflowX: isMobile ? "auto" : "visible", overflowY: "auto", border: "1px solid var(--border-2)", borderRadius: "0 0 10px 10px", background: "var(--surface)", maxHeight: "68vh" } },
 React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: isMobile ? 12 : 12.5, fontFamily: "inherit" } },
 React.createElement("thead", null,
@@ -89,7 +89,7 @@ React.createElement("tr", null,
 cols.map(c => (React.createElement("th", { key: c.key, style: Object.assign(Object.assign({}, TH_S), { color: sort.key === c.key ? "#5eead4" : "var(--text-3)", whiteSpace: isMobile ? "nowrap" : "normal" }), onClick: () => toggleSort(c.key) },
 c.label,
 " ",
-React.createElement("span", { style: { fontSize: 9, opacity: .6 } }, sort.key === c.key ? (sort.dir === "asc" ? "▲" : "▼") : "⇅")))),
+React.createElement("span", { style: { fontSize: 10, opacity: .6 } }, sort.key === c.key ? (sort.dir === "asc" ? "▲" : "▼") : "⇅")))),
 (onEdit || onDelete || actions) && React.createElement("th", { style: Object.assign(Object.assign({}, TH_S), { cursor: "default" }) }, __t("Azioni"))),
 React.createElement("tr", null,
 cols.map(c => (React.createElement("td", { key: c.key, style: { padding: "3px 5px", background: "var(--bg-deep)", borderBottom: "1px solid var(--border-2)" } }, c.opts ? (() => {
@@ -112,15 +112,15 @@ React.createElement("div", { style: isMobileTbl
 isMobileTbl && React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 } },
 React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--text)" } }, c.label),
 React.createElement("button", { onClick: () => setOpenCol(null), style: { background: "none", border: "none", color: "var(--text-2)", fontSize: 22, cursor: "pointer", lineHeight: 1, padding: "0 4px" } }, "\u00D7")),
-present.length > 8 && (React.createElement("input", { autoFocus: true, placeholder: __t("Filtra voci\u2026"), value: optSearch, onChange: e => setOptSearch(e.target.value), onMouseDown: e => e.stopPropagation(), style: { width: "100%", boxSizing: "border-box", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 5, padding: "5px 8px", color: "var(--text)", fontSize: 12, outline: "none", marginBottom: 6 } })),
+present.length > 8 && (React.createElement("input", { autoFocus: true, placeholder: __t("Filtra voci\u2026"), value: optSearch, onChange: e => setOptSearch(e.target.value), onMouseDown: e => e.stopPropagation(), style: { width: "100%", boxSizing: "border-box", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 6, padding: "5px 8px", color: "var(--text)", fontSize: 12, outline: "none", marginBottom: 6 } })),
 React.createElement("div", { style: { display: "flex", gap: 6, padding: "0 6px 8px", borderBottom: "1px solid var(--border-2)", marginBottom: 4 } },
 React.createElement("button", { onClick: () => setAll(c.key, optSearch ? present.filter(o => o.toLowerCase().includes(optSearch.toLowerCase())) : present), style: { flex: 1, background: "none", border: "1px solid #2dd4bf44", borderRadius: 4, color: "#5eead4", fontSize: 10, fontWeight: 700, padding: "3px 0", cursor: "pointer" } }, optSearch ? __t("Tutti i visibili") : __t("Tutti")),
 React.createElement("button", { onClick: () => clearOne(c.key), style: { flex: 1, background: "none", border: "1px solid #ef444433", borderRadius: 4, color: "#ef4444", fontSize: 10, fontWeight: 700, padding: "3px 0", cursor: "pointer" } }, __t("Nessuno"))),
 (() => {
 const shown = optSearch ? present.filter(o => o.toLowerCase().includes(optSearch.toLowerCase())) : present;
 return shown.length === 0 ? React.createElement("div", { style: { padding: "6px 8px", fontSize: 11, color: "var(--text-4)" } }, __t("Nessuna voce")) :
-shown.sort().map(o => (React.createElement("label", { key: o, style: { display: "flex", alignItems: "center", gap: 8, padding: "5px 8px", borderRadius: 5, cursor: "pointer", fontSize: 12, color: "var(--text)" }, onMouseDown: e => e.preventDefault(), onClick: () => toggleVal(c.key, o) },
-React.createElement("span", { style: { width: 15, height: 15, flexShrink: 0, borderRadius: 3, border: "1px solid " + (sel.indexOf(o) >= 0 ? "#2dd4bf" : "var(--text-4)"), background: sel.indexOf(o) >= 0 ? "#2dd4bf" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "var(--bg-deep)", fontWeight: 900 } }, sel.indexOf(o) >= 0 ? "✓" : ""),
+shown.sort().map(o => (React.createElement("label", { key: o, style: { display: "flex", alignItems: "center", gap: 8, padding: "5px 8px", borderRadius: 6, cursor: "pointer", fontSize: 12, color: "var(--text)" }, onMouseDown: e => e.preventDefault(), onClick: () => toggleVal(c.key, o) },
+React.createElement("span", { style: { width: 15, height: 15, flexShrink: 0, borderRadius: 4, border: "1px solid " + (sel.indexOf(o) >= 0 ? "#2dd4bf" : "var(--text-4)"), background: sel.indexOf(o) >= 0 ? "#2dd4bf" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "var(--bg-deep)", fontWeight: 800 } }, sel.indexOf(o) >= 0 ? "✓" : ""),
 React.createElement("span", { style: { flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, c.render ? c.render(o, {}) : o),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace" } }, counts[o]))));
 })())))));
@@ -134,15 +134,15 @@ cols.map(c => (React.createElement("td", { key: c.key, style: Object.assign(Obje
 (onEdit || onDelete || actions) && (React.createElement("td", { style: Object.assign(Object.assign({}, TD_S), { whiteSpace: "nowrap" }) },
 React.createElement("div", { style: { display: "flex", gap: 4 } },
 actions && actions(row),
-onEdit && React.createElement("button", { onClick: () => onEdit(row), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 5, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u270F"),
-onDelete && React.createElement("button", { onClick: () => onDelete(row.id), style: { background: "#ef444415", border: "1px solid #ef444430", borderRadius: 5, color: "#ef4444", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2715"))))));
+onEdit && React.createElement("button", { onClick: () => onEdit(row), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u270F"),
+onDelete && React.createElement("button", { onClick: () => onDelete(row.id), style: { background: "#ef444415", border: "1px solid #ef444430", borderRadius: 6, color: "#ef4444", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2715"))))));
 }))))));
 }
 export function AlertChip({ days }) {
 if (days === null || days === undefined)
 return React.createElement("span", { style: { color: "var(--text-4)", fontSize: 11 } }, "\u2014");
 const [bg, col, label] = days < 0 ? ["#ef444420", "#ef4444", "SCAD." + (Math.abs(days)) + "gg"] : days === 0 ? ["#ef444420", "#ef4444", "OGGI"] : days <= 7 ? ["#f9730020", "#f97316", "⚠" + (days) + "gg"] : days <= 30 ? ["#f59e0b20", "#f59e0b", (days) + "gg"] : ["#22c55e20", "#22c55e", (days) + "gg"];
-return React.createElement("span", { style: { background: bg, color: col, border: "1px solid " + (col) + "44", borderRadius: 5, padding: "2px 7px", fontSize: 10, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap" } }, label);
+return React.createElement("span", { style: { background: bg, color: col, border: "1px solid " + (col) + "44", borderRadius: 6, padding: "2px 7px", fontSize: 10, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap" } }, label);
 }
 export const Hint = ({ text }) => {
 const [open, setOpen] = React.useState(false);
@@ -165,7 +165,7 @@ marginLeft: 5, width: 14, height: 14, borderRadius: "50%",
 background: open ? "#2dd4bf" : "transparent",
 border: "1px solid " + (open ? "#2dd4bf" : "var(--text-4)"),
 color: open ? "#0a0a0e" : "var(--text-2)",
-fontSize: 9, fontWeight: 800, lineHeight: 1, padding: 0,
+fontSize: 10, fontWeight: 800, lineHeight: 1, padding: 0,
 cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center",
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "?"),
@@ -297,13 +297,13 @@ React.createElement("g", { transform: "rotate(-90 " + cx + " " + cy + ")" },
 React.createElement("circle", { cx: cx, cy: cy, r: r, fill: "none", stroke: "var(--border-2)", strokeWidth: thickness }),
 rings),
 (centerTop != null && centerTop !== undefined) ? React.createElement("text", { x: cx, y: cy - 3, textAnchor: "middle", dominantBaseline: "central", fill: "var(--text-strong)", style: { fontSize: 25, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" } }, String(centerTop)) : null,
-centerSub ? React.createElement("text", { x: cx, y: cy + 15, textAnchor: "middle", dominantBaseline: "central", fill: "var(--text-3)", style: { fontSize: 9, letterSpacing: "0.05em" } }, centerSub) : null);
+centerSub ? React.createElement("text", { x: cx, y: cy + 15, textAnchor: "middle", dominantBaseline: "central", fill: "var(--text-3)", style: { fontSize: 10, letterSpacing: "0.05em" } }, centerSub) : null);
 }
 export function KpiCard({ label, value, color, sub, icon, onClick }) {
 color = color || "#2dd4bf";
 return React.createElement("div", { onClick: onClick, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 14, padding: "14px 15px", cursor: onClick ? "pointer" : "default", transition: "transform .15s ease, border-color .15s ease", WebkitTapHighlightColor: "transparent" }, onMouseEnter: onClick ? (e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.borderColor = color + "66"; } : undefined, onMouseLeave: onClick ? (e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.borderColor = "var(--border-2)"; } : undefined },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 9, gap: 8 } },
-React.createElement("span", { style: { fontSize: 10.5, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".05em", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, label),
+React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".05em", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, label),
 icon ? React.createElement("span", { style: { width: 28, height: 28, borderRadius: 8, background: color + "1f", display: "flex", alignItems: "center", justifyContent: "center", color: color, flexShrink: 0 } }, icon) : null),
 React.createElement("div", { style: { fontSize: 27, fontWeight: 700, color: color, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1 } }, value),
 sub ? React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 5, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, sub) : null);
@@ -499,7 +499,7 @@ cursor: "pointer"
 return (React.createElement("div", { ref: wrapperRef, style: { position: "relative", width: "100%" } }, !open ? (React.createElement("div", { onClick: () => setOpen(true), style: Object.assign(Object.assign({}, INP_BASE), { display: "flex", alignItems: "center", gap: 8, minHeight: 38 }) }, selected ? (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 7, minWidth: 0 } },
-selected.assetCode && React.createElement("span", { style: { color: "#5eead4", fontSize: 11.5, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0 } }, selected.assetCode),
+selected.assetCode && React.createElement("span", { style: { color: "#5eead4", fontSize: 12, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0 } }, selected.assetCode),
 React.createElement("span", { style: { color: "var(--text)", fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, selected.name)),
 React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } },
 [selected.brand, selected.model].filter(Boolean).join(" "),
@@ -541,7 +541,7 @@ borderLeft: isSel ? "3px solid #2dd4bf" : "3px solid transparent",
 transition: "all .1s"
 } },
 React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 7, lineHeight: 1.3 } },
-a.assetCode && React.createElement("span", { style: { color: "#5eead4", fontSize: 11.5, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0 } }, a.assetCode),
+a.assetCode && React.createElement("span", { style: { color: "#5eead4", fontSize: 12, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0 } }, a.assetCode),
 React.createElement("span", { style: { color: "var(--text)", fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, a.name)),
 React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, marginTop: 2, lineHeight: 1.4 } },
 [a.brand, a.model].filter(Boolean).join(" "),
@@ -656,8 +656,8 @@ const [editing, setEditing] = React.useState(false);
 const fromProfile = !!value && !!profileSig && value === profileSig && !editing;
 if (fromProfile)
 return React.createElement("div", { style: { background: "var(--surface)", border: "1px solid #2dd4bf55", borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 } },
-React.createElement("div", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 600 } }, "\u2713 Firma tecnico applicata dal profilo" + (techName ? " di " + techName : "")),
-React.createElement("button", { type: "button", onClick: () => { setEditing(true); onChange && onChange(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, __t("Firma diversa")));
+React.createElement("div", { style: { fontSize: 13, color: "var(--text)", fontWeight: 600 } }, "\u2713 Firma tecnico applicata dal profilo" + (techName ? " di " + techName : "")),
+React.createElement("button", { type: "button", onClick: () => { setEditing(true); onChange && onChange(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px", whiteSpace: "nowrap" } }, __t("Firma diversa")));
 return React.createElement(SignaturePad, { label: label || __t("Firma Tecnico verificatore (obbligatoria)"), value: value || "", onChange: onChange, height: height });
 }
 

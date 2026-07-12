@@ -54,12 +54,12 @@ React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 6, 
 const on = r.id === activeRole;
 return (React.createElement("button", { key: r.id, onClick: () => setActiveRole(r.id), style: {
 flex: "1 1 90px", minWidth: 90, background: on ? "#1F7468" : "var(--card)",
-border: "1px solid " + (on ? "#2dd4bf" : "var(--border-3)"), borderRadius: 9, padding: "10px 8px",
+border: "1px solid " + (on ? "#2dd4bf" : "var(--border-3)"), borderRadius: 10, padding: "10px 8px",
 cursor: "pointer", color: on ? "#04201C" : "var(--text-strong)", fontSize: 13, fontWeight: on ? 800 : 600,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, r.label));
 })),
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.5, marginBottom: 16, padding: "9px 12px", background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8 } }, activeRoleObj === null || activeRoleObj === void 0 ? void 0 :
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.5, marginBottom: 16, padding: "9px 12px", background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8 } }, activeRoleObj === null || activeRoleObj === void 0 ? void 0 :
 activeRoleObj.desc,
 React.createElement("span", { style: { display: "block", marginTop: 4, color: "#5eead4", fontWeight: 700 } },
 enabledCount,
@@ -74,7 +74,7 @@ background: i % 2 ? "var(--surface)" : "var(--bg)", WebkitTapHighlightColor: "tr
 } },
 React.createElement("span", { style: { fontSize: 14, color: on ? "var(--text)" : "var(--text-3)", fontWeight: on ? 600 : 400 } }, sec.label),
 React.createElement("span", { onClick: (e) => { e.preventDefault(); toggle(activeRole, sec.id); }, style: {
-position: "relative", width: 46, height: 26, borderRadius: 13, flexShrink: 0,
+position: "relative", width: 46, height: 26, borderRadius: 14, flexShrink: 0,
 background: on ? "#1F7468" : "var(--border-3)", transition: "background .15s", cursor: "pointer"
 } },
 React.createElement("span", { style: {
@@ -142,7 +142,7 @@ setMsg(fallite === 0
 return (React.createElement("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border-2)" } },
 React.createElement(Btn, { sm: true, disabled: busy, onClick: migra }, busy ? __t("Sposto…") : ("☁ Sposta " + locali + (locali === 1 ? " foto" : " foto") + " sul cloud")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 7, lineHeight: 1.5 } }, __t("Carica le foto dei job sul cloud e qui tiene solo il link: liberi quasi tutto lo spazio e le foto si vedono da ogni dispositivo.")),
-msg && React.createElement("div", { style: { fontSize: 11.5, color: msg.indexOf("✗") !== -1 ? "#f59e0b" : "#2dd4bf", marginTop: 8 } }, msg)));
+msg && React.createElement("div", { style: { fontSize: 12, color: msg.indexOf("✗") !== -1 ? "#f59e0b" : "#2dd4bf", marginTop: 8 } }, msg)));
 }
 function RfidImportSection({ onImportRfidScan }) {
 const [rep, setRep] = React.useState(null);
@@ -167,7 +167,7 @@ reader.onerror = () => { alert(__t("Impossibile leggere il file")); input.value 
 reader.readAsText(file);
 };
 return React.createElement(SettingsSection, { icon: "\uD83D\uDCE1", title: __t("Inventario RFID") },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 10 } }, __t("Importa la scansione del lettore RFID (file JSON). Aggiorna l'ultima posizione degli apparecchi tramite EPC e segnala quelli con manutenzione scaduta o in scadenza.")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 10 } }, __t("Importa la scansione del lettore RFID (file JSON). Aggiorna l'ultima posizione degli apparecchi tramite EPC e segnala quelli con manutenzione scaduta o in scadenza.")),
 React.createElement("input", { ref: inputRef, type: "file", accept: ".json,application/json", style: { display: "none" }, onChange: handleFile }),
 React.createElement(Btn, { sm: true, onClick: () => { if (inputRef.current) inputRef.current.click(); } }, "\u2191 Importa scansione RFID"),
 rep ? React.createElement("div", { style: { marginTop: 12, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "12px 14px", fontSize: 12 } },
@@ -202,11 +202,11 @@ const pct = Math.max(1, Math.min(100, Math.round(est.usage / est.quota * 100)));
 const col = pct >= 90 ? "#ef4444" : (pct >= 75 ? "#f59e0b" : "#22c55e");
 return React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 7 } },
-React.createElement("span", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 700 } }, fmt(est.usage), " usati"),
-React.createElement("span", { style: { fontSize: 12.5, fontWeight: 800, color: col, fontFamily: "'IBM Plex Mono', monospace" } }, "su ", fmt(est.quota))),
+React.createElement("span", { style: { fontSize: 13, color: "var(--text)", fontWeight: 700 } }, fmt(est.usage), " usati"),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: col, fontFamily: "'IBM Plex Mono', monospace" } }, "su ", fmt(est.quota))),
 React.createElement("div", { style: { height: 10, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 6, overflow: "hidden" } },
 React.createElement("div", { style: { width: pct + "%", height: "100%", background: col, transition: "width .3s" } })),
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", marginTop: 9, lineHeight: 1.55 } },
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", marginTop: 9, lineHeight: 1.55 } },
 __t("Archivio locale sul dispositivo (IndexedDB). I dati non sono pi\u00F9 limitati a 5 MB. Di cui foto: "),
 React.createElement("b", { style: { color: "var(--text)" } }, fmt(ph.chars)),
 ph.count > 0 ? " (" + ph.count + " foto)" : "",
@@ -218,11 +218,11 @@ const pc = Math.min(100, u.pct);
 const col = u.pct >= 85 ? "#ef4444" : (u.pct >= 70 ? "#f59e0b" : "#22c55e");
 return React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 7 } },
-React.createElement("span", { style: { fontSize: 12.5, color: "var(--text)", fontWeight: 700 } }, fmtMB(u.chars), " usati"),
-React.createElement("span", { style: { fontSize: 12.5, fontWeight: 800, color: col, fontFamily: "'IBM Plex Mono', monospace" } }, u.pct, "%")),
+React.createElement("span", { style: { fontSize: 13, color: "var(--text)", fontWeight: 700 } }, fmtMB(u.chars), " usati"),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: col, fontFamily: "'IBM Plex Mono', monospace" } }, u.pct, "%")),
 React.createElement("div", { style: { height: 10, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 6, overflow: "hidden" } },
 React.createElement("div", { style: { width: pc + "%", height: "100%", background: col, transition: "width .3s" } })),
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", marginTop: 9, lineHeight: 1.55 } },
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", marginTop: 9, lineHeight: 1.55 } },
 __t("Stima dello spazio del sito su questo dispositivo. Di cui foto: "),
 React.createElement("b", { style: { color: "var(--text)" } }, fmtMB(ph.chars)),
 ph.count > 0 ? " (" + ph.count + " foto)" : "",
@@ -368,7 +368,7 @@ React.createElement("option", { value: "en" }, __t("English")))),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 isAdmin && (React.createElement(Section, { icon: "\uD83C\uDFE2", title: __t("Dati azienda") },
 isSuperuser && !comp.name && (React.createElement("div", { style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 8, padding: "10px 13px", marginBottom: 14, fontSize: 12, color: "#f59e0b", lineHeight: 1.5 } }, __t("\u26A0 Inserisci il nome della tua azienda \u2014 apparir\u00E0 su tutti i PDF (rapporti, verifiche, preventivi)."))),
-!isSuperuser && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "9px 13px", marginBottom: 14, fontSize: 11.5, color: "var(--text-3)", lineHeight: 1.5 } }, __t("I dati fiscali (ragione sociale, P.IVA, IBAN) sono modificabili solo dal Superuser. Puoi comunque gestire logo e preferenze qui sotto."))),
+!isSuperuser && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "9px 13px", marginBottom: 14, fontSize: 12, color: "var(--text-3)", lineHeight: 1.5 } }, __t("I dati fiscali (ragione sociale, P.IVA, IBAN) sono modificabili solo dal Superuser. Puoi comunque gestire logo e preferenze qui sotto."))),
 React.createElement(Grid, { cols: "1fr 1fr" },
 React.createElement(Inp, { label: __t("Nome / Ragione sociale"), value: comp.name, onChange: s("name"), disabled: !isSuperuser }),
 React.createElement(Inp, { label: __t("Sottotitolo"), value: comp.subtitle, onChange: s("subtitle"), disabled: !isSuperuser }),
@@ -406,11 +406,11 @@ img.src = ev.target.result;
 };
 reader.readAsDataURL(file);
 } }),
-React.createElement("span", { style: { background: "#2dd4bf15", color: "#2dd4bf", border: "1px solid #2dd4bf44", borderRadius: 9, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700, display: "inline-block" } }, comp.logo ? __t("Cambia logo") : __t("Carica logo"))),
-comp.logo && (React.createElement("button", { onClick: () => setComp(x => (Object.assign(Object.assign({}, x), { logo: "" }))), style: { background: "#ef444415", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 9, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, __t("Rimuovi")))))),
+React.createElement("span", { style: { background: "#2dd4bf15", color: "#2dd4bf", border: "1px solid #2dd4bf44", borderRadius: 10, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700, display: "inline-block" } }, comp.logo ? __t("Cambia logo") : __t("Carica logo"))),
+comp.logo && (React.createElement("button", { onClick: () => setComp(x => (Object.assign(Object.assign({}, x), { logo: "" }))), style: { background: "#ef444415", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 10, padding: "9px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, __t("Rimuovi")))))),
 comp.logo && (React.createElement("div", { onClick: () => { if (isAdmin)
-setComp(x => (Object.assign(Object.assign({}, x), { logoHasName: !x.logoHasName }))); }, style: { display: "flex", alignItems: "center", gap: 10, marginTop: 12, cursor: isAdmin ? "pointer" : "default", fontSize: 12.5, color: "var(--text-strong)" } },
-React.createElement("div", { style: { width: 42, height: 25, borderRadius: 13, flexShrink: 0, background: comp.logoHasName ? "#2dd4bf" : "#3a4151", opacity: isAdmin ? 1 : 0.5, position: "relative", transition: "background .15s" } },
+setComp(x => (Object.assign(Object.assign({}, x), { logoHasName: !x.logoHasName }))); }, style: { display: "flex", alignItems: "center", gap: 10, marginTop: 12, cursor: isAdmin ? "pointer" : "default", fontSize: 13, color: "var(--text-strong)" } },
+React.createElement("div", { style: { width: 42, height: 25, borderRadius: 14, flexShrink: 0, background: comp.logoHasName ? "#2dd4bf" : "#3a4151", opacity: isAdmin ? 1 : 0.5, position: "relative", transition: "background .15s" } },
 React.createElement("div", { style: { position: "absolute", top: 3, left: comp.logoHasName ? 20 : 3, width: 19, height: 19, borderRadius: "50%", background: "#fff", transition: "left .15s", boxShadow: "0 1px 3px rgba(0,0,0,.4)" } })),
 __t("Il mio logo contiene gi\u00E0 il nome dell'azienda"))),
 comp.logo && (React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 5, marginLeft: 26, lineHeight: 1.4 } }, comp.logoHasName ? __t("Sui PDF il nome non verrà ripetuto sotto il logo (mostriamo solo P.IVA e indirizzo).") : __t("Sui PDF mostriamo il nome azienda accanto ai dati.")))),
@@ -442,23 +442,23 @@ transition: "left .15s", boxShadow: "0 1px 3px rgba(0,0,0,.4)"
 } })),
 React.createElement("span", { style: { fontSize: 13, color: "var(--text)", lineHeight: 1.5 } },
 __t("Chiedi di stampare lo sticker QR dopo ogni verifica"),
-React.createElement("span", { style: { display: "block", fontSize: 11.5, color: "var(--text-3)", marginTop: 3 } }, __t("Se spento, la verifica viene salvata senza domande. Lo sticker resta sempre disponibile col pulsante \uD83C\uDFF7 nella lista delle verifiche."))))),
+React.createElement("span", { style: { display: "block", fontSize: 12, color: "var(--text-3)", marginTop: 3 } }, __t("Se spento, la verifica viene salvata senza domande. Lo sticker resta sempre disponibile col pulsante \uD83C\uDFF7 nella lista delle verifiche."))))),
 isSuperuser && (React.createElement(Section, { icon: "\uD83E\uDDD1\u200D\uD83D\uDD27", title: __t("Tecnici") },
 React.createElement(TecniciManager, { technicians: comp.technicians || [], onChange: arr => { setComp(x => (Object.assign(Object.assign({}, x), { technicians: arr }))); onUpdateCompany(Object.assign(Object.assign({}, company), { technicians: arr })); const _off = (typeof OFFLINE_MODE !== "undefined" && OFFLINE_MODE); const _demo = (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED); if (!_off && !_demo && typeof supabaseSaveTechnicians === "function") {
 supabaseSaveTechnicians(arr);
 } } }))),
 React.createElement(Section, { icon: "\uD83D\uDDD1", title: __t("Cestino") },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 14 } }, __t("Gli elementi eliminati finiscono qui e puoi recuperarli. Si svuotano da soli dopo 90 giorni.")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 14 } }, __t("Gli elementi eliminati finiscono qui e puoi recuperarli. Si svuotano da soli dopo 90 giorni.")),
 React.createElement("button", { onClick: () => { if (onOpenCestino)
-onOpenCestino(); }, style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 10, padding: "13px 16px", cursor: "pointer", color: "var(--text)", fontSize: 13.5, fontWeight: 700, textAlign: "left" } },
+onOpenCestino(); }, style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 10, padding: "13px 16px", cursor: "pointer", color: "var(--text)", fontSize: 14, fontWeight: 700, textAlign: "left" } },
 React.createElement("span", null, __t("Apri il cestino")),
 React.createElement("span", { style: { color: "var(--text-3)" } }, "\u203A"))),
 isSuperuser && (React.createElement(Section, { icon: "\uD83D\uDD10", title: __t("Ruoli e permessi") },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 14 } },
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 14 } },
 __t("Decidi quali sezioni pu\u00F2 vedere ogni ruolo. Il "),
 React.createElement("strong", { style: { color: "#5eead4" } }, __t("Superuser")),
 __t(" vede sempre tutto e pu\u00F2 gestire utenti e dati fiscali.")),
-React.createElement("button", { onClick: () => setShowPerms(true), style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 10, padding: "13px 16px", cursor: "pointer", color: "var(--text)", fontSize: 13.5, fontWeight: 700, textAlign: "left" } },
+React.createElement("button", { onClick: () => setShowPerms(true), style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 10, padding: "13px 16px", cursor: "pointer", color: "var(--text)", fontSize: 14, fontWeight: 700, textAlign: "left" } },
 React.createElement("span", null, __t("Configura ruoli e permessi")),
 React.createElement("span", { style: { color: "#5eead4", fontSize: 18 } }, "\u203A")))),
 isLogged ? (React.createElement(Section, { icon: "\u2601\uFE0F", title: __t("Sincronizzazione cloud"), color: "#2dd4bf", accent: "#2dd4bf33" },
@@ -480,10 +480,10 @@ React.createElement(StorageGauge, { data: data }),
 React.createElement(FotoCloudMigrator, { data: data, onReplaceJobs: onReplaceJobs })),
 React.createElement(RfidImportSection, { onImportRfidScan: onImportRfidScan }),
 React.createElement(Section, { icon: "\uD83D\uDCE6", title: __t("Backup & ripristino") },
-React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11.5, lineHeight: 1.5, marginBottom: 12 } }, __t("Salva una copia dei tuoi dati in un file, o importane una. Utile prima di operazioni importanti.")),
+React.createElement("div", { style: { color: "var(--text-3)", fontSize: 12, lineHeight: 1.5, marginBottom: 12 } }, __t("Salva una copia dei tuoi dati in un file, o importane una. Utile prima di operazioni importanti.")),
 React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => downloadJSON("medtrace-backup-" + (new Date().toISOString().slice(0, 10)) + ".json", data) }, __t("Esporta backup"))),
-React.createElement("div", { style: { marginTop: 14, padding: "13px 15px", background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 9 } },
+React.createElement("div", { style: { marginTop: 14, padding: "13px 15px", background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10 } },
 React.createElement("div", { style: { fontSize: 12, color: "var(--text)", fontWeight: 700, marginBottom: 8 } }, __t("Importa un backup (sostituisce i dati attuali)")),
 React.createElement("input", { type: "file", accept: "application/json,.json,text/plain,*/*", onChange: fileRef, style: { display: "block", width: "100%", fontSize: 13, color: "var(--text-strong)", background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 8, padding: "10px", boxSizing: "border-box", marginBottom: 14 } }),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text)", fontWeight: 700, marginBottom: 8 } }, __t("Unisci da file (aggiunge senza cancellare)")),
@@ -499,9 +499,9 @@ yield supaSignOut();
 }
 catch (e) { }
 window.location.reload();
-} }), style: { background: "#ef444415", border: "1px solid #ef444433", borderRadius: 9, color: "#ef4444", padding: "9px 18px", cursor: "pointer", fontWeight: 700, fontSize: 13 } }, __t("Disconnetti account")))),
+} }), style: { background: "#ef444415", border: "1px solid #ef444433", borderRadius: 10, color: "#ef4444", padding: "9px 18px", cursor: "pointer", fontWeight: 700, fontSize: 13 } }, __t("Disconnetti account")))),
 isSuperuser && (React.createElement(Section, { icon: "\u26A0\uFE0F", title: __t("Zona pericolo"), color: "#ef4444", accent: "#ef444433" },
-React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11.5, lineHeight: 1.5, marginBottom: 12 } }, __t("Cancella tutti i dati locali in modo permanente. Esporta un backup prima, se ti servono.")),
+React.createElement("div", { style: { color: "var(--text-3)", fontSize: 12, lineHeight: 1.5, marginBottom: 12 } }, __t("Cancella tutti i dati locali in modo permanente. Esporta un backup prima, se ti servono.")),
 React.createElement(Btn, { variant: "danger", onClick: onReset }, __t("Reset completo dei dati")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", paddingTop: 4 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")))),
@@ -527,8 +527,8 @@ const label = info.valid_until == null
 : (info.scaduto ? ("Scaduto il " + info.valid_until) : ("Attivo fino al " + info.valid_until + (typeof g === "number" ? " · " + g + " gg" : "")));
 return (React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 12, padding: "14px 16px", marginBottom: 14 } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" } },
-React.createElement("span", { style: { fontSize: 12.5, fontWeight: 800, color: "var(--text)" } },
+React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: "var(--text)" } },
 "\uD83D\uDCC5 Licenza",
 info.plan ? (" · " + info.plan.charAt(0).toUpperCase() + info.plan.slice(1)) : ""),
-React.createElement("span", { style: { fontSize: 11.5, fontWeight: 700, color: col, background: col + "15", border: "1px solid " + col + "44", borderRadius: 7, padding: "4px 9px" } }, label))));
+React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: col, background: col + "15", border: "1px solid " + col + "44", borderRadius: 8, padding: "4px 9px" } }, label))));
 }

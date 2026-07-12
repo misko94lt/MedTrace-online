@@ -327,10 +327,10 @@ h("div", null, h("span", { style: lblStyle }, "Apparecchio"),
 h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: "Cerca apparecchio…" })),
 f.assetId ? h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 f.templateId === "generico"
-? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 12.5, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 11.5, color: "var(--text-3)", marginTop: 2 } }, "Scegli qui sotto il protocollo corretto per questo apparecchio."))
-: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, "Protocollo funzionale: ", h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 11.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? "Chiudi" : "Cambia")),
+? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, "Scegli qui sotto il protocollo corretto per questo apparecchio."))
+: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, "Protocollo funzionale: ", h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? "Chiudi" : "Cambia")),
 (f.templateId === "generico" || tplOpen) ? h("select", { value: f.templateId, onChange: e => pickTpl(e.target.value), style: selStyle }, Object.keys(templates || {}).sort((a, b) => (((templates[a] || {}).label) || a).localeCompare(((templates[b] || {}).label) || b)).map(k => h("option", { key: k, value: k }, ((templates[k] || {}).label) || k))) : null,
-h("div", { style: { fontSize: 10.5, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, "Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti.")) : null,
+h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, "Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti.")) : null,
 h("div", null, h("span", { style: lblStyle }, "Data"), h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
 h(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians }),
 h("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginTop: 4 } }, "Parametri sicurezza elettrica"),
@@ -346,7 +346,7 @@ content = h("div", { style: { display: "flex", flexDirection: "column", gap: 8 }
 h("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 } },
 h("span", { style: { fontSize: 13, color: "var(--text)", flex: 1, minWidth: 0, lineHeight: 1.35 } }, it.text),
 okNo(it.status === "fatto" ? true : it.status === "na" ? "na" : null, () => setMaint(i, "fatto"), null, () => setMaint(i, "na"), "✓ Fatto")),
-it.status === "fatto" ? h("input", { type: "text", value: it.note, onChange: e => setMaintNote(i, e.target.value), placeholder: "Nota (facoltativa)…", style: { width: "100%", marginTop: 8, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text)", padding: "7px 9px", fontSize: 12 } }) : null)));
+it.status === "fatto" ? h("input", { type: "text", value: it.note, onChange: e => setMaintNote(i, e.target.value), placeholder: "Nota (facoltativa)…", style: { width: "100%", marginTop: 8, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "7px 9px", fontSize: 12 } }) : null)));
 } else if (sObj.key === "funcsec") {
 const sec = sObj.sec; const sd = f.funcSections[sec.id] || { items: {}, measures: {} };
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
@@ -356,13 +356,13 @@ h("span", { style: { fontSize: 13, color: "var(--text)", flex: 1, minWidth: 0, l
 okNo(sd.items[it.id], () => setFuncItem(sec.id, it.id, true), () => setFuncItem(sec.id, it.id, false), () => setFuncItem(sec.id, it.id, "na")))),
 (sec.measures || []).map(mm => { const raw = sd.measures[mm.id]; const isNA = raw === "na"; const verd = measVerdict(mm, raw);
 return h("div", { key: mm.id, style: { background: "var(--surface)", border: "1px solid " + (isNA ? "var(--border)" : verd === true ? TEAL + "66" : verd === false ? RED + "66" : "var(--border)"), borderRadius: 12, padding: "11px 13px" } },
-h("div", { style: { fontSize: 12.5, color: "var(--text)", marginBottom: 6 } }, mm.name),
+h("div", { style: { fontSize: 13, color: "var(--text)", marginBottom: 6 } }, mm.name),
 h("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-h("input", { type: "number", inputMode: "decimal", disabled: isNA, value: isNA ? "" : (raw || ""), onChange: e => setFuncMeas(sec.id, mm.id, e.target.value), placeholder: "—", style: { width: 110, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text)", padding: "8px 10px", fontSize: 15, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }),
+h("input", { type: "number", inputMode: "decimal", disabled: isNA, value: isNA ? "" : (raw || ""), onChange: e => setFuncMeas(sec.id, mm.id, e.target.value), placeholder: "—", style: { width: 110, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 14, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }),
 h("span", { style: { fontSize: 13, color: "var(--text-3)" } }, mm.unit),
-h("span", { style: { fontSize: 11.5, color: "var(--text-4)", marginLeft: "auto" } }, "lim. " + (mm.expected || mm.limit || ("" + mm.limitVal))),
-h("button", { type: "button", onClick: () => setFuncMeas(sec.id, mm.id, isNA ? "" : "na"), style: { background: isNA ? "#6b7280" : "var(--surface-2)", color: isNA ? "#fff" : "var(--text-4)", border: "1px solid " + (isNA ? "#6b7280" : "var(--border)"), borderRadius: 7, padding: "6px 9px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, "N/A")),
-verd != null ? h("div", { style: { fontSize: 11.5, fontWeight: 700, color: verd ? TEAL : RED, marginTop: 5 } }, verd ? "✓ Entro i limiti" : "✗ Fuori limite") : null); }));
+h("span", { style: { fontSize: 12, color: "var(--text-4)", marginLeft: "auto" } }, "lim. " + (mm.expected || mm.limit || ("" + mm.limitVal))),
+h("button", { type: "button", onClick: () => setFuncMeas(sec.id, mm.id, isNA ? "" : "na"), style: { background: isNA ? "#6b7280" : "var(--surface-2)", color: isNA ? "#fff" : "var(--text-4)", border: "1px solid " + (isNA ? "#6b7280" : "var(--border)"), borderRadius: 8, padding: "6px 9px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "N/A")),
+verd != null ? h("div", { style: { fontSize: 12, fontWeight: 700, color: verd ? TEAL : RED, marginTop: 5 } }, verd ? "✓ Entro i limiti" : "✗ Fuori limite") : null); }));
 } else if (sObj.key === "meas") {
 const mm = f.iecMeasures[sObj.idx];
 const verd = measVerdict(mm, mm.value);
@@ -379,21 +379,21 @@ h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ?
 h("div", { style: { display: "flex", gap: 10, marginTop: 12 } },
 h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Limite normativo"), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
 h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Margine"), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
-h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "var(--text-3)", cursor: "pointer" } }, h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleIecNA(mm.id) }), "Non applicabile (N/A)"));
+h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--text-3)", cursor: "pointer" } }, h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleIecNA(mm.id) }), "Non applicabile (N/A)"));
 } else {
 const maintDone = (f.maint || []).filter(it => it.status).length;
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 h("div", { style: { background: overall ? TEAL + "1a" : RED + "1a", border: "1px solid " + (overall ? TEAL + "66" : RED + "66"), borderRadius: 16, padding: "20px", textAlign: "center" } },
 h("div", { style: { fontSize: 34, fontWeight: 800, color: overall ? TEAL : RED } }, overall ? "✓" : "✗"),
 h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, overall ? "Conforme" : "Non conforme"),
-h("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 4 } }, "Manutenzione + funzionale + sicurezza elettrica in un unico verbale")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, "Manutenzione + funzionale + sicurezza elettrica in un unico verbale")),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
-[["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Manutenzione", maintDone + "/" + (f.maint || []).length + " voci"], ["Funzionale", funcPass ? "Conforme" : "Non conforme"], ["Sicurezza elettrica", vsePass ? "Conforme" : "Non conforme"], ["Esito complessivo", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 12.5, fontWeight: 600, color: (i >= 2) ? ((i === 2 ? funcPass : i === 3 ? vsePass : overall) ? TEAL : RED) : "var(--text)" } }, r[1])))),
+[["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Manutenzione", maintDone + "/" + (f.maint || []).length + " voci"], ["Funzionale", funcPass ? "Conforme" : "Non conforme"], ["Sicurezza elettrica", vsePass ? "Conforme" : "Non conforme"], ["Esito complessivo", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 13, fontWeight: 600, color: (i >= 2) ? ((i === 2 ? funcPass : i === 3 ? vsePass : overall) ? TEAL : RED) : "var(--text)" } }, r[1])))),
 h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
 h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })),
-h("div", { style: { fontSize: 11.5, color: "var(--text-4)", textAlign: "center" } }, "Al salvataggio: crea il verbale di manutenzione, la verifica funzionale e la VSE collegate, aggiorna le scadenze e apre il PDF unico."));
+h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center" } }, "Al salvataggio: crea il verbale di manutenzione, la verifica funzionale e la VSE collegate, aggiorna le scadenze e apre il PDF unico."));
 }
 
 // shell
@@ -402,20 +402,20 @@ return h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
 h("div", { style: { padding: "2px 2px 14px" } },
 h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 } },
 h("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-h("span", { style: { fontSize: 10.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: phColor, background: phColor + "22", padding: "3px 8px", borderRadius: 99 } }, sObj.ph),
+h("span", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: phColor, background: phColor + "22", padding: "3px 8px", borderRadius: 99 } }, sObj.ph),
 h("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT))),
-h("div", { style: { fontSize: 11.5, color: "var(--text-3)" } }, doneCount + "/" + TOT)),
+h("div", { style: { fontSize: 12, color: "var(--text-3)" } }, doneCount + "/" + TOT)),
 h("div", { style: { height: 6, background: "var(--surface-2)", borderRadius: 99, overflow: "hidden" } }, h("div", { style: { height: "100%", width: Math.round((cur / (TOT - 1)) * 100) + "%", background: phColor, borderRadius: 99, transition: "width .2s" } }))),
 h("div", { style: { marginBottom: 14 } },
 h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.name),
-h("div", { style: { fontSize: 12.5, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, data e parametri" : sObj.key === "maint" ? "Pulizia e sostituzione parti di usura" : sObj.key === "funcsec" ? "Prove di funzionamento" : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : "Riepilogo e salvataggio")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, data e parametri" : sObj.key === "maint" ? "Pulizia e sostituzione parti di usura" : sObj.key === "funcsec" ? "Prove di funzionamento" : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : "Riepilogo e salvataggio")),
 content,
 h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
-h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 13.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
+h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
 cur < TOT - 1
 ? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, "Avanti", h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
 : h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva e genera PDF")),
-(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 11.5, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona l'apparecchio per continuare" : sObj.key === "maint" ? "Segna ogni voce (Fatto o N/A) per continuare" : sObj.key === "funcsec" ? "Completa voci e misure della sezione" : "Inserisci il valore o segna N/A per continuare") : null);
+(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona l'apparecchio per continuare" : sObj.key === "maint" ? "Segna ogni voce (Fatto o N/A) per continuare" : sObj.key === "funcsec" ? "Completa voci e misure della sezione" : "Inserisci il valore o segna N/A per continuare") : null);
 }
 export function PpmVerifyForm({ initial, assetId: propAssetId, assets, customers, existingReports, technicians, onSave, onClose, showToast, ppmReports, funcReports, iecReports, onLink, onPdf, setModal, pushModal }) {
 var _a = React.useState(propAssetId || (initial && initial.assetId) || ""); var assetId = _a[0], setAssetId = _a[1];
@@ -467,18 +467,18 @@ React.createElement(Inp, { label: "Tecnico", value: f.technician, onChange: sv("
 effectiveAsset ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Periodicit\u00e0 costruttore: " + (parseInt(effectiveAsset.intervalPpm, 10) || 12) + " mesi") : null,
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 8 } }, "Checklist manutenzione" + (items.length ? (" (" + items.length + ")") : "")),
-!assetId ? React.createElement("div", { style: { fontSize: 12.5, color: "var(--text-4)", padding: "6px 0" } }, "Seleziona un apparecchio per caricare la checklist.")
-: items.length === 0 ? React.createElement("div", { style: { fontSize: 12.5, color: "var(--text-4)", padding: "6px 0" } }, "Nessuna voce per questa categoria. Aggiungile in \u2699 Checklist.")
+!assetId ? React.createElement("div", { style: { fontSize: 13, color: "var(--text-4)", padding: "6px 0" } }, "Seleziona un apparecchio per caricare la checklist.")
+: items.length === 0 ? React.createElement("div", { style: { fontSize: 13, color: "var(--text-4)", padding: "6px 0" } }, "Nessuna voce per questa categoria. Aggiungile in \u2699 Checklist.")
 : React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 items.map(function (it, i) {
 var st = it.status || "fatto";
-return React.createElement("div", { key: i, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 9, padding: "10px 12px" } },
+return React.createElement("div", { key: i, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "10px 12px" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 13, color: "var(--text)", flex: 1, minWidth: 0 } }, it.text),
 React.createElement("div", { style: { display: "flex", gap: 4, flexShrink: 0 } },
-React.createElement("button", { onClick: function () { setItemStatus(i, "fatto"); }, style: { background: st === "fatto" ? "#10b981" : "transparent", color: st === "fatto" ? "#04211d" : "var(--text-3)", border: "1px solid " + (st === "fatto" ? "#10b981" : "var(--border)"), borderRadius: 7, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "Fatto"),
-React.createElement("button", { onClick: function () { setItemStatus(i, "na"); }, style: { background: st === "na" ? "#64748b" : "transparent", color: st === "na" ? "#fff" : "var(--text-3)", border: "1px solid " + (st === "na" ? "#64748b" : "var(--border)"), borderRadius: 7, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "N.A."))),
-React.createElement("input", { value: it.note || "", onChange: function (e) { setItemNote(i, e.target.value); }, placeholder: "Nota (opzionale)\u2026", style: { marginTop: 8, width: "100%", boxSizing: "border-box", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text)", padding: "7px 10px", fontSize: 12.5 } }));
+React.createElement("button", { onClick: function () { setItemStatus(i, "fatto"); }, style: { background: st === "fatto" ? "#10b981" : "transparent", color: st === "fatto" ? "#04211d" : "var(--text-3)", border: "1px solid " + (st === "fatto" ? "#10b981" : "var(--border)"), borderRadius: 8, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "Fatto"),
+React.createElement("button", { onClick: function () { setItemStatus(i, "na"); }, style: { background: st === "na" ? "#64748b" : "transparent", color: st === "na" ? "#fff" : "var(--text-3)", border: "1px solid " + (st === "na" ? "#64748b" : "var(--border)"), borderRadius: 8, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "N.A."))),
+React.createElement("input", { value: it.note || "", onChange: function (e) { setItemNote(i, e.target.value); }, placeholder: "Nota (opzionale)\u2026", style: { marginTop: 8, width: "100%", boxSizing: "border-box", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "7px 10px", fontSize: 13 } }));
 }))),
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 8 } }, "Esito complessivo"),
@@ -490,19 +490,19 @@ initial ? (function () {
 var livePpm = (ppmReports || []).find(function (r) { return r.id === initial.id; }) || initial;
 var aFunc = (funcReports || []).filter(function (r) { return r.assetId === livePpm.assetId; }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 var aIec = (iecReports || []).filter(function (r) { return r.assetId === livePpm.assetId; }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
-var selStyle = { flex: 1, minWidth: 0, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 7, color: "var(--text)", padding: "8px 10px", fontSize: 12.5 };
+var selStyle = { flex: 1, minWidth: 0, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 13 };
 return React.createElement("div", { style: { borderTop: "1px solid var(--border-2)", paddingTop: 14 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 6 } }, "Verifiche collegate"),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", marginBottom: 10, lineHeight: 1.4 } }, "Esegui la verifica funzionale e la VSE (col pulsante \u201cEsegui\u201d o dalle loro sezioni), poi collegale qui. Confluiscono nel PDF unico."),
 React.createElement("div", { style: { marginBottom: 10 } },
-React.createElement("div", { style: { fontSize: 12.5, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, "Verifica funzionale"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, "Verifica funzionale"),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("select", { value: livePpm.funcReportId || "", onChange: function (e) { onLink(livePpm.id, { funcReportId: e.target.value }); }, style: selStyle },
 React.createElement("option", { value: "" }, "\u2014 non collegata \u2014"),
 aFunc.map(function (r) { return React.createElement("option", { key: r.id, value: r.id }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + " \u00b7 " + (r.overallPass ? "conforme" : "non conf.")); })),
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "func", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, "Esegui"))),
 React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("div", { style: { fontSize: 12.5, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, "Sicurezza elettrica (VSE)"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, "Sicurezza elettrica (VSE)"),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("select", { value: livePpm.iecReportId || "", onChange: function (e) { onLink(livePpm.id, { iecReportId: e.target.value }); }, style: selStyle },
 React.createElement("option", { value: "" }, "\u2014 non collegata \u2014"),
@@ -523,8 +523,8 @@ function assetName(id) { var a = (assets || []).find(function (x) { return x.id 
 return React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 18, fontWeight: 900 } }, "Manutenzione Programmata"),
-React.createElement("div", { style: { fontSize: 12.5, color: "var(--text-3)", marginTop: 2 } }, reports.length + " interventi \u00b7 checklist + funzionale + sicurezza elettrica")),
+React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, "Manutenzione Programmata"),
+React.createElement("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 2 } }, reports.length + " interventi \u00b7 checklist + funzionale + sicurezza elettrica")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { setModal({ type: "ppmChecklist" }); } }, "\u2699 Checklist"),
 React.createElement(Btn, { sm: true, onClick: onNew }, "+ Nuova PPM"))),
@@ -540,12 +540,12 @@ React.createElement("div", { onClick: function () { onOpen(r); }, style: { paddi
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text)" } }, assetName(r.assetId)),
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-3)", marginTop: 2 } }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + (r.technician ? (" \u00b7 " + r.technician) : ""))),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + (r.technician ? (" \u00b7 " + r.technician) : ""))),
 React.createElement("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 700, padding: "3px 9px", borderRadius: 20, background: ok ? "#10b98122" : "#ef444422", color: ok ? "#10b981" : "#ef4444" } }, ok ? "Conforme" : "Non conforme")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 6 } }, done + " voci eseguite" + (na ? (" \u00b7 " + na + " N.A.") : ""))),
 React.createElement("div", { style: { display: "flex", borderTop: "1px solid var(--border-2)" } },
-React.createElement("button", { onClick: function () { onPdf(r); }, style: { flex: 1, background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, "\uD83D\uDCC4 PDF"),
-React.createElement("button", { onClick: function () { onOpen(r); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, "\u270F Apri"),
-React.createElement("button", { onClick: function () { onDelete(r.id); }, style: { flex: 1, background: "transparent", color: "#ef4444", border: "none", padding: "9px 4px", fontSize: 11.5, fontWeight: 700, cursor: "pointer" } }, "\u2715 Elimina")));
+React.createElement("button", { onClick: function () { onPdf(r); }, style: { flex: 1, background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\uD83D\uDCC4 PDF"),
+React.createElement("button", { onClick: function () { onOpen(r); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u270F Apri"),
+React.createElement("button", { onClick: function () { onDelete(r.id); }, style: { flex: 1, background: "transparent", color: "#ef4444", border: "none", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u2715 Elimina")));
 })));
 }

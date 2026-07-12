@@ -13,7 +13,7 @@ const toggle = nm => has(nm) ? setList(list.filter(x => x.toLowerCase() !== nm.t
 const [manual, setManual] = React.useState("");
 const addManual = () => { const nm = manual.trim(); if (nm && !has(nm))
 setList([...list, nm]); setManual(""); };
-const PILL = on => ({ background: on ? "#2dd4bf22" : "var(--surface-3)", border: "1px solid " + (on ? "#2dd4bf" : "var(--border)"), color: on ? "#2dd4bf" : "var(--text-2)", borderRadius: 8, padding: "6px 11px", fontSize: 12.5, cursor: "pointer", fontWeight: 600 });
+const PILL = on => ({ background: on ? "#2dd4bf22" : "var(--surface-3)", border: "1px solid " + (on ? "#2dd4bf" : "var(--border)"), color: on ? "#2dd4bf" : "var(--text-2)", borderRadius: 8, padding: "6px 11px", fontSize: 13, cursor: "pointer", fontWeight: 600 });
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
 React.createElement("label", { style: { fontSize: 12, color: "var(--text-2)", fontWeight: 600 } }, label || __t("Tecnico/i")),
 techs.length > 0 && (React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } }, techs.map(t => React.createElement("button", { key: t, type: "button", onClick: () => toggle(t), style: PILL(has(t)) },
@@ -23,10 +23,10 @@ React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("input", { value: manual, onChange: e => setManual(e.target.value), onKeyDown: e => { if (e.key === "Enter") {
 e.preventDefault();
 addManual();
-} }, placeholder: techs.length ? "altro nome a mano\u2026" : "scrivi il nome del tecnico", style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13.5 } }),
+} }, placeholder: techs.length ? "altro nome a mano\u2026" : "scrivi il nome del tecnico", style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 14 } }),
 React.createElement("button", { type: "button", onClick: addManual, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 8, color: "#2dd4bf", padding: "0 14px", fontSize: 18, cursor: "pointer", fontWeight: 700 } }, "+")),
 list.length > 0 && (React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" } },
-React.createElement("span", { style: { fontSize: 11.5, color: "var(--text-3)" } }, __t("Selezionati:")),
+React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)" } }, __t("Selezionati:")),
 list.map(nm => (React.createElement("span", { key: nm, style: { display: "inline-flex", alignItems: "center", gap: 6, background: "#2dd4bf18", border: "1px solid #2dd4bf55", color: "#2dd4bf", borderRadius: 8, padding: "4px 4px 4px 9px", fontSize: 12, fontWeight: 600 } },
 nm,
 React.createElement("button", { type: "button", onClick: () => setList(list.filter(x => x.toLowerCase() !== nm.toLowerCase())), title: __t("Rimuovi"), style: { background: "transparent", border: "none", color: "#2dd4bf", fontSize: 13, lineHeight: 1, cursor: "pointer", padding: "0 4px" } }, "\u2715"))))))));
@@ -41,12 +41,12 @@ onChange(raw.concat([{ name: nm }])); setName(""); };
 const remove = nm => onChange(raw.filter(x => x.name !== nm));
 const setSig = (nm, sig) => onChange(raw.map(x => x.name === nm ? Object.assign({}, x, { signature: sig || "" }) : x));
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-React.createElement("div", { style: { fontSize: 11.5, color: "var(--text-2)", lineHeight: 1.55 } }, __t("I tecnici registrati qui compaiono in una tendina quando crei un Job o una verifica. La firma salvata qui viene proposta in automatico nei report, cos\u00ec non serve rifirmare ogni volta.")),
-raw.length > 0 ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, raw.map(t => (React.createElement("div", { key: t.name, style: { background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 9, padding: "10px 14px" } },
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55 } }, __t("I tecnici registrati qui compaiono in una tendina quando crei un Job o una verifica. La firma salvata qui viene proposta in automatico nei report, cos\u00ec non serve rifirmare ogni volta.")),
+raw.length > 0 ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, raw.map(t => (React.createElement("div", { key: t.name, style: { background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 10, padding: "10px 14px" } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } },
-React.createElement("span", { style: { fontSize: 13.5, color: "var(--text)", fontWeight: 600 } }, t.name),
+React.createElement("span", { style: { fontSize: 14, color: "var(--text)", fontWeight: 600 } }, t.name),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-React.createElement("button", { type: "button", onClick: () => setSigFor(sigFor === t.name ? null : t.name), style: { background: "transparent", border: "1px solid " + (t.signature ? "#2dd4bf" : "var(--border)"), borderRadius: 7, color: t.signature ? "#2dd4bf" : "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px" } }, t.signature ? __t("Firma \u2713") : __t("Firma")),
+React.createElement("button", { type: "button", onClick: () => setSigFor(sigFor === t.name ? null : t.name), style: { background: "transparent", border: "1px solid " + (t.signature ? "#2dd4bf" : "var(--border)"), borderRadius: 8, color: t.signature ? "#2dd4bf" : "var(--text-2)", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "4px 9px" } }, t.signature ? __t("Firma \u2713") : __t("Firma")),
 React.createElement("button", { type: "button", onClick: () => remove(t.name), title: __t("Rimuovi"), style: { background: "transparent", border: "none", color: "#ef4444", fontSize: 16, cursor: "pointer" } }, "\u2715"))),
 sigFor === t.name ? React.createElement("div", { style: { marginTop: 10 } },
 React.createElement(SignaturePad, { label: "Firma di " + t.name + " (proposta in automatico nei report)", value: t.signature || "", onChange: v => setSig(t.name, v), height: 120 })) : null))))) : React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, __t("Nessun tecnico ancora. Aggiungine uno qui sotto.")),
@@ -54,7 +54,7 @@ React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("input", { value: name, onChange: e => setName(e.target.value), onKeyDown: e => { if (e.key === "Enter") {
 e.preventDefault();
 add();
-} }, placeholder: __t("Nome tecnico (es. Mario Rossi)"), style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13.5 } }),
+} }, placeholder: __t("Nome tecnico (es. Mario Rossi)"), style: { flex: 1, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 14 } }),
 React.createElement("button", { type: "button", onClick: add, style: { background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201C", padding: "0 16px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, __t("Aggiungi")))));
 }
 
@@ -69,7 +69,7 @@ return "";
 
 export function chkRow(on, onToggle, title, subtitle) {
 return React.createElement("div", { onClick: onToggle, style: { display: "flex", alignItems: "flex-start", gap: 10, background: on ? "#2dd4bf12" : "var(--surface)", border: "1px solid " + (on ? "#2dd4bf" : "var(--border)"), borderRadius: 10, padding: "10px 12px", cursor: "pointer" } },
-React.createElement("div", { style: { width: 20, height: 20, flexShrink: 0, borderRadius: 5, background: on ? "#2dd4bf" : "transparent", border: "2px solid " + (on ? "#2dd4bf" : "var(--text-4)"), display: "flex", alignItems: "center", justifyContent: "center", marginTop: 1 } }, on ? React.createElement("span", { style: { color: "#04201C", fontSize: 13, fontWeight: 900, lineHeight: 1 } }, "\u2713") : null),
+React.createElement("div", { style: { width: 20, height: 20, flexShrink: 0, borderRadius: 6, background: on ? "#2dd4bf" : "transparent", border: "2px solid " + (on ? "#2dd4bf" : "var(--text-4)"), display: "flex", alignItems: "center", justifyContent: "center", marginTop: 1 } }, on ? React.createElement("span", { style: { color: "#04201C", fontSize: 13, fontWeight: 800, lineHeight: 1 } }, "\u2713") : null),
 React.createElement("div", { style: { minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)" } }, title),
 subtitle ? React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2, lineHeight: 1.35 } }, subtitle) : null));
@@ -77,7 +77,7 @@ subtitle ? React.createElement("div", { style: { fontSize: 11, color: "var(--tex
 
 export function Btn(_a) {
 var { children, variant = "primary", sm } = _a, props = __rest(_a, ["children", "variant", "sm"]);
-const base = { borderRadius: 9, cursor: "pointer", fontWeight: 700, transition: "all .15s", border: "none", display: "inline-flex", alignItems: "center", gap: 6, letterSpacing: .2 };
+const base = { borderRadius: 10, cursor: "pointer", fontWeight: 700, transition: "all .15s", border: "none", display: "inline-flex", alignItems: "center", gap: 6, letterSpacing: .2 };
 const vars = {
 primary: { background: "#2dd4bf", color: "#fff", boxShadow: "none" },
 success: { background: "#15803d22", color: "#22c55e", border: "1px solid #22c55e44" },
@@ -175,7 +175,7 @@ return (React.createElement("div", { key: att.id, style: {
 background: 'var(--bg)', border: '1px solid #2A2A38', borderRadius: 6,
 padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 8,
 } },
-React.createElement("span", { style: { fontSize: 9, fontWeight: 800, color: 'var(--text-3)', fontFamily: 'monospace', border: '1px solid var(--border-2)', borderRadius: 3, padding: '1px 4px', flexShrink: 0 } }, getIcon(att.type)),
+React.createElement("span", { style: { fontSize: 10, fontWeight: 800, color: 'var(--text-3)', fontFamily: 'monospace', border: '1px solid var(--border-2)', borderRadius: 4, padding: '1px 4px', flexShrink: 0 } }, getIcon(att.type)),
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: 'var(--text-bright)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, att.name),
 React.createElement("div", { style: { fontSize: 10, color: 'var(--text-3)' } },
