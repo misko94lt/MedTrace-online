@@ -127,7 +127,7 @@ if (u.pct < 75)
 _storageWarnedPct = 0;
 if (u.pct >= 80 && u.pct > _storageWarnedPct) {
 _storageWarnedPct = u.pct;
-window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "\uD83D\uDCBE Spazio dati al " + u.pct + "% — vedi Impostazioni → Spazio dati locale", color: "#f59e0b" } }));
+window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Spazio dati al " + u.pct + "% — vedi Impostazioni → Spazio dati locale", color: "#f59e0b" } }));
 }
 }
 catch (e2) { }
@@ -137,7 +137,7 @@ catch (e) {
 if (_json) { try { idbSet(STORAGE_KEY, _json); } catch (e3) { } mirrorToIdb(_json); }
 if (!_quotaAlerted) {
 _quotaAlerted = true;
-try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "\uD83D\uDCBE Memoria rapida piena — i dati restano salvati nell'archivio locale esteso", color: "#2dd4bf" } })); } catch (e4) { }
+try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Memoria rapida piena — i dati restano salvati nell'archivio locale esteso", color: "#2dd4bf" } })); } catch (e4) { }
 }
 return true;
 }

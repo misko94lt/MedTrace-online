@@ -140,7 +140,7 @@ setMsg(fallite === 0
 : ("✓ " + fatte + " spostate (liberati " + fmtMB(liberati) + ") · ✗ " + fallite + " non riuscite: controlla la connessione e riprova"));
 });
 return (React.createElement("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border-2)" } },
-React.createElement(Btn, { sm: true, disabled: busy, onClick: migra }, busy ? __t("Sposto…") : ("☁ Sposta " + locali + (locali === 1 ? " foto" : " foto") + " sul cloud")),
+React.createElement(Btn, { sm: true, disabled: busy, onClick: migra }, busy ? __t("Sposto…") : ("Sposta " + locali + (locali === 1 ? " foto" : " foto") + " sul cloud")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 7, lineHeight: 1.5 } }, __t("Carica le foto dei job sul cloud e qui tiene solo il link: liberi quasi tutto lo spazio e le foto si vedono da ogni dispositivo.")),
 msg && React.createElement("div", { style: { fontSize: 12, color: msg.indexOf("✗") !== -1 ? "#f59e0b" : "#2dd4bf", marginTop: 8 } }, msg)));
 }
@@ -166,7 +166,7 @@ input.value = "";
 reader.onerror = () => { alert(__t("Impossibile leggere il file")); input.value = ""; };
 reader.readAsText(file);
 };
-return React.createElement(SettingsSection, { icon: "\uD83D\uDCE1", title: __t("Inventario RFID") },
+return React.createElement(SettingsSection, { icon: "", title: __t("Inventario RFID") },
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 10 } }, __t("Importa la scansione del lettore RFID (file JSON). Aggiorna l'ultima posizione degli apparecchi tramite EPC e segnala quelli con manutenzione scaduta o in scadenza.")),
 React.createElement("input", { ref: inputRef, type: "file", accept: ".json,application/json", style: { display: "none" }, onChange: handleFile }),
 React.createElement(Btn, { sm: true, onClick: () => { if (inputRef.current) inputRef.current.click(); } }, "\u2191 Importa scansione RFID"),
@@ -366,7 +366,7 @@ React.createElement("select", { value: getLang(), onChange: e => setLang(e.targe
 React.createElement("option", { value: "it" }, __t("Italiano")),
 React.createElement("option", { value: "en" }, __t("English")))),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-isAdmin && (React.createElement(Section, { icon: "\uD83C\uDFE2", title: __t("Dati azienda") },
+isAdmin && (React.createElement(Section, { icon: "", title: __t("Dati azienda") },
 isSuperuser && !comp.name && (React.createElement("div", { style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 8, padding: "10px 13px", marginBottom: 14, fontSize: 12, color: "#f59e0b", lineHeight: 1.5 } }, __t("\u26A0 Inserisci il nome della tua azienda \u2014 apparir\u00E0 su tutti i PDF (rapporti, verifiche, preventivi)."))),
 !isSuperuser && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "9px 13px", marginBottom: 14, fontSize: 12, color: "var(--text-3)", lineHeight: 1.5 } }, __t("I dati fiscali (ragione sociale, P.IVA, IBAN) sono modificabili solo dal Superuser. Puoi comunque gestire logo e preferenze qui sotto."))),
 React.createElement(Grid, { cols: "1fr 1fr" },
@@ -443,17 +443,17 @@ transition: "left .15s", boxShadow: "0 1px 3px rgba(0,0,0,.4)"
 React.createElement("span", { style: { fontSize: 13, color: "var(--text)", lineHeight: 1.5 } },
 __t("Chiedi di stampare lo sticker QR dopo ogni verifica"),
 React.createElement("span", { style: { display: "block", fontSize: 12, color: "var(--text-3)", marginTop: 3 } }, __t("Se spento, la verifica viene salvata senza domande. Lo sticker resta sempre disponibile col pulsante \uD83C\uDFF7 nella lista delle verifiche."))))),
-isSuperuser && (React.createElement(Section, { icon: "\uD83E\uDDD1\u200D\uD83D\uDD27", title: __t("Tecnici") },
+isSuperuser && (React.createElement(Section, { icon: "\u200D", title: __t("Tecnici") },
 React.createElement(TecniciManager, { technicians: comp.technicians || [], onChange: arr => { setComp(x => (Object.assign(Object.assign({}, x), { technicians: arr }))); onUpdateCompany(Object.assign(Object.assign({}, company), { technicians: arr })); const _off = (typeof OFFLINE_MODE !== "undefined" && OFFLINE_MODE); const _demo = (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED); if (!_off && !_demo && typeof supabaseSaveTechnicians === "function") {
 supabaseSaveTechnicians(arr);
 } } }))),
-React.createElement(Section, { icon: "\uD83D\uDDD1", title: __t("Cestino") },
+React.createElement(Section, { icon: "", title: __t("Cestino") },
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 14 } }, __t("Gli elementi eliminati finiscono qui e puoi recuperarli. Si svuotano da soli dopo 90 giorni.")),
 React.createElement("button", { onClick: () => { if (onOpenCestino)
 onOpenCestino(); }, style: { width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 10, padding: "13px 16px", cursor: "pointer", color: "var(--text)", fontSize: 14, fontWeight: 700, textAlign: "left" } },
 React.createElement("span", null, __t("Apri il cestino")),
 React.createElement("span", { style: { color: "var(--text-3)" } }, "\u203A"))),
-isSuperuser && (React.createElement(Section, { icon: "\uD83D\uDD10", title: __t("Ruoli e permessi") },
+isSuperuser && (React.createElement(Section, { icon: "", title: __t("Ruoli e permessi") },
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 14 } },
 __t("Decidi quali sezioni pu\u00F2 vedere ogni ruolo. Il "),
 React.createElement("strong", { style: { color: "#5eead4" } }, __t("Superuser")),
@@ -468,18 +468,18 @@ React.createElement("strong", { style: { color: "#5eead4" } }, "uniti"),
 __t(" tra questo dispositivo e il cloud: niente viene sovrascritto o perso. Se tu e un collega lavorate su dispositivi diversi, le modifiche si combinano. In caso di modifica sullo stesso record, resta la versione pi\u00F9 recente.")),
 React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
 React.createElement(Btn, { disabled: cloudBusy, onClick: doSyncUp }, cloudBusy ? __t("Sincronizzo…") : __t("Sincronizza ora"))),
-cloudStatus && (React.createElement("div", { style: { marginTop: 12, fontSize: 12, color: cloudStatus.startsWith("✗") ? "#ef4444" : "#2dd4bf", lineHeight: 1.5, background: (cloudStatus.startsWith("✗") ? "#ef444410" : "#2dd4bf10"), borderRadius: 8, padding: "9px 12px" } }, cloudStatus)))) : (React.createElement(Section, { icon: "\uD83D\uDCBE", title: __t("Dove sono i dati") },
+cloudStatus && (React.createElement("div", { style: { marginTop: 12, fontSize: 12, color: cloudStatus.startsWith("✗") ? "#ef4444" : "#2dd4bf", lineHeight: 1.5, background: (cloudStatus.startsWith("✗") ? "#ef444410" : "#2dd4bf10"), borderRadius: 8, padding: "9px 12px" } }, cloudStatus)))) : (React.createElement(Section, { icon: "", title: __t("Dove sono i dati") },
 React.createElement("div", { style: { color: "var(--text-2)", fontSize: 12, lineHeight: 1.55 } },
 __t("Tutti i dati sono salvati "),
 React.createElement("strong", { style: { color: "var(--text)" } }, "localmente su questo dispositivo"),
 ", anche offline. Esporta backup periodici qui sotto per sicurezza."))),
 React.createElement(SubscriptionCard, null),
 
-React.createElement(Section, { icon: "\uD83D\uDCBE", title: __t("Spazio dati locale") },
+React.createElement(Section, { icon: "", title: __t("Spazio dati locale") },
 React.createElement(StorageGauge, { data: data }),
 React.createElement(FotoCloudMigrator, { data: data, onReplaceJobs: onReplaceJobs })),
 React.createElement(RfidImportSection, { onImportRfidScan: onImportRfidScan }),
-React.createElement(Section, { icon: "\uD83D\uDCE6", title: __t("Backup & ripristino") },
+React.createElement(Section, { icon: "", title: __t("Backup & ripristino") },
 React.createElement("div", { style: { color: "var(--text-3)", fontSize: 12, lineHeight: 1.5, marginBottom: 12 } }, __t("Salva una copia dei tuoi dati in un file, o importane una. Utile prima di operazioni importanti.")),
 React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => downloadJSON("medtrace-backup-" + (new Date().toISOString().slice(0, 10)) + ".json", data) }, __t("Esporta backup"))),
@@ -488,7 +488,7 @@ React.createElement("div", { style: { fontSize: 12, color: "var(--text)", fontWe
 React.createElement("input", { type: "file", accept: "application/json,.json,text/plain,*/*", onChange: fileRef, style: { display: "block", width: "100%", fontSize: 13, color: "var(--text-strong)", background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 8, padding: "10px", boxSizing: "border-box", marginBottom: 14 } }),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text)", fontWeight: 700, marginBottom: 8 } }, __t("Unisci da file (aggiunge senza cancellare)")),
 React.createElement("input", { type: "file", accept: "application/json,.json,text/plain,*/*", onChange: fileRefMerge, style: { display: "block", width: "100%", fontSize: 13, color: "var(--text-strong)", background: "var(--card)", border: "1px solid var(--border-3)", borderRadius: 8, padding: "10px", boxSizing: "border-box" } }))),
-isLogged && (React.createElement(Section, { icon: "\uD83D\uDC64", title: __t("Account") },
+isLogged && (React.createElement(Section, { icon: "", title: __t("Account") },
 React.createElement("button", { onClick: () => __awaiter(this, void 0, void 0, function* () { if (confirm(__t("Disconnettere l'account? Per rientrare servirà di nuovo il login e una connessione."))) {
 try {
 localStorage.removeItem("medtrace-auth-cache");
@@ -505,7 +505,7 @@ React.createElement("div", { style: { color: "var(--text-3)", fontSize: 12, line
 React.createElement(Btn, { variant: "danger", onClick: onReset }, __t("Reset completo dei dati")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", paddingTop: 4 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")))),
-showPerms && (React.createElement(Modal, { title: "\uD83D\uDD10 Ruoli e permessi", wide: true, onClose: () => setShowPerms(false) },
+showPerms && (React.createElement(Modal, { title: "Ruoli e permessi", wide: true, onClose: () => setShowPerms(false) },
 React.createElement("div", { style: { maxHeight: "75vh", overflow: "auto" } },
 React.createElement(PermissionMatrix, { value: comp.rolePermissions || DEFAULT_ROLE_PERMS, onChange: (next) => { setComp(x => (Object.assign(Object.assign({}, x), { rolePermissions: next }))); onUpdateCompany(Object.assign(Object.assign({}, company), { rolePermissions: next })); } }),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", lineHeight: 1.5, marginTop: 14 } }, __t("Le modifiche si salvano subito e valgono al prossimo accesso degli utenti. Il Superuser vede sempre tutte le sezioni.")),
@@ -528,7 +528,7 @@ const label = info.valid_until == null
 return (React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 12, padding: "14px 16px", marginBottom: 14 } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" } },
 React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: "var(--text)" } },
-"\uD83D\uDCC5 Licenza",
+"Licenza",
 info.plan ? (" · " + info.plan.charAt(0).toUpperCase() + info.plan.slice(1)) : ""),
 React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: col, background: col + "15", border: "1px solid " + col + "44", borderRadius: 8, padding: "4px 9px" } }, label))));
 }

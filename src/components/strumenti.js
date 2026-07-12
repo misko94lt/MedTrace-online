@@ -246,7 +246,7 @@ React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMo
 ].map(k => (React.createElement("div", { key: k.label, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "12px 14px" } },
 React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: k.color, fontFamily: "'IBM Plex Mono', monospace", lineHeight: 1 } }, k.value),
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 5, textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, k.label))))),
-instruments.length === 0 ? (React.createElement(EmptyState, { icon: "\uD83D\uDD2C", title: __t("Nessuno strumento di misura"), subtitle: __t("Registra i tuoi analizzatori, simulatori e multimetri: marca, modello, n\u00B0 serie, certificato di calibrazione e scadenza. Garantisce la rintracciabilit\u00E0 delle tue verifiche."), actions: [
+instruments.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessuno strumento di misura"), subtitle: __t("Registra i tuoi analizzatori, simulatori e multimetri: marca, modello, n\u00B0 serie, certificato di calibrazione e scadenza. Garantisce la rintracciabilit\u00E0 delle tue verifiche."), actions: [
 { label: "+ Nuovo strumento", onClick: () => setModal({ type: 'form', data: null }), primary: true }
 ] })) : (React.createElement(React.Fragment, null,
 React.createElement(MobileSearch, { value: search, onChange: setSearch, placeholder: __t("Cerca per marca, modello, seriale, categoria\u2026"), count: filtered.length, total: instruments.length }),

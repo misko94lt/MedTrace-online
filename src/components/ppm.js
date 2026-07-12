@@ -544,7 +544,7 @@ React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marg
 React.createElement("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 700, padding: "3px 9px", borderRadius: 20, background: ok ? "#10b98122" : "#ef444422", color: ok ? "#10b981" : "#ef4444" } }, ok ? "Conforme" : "Non conforme")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 6 } }, done + " voci eseguite" + (na ? (" \u00b7 " + na + " N.A.") : ""))),
 React.createElement("div", { style: { display: "flex", borderTop: "1px solid var(--border-2)" } },
-React.createElement("button", { onClick: function () { onPdf(r); }, style: { flex: 1, background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\uD83D\uDCC4 PDF"),
+React.createElement("button", { onClick: function () { onPdf(r); }, style: { flex: 1, background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "PDF"),
 React.createElement("button", { onClick: function () { onOpen(r); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u270F Apri"),
 React.createElement("button", { onClick: function () { onDelete(r.id); }, style: { flex: 1, background: "transparent", color: "#ef4444", border: "none", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u2715 Elimina")));
 })));

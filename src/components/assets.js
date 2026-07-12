@@ -671,7 +671,7 @@ React.createElement("b", null, "Excel (.xlsx)"),
 React.createElement("b", null, "CSV"),
 " \u2014 ad esempio l'export del gestionale precedente o l'inventario del cliente. Le colonne le abbino io, tu controlli e confermi."),
 React.createElement("label", { style: { display: "block", border: "2px dashed #1e293b", borderRadius: 12, padding: "28px 16px", textAlign: "center", cursor: "pointer", color: "var(--text-2)", fontSize: 14 } },
-"\uD83D\uDCC4 Tocca per scegliere il file",
+"Tocca per scegliere il file",
 React.createElement("input", { type: "file", accept: ".xlsx,.xls,.csv,.txt", style: { display: "none" }, onChange: handleFile })),
 fileErr && React.createElement("div", { style: { fontSize: 13, color: "#ef4444", lineHeight: 1.5 } }, fileErr),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 } },
@@ -775,7 +775,7 @@ React.createElement(Sel, { label: "Classe di rischio", hint: "Classificazione MD
 React.createElement("option", { value: "" }, "\u2014"),
 React.createElement("option", { value: "A" }, "Classe A \u2014 Basso rischio"),
 React.createElement("option", { value: "B" }, "Classe B \u2014 Medio rischio"),
-React.createElement("option", { value: "C" }, "Classe C \u2014 Alto rischio")), React.createElement(Span2, null, React.createElement("div", { style: { position: "relative" } }, React.createElement(Inp, { label: "\uD83D\uDD0D Catalogo CND \u2014 cerca tipo apparecchiatura", value: cndQuery, onChange: e => setCndQuery(e.target.value), placeholder: "es. defibrillatore, ventilatore polmonare, elettrobisturi\u2026", hint: "Classificazione ufficiale Ministero Salute \u2014 compila CND + CIVAB + EMDN in automatico" }), cndMatches.length > 0 && React.createElement("div", { style: { position: "absolute", top: "100%", left: 0, right: 0, zIndex: 50, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, marginTop: 4, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 24px rgba(0,0,0,.35)" } }, cndMatches.map(m => React.createElement("div", { key: m[0], onClick: () => { setF(x => (Object.assign(Object.assign({}, x), { cnd: m[0], emdn: m[0], civab: m[2] || x.civab }))); setCndQuery(""); }, onMouseEnter: e => e.currentTarget.style.background = "var(--surface-3)", onMouseLeave: e => e.currentTarget.style.background = "transparent", style: { padding: "8px 11px", cursor: "pointer", borderBottom: "1px solid var(--border-2)", transition: "background .1s" } }, React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: 2 } }, React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: "#2dd4bf", fontWeight: 700 } }, m[0]), m[2] ? React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: "var(--text-3)" } }, "CIVAB " + m[2]) : null), React.createElement("div", { style: { fontSize: 12, color: "var(--text)", lineHeight: 1.3 } }, m[1])))))),  React.createElement(Inp, { label: "Codice CIVAB", hint: "Classificazione CIVAB \u2014 tipologia apparecchiatura biomedica", value: f.civab || "", onChange: s("civab") }), React.createElement(Inp, { label: "Codice CND", hint: "Classificazione Nazionale Dispositivi (Min. Salute) \u2014 es. Z120307", value: f.cnd || "", onChange: s("cnd") }), React.createElement(Inp, { label: "Codice EMDN", hint: "European Medical Device Nomenclature (EUDAMED / MDR)", value: f.emdn || "", onChange: s("emdn") }),
+React.createElement("option", { value: "C" }, "Classe C \u2014 Alto rischio")), React.createElement(Span2, null, React.createElement("div", { style: { position: "relative" } }, React.createElement(Inp, { label: "Catalogo CND \u2014 cerca tipo apparecchiatura", value: cndQuery, onChange: e => setCndQuery(e.target.value), placeholder: "es. defibrillatore, ventilatore polmonare, elettrobisturi\u2026", hint: "Classificazione ufficiale Ministero Salute \u2014 compila CND + CIVAB + EMDN in automatico" }), cndMatches.length > 0 && React.createElement("div", { style: { position: "absolute", top: "100%", left: 0, right: 0, zIndex: 50, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, marginTop: 4, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 24px rgba(0,0,0,.35)" } }, cndMatches.map(m => React.createElement("div", { key: m[0], onClick: () => { setF(x => (Object.assign(Object.assign({}, x), { cnd: m[0], emdn: m[0], civab: m[2] || x.civab }))); setCndQuery(""); }, onMouseEnter: e => e.currentTarget.style.background = "var(--surface-3)", onMouseLeave: e => e.currentTarget.style.background = "transparent", style: { padding: "8px 11px", cursor: "pointer", borderBottom: "1px solid var(--border-2)", transition: "background .1s" } }, React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: 2 } }, React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: "#2dd4bf", fontWeight: 700 } }, m[0]), m[2] ? React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: "var(--text-3)" } }, "CIVAB " + m[2]) : null), React.createElement("div", { style: { fontSize: 12, color: "var(--text)", lineHeight: 1.3 } }, m[1])))))),  React.createElement(Inp, { label: "Codice CIVAB", hint: "Classificazione CIVAB \u2014 tipologia apparecchiatura biomedica", value: f.civab || "", onChange: s("civab") }), React.createElement(Inp, { label: "Codice CND", hint: "Classificazione Nazionale Dispositivi (Min. Salute) \u2014 es. Z120307", value: f.cnd || "", onChange: s("cnd") }), React.createElement(Inp, { label: "Codice EMDN", hint: "European Medical Device Nomenclature (EUDAMED / MDR)", value: f.emdn || "", onChange: s("emdn") }),
 React.createElement(Inp, { label: "Data acquisto", type: "date", value: f.purchaseDate || "", onChange: s("purchaseDate") }),
 React.createElement(Inp, { label: "Scadenza garanzia", type: "date", value: f.warrantyExpiry || "", onChange: s("warrantyExpiry") }),
 React.createElement(Span2, null,
@@ -1003,12 +1003,12 @@ const timelineEvents = (() => {
 const ev = [];
 assetIec.forEach(r => ev.push({
 kind: "iec", ref: r, date: r.date || "", color: r.overallPass ? "#22c55e" : "#ef4444",
-icon: "⚡", title: "Sicurezza elettrica", sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
+icon: "", title: "Sicurezza elettrica", sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
 ok: r.overallPass, badge: r.overallPass ? "CONFORME" : "NON CONF."
 }));
 assetFunc.forEach(r => ev.push({
 kind: "func", ref: r, date: r.date || "", color: r.overallPass ? "#22c55e" : "#ef4444",
-icon: "\uD83E\uDE7A", title: "Verifica funzionale", sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
+icon: "", title: "Verifica funzionale", sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
 ok: r.overallPass, badge: r.overallPass ? "CONFORME" : "NON CONF."
 }));
 assetJobs.forEach(j => ev.push({
@@ -1030,7 +1030,7 @@ const serviceDays = asset.nextService ? Math.round((new Date(asset.nextService) 
 const S = { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "14px 16px" };
 const LBL = { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 3 };
 const VAL = { fontSize: 13, color: "var(--text)", fontWeight: 600 };
-const TABS = [{ id: "overview", label: " Scheda" }, { id: "timeline", label: "\uD83D\uDD51 Storico" }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "⚡ Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
+const TABS = [{ id: "overview", label: " Scheda" }, { id: "timeline", label: "Storico" }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
 const riskColor = { A: "#22c55e", B: "#f59e0b", C: "#ef4444" };
 const CMAX = page ? "none" : "55vh";
 const _mix = (c, p) => "color-mix(in srgb, " + c + " " + p + "%, transparent)";
@@ -1052,11 +1052,11 @@ React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", font
 "S/N: ",
 asset.serial || "—"),
 customer && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginBottom: 10 } },
-"\uD83C\uDFE2 ",
+"",
 customer.name),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginBottom: 10, display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" } },
 React.createElement("span", null,
-"\uD83D\uDCCD ",
+"",
 asset.location || React.createElement("span", { style: { color: "var(--text-3)" } }, "posizione non impostata")),
 asset.lastSeenAt && React.createElement("span", { style: { color: "var(--text-4)", fontSize: 10 } },
 "\u00B7 visto ",
@@ -1166,8 +1166,8 @@ tot.toFixed(0)),
 j.timeline.length,
 " step"),
 (j.iecReportId || j.funcReportId) && React.createElement("div", { style: { fontSize: 10, color: "#5eead4" } },
-j.iecReportId ? "⚡" : "",
-j.funcReportId ? "\uD83E\uDE7A" : "")))));
+j.iecReportId ? "" : "",
+j.funcReportId ? "" : "")))));
 }))),
 tab === "iec" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetIec.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessuna verifica di sicurezza elettrica per questo apparecchio")) : assetIec.map(r => (React.createElement("div", { key: r.id, onClick: () => onOpenIec && onOpenIec(r), onMouseEnter: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e" : "#ef4444") + "99"; }, onMouseLeave: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e33" : "#ef444433"); }, style: { background: "var(--surface)", border: "1px solid " + (r.overallPass ? "#22c55e33" : "#ef444433"), borderRadius: 8, padding: "10px 14px", cursor: "pointer", transition: "border-color .12s ease" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 } },
@@ -1399,5 +1399,5 @@ React.createElement("b", null, "50\u00D725"),
 (isAssetSticker && custAssets.length > 1) ? React.createElement("button", { type: "button", onClick: doPrintBatch, style: { width: "100%", background: "#2dd4bf18", border: "1px solid #2dd4bf", color: "#2dd4bf", borderRadius: 10, padding: "11px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", marginBottom: 12, touchAction: "manipulation" } }, "\uD83C\uDFF7 Stampa etichette di TUTTI gli apparecchi di " + ((customer && customer.name) || "questo cliente") + " (" + custAssets.length + ")") : null,
 React.createElement("div", { style: FORM_FOOTER },
 React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Chiudi"),
-React.createElement("button", { onClick: doPrint, style: FORM_BTN_PRIMARY }, "\uD83D\uDDA8 Stampa sticker"))));
+React.createElement("button", { onClick: doPrint, style: FORM_BTN_PRIMARY }, "Stampa sticker"))));
 }

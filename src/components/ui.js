@@ -726,7 +726,7 @@ export const ICON_BUILDING = _ic([React.createElement("rect", { key: "a", x: 4, 
 
 /* — filtro a tendina, ricerca mobile, card swipe (spostati col taglio strumenti, v3.05) — */
 export const MobileSearch = ({ value, onChange, count, total, placeholder }) => (React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "8px 12px", marginBottom: 10 } },
-React.createElement("span", { style: { fontSize: 14, color: "var(--text-3)" } }, "\uD83D\uDD0D"),
+React.createElement("svg", { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "var(--text-3)", strokeWidth: 2, strokeLinecap: "round", style: { flexShrink: 0 } }, React.createElement("circle", { cx: 11, cy: 11, r: 8 }), React.createElement("path", { d: "m21 21-4.35-4.35" })),
 React.createElement("input", { "data-mt-search": "1", value: value, onChange: e => onChange(e.target.value), placeholder: placeholder || __t("Cerca…"), style: { flex: 1, background: "transparent", border: "none", color: "var(--text)", fontSize: 14, outline: "none", minWidth: 0 } }),
 value && (React.createElement("button", { onClick: () => onChange(""), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 16, cursor: "pointer", padding: "0 4px", touchAction: "manipulation" } }, "\u2715")),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap" } },

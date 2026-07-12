@@ -252,8 +252,8 @@ job.technicianSignature ? React.createElement("div", { style: { textAlign: "cent
 job.departmentSignature ? React.createElement("div", { style: { textAlign: "center" } }, React.createElement("img", { src: job.departmentSignature, style: { maxHeight: 60, maxWidth: 200, display: "block", margin: "0 auto", background: "#fff", borderRadius: 6, padding: 4 } }), React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 4 } }, __t("Referente reparto"))) : null)) : null,
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end", flexWrap: "wrap", borderTop: "1px solid #24242F", paddingTop: 16 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")),
-onCreateQuote && React.createElement(Btn, { variant: "ghost", onClick: onCreateQuote }, "\uD83D\uDCC4 Crea preventivo"),
-React.createElement(Btn, { variant: "ghost", onClick: onTimeline }, "\uD83D\uDD50 Modifica cronologia"),
+onCreateQuote && React.createElement(Btn, { variant: "ghost", onClick: onCreateQuote }, "Crea preventivo"),
+React.createElement(Btn, { variant: "ghost", onClick: onTimeline }, "Modifica cronologia"),
 React.createElement(Btn, { onClick: onEdit }, "\u270F Modifica dati"),
-React.createElement(Btn, { variant: "ghost", onClick: () => generateJobPDF(job, assets, parts, customers, company) }, "\uD83D\uDCC4 PDF")))));
+React.createElement(Btn, { variant: "ghost", onClick: () => generateJobPDF(job, assets, parts, customers, company) }, "PDF")))));
 }

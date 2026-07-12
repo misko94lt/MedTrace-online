@@ -283,7 +283,7 @@ limitText,
 };
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
-(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, "\uD83D\uDD12"), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
+(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, ""), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
 React.createElement("div", { style: { background: pass ? "#22c55e1f" : "#ef44441f", border: `1px solid ${pass ? "#22c55e55" : "#ef444455"}`, borderRadius: 8, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } },
 "Template: ",
@@ -981,7 +981,7 @@ const INP = FORM_INP;
 const isMobile = useMedia("(max-width:600px)");
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
-(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, "\uD83D\uDD12"), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
+(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, ""), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
 React.createElement("div", { style: { background: f.overallPass ? "#22c55e1f" : "#ef44441f", border: `1px solid ${f.overallPass ? "#22c55e55" : "#ef444455"}`, borderRadius: 8, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } },
 "Norma: ",
@@ -1228,7 +1228,7 @@ React.createElement("span", { style: { fontSize: 14, textAlign: "center", fontWe
 tutorialOpen === m.id && tutorialFor(m.id, f.fixedInstall) && (() => {
 const tut = tutorialFor(m.id, f.fixedInstall);
 return (React.createElement("div", { key: m.id + "-tut", style: { background: "var(--surface)", border: "1px solid #2dd4bf", borderRadius: 10, padding: "14px 16px", marginBottom: 10, marginTop: 4, boxShadow: "0 4px 14px rgba(0,0,0,.4)" } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "#5eead4", marginBottom: 10, paddingBottom: 8, borderBottom: "1px solid #2dd4bf33" } }, "\uD83D\uDD0C Come mi collego"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "#5eead4", marginBottom: 10, paddingBottom: 8, borderBottom: "1px solid #2dd4bf33" } }, "Come mi collego"),
 React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--text)", marginBottom: 10 } }, tut.titolo),
 React.createElement("div", { style: { display: "flex", justifyContent: "center", marginBottom: 10 } },
 React.createElement(TutorialSVG, { kind: tut.svg })),
@@ -1297,7 +1297,7 @@ const [open, setOpen] = React.useState(false);
 if (!info) return null;
 return React.createElement("div", { style: { background: "var(--ok-bg)", border: "1px solid #2dd4bf55", borderRadius: 8, padding: "8px 10px", margin: "6px 0" } },
 React.createElement("div", { onClick: () => setOpen(function (o) { return !o; }), style: { display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" } },
-React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5eead4" } }, "\uD83E\uDDF0 Strumenti di test consigliati"),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5eead4" } }, "Strumenti di test consigliati"),
 React.createElement("span", { style: { fontSize: 13, color: "#5eead4", fontWeight: 700 } }, open ? "−" : "+")),
 open && React.createElement("div", { style: { marginTop: 8 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#ef4444", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, "Indispensabili"),

@@ -773,7 +773,7 @@ const grand = ((_a = quote._totals) === null || _a === void 0 ? void 0 : _a.gran
 const subtotal = ((_b = quote._totals) === null || _b === void 0 ? void 0 : _b.subtotal) || 0;
 const vatAmt = ((_c = quote._totals) === null || _c === void 0 ? void 0 : _c.vat) || 0;
 const laborRows = (quote.laborLines || []).map(l => `<tr><td>${l.label}</td><td style="text-align:center">${l.hours}h × €${l.rate}/h</td><td style="text-align:right;font-weight:700">€${(l.hours * l.rate).toFixed(2)}</td></tr>`).join('');
-const partRows = (quote.partLines || []).map(l => `<tr><td>${l.type === 'warehouse' ? '\uD83D\uDCE6 ' : ''}${l.description}</td><td style="text-align:center">${l.qty} × €${Number(l.unitPrice).toFixed(2)}${!quote.vatExempt ? ` (+${l.vat}% IVA)` : ''}</td><td style="text-align:right;font-weight:700">€${(l.qty * l.unitPrice).toFixed(2)}</td></tr>`).join('');
+const partRows = (quote.partLines || []).map(l => `<tr><td>${l.type === 'warehouse' ? '' : ''}${l.description}</td><td style="text-align:center">${l.qty} × €${Number(l.unitPrice).toFixed(2)}${!quote.vatExempt ? ` (+${l.vat}% IVA)` : ''}</td><td style="text-align:right;font-weight:700">€${(l.qty * l.unitPrice).toFixed(2)}</td></tr>`).join('');
 const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }

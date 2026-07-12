@@ -115,7 +115,7 @@ const LBL = FORM_LBL;
 if (createdCode) {
 return (React.createElement("div", { style: { minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 } },
 React.createElement("div", { style: { width: '100%', maxWidth: 430, background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 14, padding: 32, textAlign: 'center' } },
-React.createElement("div", { style: { fontSize: 40, marginBottom: 10 } }, "\uD83C\uDF89"),
+React.createElement("div", { style: { fontSize: 40, marginBottom: 10, color: "#22c55e", fontWeight: 800 } }, "\u2713"),
 React.createElement("h2", { style: { fontSize: 19, fontWeight: 800, color: 'var(--text-bright)', marginBottom: 8 } }, __t("Organizzazione creata!")),
 React.createElement("p", { style: { fontSize: 13, color: 'var(--text-2)', lineHeight: 1.55, marginBottom: 18 } },
 __t("Sei l'amministratore (superuser) di "),
