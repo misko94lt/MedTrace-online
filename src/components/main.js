@@ -42,7 +42,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.25";
+const APP_VERSION = "3.26";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -1904,7 +1904,7 @@ showToast("Job riaperto — parti rimesse in magazzino", "#f59e0b");
 else
 showToast("Job salvato");
 };
-const delJob = id => { if (checkLocked())
+const delJob = id => { if (!isAdmin) { showToast("Solo admin e superuser possono eliminare i job", "#ef4444"); return; } if (checkLocked())
 return; appConfirm("Spostare questo job nel cestino?", () => { const r = jobs.find(x => x.id === id); moveToTrash("jobs", r); setJobs(j => j.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
 const saveTimeline = (jobId, data) => {
 setJobs(js => js.map(j => j.id === jobId ? withUpdateMeta(Object.assign(Object.assign({}, j), { timeline: data.timeline, photos: data.photos })) : j));
@@ -3105,7 +3105,7 @@ return React.createElement("span", { style: { color: "var(--text-4)" } }, "\u201
 const d = Math.round((new Date(v) - new Date()) / 86400000);
 return React.createElement("span", { style: { color: d < 0 ? "#ef4444" : d < 90 ? "#f59e0b" : "#22c55e", fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v);
 } },
-], rows: assets.map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "" })); }), onEdit: row => setModal({ type: "asset", data: assets.find(a => a.id === row.id) }), onDelete: id => delAsset(id), actions: row => (React.createElement(React.Fragment, null,
+], rows: assets.map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "" })); }), onEdit: row => setModal({ type: "asset", data: assets.find(a => a.id === row.id) }), onDelete: isAdmin ? (id => delAsset(id)) : undefined, actions: row => (React.createElement(React.Fragment, null,
 React.createElement("button", { onClick: () => openAsset(row.id), title: "Scheda apparecchio", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""),
 React.createElement("button", { onClick: () => setModal({ type: "iec", assetId: row.id, data: null }), title: "Verifica di Sicurezza Elettrica", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u26A1"),
 React.createElement("button", { onClick: () => setModal({ type: "func", assetId: row.id, data: null }), title: "Verifica funzionale", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#a855f7", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2713"))) })))),
@@ -3119,8 +3119,8 @@ jobs.filter(j => j.status !== "chiuso").length,
 jobs.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportJobs }, "\u2B07 Excel"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "job", data: null }) }, "+ Nuovo"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "job", data: null }) }, "+ Nuovo"),
+React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportJobs }] }))),
 jobs.length > 0 && (React.createElement("div", { style: { display: "flex", gap: 0, marginBottom: 14, background: "var(--bg)", borderRadius: 8, padding: 3, border: "1px solid var(--border-2)", width: "fit-content", maxWidth: "100%", overflow: "auto" } }, [
 ...(jobs.some(j => j.status === "da accettare") ? [{ id: "toaccept", label: "Da accettare", count: jobs.filter(j => j.status === "da accettare").length, color: "#818cf8" }] : []),
 { id: "open", label: "Aperti", count: jobs.filter(j => j.status !== "chiuso").length, color: "#2dd4bf" },
@@ -3188,7 +3188,7 @@ const c = customers.find(x => x.id === (j.customerId || a.customerId)) || {};
 const total = j.parts.reduce((s, p) => { const pt = parts.find(x => x.id === p.partId); return s + (pt ? (pt.sellPrice || pt.unitPrice) * p.qty : 0); }, 0) + j.laborHours * j.laborRate;
 const priColor = PRI_COLOR[j.priority] || "var(--text-3)";
 const statColor = STATUS_COLOR[j.status] || "var(--text-3)";
-return (React.createElement(SwipeableCard, { key: j.id, onDelete: () => delJob(j.id) },
+return (React.createElement(SwipeableCard, { key: j.id, onDelete: isAdmin ? (() => delJob(j.id)) : undefined },
 React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 12, overflow: "hidden", borderLeft: "3px solid " + priColor } },
 React.createElement("div", { onClick: () => setModal({ type: "jobDetail", data: j }), style: { padding: "12px 14px 10px", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", borderBottom: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 6 } },
@@ -3243,7 +3243,7 @@ const a = assetById[j.assetId] || {};
 const c = customerById[j.customerId || a.customerId] || {};
 const tot = j.parts.reduce((s, p) => { const pt = partById[p.partId]; return s + (pt ? (pt.sellPrice || pt.unitPrice) * p.qty : 0); }, 0) + j.laborHours * j.laborRate;
 return Object.assign(Object.assign({}, j), { apparecchio: a.name || j.assetId, cliente: c.name || "", totale: tot.toFixed(2), steps: ((_a = j.timeline) === null || _a === void 0 ? void 0 : _a.length) || 0, hasIec: !!j.iecReportId, hasFunc: !!j.funcReportId });
-}), onEdit: row => setModal({ type: "jobDetail", data: jobs.find(j => j.id === row.id) }), onDelete: id => delJob(id), actions: row => (React.createElement(React.Fragment, null,
+}), onEdit: row => setModal({ type: "jobDetail", data: jobs.find(j => j.id === row.id) }), onDelete: isAdmin ? (id => delJob(id)) : undefined, actions: row => (React.createElement(React.Fragment, null,
 React.createElement("button", { onClick: () => setModal({ type: "timeline", data: jobs.find(j => j.id === row.id) }), title: "Timeline interventi", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""),
 React.createElement("button", { onClick: () => generateJobPDF(jobs.find(j => j.id === row.id), assets, parts, customers, company), title: "PDF rapporto", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""))) })))),
 (tab === "parts" || tab === "withdrawals" || tab === "orders") && (React.createElement("div", null,
@@ -3272,9 +3272,9 @@ stats.stockSellValue.toFixed(2),
 stats.lowStock,
 " sotto min.")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportParts }, "\u2B07 Excel"),
 React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, " Scarica"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "part", data: null }) }, "+ Nuova"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "part", data: null }) }, "+ Nuova"),
+React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportParts }] }))),
 parts.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Magazzino vuoto", subtitle: "Aggiungi le parti di ricambio del tuo magazzino: avrai sotto controllo stock minimo, alert sotto-scorta, costo e prezzo vendita per ogni codice.", actions: [
 { label: "+ Nuova parte", onClick: () => setModal({ type: "part", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
@@ -3432,8 +3432,8 @@ stats.pendingInvoices,
 invoices.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportInvoices }, "\u2B07 Excel"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "invoice", data: null }) }, "+ Nuova"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "invoice", data: null }) }, "+ Nuova"),
+React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportInvoices }] }))),
 invoices.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Nessun preventivo emesso", subtitle: "Crea preventivi professionali per i tuoi clienti. Puoi importare manodopera e parti direttamente da un job esistente.", actions: [
 { label: "+ Nuovo preventivo", onClick: () => setModal({ type: "invoice", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
@@ -3593,9 +3593,11 @@ funcReports.length,
 Object.keys(allTemplates).length - 1,
 " template disponibili")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => setModal({ type: "templateManager" }) }, "\u2699 Template"),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => setModal({ type: "ppmChecklist" }) }, "\u2699 Checklist PPM"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "func", data: null, assetId: null }) }, "+ Nuova verifica"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "func", data: null, assetId: null }) }, "+ Nuova verifica"),
+React.createElement(OverflowMenu, { items: [
+{ label: "\u2699 Gestione template", onClick: () => setModal({ type: "templateManager" }) },
+{ label: "\u2699 Checklist PPM", onClick: () => setModal({ type: "ppmChecklist" }) }
+] }))),
 funcReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u2713", title: "Nessuna verifica funzionale", subtitle: "Esegui test di funzionalità periodici sui tuoi apparecchi. Template disponibili: " + Object.values(allTemplates).map(t => t.label).join(", ") + ".", actions: [
 { label: "+ Nuova verifica funzionale", onClick: () => setModal({ type: "func", data: null, assetId: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
@@ -3711,8 +3713,8 @@ React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", f
 iecReports.length,
 " rapporti")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportIecReports }, "\u2B07 Excel"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "iec", data: null, assetId: null }) }, "+ Nuova verifica"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "iec", data: null, assetId: null }) }, "+ Nuova verifica"),
+React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportIecReports }] }))),
 iecReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u26A1", title: "Nessuna verifica di sicurezza elettrica", subtitle: "Esegui verifiche periodiche IEC 62353 (elettromedicali) o IEC 61010-1 (laboratorio): misure di PE, isolamento, dispersioni Equipment Leakage e Applied Part. Metodi supportati: diretto, differenziale, alternativo.", actions: [
 { label: "+ Nuova verifica sicurezza elettrica", onClick: () => setModal({ type: "iec", data: null, assetId: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
