@@ -210,7 +210,7 @@ const SUPABASE_CHUNK = 20;
    20 righe fisse potevano superare i limiti del body e la fetch moriva ("Failed to fetch").
    Qui si accumula finche' il JSON resta sotto ~700KB, con retry sui transienti di rete. */
 function chunkByBytes(rows, maxBytes) {
-if (maxBytes === void 0) maxBytes = 700000;
+if (maxBytes === void 0) maxBytes = 200000; /* ~200KB: sotto le soglie tipiche dei middlebox aziendali (ispezione SSL) che troncano i body grossi */
 const chunks = []; let cur = []; let size = 0;
 for (const r of rows) {
 let s = 0; try { s = JSON.stringify(r).length; } catch (e) { s = 2000; }
