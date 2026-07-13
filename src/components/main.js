@@ -42,7 +42,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.27";
+const APP_VERSION = "3.28";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -3639,7 +3639,9 @@ React.createElement("option", { value: "num_desc" }, "Numero (100 \u2192 1)"),
 React.createElement("option", { value: "date_desc" }, "Data (pi\u00F9 recenti)"),
 React.createElement("option", { value: "date_asc" }, "Data (pi\u00F9 vecchie)"),
 React.createElement("option", { value: "asset_asc" }, "Apparecchio (A \u2192 Z)"))),
-React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
+React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", margin: "0 0 8px" } },
+React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "\u25a4 Vista estesa" : "\u2263 Vista compatta")),
+React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
 filteredFunc.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessuna verifica corrisponde ai filtri")),
 sortReportsList(filteredFunc, mobileSort.func).map(r => {
 const a = assets.find(x => x.id === r.assetId) || {};
@@ -3650,6 +3652,14 @@ const pass = r.overallPass === true || r.overallPass === "true";
 const borderC = isNA ? "#f59e0b" : (pass ? "#22c55e" : "#ef4444");
 const badgeC = isNA ? "#f59e0b" : (pass ? "#22c55e" : "#ef4444");
 const badgeLabel = isNA ? "⚠ N/E" : (pass ? "✓ OK" : "✗ FAIL");
+if (compactView) {
+return (React.createElement("div", { key: r.id, onClick: () => setModal({ type: "func", data: r }), style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderBottom: "1px solid var(--border-2)", cursor: "pointer", background: "var(--surface)" } },
+React.createElement("span", { style: { width: 8, height: 8, borderRadius: "50%", background: borderC, flexShrink: 0 } }),
+React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+React.createElement("div", { style: { color: "var(--text)", fontSize: 13, fontWeight: 600, fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, r.reportNumber || r.id),
+React.createElement("div", { style: { color: "var(--text-3)", fontSize: 11, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, [a.name, r.date].filter(Boolean).join(" \u00b7 ") || "\u2014")),
+React.createElement("span", { style: { padding: "2px 7px", background: badgeC + "22", color: badgeC, borderRadius: 6, fontSize: 10, fontWeight: 700, flexShrink: 0 } }, badgeLabel)));
+}
 return (React.createElement(SwipeableCard, { key: r.id, onDelete: () => delFuncReport(r.id) },
 React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 12, overflow: "hidden", borderLeft: "3px solid " + borderC } },
 React.createElement("div", { onClick: () => setModal({ type: "func", data: r }), style: { padding: "12px 14px 10px", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", borderBottom: "1px solid var(--border-2)" } },
