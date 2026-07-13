@@ -206,6 +206,35 @@ procedures: "procedures",
 recalls: "recalls",
 };
 const SUPABASE_CHUNK = 20;
+/* Chunk a budget di byte: dal v3.03 i report portano firme base64 (anche 100KB+ l'una);
+   20 righe fisse potevano superare i limiti del body e la fetch moriva ("Failed to fetch").
+   Qui si accumula finche' il JSON resta sotto ~700KB, con retry sui transienti di rete. */
+function chunkByBytes(rows, maxBytes) {
+if (maxBytes === void 0) maxBytes = 700000;
+const chunks = []; let cur = []; let size = 0;
+for (const r of rows) {
+let s = 0; try { s = JSON.stringify(r).length; } catch (e) { s = 2000; }
+if (cur.length > 0 && (size + s > maxBytes || cur.length >= SUPABASE_CHUNK)) { chunks.push(cur); cur = []; size = 0; }
+cur.push(r); size += s;
+}
+if (cur.length) chunks.push(cur);
+return chunks;
+}
+function upsertWithRetry(client, table, chunk) {
+return __awaiter(this, void 0, void 0, function* () {
+let last = null;
+for (let attempt = 0; attempt < 3; attempt++) {
+try {
+const { error } = yield client.from(table).upsert(chunk, { onConflict: "id" });
+if (!error) return null;
+last = error;
+if (!/fetch|network|timeout/i.test(String(error.message || ""))) return error;
+} catch (e) { last = { message: String((e && e.message) || e) }; }
+yield new Promise(r => setTimeout(r, 700 * (attempt + 1)));
+}
+return last;
+});
+}
 function toSnakeRecord(obj) {
 const out = {};
 for (const k in obj) {
@@ -337,8 +366,8 @@ merged[stateKey] = attivi;
 mergedTrash[stateKey] = [...cestinati, ...stubsDaTenere];
 const rows = [...attivi, ...cestinati, ...stubsDaTenere].map(r => { const s = toSnakeRecord(r); s.org_id = orgId; return s; });
 if (rows.length > 0) {
-for (let _ci = 0; _ci < rows.length; _ci += SUPABASE_CHUNK) {
-const { error: errUp } = yield client.from(table).upsert(rows.slice(_ci, _ci + SUPABASE_CHUNK), { onConflict: "id" });
+for (const chunk of chunkByBytes(rows)) {
+const errUp = yield upsertWithRetry(client, table, chunk);
 if (errUp)
 throw new Error("Errore sync " + table + ": " + errUp.message);
 }
@@ -367,10 +396,10 @@ if (rows.length === 0) {
 results[table] = 0;
 continue;
 }
-for (let _ci = 0; _ci < rows.length; _ci += SUPABASE_CHUNK) {
-const { error } = yield client.from(table).upsert(rows.slice(_ci, _ci + SUPABASE_CHUNK), { onConflict: "id" });
-if (error)
-throw new Error("Errore sync " + table + ": " + error.message);
+for (const chunk of chunkByBytes(rows)) {
+const err = yield upsertWithRetry(client, table, chunk);
+if (err)
+throw new Error("Errore sync " + table + ": " + err.message);
 }
 results[table] = rows.length;
 }
