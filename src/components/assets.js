@@ -1,3 +1,4 @@
+import { t as __t } from "../constants/i18n.js";
 /* MedTrace — apparecchi: form, dettaglio, import CSV/XLSX, timeline, ritiro, etichette QR (estratti da app.js, v3.00) */
 import { AlertChip, ErrorSummary, Grid, Inp, Modal, Sel, Span2, Txt, Badge, _ic } from "./ui.js";
 import { Btn, AttachmentsList } from "./shared.js";
@@ -321,33 +322,33 @@ return "";
 return dec ? x : Math.round(x);
 }
 const IMP_FIELDS = [
-{ k: "name", label: "Nome / Tipologia *", syn: ["nome", "tipologia", "nometipologia", "tipo", "tipoapparecchio", "descrizione", "descriz", "apparecchio", "denominazione", "device", "equipment"] },
-{ k: "brand", label: "Marca", syn: ["marca", "produttore", "costruttore", "brand", "manufacturer", "casa", "ditta"] },
-{ k: "model", label: "Modello", syn: ["modello", "model", "mod"] },
-{ k: "serial", label: "Matricola (S/N)", syn: ["matricola", "sn", "serialnumber", "serial", "numerodiserie", "nserie", "numeroserie", "seriale"] },
-{ k: "assetCode", label: "Codice inventario", syn: ["codiceinventario", "inventario", "codinventario", "codice", "ninventario", "assetcode", "inv", "cespite"] },
-{ k: "location", label: "Ubicazione / Reparto", syn: ["ubicazione", "reparto", "ubicazionereparto", "locale", "stanza", "sede", "collocazione", "piano", "location"] },
-{ k: "status", label: "Stato", syn: ["stato", "status", "condizione"] },
-{ k: "lastService", label: "Ultimo intervento", type: "date", syn: ["ultimointervento", "ultimamanutenzione", "ultimoservizio", "lastservice"] },
-{ k: "nextService", label: "Prossimo intervento", type: "date", syn: ["prossimointervento", "prossimamanutenzione", "nextservice", "scadenzamanutenzione"] },
-{ k: "serviceInterval", label: "Periodicità manutenzione (mesi)", type: "int", syn: ["periodicitamanutenzione", "intervallomanutenzione", "frequenzamanutenzione", "mesimanutenzione"] },
-{ k: "intervalIec", label: "Periodicità verifica elettrica (mesi)", type: "int", syn: ["periodicitaverificaelettrica", "periodicitaelettrica", "intervalloelettrica", "frequenzaelettrica", "mesielettrica", "verificaelettricamesi"] },
-{ k: "intervalFunc", label: "Periodicità verifica funzionale (mesi)", type: "int", syn: ["periodicitaverificafunzionale", "periodicitafunzionale", "intervallofunzionale", "frequenzafunzionale", "mesifunzionale"] },
-{ k: "iecNorm", label: "Norma sicurezza", syn: ["normasicurezza", "norma", "normativa", "standard"] },
-{ k: "iecClass", label: "Classe elettrica", syn: ["classeelettrica", "classeisolamento", "classe"] },
-{ k: "patientType", label: "Tipo parte applicata", syn: ["tipoparteapplicata", "parteapplicata", "tipopaziente", "bf", "tipoparte"] },
-{ k: "riskClass", label: "Classe di rischio", syn: ["classedirischio", "classerischio", "rischio", "mdr"] },
-{ k: "leakageMethod", label: "Metodo dispersione", syn: ["metododispersione", "dispersione", "metodomisura"] },
-{ k: "purchaseDate", label: "Data acquisto", type: "date", syn: ["dataacquisto", "acquisto", "acquistato", "dtacquisto"] },
-{ k: "manufactureDate", label: "Data di fabbricazione", type: "date", syn: ["datadifabbricazione", "datafabbricazione", "fabbricazione", "annofabbricazione", "anno"] },
-{ k: "commissionDate", label: "Data messa in servizio", type: "date", syn: ["datamessainservizio", "messainservizio", "collaudo", "installazione", "datainstallazione"] },
-{ k: "warrantyExpiry", label: "Scadenza garanzia", type: "date", syn: ["scadenzagaranzia", "garanzia", "finegaranzia"] },
-{ k: "purchaseCost", label: "Costo d'acquisto (€)", type: "num", syn: ["costodacquisto", "costoacquisto", "costo", "prezzo", "valore", "importo"] },
-{ k: "supplier", label: "Fornitore", syn: ["fornitore", "venditore", "rivenditore", "supplier", "distributore"] },
-{ k: "serviceContract", label: "Contratto assistenza", syn: ["contrattoassistenza", "contratto", "manutentore", "assistenza"] },
-{ k: "replacementDate", label: "Sostituzione prevista / fine vita", type: "date", syn: ["sostituzioneprevista", "finevita", "datasostituzione", "obsolescenza"] },
-{ k: "batteryDate", label: "Ultimo cambio batteria", type: "date", syn: ["ultimocambiobatteria", "cambiobatteria", "batteria", "databatteria"] },
-{ k: "notes", label: "Note", syn: ["note", "osservazioni", "commenti", "annotazioni", "notes"] }
+{ k: "name", label: __t("Nome / Tipologia *"), syn: ["nome", "tipologia", "nometipologia", "tipo", "tipoapparecchio", "descrizione", "descriz", "apparecchio", "denominazione", "device", "equipment"] },
+{ k: "brand", label: __t("Marca"), syn: ["marca", "produttore", "costruttore", "brand", "manufacturer", "casa", "ditta"] },
+{ k: "model", label: __t("Modello"), syn: ["modello", "model", "mod"] },
+{ k: "serial", label: __t("Matricola (S/N)"), syn: ["matricola", "sn", "serialnumber", "serial", "numerodiserie", "nserie", "numeroserie", "seriale"] },
+{ k: "assetCode", label: __t("Codice inventario"), syn: ["codiceinventario", "inventario", "codinventario", "codice", "ninventario", "assetcode", "inv", "cespite"] },
+{ k: "location", label: __t("Ubicazione / Reparto"), syn: ["ubicazione", "reparto", "ubicazionereparto", "locale", "stanza", "sede", "collocazione", "piano", "location"] },
+{ k: "status", label: __t("Stato"), syn: ["stato", "status", "condizione"] },
+{ k: "lastService", label: __t("Ultimo intervento"), type: "date", syn: ["ultimointervento", "ultimamanutenzione", "ultimoservizio", "lastservice"] },
+{ k: "nextService", label: __t("Prossimo intervento"), type: "date", syn: ["prossimointervento", "prossimamanutenzione", "nextservice", "scadenzamanutenzione"] },
+{ k: "serviceInterval", label: __t("Periodicità manutenzione (mesi)"), type: "int", syn: ["periodicitamanutenzione", "intervallomanutenzione", "frequenzamanutenzione", "mesimanutenzione"] },
+{ k: "intervalIec", label: __t("Periodicità verifica elettrica (mesi)"), type: "int", syn: ["periodicitaverificaelettrica", "periodicitaelettrica", "intervalloelettrica", "frequenzaelettrica", "mesielettrica", "verificaelettricamesi"] },
+{ k: "intervalFunc", label: __t("Periodicità verifica funzionale (mesi)"), type: "int", syn: ["periodicitaverificafunzionale", "periodicitafunzionale", "intervallofunzionale", "frequenzafunzionale", "mesifunzionale"] },
+{ k: "iecNorm", label: __t("Norma sicurezza"), syn: ["normasicurezza", "norma", "normativa", "standard"] },
+{ k: "iecClass", label: __t("Classe elettrica"), syn: ["classeelettrica", "classeisolamento", "classe"] },
+{ k: "patientType", label: __t("Tipo parte applicata"), syn: ["tipoparteapplicata", "parteapplicata", "tipopaziente", "bf", "tipoparte"] },
+{ k: "riskClass", label: __t("Classe di rischio"), syn: ["classedirischio", "classerischio", "rischio", "mdr"] },
+{ k: "leakageMethod", label: __t("Metodo dispersione"), syn: ["metododispersione", "dispersione", "metodomisura"] },
+{ k: "purchaseDate", label: __t("Data acquisto"), type: "date", syn: ["dataacquisto", "acquisto", "acquistato", "dtacquisto"] },
+{ k: "manufactureDate", label: __t("Data di fabbricazione"), type: "date", syn: ["datadifabbricazione", "datafabbricazione", "fabbricazione", "annofabbricazione", "anno"] },
+{ k: "commissionDate", label: __t("Data messa in servizio"), type: "date", syn: ["datamessainservizio", "messainservizio", "collaudo", "installazione", "datainstallazione"] },
+{ k: "warrantyExpiry", label: __t("Scadenza garanzia"), type: "date", syn: ["scadenzagaranzia", "garanzia", "finegaranzia"] },
+{ k: "purchaseCost", label: __t("Costo d'acquisto (€)"), type: "num", syn: ["costodacquisto", "costoacquisto", "costo", "prezzo", "valore", "importo"] },
+{ k: "supplier", label: __t("Fornitore"), syn: ["fornitore", "venditore", "rivenditore", "supplier", "distributore"] },
+{ k: "serviceContract", label: __t("Contratto assistenza"), syn: ["contrattoassistenza", "contratto", "manutentore", "assistenza"] },
+{ k: "replacementDate", label: __t("Sostituzione prevista / fine vita"), type: "date", syn: ["sostituzioneprevista", "finevita", "datasostituzione", "obsolescenza"] },
+{ k: "batteryDate", label: __t("Ultimo cambio batteria"), type: "date", syn: ["ultimocambiobatteria", "cambiobatteria", "batteria", "databatteria"] },
+{ k: "notes", label: __t("Note"), syn: ["note", "osservazioni", "commenti", "annotazioni", "notes"] }
 ];
 function impEnum(field, raw) {
 const v = impNorm(raw);
@@ -617,7 +618,7 @@ if (step === 3 && result)
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#22c55e" } }, "\u2713 Importazione completata"),
 React.createElement("div", { style: { fontSize: 14, color: "var(--text-strong)", lineHeight: 1.7 } },
-"Creati: ",
+__t("Creati: "),
 React.createElement("b", null, result.created),
 " \u00B7 Aggiornati: ",
 React.createElement("b", null, result.updated),
@@ -630,8 +631,8 @@ e)),
 result.errors.length > 10 && React.createElement("div", null,
 "\u2026e altre ",
 result.errors.length - 10)),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Ricorda di Sincronizzare per portare tutto sul cloud."),
-React.createElement(Btn, { onClick: onClose }, "Chiudi")));
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, __t("Ricorda di Sincronizzare per portare tutto sul cloud.")),
+React.createElement(Btn, { onClick: onClose }, __t("Chiudi"))));
 if (step === 2)
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement("div", { style: { fontSize: 13, color: "var(--text-2)" } },
@@ -642,7 +643,7 @@ React.createElement("b", null, rows.length),
 React.createElement("b", null, mapped),
 " colonne riconosciute in automatico. Controlla gli abbinamenti:"),
 React.createElement("div", null,
-React.createElement("div", { style: lab }, "Cliente di destinazione *"),
+React.createElement("div", { style: lab }, __t("Cliente di destinazione *")),
 React.createElement("select", { style: selStyle, value: customerId, onChange: e => setCustomerId(e.target.value) },
 React.createElement("option", { value: "" }, "\u2014 Scegli il cliente \u2014"),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name)))),
@@ -652,32 +653,32 @@ React.createElement("select", { style: selStyle, value: mapping[f.k] >= 0 ? mapp
 React.createElement("option", { value: -1 }, "\u2014 non presente \u2014"),
 headers.map((h, i) => React.createElement("option", { key: i, value: i }, h || ("colonna " + (i + 1))))))))),
 React.createElement("div", null,
-React.createElement("div", { style: lab }, "Se trovo una matricola o un codice gi\u00E0 in archivio"),
+React.createElement("div", { style: lab }, __t("Se trovo una matricola o un codice gi\u00E0 in archivio")),
 React.createElement("select", { style: selStyle, value: dupMode, onChange: e => setDupMode(e.target.value) },
-React.createElement("option", { value: "skip" }, "Salta la riga (non tocco l'esistente)"),
-React.createElement("option", { value: "update" }, "Aggiorna l'apparecchio esistente coi dati del file"))),
+React.createElement("option", { value: "skip" }, __t("Salta la riga (non tocco l'esistente)")),
+React.createElement("option", { value: "update" }, __t("Aggiorna l'apparecchio esistente coi dati del file")))),
 fileErr && React.createElement("div", { style: { fontSize: 13, color: "#ef4444" } }, fileErr),
 React.createElement("div", { style: { display: "flex", gap: 10 } },
 React.createElement(Btn, { variant: "ghost", onClick: () => { setStep(1); setFileErr(""); } }, "\u2190 Indietro"),
 React.createElement(Btn, { onClick: doImport },
-"Importa ",
+__t("Importa "),
 rows.length,
 " righe"))));
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } },
 React.createElement("div", { style: { fontSize: 14, color: "var(--text-strong)", lineHeight: 1.6 } },
-"Carica l'anagrafica degli apparecchi da un file ",
-React.createElement("b", null, "Excel (.xlsx)"),
+__t("Carica l'anagrafica degli apparecchi da un file "),
+React.createElement("b", null, __t("Excel (.xlsx)")),
 " o ",
 React.createElement("b", null, "CSV"),
 " \u2014 ad esempio l'export del gestionale precedente o l'inventario del cliente. Le colonne le abbino io, tu controlli e confermi."),
 React.createElement("label", { style: { display: "block", border: "2px dashed #1e293b", borderRadius: 12, padding: "28px 16px", textAlign: "center", cursor: "pointer", color: "var(--text-2)", fontSize: 14 } },
-"Tocca per scegliere il file",
+__t("Tocca per scegliere il file"),
 React.createElement("input", { type: "file", accept: ".xlsx,.xls,.csv,.txt", style: { display: "none" }, onChange: handleFile })),
 fileErr && React.createElement("div", { style: { fontSize: 13, color: "#ef4444", lineHeight: 1.5 } }, fileErr),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 } },
-"Parti da zero? ",
-React.createElement("a", { href: "#", onClick: e => { e.preventDefault(); scaricaTemplate(); }, style: { color: "#2dd4bf" } }, "Scarica il modello Excel"),
-" con tutte le 27 colonne gi\u00E0 intestate \u2014 compili solo quelle che ti servono (obbligatorio solo il Nome). ",
+__t("Parti da zero? "),
+React.createElement("a", { href: "#", onClick: e => { e.preventDefault(); scaricaTemplate(); }, style: { color: "#2dd4bf" } }, __t("Scarica il modello Excel")),
+__t(" con tutte le 27 colonne gi\u00E0 intestate \u2014 compili solo quelle che ti servono (obbligatorio solo il Nome). "),
 React.createElement("span", { style: { opacity: .7 } },
 "(",
 React.createElement("a", { href: "#", onClick: e => { e.preventDefault(); scaricaTemplateCSV(); }, style: { color: "var(--text-2)" } }, "versione CSV per computer"),
@@ -737,64 +738,64 @@ return copy;
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Tipo apparecchio", value: f.name, onChange: s("name"), onBlur: e => autofillFrom("name", e.target.value), placeholder: "es. Defibrillatore" }),
-React.createElement(Inp, { label: "Marca", value: f.brand, onChange: s("brand") }),
-React.createElement(Inp, { label: "Modello", value: f.model, onChange: s("model"), onBlur: e => autofillFrom("model", e.target.value), hint: "Scrivi un modello gi\u00E0 inserito: marca, tipo e norma si compilano da soli." }),
-React.createElement(Inp, { label: "Numero di serie", value: f.serial, onChange: s("serial") }),
-React.createElement(Sel, { label: "Cliente / Struttura", value: f.customerId, onChange: s("customerId") },
+React.createElement(Inp, { label: __t("Tipo apparecchio"), value: f.name, onChange: s("name"), onBlur: e => autofillFrom("name", e.target.value), placeholder: "es. Defibrillatore" }),
+React.createElement(Inp, { label: __t("Marca"), value: f.brand, onChange: s("brand") }),
+React.createElement(Inp, { label: __t("Modello"), value: f.model, onChange: s("model"), onBlur: e => autofillFrom("model", e.target.value), hint: __t("Scrivi un modello gi\u00E0 inserito: marca, tipo e norma si compilano da soli.") }),
+React.createElement(Inp, { label: __t("Numero di serie"), value: f.serial, onChange: s("serial") }),
+React.createElement(Sel, { label: __t("Cliente / Struttura"), value: f.customerId, onChange: s("customerId") },
 React.createElement("option", { value: "" }, "\u2014 Nessuno \u2014"),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name))),
-React.createElement(Inp, { label: "Ubicazione", value: f.location, onChange: s("location") }),
-React.createElement(Sel, { label: "Stato", value: f.status, onChange: s("status") }, ["operativo", "in manutenzione", "fuori servizio"].map(v => React.createElement("option", { key: v }, v))),
-React.createElement(Inp, { label: "Interv. Sicurezza Elettrica (mesi)", type: "number", value: f.intervalIec, onChange: s("intervalIec") }),
-React.createElement(Inp, { label: "Interv. Funzionale (mesi)", type: "number", value: f.intervalFunc, onChange: s("intervalFunc") }),
-React.createElement(Inp, { label: "Interv. Manut. Programmata / PPM (mesi)", type: "number", value: f.intervalPpm, onChange: s("intervalPpm"), hint: "Periodicità indicata dal costruttore" })),
+React.createElement(Inp, { label: __t("Ubicazione"), value: f.location, onChange: s("location") }),
+React.createElement(Sel, { label: __t("Stato"), value: f.status, onChange: s("status") }, ["operativo", "in manutenzione", "fuori servizio"].map(v => React.createElement("option", { key: v }, v))),
+React.createElement(Inp, { label: __t("Interv. Sicurezza Elettrica (mesi)"), type: "number", value: f.intervalIec, onChange: s("intervalIec") }),
+React.createElement(Inp, { label: __t("Interv. Funzionale (mesi)"), type: "number", value: f.intervalFunc, onChange: s("intervalFunc") }),
+React.createElement(Inp, { label: __t("Interv. Manut. Programmata / PPM (mesi)"), type: "number", value: f.intervalPpm, onChange: s("intervalPpm"), hint: __t("Periodicità indicata dal costruttore") })),
 React.createElement("button", { onClick: () => setShowAdv(v => !v), style: { background: "transparent", border: "1px dashed var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "9px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, showAdv ? "− Nascondi dettagli avanzati" : "+ Mostra dettagli avanzati (date, norma, garanzia…)"),
 showAdv && React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Ultimo servizio", type: "date", value: f.lastService, onChange: s("lastService") }),
-React.createElement(Inp, { label: "Prossimo servizio", type: "date", value: f.nextService, onChange: s("nextService") }),
-React.createElement(Inp, { label: "EPC / Tag RFID", value: f.epc || "", onChange: s("epc"), hint: "Codice del tag RFID per il tracking inventario" }),
-React.createElement(Sel, { label: "Norma sicurezza", hint: "IEC 62353: apparecchiature elettromedicali (defibrillatori, monitor, ventilatori). IEC 61010-1: strumenti da laboratorio e misura (oscilloscopi, alimentatori, sonde). Definisce i limiti delle dispersioni e i test da effettuare.", value: f.iecNorm || "62353", onChange: e => setF(x => (Object.assign(Object.assign({}, x), { iecNorm: e.target.value }))) },
-React.createElement("option", { value: "62353" }, "IEC 62353 \u2014 Elettromedicale"),
-React.createElement("option", { value: "61010" }, "IEC 61010-1 \u2014 Laboratorio"),
-React.createElement("option", { value: "" }, "Non applicabile")),
-React.createElement(Sel, { label: "Classe elettrica (IEC)", hint: "Classificazione elettrica del singolo apparecchio (da targa/manuale): Classe I = con conduttore di terra; Classe II = doppio isolamento; Classe III / alimentazione interna = SELV o a batteria. Viene ereditata nella verifica di sicurezza elettrica.", value: f.iecClass || "", onChange: s("iecClass") },
+React.createElement(Inp, { label: __t("Ultimo servizio"), type: "date", value: f.lastService, onChange: s("lastService") }),
+React.createElement(Inp, { label: __t("Prossimo servizio"), type: "date", value: f.nextService, onChange: s("nextService") }),
+React.createElement(Inp, { label: __t("EPC / Tag RFID"), value: f.epc || "", onChange: s("epc"), hint: __t("Codice del tag RFID per il tracking inventario") }),
+React.createElement(Sel, { label: __t("Norma sicurezza"), hint: __t("IEC 62353: apparecchiature elettromedicali (defibrillatori, monitor, ventilatori). IEC 61010-1: strumenti da laboratorio e misura (oscilloscopi, alimentatori, sonde). Definisce i limiti delle dispersioni e i test da effettuare."), value: f.iecNorm || "62353", onChange: e => setF(x => (Object.assign(Object.assign({}, x), { iecNorm: e.target.value }))) },
+React.createElement("option", { value: "62353" }, __t("IEC 62353 \u2014 Elettromedicale")),
+React.createElement("option", { value: "61010" }, __t("IEC 61010-1 \u2014 Laboratorio")),
+React.createElement("option", { value: "" }, __t("Non applicabile"))),
+React.createElement(Sel, { label: __t("Classe elettrica (IEC)"), hint: __t("Classificazione elettrica del singolo apparecchio (da targa/manuale): Classe I = con conduttore di terra; Classe II = doppio isolamento; Classe III / alimentazione interna = SELV o a batteria. Viene ereditata nella verifica di sicurezza elettrica."), value: f.iecClass || "", onChange: s("iecClass") },
 React.createElement("option", { value: "" }, "- da definire"),
-React.createElement("option", { value: "I" }, "Classe I - con terra"),
-React.createElement("option", { value: "II" }, "Classe II - doppio isolamento"),
-React.createElement("option", { value: "III" }, "Classe III / alim. interna")),
-React.createElement(Sel, { label: "Tipo parti applicate", hint: "Parte applicata al paziente: B = nessuna o non conduttiva; BF = isolata flottante; CF = isolata per contatto cardiaco diretto. Determina i limiti di dispersione nella verifica IEC.", value: f.patientType || "", onChange: s("patientType") },
+React.createElement("option", { value: "I" }, __t("Classe I - con terra")),
+React.createElement("option", { value: "II" }, __t("Classe II - doppio isolamento")),
+React.createElement("option", { value: "III" }, __t("Classe III / alim. interna"))),
+React.createElement(Sel, { label: __t("Tipo parti applicate"), hint: __t("Parte applicata al paziente: B = nessuna o non conduttiva; BF = isolata flottante; CF = isolata per contatto cardiaco diretto. Determina i limiti di dispersione nella verifica IEC."), value: f.patientType || "", onChange: s("patientType") },
 React.createElement("option", { value: "" }, "- / nessuna"),
 React.createElement("option", { value: "B" }, "B"),
 React.createElement("option", { value: "BF" }, "BF"),
 React.createElement("option", { value: "CF" }, "CF")),
-React.createElement(Sel, { label: "Installazione", hint: "Apparecchio fisso / installato permanentemente (es. radiologico a muro, riunito cablato): la verifica IEC 62353 adatta le misure (terra sul nodo equipotenziale, dispersione d'involucro al posto dell'equipment leakage).", value: f.fixedInstall ? "si" : "", onChange: e => setF(x => (Object.assign(Object.assign({}, x), { fixedInstall: e.target.value === "si" }))) },
-React.createElement("option", { value: "" }, "Mobile / collegabile"),
-React.createElement("option", { value: "si" }, "Fisso / installato permanentemente")),
-React.createElement(Sel, { label: "Classe di rischio", hint: "Classificazione MDR (Reg. UE 2017/745): A = basso rischio (es. termometri non invasivi), B = medio (monitor, pompe), C = alto (defibrillatori, ventilatori vita-critici), D = altissimo (impiantabili). Determina la frequenza delle verifiche e la severit\u00E0.", value: f.riskClass || "", onChange: s("riskClass") },
+React.createElement(Sel, { label: __t("Installazione"), hint: __t("Apparecchio fisso / installato permanentemente (es. radiologico a muro, riunito cablato): la verifica IEC 62353 adatta le misure (terra sul nodo equipotenziale, dispersione d'involucro al posto dell'equipment leakage)."), value: f.fixedInstall ? "si" : "", onChange: e => setF(x => (Object.assign(Object.assign({}, x), { fixedInstall: e.target.value === "si" }))) },
+React.createElement("option", { value: "" }, __t("Mobile / collegabile")),
+React.createElement("option", { value: "si" }, __t("Fisso / installato permanentemente"))),
+React.createElement(Sel, { label: __t("Classe di rischio"), hint: __t("Classificazione MDR (Reg. UE 2017/745): A = basso rischio (es. termometri non invasivi), B = medio (monitor, pompe), C = alto (defibrillatori, ventilatori vita-critici), D = altissimo (impiantabili). Determina la frequenza delle verifiche e la severit\u00E0."), value: f.riskClass || "", onChange: s("riskClass") },
 React.createElement("option", { value: "" }, "\u2014"),
-React.createElement("option", { value: "A" }, "Classe A \u2014 Basso rischio"),
-React.createElement("option", { value: "B" }, "Classe B \u2014 Medio rischio"),
-React.createElement("option", { value: "C" }, "Classe C \u2014 Alto rischio")), React.createElement(Span2, null, React.createElement("div", { style: { position: "relative" } }, React.createElement(Inp, { label: "Catalogo CND \u2014 cerca tipo apparecchiatura", value: cndQuery, onChange: e => setCndQuery(e.target.value), placeholder: "es. defibrillatore, ventilatore polmonare, elettrobisturi\u2026", hint: "Classificazione ufficiale Ministero Salute \u2014 compila CND + CIVAB + EMDN in automatico" }), cndMatches.length > 0 && React.createElement("div", { style: { position: "absolute", top: "100%", left: 0, right: 0, zIndex: 50, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, marginTop: 4, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 24px rgba(0,0,0,.35)" } }, cndMatches.map(m => React.createElement("div", { key: m[0], onClick: () => { setF(x => (Object.assign(Object.assign({}, x), { cnd: m[0], emdn: m[0], civab: m[2] || x.civab }))); setCndQuery(""); }, onMouseEnter: e => e.currentTarget.style.background = "var(--surface-3)", onMouseLeave: e => e.currentTarget.style.background = "transparent", style: { padding: "8px 11px", cursor: "pointer", borderBottom: "1px solid var(--border-2)", transition: "background .1s" } }, React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: 2 } }, React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: "#2dd4bf", fontWeight: 700 } }, m[0]), m[2] ? React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: "var(--text-3)" } }, "CIVAB " + m[2]) : null), React.createElement("div", { style: { fontSize: 12, color: "var(--text)", lineHeight: 1.3 } }, m[1])))))),  React.createElement(Inp, { label: "Codice CIVAB", hint: "Classificazione CIVAB \u2014 tipologia apparecchiatura biomedica", value: f.civab || "", onChange: s("civab") }), React.createElement(Inp, { label: "Codice CND", hint: "Classificazione Nazionale Dispositivi (Min. Salute) \u2014 es. Z120307", value: f.cnd || "", onChange: s("cnd") }), React.createElement(Inp, { label: "Codice EMDN", hint: "European Medical Device Nomenclature (EUDAMED / MDR)", value: f.emdn || "", onChange: s("emdn") }),
-React.createElement(Inp, { label: "Data acquisto", type: "date", value: f.purchaseDate || "", onChange: s("purchaseDate") }),
-React.createElement(Inp, { label: "Scadenza garanzia", type: "date", value: f.warrantyExpiry || "", onChange: s("warrantyExpiry") }),
+React.createElement("option", { value: "A" }, __t("Classe A \u2014 Basso rischio")),
+React.createElement("option", { value: "B" }, __t("Classe B \u2014 Medio rischio")),
+React.createElement("option", { value: "C" }, __t("Classe C \u2014 Alto rischio"))), React.createElement(Span2, null, React.createElement("div", { style: { position: "relative" } }, React.createElement(Inp, { label: __t("Catalogo CND \u2014 cerca tipo apparecchiatura"), value: cndQuery, onChange: e => setCndQuery(e.target.value), placeholder: "es. defibrillatore, ventilatore polmonare, elettrobisturi\u2026", hint: __t("Classificazione ufficiale Ministero Salute \u2014 compila CND + CIVAB + EMDN in automatico") }), cndMatches.length > 0 && React.createElement("div", { style: { position: "absolute", top: "100%", left: 0, right: 0, zIndex: 50, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, marginTop: 4, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 24px rgba(0,0,0,.35)" } }, cndMatches.map(m => React.createElement("div", { key: m[0], onClick: () => { setF(x => (Object.assign(Object.assign({}, x), { cnd: m[0], emdn: m[0], civab: m[2] || x.civab }))); setCndQuery(""); }, onMouseEnter: e => e.currentTarget.style.background = "var(--surface-3)", onMouseLeave: e => e.currentTarget.style.background = "transparent", style: { padding: "8px 11px", cursor: "pointer", borderBottom: "1px solid var(--border-2)", transition: "background .1s" } }, React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: 2 } }, React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: "#2dd4bf", fontWeight: 700 } }, m[0]), m[2] ? React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: "var(--text-3)" } }, "CIVAB " + m[2]) : null), React.createElement("div", { style: { fontSize: 12, color: "var(--text)", lineHeight: 1.3 } }, m[1])))))),  React.createElement(Inp, { label: __t("Codice CIVAB"), hint: __t("Classificazione CIVAB \u2014 tipologia apparecchiatura biomedica"), value: f.civab || "", onChange: s("civab") }), React.createElement(Inp, { label: __t("Codice CND"), hint: __t("Classificazione Nazionale Dispositivi (Min. Salute) \u2014 es. Z120307"), value: f.cnd || "", onChange: s("cnd") }), React.createElement(Inp, { label: __t("Codice EMDN"), hint: __t("European Medical Device Nomenclature (EUDAMED / MDR)"), value: f.emdn || "", onChange: s("emdn") }),
+React.createElement(Inp, { label: __t("Data acquisto"), type: "date", value: f.purchaseDate || "", onChange: s("purchaseDate") }),
+React.createElement(Inp, { label: __t("Scadenza garanzia"), type: "date", value: f.warrantyExpiry || "", onChange: s("warrantyExpiry") }),
 React.createElement(Span2, null,
-React.createElement(Inp, { label: "Contratto assistenza / Fornitore servizio", value: f.serviceContract || "", onChange: s("serviceContract") })),
-React.createElement(Inp, { label: "Data di fabbricazione", type: "date", value: f.manufactureDate || "", onChange: s("manufactureDate") }),
-React.createElement(Inp, { label: "Data di messa in servizio", type: "date", value: f.commissionDate || "", onChange: s("commissionDate") }),
-React.createElement(Inp, { label: "Costo d'acquisto (\u20AC)", type: "number", step: "0.01", value: f.purchaseCost || "", onChange: s("purchaseCost") }),
-React.createElement(Inp, { label: "Fornitore (chi l'ha venduto)", value: f.supplier || "", onChange: s("supplier") }),
-React.createElement(Inp, { label: "Data sostituzione prevista / fine vita", type: "date", value: f.replacementDate || "", onChange: s("replacementDate") }),
-React.createElement(Inp, { label: "Data ultimo cambio batteria", type: "date", value: f.batteryDate || "", onChange: s("batteryDate") }),
+React.createElement(Inp, { label: __t("Contratto assistenza / Fornitore servizio"), value: f.serviceContract || "", onChange: s("serviceContract") })),
+React.createElement(Inp, { label: __t("Data di fabbricazione"), type: "date", value: f.manufactureDate || "", onChange: s("manufactureDate") }),
+React.createElement(Inp, { label: __t("Data di messa in servizio"), type: "date", value: f.commissionDate || "", onChange: s("commissionDate") }),
+React.createElement(Inp, { label: __t("Costo d'acquisto (\u20AC)"), type: "number", step: "0.01", value: f.purchaseCost || "", onChange: s("purchaseCost") }),
+React.createElement(Inp, { label: __t("Fornitore (chi l'ha venduto)"), value: f.supplier || "", onChange: s("supplier") }),
+React.createElement(Inp, { label: __t("Data sostituzione prevista / fine vita"), type: "date", value: f.replacementDate || "", onChange: s("replacementDate") }),
+React.createElement(Inp, { label: __t("Data ultimo cambio batteria"), type: "date", value: f.batteryDate || "", onChange: s("batteryDate") }),
 React.createElement(Span2, null,
 React.createElement("div", { onClick: () => setF(x => (Object.assign(Object.assign({}, x), { batteryChanged: !x.batteryChanged }))), style: { display: "flex", alignItems: "center", gap: 12, cursor: "pointer", padding: "4px 0" } },
 React.createElement("div", { style: { width: 46, height: 27, borderRadius: 14, flexShrink: 0, background: f.batteryChanged ? "#2dd4bf" : "#3a4151", position: "relative", transition: "background .15s" } },
 React.createElement("div", { style: { position: "absolute", top: 3, left: f.batteryChanged ? 22 : 3, width: 21, height: 21, borderRadius: "50%", background: "#fff", transition: "left .15s", boxShadow: "0 1px 3px rgba(0,0,0,.4)" } })),
-React.createElement("span", { style: { fontSize: 13, color: "var(--text)" } }, "Batteria sostituita"))),
+React.createElement("span", { style: { fontSize: 13, color: "var(--text)" } }, __t("Batteria sostituita")))),
 React.createElement(Span2, null,
-React.createElement(Txt, { label: "Note", value: f.notes, onChange: s("notes") }))),
+React.createElement(Txt, { label: __t("Note"), value: f.notes, onChange: s("notes") }))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
 React.createElement(Btn, { onClick: () => {
 var _a;
 const errs = {};
@@ -804,7 +805,7 @@ setErrors(errs);
 if (Object.keys(errs).length > 0)
 return;
 onSave(Object.assign(Object.assign({}, f), { serviceInterval: +f.serviceInterval, intervalIec: +f.intervalIec || 12, intervalFunc: +f.intervalFunc || 12, intervalPpm: +f.intervalPpm || 12 }));
-} }, "Salva"))));
+} }, __t("Salva")))));
 }
 export function TimelineModal({ job, parts, onSave, onClose }) {
 const [steps, setSteps] = React.useState(job.timeline || []);
@@ -846,7 +847,7 @@ console.error("Errore compressione", err);
 setPhotos(p => [...p, ...newPhotos]);
 const _off = (typeof OFFLINE_MODE !== "undefined" && OFFLINE_MODE);
 if (soloLocale > 0 && !_off) {
-window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Foto salvate in locale (cloud non raggiungibile): puoi spostarle dopo da Impostazioni → Spazio dati locale", color: "#f59e0b" } }));
+window.dispatchEvent(new CustomEvent("toast", { detail: { msg: __t("Foto salvate in locale (cloud non raggiungibile): puoi spostarle dopo da Impostazioni → Spazio dati locale"), color: "#f59e0b" } }));
 }
 }
 finally {
@@ -861,7 +862,7 @@ return (React.createElement(Modal, { title: "Timeline & Foto — " + (job.id), w
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 18 } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, "\u00B7 Cronologia Intervento"),
-sortedSteps.length === 0 && React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, "Nessuno step ancora."),
+sortedSteps.length === 0 && React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, __t("Nessuno step ancora.")),
 sortedSteps.map((step, i) => (React.createElement("div", { key: step.id, style: { display: "flex", gap: 14, marginBottom: 14, position: "relative" } },
 React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center" } },
 React.createElement("div", { style: { width: 36, height: 36, borderRadius: "50%", background: "#2dd4bf22", border: "1px solid #2563eb44", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 } }, TIMELINE_ICON[step.type] || "·"),
@@ -880,14 +881,14 @@ React.createElement("div", { style: { color: "var(--text)", fontSize: 13, lineHe
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px dashed var(--border)", marginTop: 12 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginBottom: 10, fontWeight: 700 } }, "+ Nuovo step"),
 React.createElement(Grid, { cols: "1fr 1fr 80px" },
-React.createElement(Sel, { label: "Tipo evento", value: newStep.type, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { type: e.target.value }))) }, Object.entries(TIMELINE_LABEL).map(([k, v]) => React.createElement("option", { key: k, value: k },
+React.createElement(Sel, { label: __t("Tipo evento"), value: newStep.type, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { type: e.target.value }))) }, Object.entries(TIMELINE_LABEL).map(([k, v]) => React.createElement("option", { key: k, value: k },
 TIMELINE_ICON[k],
 " ",
 v))),
-React.createElement(Inp, { label: "Data", type: "date", value: newStep.date, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { date: e.target.value }))) }),
-React.createElement(Inp, { label: "Ore", type: "number", step: "0.5", value: newStep.hours, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { hours: e.target.value }))) })),
+React.createElement(Inp, { label: __t("Data"), type: "date", value: newStep.date, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { date: e.target.value }))) }),
+React.createElement(Inp, { label: __t("Ore"), type: "number", step: "0.5", value: newStep.hours, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { hours: e.target.value }))) })),
 React.createElement("div", { style: { marginTop: 10 } },
-React.createElement(Txt, { label: "Descrizione", value: newStep.note, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { note: e.target.value }))) })),
+React.createElement(Txt, { label: __t("Descrizione"), value: newStep.note, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { note: e.target.value }))) })),
 React.createElement("div", { style: { marginTop: 10, textAlign: "right" } },
 React.createElement(Btn, { sm: true, onClick: addStep }, "+ Aggiungi step")))),
 React.createElement("div", null,
@@ -898,12 +899,12 @@ photos.length,
 ")"),
 React.createElement("label", null,
 React.createElement("input", { ref: fileInputRef, type: "file", accept: "image/*", multiple: true, onChange: uploadPhotos, style: { display: "none" } }),
-React.createElement("span", { style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-block" } }, uploading ? "Caricamento..." : "+ Aggiungi foto"))),
-photos.length === 0 ? (React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, "Nessuna foto. Le foto vengono compresse e, quando sei online, caricate sul cloud: non occupano spazio sul dispositivo.")) : (React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: 8 } }, photos.map(photo => (React.createElement("div", { key: photo.id, style: { position: "relative", aspectRatio: "1", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" } },
+React.createElement("span", { style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-block" } }, uploading ? __t("Caricamento...") : "+ Aggiungi foto"))),
+photos.length === 0 ? (React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, __t("Nessuna foto. Le foto vengono compresse e, quando sei online, caricate sul cloud: non occupano spazio sul dispositivo."))) : (React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: 8 } }, photos.map(photo => (React.createElement("div", { key: photo.id, style: { position: "relative", aspectRatio: "1", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" } },
 React.createElement("img", { src: photo.data, alt: photo.name, style: { width: "100%", height: "100%", objectFit: "cover", cursor: "pointer" }, onClick: () => window.open(photo.data, "_blank") }),
 React.createElement("button", { onClick: () => removePhoto(photo.id), style: { position: "absolute", top: 4, right: 4, background: "#ef4444", border: "none", color: "#fff", borderRadius: "50%", width: 24, height: 24, cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "\u00D7"))))))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
 React.createElement(Btn, { variant: "success", onClick: () => { try {
 const keep = {};
 photos.forEach(p => { keep[p.id] = 1; });
@@ -946,24 +947,24 @@ onWithdraw({ items, reason, assetId, tech, date: new Date().toISOString().slice(
 if (parts.length === 0 || assets.length === 0) {
 return (React.createElement(Modal, { title: " Scarico Stock", onClose: onClose },
 React.createElement("div", { style: { textAlign: "center", padding: "20px 0", color: "var(--text-2)" } },
-"Servono almeno un apparecchio e una parte.",
+__t("Servono almeno un apparecchio e una parte."),
 React.createElement("div", { style: { marginTop: 14 } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Chiudi")))));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi"))))));
 }
 return (React.createElement(Modal, { title: " Scarico Stock", wide: true, onClose: onClose },
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Sel, { label: "Apparecchio", value: assetId, onChange: e => setAssetId(e.target.value) }, assets.map(a => React.createElement("option", { key: a.id, value: a.id },
+React.createElement(Sel, { label: __t("Apparecchio"), value: assetId, onChange: e => setAssetId(e.target.value) }, assets.map(a => React.createElement("option", { key: a.id, value: a.id },
 (a.assetCode || a.id),
 " \u2014 ",
 a.name))),
-React.createElement(Inp, { label: "Tecnico", value: tech, onChange: e => setTech(e.target.value) }),
+React.createElement(Inp, { label: __t("Tecnico"), value: tech, onChange: e => setTech(e.target.value) }),
 React.createElement(Span2, null,
-React.createElement(Inp, { label: "Motivo / Riferimento", value: reason, onChange: e => setReason(e.target.value) }))),
+React.createElement(Inp, { label: __t("Motivo / Riferimento"), value: reason, onChange: e => setReason(e.target.value) }))),
 React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 8 } },
-React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, "Parti"),
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, __t("Parti")),
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: addRow }, "+ Aggiungi")),
 items.map((row, i) => {
 const p = parts.find(x => x.id === row.partId);
@@ -979,12 +980,12 @@ p ? (p.unitPrice * row.qty).toFixed(2) : "0"),
 React.createElement(Btn, { sm: true, variant: "danger", onClick: () => remRow(i) }, "\u2715")));
 }),
 React.createElement("div", { style: { textAlign: "right", marginTop: 8 } },
-React.createElement("span", { style: { color: "var(--text-3)", fontSize: 12 } }, "Totale: "),
+React.createElement("span", { style: { color: "var(--text-3)", fontSize: 12 } }, __t("Totale: ")),
 React.createElement("span", { style: { color: "#22c55e", fontWeight: 800, fontSize: 16 } },
 "\u20AC",
 total.toFixed(2)))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
 React.createElement(Btn, { variant: "success", onClick: submit }, "\u2713 Conferma")))));
 }
 export function AssetDetailModal({ asset, recalls, jobs, parts, iecReports, funcReports, customers, onClose, onEditAsset, onNewJob, onNewIec, onNewFunc, onAssetSticker, onOpenJob, onQuickLocation, company, generateJobPDF, generateIECPDF, generateFuncPDF, templates, page, onAddDoc, onDeleteDoc, showToast, onOpenIec, onOpenFunc, onOpenRecall }) {
@@ -1003,17 +1004,17 @@ const timelineEvents = (() => {
 const ev = [];
 assetIec.forEach(r => ev.push({
 kind: "iec", ref: r, date: r.date || "", color: r.overallPass ? "#22c55e" : "#ef4444",
-icon: "", title: "Sicurezza elettrica", sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
+icon: "", title: __t("Sicurezza elettrica"), sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
 ok: r.overallPass, badge: r.overallPass ? "CONFORME" : "NON CONF."
 }));
 assetFunc.forEach(r => ev.push({
 kind: "func", ref: r, date: r.date || "", color: r.overallPass ? "#22c55e" : "#ef4444",
-icon: "", title: "Verifica funzionale", sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
+icon: "", title: __t("Verifica funzionale"), sub: (r.reportNumber || r.id) + (r.technician ? " · " + r.technician : ""),
 ok: r.overallPass, badge: r.overallPass ? "CONFORME" : "NON CONF."
 }));
 assetJobs.forEach(j => ev.push({
 kind: "job", ref: j, date: j.openDate || "", color: STATUS_COLOR[j.status] || "var(--text-3)",
-icon: "›", title: (j.type ? j.type.charAt(0).toUpperCase() + j.type.slice(1) : "Intervento"),
+icon: "›", title: (j.type ? j.type.charAt(0).toUpperCase() + j.type.slice(1) : __t("Intervento")),
 sub: (j.description || jobTipoLabel(j)).slice(0, 60), badge: j.status
 }));
 return ev.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
@@ -1030,7 +1031,7 @@ const serviceDays = asset.nextService ? Math.round((new Date(asset.nextService) 
 const S = { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "14px 16px" };
 const LBL = { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 3 };
 const VAL = { fontSize: 13, color: "var(--text)", fontWeight: 600 };
-const TABS = [{ id: "overview", label: " Scheda" }, { id: "timeline", label: "Storico" }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
+const TABS = [{ id: "overview", label: " Scheda" }, { id: "timeline", label: __t("Storico") }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
 const riskColor = { A: "#22c55e", B: "#f59e0b", C: "#ef4444" };
 const CMAX = page ? "none" : "55vh";
 const _mix = (c, p) => "color-mix(in srgb, " + c + " " + p + "%, transparent)";
@@ -1040,7 +1041,7 @@ React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10,
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 8 } },
 React.createElement("span", { style: { fontSize: 17, fontWeight: 700, color: "#5eead4", fontFamily: "'IBM Plex Mono', monospace", letterSpacing: .5 } }, asset.assetCode || asset.id),
 asset.riskClass && React.createElement("span", { style: { background: riskColor[asset.riskClass] + "22", color: riskColor[asset.riskClass], border: "1px solid " + riskColor[asset.riskClass] + "55", borderRadius: 6, padding: "2px 8px", fontSize: 10, fontWeight: 700 } },
-"Cl. ",
+__t("Cl. "),
 asset.riskClass),
 React.createElement(Badge, { text: asset.status, color: STATUS_COLOR[asset.status] || "var(--text-3)" })),
 (asset.name ? React.createElement("div", { style: { fontSize: 16, color: "var(--text)", fontWeight: 700, marginBottom: 3, lineHeight: 1.25 } }, asset.name) : null),
@@ -1067,13 +1068,13 @@ _actBtn(onNewJob, "var(--acc-teal)", ICON_PLUS, "Job"),
 _actBtn(onNewIec, "var(--acc-purple)", ICON_ZAP, "Sicurezza"),
 _actBtn(onNewFunc, "var(--acc-cyan)", ICON_ACTIVITY, "Funzionale"),
 _actBtn(onAssetSticker, "var(--acc-amber)", ICON_TAG, "Sticker"),
-_actBtn(() => { const loc = prompt("Ultima posizione rilevata (check-in manuale):", asset.lastLocation || asset.location || ""); if (loc !== null && onQuickLocation) onQuickLocation(loc.trim()); }, "var(--acc-green)", ICON_PIN, "Ultima posizione"))),
+_actBtn(() => { const loc = prompt(__t("Ultima posizione rilevata (check-in manuale):"), asset.lastLocation || asset.location || ""); if (loc !== null && onQuickLocation) onQuickLocation(loc.trim()); }, "var(--acc-green)", ICON_PIN, "Ultima posizione"))),
 React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" } }, [
-{ label: "Job aperti", value: openJobs.length, color: openJobs.length > 0 ? "#f59e0b" : "#22c55e" },
-{ label: "Job totali", value: assetJobs.length, color: "#2dd4bf" },
-{ label: "Costo totale", value: "€" + totalCost.toFixed(0), color: "#a855f7" },
-{ label: "Ultima Sicurezza", value: lastIec ? lastIec.date : "mai", color: (lastIec === null || lastIec === void 0 ? void 0 : lastIec.overallPass) ? "#22c55e" : "#ef4444" },
-{ label: "Ultima verif.", value: lastFunc ? lastFunc.date : "mai", color: "var(--text-3)" },
+{ label: __t("Job aperti"), value: openJobs.length, color: openJobs.length > 0 ? "#f59e0b" : "#22c55e" },
+{ label: __t("Job totali"), value: assetJobs.length, color: "#2dd4bf" },
+{ label: __t("Costo totale"), value: "€" + totalCost.toFixed(0), color: "#a855f7" },
+{ label: __t("Ultima Sicurezza"), value: lastIec ? lastIec.date : "mai", color: (lastIec === null || lastIec === void 0 ? void 0 : lastIec.overallPass) ? "#22c55e" : "#ef4444" },
+{ label: __t("Ultima verif."), value: lastFunc ? lastFunc.date : "mai", color: "var(--text-3)" },
 ].map(k => (React.createElement("div", { key: k.label, style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "8px 14px", flex: 1, minWidth: 100 } },
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .7, fontWeight: 700 } }, k.label),
 React.createElement("div", { style: { fontSize: 17, fontWeight: 700, color: k.color, marginTop: 3, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1 } }, k.value))))),
@@ -1083,15 +1084,15 @@ color: tab === t.id ? "#5eead4" : "var(--text-3)", padding: "8px 14px", cursor: 
 fontSize: 13, fontWeight: tab === t.id ? 700 : 500, marginBottom: -2, whiteSpace: "nowrap", flexShrink: 0
 } }, t.label)))),
 tab === "overview" && (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, overflow: "auto", maxHeight: CMAX } },
-assetHasOpenRecall(asset.id, recalls) && React.createElement("div", { onClick: function () { var rc = assetOpenRecall(asset.id, recalls); if (rc && onOpenRecall) onOpenRecall(rc.id); }, onMouseEnter: function (e) { e.currentTarget.style.background = "#4a1616"; }, onMouseLeave: function (e) { e.currentTarget.style.background = "#3a1212"; }, style: { background: "#3a1212", border: "1px solid #ef444466", borderRadius: 8, color: "#fca5a5", padding: "10px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, transition: "background .12s ease" } }, React.createElement("span", null, "⚠ Avviso di sicurezza aperto su questo apparecchio — azione da eseguire"), React.createElement("span", { style: { fontSize: 11, opacity: .85, whiteSpace: "nowrap" } }, "Apri ›")),
+assetHasOpenRecall(asset.id, recalls) && React.createElement("div", { onClick: function () { var rc = assetOpenRecall(asset.id, recalls); if (rc && onOpenRecall) onOpenRecall(rc.id); }, onMouseEnter: function (e) { e.currentTarget.style.background = "#4a1616"; }, onMouseLeave: function (e) { e.currentTarget.style.background = "#3a1212"; }, style: { background: "#3a1212", border: "1px solid #ef444466", borderRadius: 8, color: "#fca5a5", padding: "10px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, transition: "background .12s ease" } }, React.createElement("span", null, "⚠ Avviso di sicurezza aperto su questo apparecchio — azione da eseguire"), React.createElement("span", { style: { fontSize: 11, opacity: .85, whiteSpace: "nowrap" } }, __t("Apri ›"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 10 } },
 React.createElement("div", { style: S },
-React.createElement("div", { style: LBL }, "Identificazione"),
+React.createElement("div", { style: LBL }, __t("Identificazione")),
 [["Marca", asset.brand], ["Modello", asset.model], ["N° Serie", asset.serial], ["Ubicazione", asset.location], ["CIVAB", asset.civab], ["CND", asset.cnd], ["EMDN", asset.emdn]].map(([l, v]) => v ? (React.createElement("div", { key: l, style: { display: "flex", justifyContent: "space-between", padding: "4px 0", borderBottom: "1px solid var(--border)" } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, l),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text)", fontFamily: ["N° Serie", "CIVAB", "CND", "EMDN"].includes(l) ? "monospace" : "inherit" } }, v))) : null)),
 React.createElement("div", { style: S },
-React.createElement("div", { style: LBL }, "Date e contratti"),
+React.createElement("div", { style: LBL }, __t("Date e contratti")),
 [
 ["Acquisto", asset.purchaseDate],
 ["Scad. garanzia", asset.warrantyExpiry],
@@ -1103,15 +1104,15 @@ React.createElement("div", { style: LBL }, "Date e contratti"),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, l),
 React.createElement("span", { style: { fontSize: 11, color: l === "Scad. garanzia" && warrantyDays !== null && warrantyDays < 90 ? "#f59e0b" : "var(--text)" } }, v))) : null),
 asset.serviceContract && (React.createElement("div", { style: { marginTop: 6, padding: "6px 8px", background: "var(--bg)", borderRadius: 6, fontSize: 10, color: "var(--text-2)" } },
-React.createElement("span", { style: { color: "var(--text-3)", fontWeight: 700 } }, "Contratto: "),
+React.createElement("span", { style: { color: "var(--text-3)", fontWeight: 700 } }, __t("Contratto: ")),
 asset.serviceContract)))),
 serviceDays !== null && (React.createElement("div", { style: { background: serviceDays < 0 ? "#ef444415" : serviceDays <= 30 ? "#f59e0b15" : "#22c55e15", border: "1px solid " + (serviceDays < 0 ? "#ef444433" : serviceDays <= 30 ? "#f59e0b33" : "#22c55e33"), borderRadius: 8, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" } },
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)" } },
-"Prossima manutenzione programmata: ",
+__t("Prossima manutenzione programmata: "),
 React.createElement("strong", { style: { color: "var(--text)" } }, asset.nextService)),
 React.createElement(AlertChip, { days: serviceDays }))),
 React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "10px 14px" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 7 } }, "Tracking RFID"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 7 } }, __t("Tracking RFID")),
 (asset.epc || asset.lastLocation)
 ? React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
 asset.epc ? React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline" } },
@@ -1119,14 +1120,14 @@ React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text)", fontFamily: "'IBM Plex Mono', monospace" } }, asset.epc)) : null,
 asset.lastLocation
 ? React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline" } },
-React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, "Ultima posizione"),
+React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, __t("Ultima posizione")),
 React.createElement("span", { style: { fontSize: 13, color: "var(--acc-teal)", fontWeight: 700 } }, asset.lastLocation + (asset.lastLocationDate ? (" \u00B7 " + fmtDateTimeIt(asset.lastLocationDate)) : "")))
-: React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontStyle: "italic" } }, asset.epc ? "Tag associato, mai scansionato" : "Mai rilevato"))
-: React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontStyle: "italic" } }, "Nessun tag RFID associato \u2014 aggiungilo in modifica apparecchio")),
+: React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontStyle: "italic" } }, asset.epc ? __t("Tag associato, mai scansionato") : __t("Mai rilevato")))
+: React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontStyle: "italic" } }, __t("Nessun tag RFID associato \u2014 aggiungilo in modifica apparecchio"))),
 asset.notes && React.createElement("div", { style: Object.assign(Object.assign({}, S), { fontSize: 12, color: "var(--text-2)", lineHeight: 1.6 }) },
-React.createElement("div", { style: LBL }, "Note"),
+React.createElement("div", { style: LBL }, __t("Note")),
 asset.notes))),
-tab === "timeline" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX } }, timelineEvents.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessun evento registrato per questo apparecchio")) : (React.createElement("div", { style: { position: "relative", paddingLeft: 18 } },
+tab === "timeline" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX } }, timelineEvents.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, __t("Nessun evento registrato per questo apparecchio"))) : (React.createElement("div", { style: { position: "relative", paddingLeft: 18 } },
 React.createElement("div", { style: { position: "absolute", left: 5, top: 6, bottom: 6, width: 2, background: "var(--border-2)" } }),
 timelineEvents.map((e, i) => (React.createElement("div", { key: i, style: { position: "relative", marginBottom: 12 } },
 React.createElement("div", { style: { position: "absolute", left: -17, top: 3, width: 11, height: 11, borderRadius: "50%", background: e.color, border: "2px solid var(--bg)" } }),
@@ -1139,7 +1140,7 @@ React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "va
 e.badge && React.createElement("span", { style: { fontSize: 10, fontWeight: 700, color: e.color, background: e.color + "22", border: "1px solid " + e.color + "44", borderRadius: 4, padding: "1px 6px", textTransform: "uppercase", letterSpacing: .3 } }, e.badge)),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", lineHeight: 1.4 } }, e.sub)),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" } }, e.date || "—")))))))))),
-tab === "jobs" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetJobs.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessun job per questo apparecchio")) : assetJobs.map(j => {
+tab === "jobs" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetJobs.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, __t("Nessun job per questo apparecchio"))) : assetJobs.map(j => {
 var _a;
 const pCost = j.parts.reduce((s, p) => { const pt = parts.find(x => x.id === p.partId); return s + (pt ? (pt.sellPrice || pt.unitPrice) * p.qty : 0); }, 0);
 const tot = pCost + j.laborHours * j.laborRate;
@@ -1169,7 +1170,7 @@ j.timeline.length,
 j.iecReportId ? "" : "",
 j.funcReportId ? "" : "")))));
 }))),
-tab === "iec" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetIec.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessuna verifica di sicurezza elettrica per questo apparecchio")) : assetIec.map(r => (React.createElement("div", { key: r.id, onClick: () => onOpenIec && onOpenIec(r), onMouseEnter: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e" : "#ef4444") + "99"; }, onMouseLeave: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e33" : "#ef444433"); }, style: { background: "var(--surface)", border: "1px solid " + (r.overallPass ? "#22c55e33" : "#ef444433"), borderRadius: 8, padding: "10px 14px", cursor: "pointer", transition: "border-color .12s ease" } },
+tab === "iec" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetIec.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, __t("Nessuna verifica di sicurezza elettrica per questo apparecchio"))) : assetIec.map(r => (React.createElement("div", { key: r.id, onClick: () => onOpenIec && onOpenIec(r), onMouseEnter: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e" : "#ef4444") + "99"; }, onMouseLeave: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e33" : "#ef444433"); }, style: { background: "var(--surface)", border: "1px solid " + (r.overallPass ? "#22c55e33" : "#ef444433"), borderRadius: 8, padding: "10px 14px", cursor: "pointer", transition: "border-color .12s ease" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 } },
 React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center", marginBottom: 3 } },
@@ -1192,11 +1193,11 @@ React.createElement("span", { style: { fontWeight: 800, fontSize: 13, color: r.o
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateIECPDF(r, asset, customer, company); }, style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } })))))))),
 tab === "documenti" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX } },
 React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "16px 18px" } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", marginBottom: 4 } }, "Documenti dell'apparecchio"),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginBottom: 12, lineHeight: 1.5 } }, "Conformit\u00E0 CE, manuali, certificati, rapporti esterni. PDF, immagini, Word, Excel \u2014 max 5MB a file."),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", marginBottom: 4 } }, __t("Documenti dell'apparecchio")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginBottom: 12, lineHeight: 1.5 } }, __t("Conformit\u00E0 CE, manuali, certificati, rapporti esterni. PDF, immagini, Word, Excel \u2014 max 5MB a file.")),
 React.createElement(AttachmentsList, { attachments: asset.documents || [], onAdd: (att) => onAddDoc && onAddDoc(att), onDelete: (id) => onDeleteDoc && onDeleteDoc(id), showToast: showToast })))),
-tab === "func" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetFunc.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, "Nessuna verifica funzionale per questo apparecchio")) : assetFunc.map(r => {
-const tpl = (templates || FUNC_TEMPLATES || {})[r.templateId] || { label: "Generico", icon: "›" };
+tab === "func" && (React.createElement("div", { style: { overflow: "auto", maxHeight: CMAX, display: "flex", flexDirection: "column", gap: 8 } }, assetFunc.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: 32, color: "var(--text-4)" } }, __t("Nessuna verifica funzionale per questo apparecchio"))) : assetFunc.map(r => {
+const tpl = (templates || FUNC_TEMPLATES || {})[r.templateId] || { label: __t("Generico"), icon: "›" };
 return (React.createElement("div", { key: r.id, onClick: () => onOpenFunc && onOpenFunc(r), onMouseEnter: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e" : "#ef4444") + "99"; }, onMouseLeave: (ev) => { ev.currentTarget.style.borderColor = (r.overallPass ? "#22c55e33" : "#ef444433"); }, style: { background: "var(--surface)", border: "1px solid " + (r.overallPass ? "#22c55e33" : "#ef444433"), borderRadius: 8, padding: "10px 14px", cursor: "pointer", transition: "border-color .12s ease" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 } },
 React.createElement("div", null,
@@ -1286,7 +1287,7 @@ const tc = TCFG[String(tapeW)] || TCFG["24"];
 const fCode = tapeW >= 25 ? 19 : (tapeW >= 24 ? 13 : (tapeW >= 18 ? 10 : 7));
 const w = window.open("", "_blank", "width=420,height=320");
 if (!w) {
-alert("Abilita i popup per stampare lo sticker.");
+alert(__t("Abilita i popup per stampare lo sticker."));
 return;
 }
 const code = (asset && (asset.assetCode || asset.id)) || "—";
@@ -1324,9 +1325,9 @@ w.document.close();
 const custAssets = (assets || []).filter(a => a && asset && a.customerId === asset.customerId);
 const doPrintBatch = () => {
 const list = custAssets;
-if (!list.length) { alert("Nessun apparecchio da stampare per questo cliente."); return; }
+if (!list.length) { alert(__t("Nessun apparecchio da stampare per questo cliente.")); return; }
 const w = window.open("", "_blank", "width=460,height=640");
-if (!w) { alert("Abilita i popup per stampare le etichette."); return; }
+if (!w) { alert(__t("Abilita i popup per stampare le etichette.")); return; }
 const L = 50, H = 25, QR = 20, padV = 2, padH = 2.5, gap = 3, fC = 19;
 const cells = list.map(a => {
 const code = (a.assetCode || a.id) || "\u2014";
@@ -1355,11 +1356,11 @@ React.createElement("div", { style: { display: "flex", justifyContent: "center",
 React.createElement("div", { style: { width: 360, maxWidth: "100%", border: "2px solid var(--border)", borderRadius: 12, padding: 16, display: "flex", gap: 16, alignItems: "center", background: "#fff" } },
 React.createElement("div", { style: { width: 104, height: 104, flexShrink: 0 }, dangerouslySetInnerHTML: { __html: qrSvg || "" } }),
 React.createElement("div", { style: { flex: 1, minWidth: 0, color: "#000", display: "flex", flexDirection: "column", gap: 3 } }, isAssetSticker ? (React.createElement(React.Fragment, null,
-React.createElement("div", { style: { fontSize: 8.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: .4, color: "#666" } }, "Codice apparecchio"),
+React.createElement("div", { style: { fontSize: 8.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: .4, color: "#666" } }, __t("Codice apparecchio")),
 React.createElement("div", { style: { fontSize: 24, fontWeight: 800, lineHeight: 1.1, color: "#000", wordBreak: "break-all" } }, (asset === null || asset === void 0 ? void 0 : asset.assetCode) || (asset === null || asset === void 0 ? void 0 : asset.id) || "—"),
-React.createElement("div", { style: { fontSize: 10, color: "#777", marginTop: 8, lineHeight: 1.4 } }, "Il QR apre la scheda con tutte le info (S/N, marca, modello, storico, scadenze) \u2014 sempre aggiornate."))) : (React.createElement(React.Fragment, null,
+React.createElement("div", { style: { fontSize: 10, color: "#777", marginTop: 8, lineHeight: 1.4 } }, __t("Il QR apre la scheda con tutte le info (S/N, marca, modello, storico, scadenze) \u2014 sempre aggiornate.")))) : (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { fontSize: 8.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: .4, color: "#666" } }, verLabel),
-React.createElement("div", { style: { fontSize: 16, fontWeight: 800, lineHeight: 1.15, color: "#000", wordBreak: "break-word" } }, (asset === null || asset === void 0 ? void 0 : asset.name) || "Apparecchio"),
+React.createElement("div", { style: { fontSize: 16, fontWeight: 800, lineHeight: 1.15, color: "#000", wordBreak: "break-word" } }, (asset === null || asset === void 0 ? void 0 : asset.name) || __t("Apparecchio")),
 React.createElement("div", { style: { height: 1, background: "#e5e7eb", margin: "3px 0" } }),
 React.createElement("div", { style: { fontSize: 11, color: "#333", lineHeight: 1.4 } },
 "S/N: ",
@@ -1379,25 +1380,25 @@ React.createElement("div", { style: { display: "inline-block", alignSelf: "flex-
 background: esitoOk ? "#16a34a" : "#dc2626", color: "#fff", letterSpacing: .5 } }, esito)))))),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px", marginBottom: 16 } }, isAssetSticker
 ? React.createElement("span", null,
-React.createElement("strong", { style: { color: "#2dd4bf" } }, "Sticker apparecchio:"),
-" inquadrando il QR con la fotocamera del telefono si apre l'app sulla scheda di questo apparecchio. Funziona se l'app \u00E8 installata/aperta su quel dispositivo.")
+React.createElement("strong", { style: { color: "#2dd4bf" } }, __t("Sticker apparecchio:")),
+__t(" inquadrando il QR con la fotocamera del telefono si apre l'app sulla scheda di questo apparecchio. Funziona se l'app \u00E8 installata/aperta su quel dispositivo."))
 : (supaActive
 ? React.createElement("span", null,
-React.createElement("strong", { style: { color: "#2dd4bf" } }, "QR online:"),
-" scansionando si aprir\u00E0 il report sul cloud.")
+React.createElement("strong", { style: { color: "#2dd4bf" } }, __t("QR online:")),
+__t(" scansionando si aprir\u00E0 il report sul cloud."))
 : React.createElement("span", null,
-React.createElement("strong", { style: { color: "#f59e0b" } }, "QR offline:"),
+React.createElement("strong", { style: { color: "#f59e0b" } }, __t("QR offline:")),
 " contiene le info della verifica (macchina, data, esito). Per far aprire il report online dal QR, attiva la sincronizzazione cloud nelle Impostazioni."))),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 12 } },
-React.createElement("span", { style: { fontSize: 13, color: "var(--text-2)", fontWeight: 600 } }, "Formato:"),
+React.createElement("span", { style: { fontSize: 13, color: "var(--text-2)", fontWeight: 600 } }, __t("Formato:")),
 [25, 24, 18, 12].map(wmm => (React.createElement("button", { key: wmm, type: "button", onClick: () => setTapeW(wmm), style: { background: tapeW === wmm ? "#2dd4bf22" : "var(--surface)", border: "1px solid " + (tapeW === wmm ? "#2dd4bf" : "var(--border)"), color: tapeW === wmm ? "#2dd4bf" : "var(--text-2)", borderRadius: 8, padding: "7px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } },
 (wmm === 25 ? "50\u00D725" : (wmm + " mm")))))),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", lineHeight: 1.5, marginBottom: 14 } },
-"Stampa \u2192 scegli la stampante. Per le etichette PP 50\u00D725 (Zebra) seleziona il formato ",
+__t("Stampa \u2192 scegli la stampante. Per le etichette PP 50\u00D725 (Zebra) seleziona il formato "),
 React.createElement("b", null, "50\u00D725"),
-" e imposta nella stampante il supporto 50\u00D725 mm. Fai una prova: se non \u00E8 centrata, si calibra."),
+__t(" e imposta nella stampante il supporto 50\u00D725 mm. Fai una prova: se non \u00E8 centrata, si calibra.")),
 (isAssetSticker && custAssets.length > 1) ? React.createElement("button", { type: "button", onClick: doPrintBatch, style: { width: "100%", background: "#2dd4bf18", border: "1px solid #2dd4bf", color: "#2dd4bf", borderRadius: 10, padding: "11px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", marginBottom: 12, touchAction: "manipulation" } }, "Stampa etichette di TUTTI gli apparecchi di " + ((customer && customer.name) || "questo cliente") + " (" + custAssets.length + ")") : null,
 React.createElement("div", { style: FORM_FOOTER },
-React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Chiudi"),
-React.createElement("button", { onClick: doPrint, style: FORM_BTN_PRIMARY }, "Stampa sticker"))));
+React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, __t("Chiudi")),
+React.createElement("button", { onClick: doPrint, style: FORM_BTN_PRIMARY }, __t("Stampa sticker")))));
 }

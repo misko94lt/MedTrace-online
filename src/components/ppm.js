@@ -1,10 +1,11 @@
+import { t as __t } from "../constants/i18n.js";
 /* MedTrace — PPM: wizard completo (funzionale+VSE), checklist programmata, pagina elenco (estratti da app.js, v2.97) */
 import { Inp, Grid, AssetCombobox, SignaturePad, TechSignatureField, EmptyState } from "./ui.js";
 import { TecnicoPicker, Btn, techSignature } from "./shared.js";
 import { cndToTemplate, guessTemplate, FUNC_TEMPLATES } from "../constants/funcTemplates.js";
 import { getNextReportNumber, iecGetMeasures } from "../lib/reports.js";
 export const PPM_CHECKLISTS_DEFAULT = {
-pompa_infusionale: { label: "Pompa d'infusione / siringa", items: [
+pompa_infusionale: { label: __t("Pompa d'infusione / siringa"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Pulizia sensori (aria, pressione, occlusione)",
 "Controllo/pulizia meccanismo peristaltico / sede e fissaggio siringa",
@@ -12,7 +13,7 @@ pompa_infusionale: { label: "Pompa d'infusione / siringa", items: [
 "Controllo integrità cavo di alimentazione, spina e connettori",
 "Sostituzione batteria a fine vita (verifica età/autonomia)",
 ] },
-ventilatore: { label: "Ventilatore polmonare", items: [
+ventilatore: { label: __t("Ventilatore polmonare"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Sostituzione / pulizia filtri (paziente, raffreddamento, antibatterici)",
 "Pulizia sensori di flusso e di ossigeno; sostituzione cella O2 a fine vita",
@@ -20,164 +21,164 @@ ventilatore: { label: "Ventilatore polmonare", items: [
 "Controllo cavo alimentazione e collegamenti gas",
 "Sostituzione batteria a fine vita",
 ] },
-defibrillatore: { label: "Defibrillatore", items: [
+defibrillatore: { label: __t("Defibrillatore"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Controllo piastre / connettori elettrodi e cavi",
 "Sostituzione/controllo batteria (stato e scadenza)",
 "Controllo integrità cavo alimentazione e caricabatteria",
 "Sostituzione consumabili scaduti o esauriti (elettrodi, carta, gel)",
 ] },
-dae: { label: "DAE — defibrillatore semiautomatico", items: [
+dae: { label: __t("DAE — defibrillatore semiautomatico"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Sostituzione/controllo batteria (stato e scadenza)",
 "Sostituzione/controllo piastre/elettrodi (scadenza e integrità)",
 ] },
-elettrobisturi: { label: "Elettrobisturi / Unità HF", items: [
+elettrobisturi: { label: __t("Elettrobisturi / Unità HF"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Controllo cavi, manipoli e pedaliera; sostituzione se danneggiati",
 "Pulizia griglie e controllo ventole di raffreddamento",
 "Controllo integrità cavo alimentazione e connettori",
 ] },
-monitor_multipar: { label: "Monitor multiparametrico", items: [
+monitor_multipar: { label: __t("Monitor multiparametrico"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Controllo cavi paziente, sensori e connettori; sostituzione se usurati",
 "Sostituzione batteria a fine vita",
 "Pulizia ventole / griglie di aerazione",
 "Controllo integrità cavo alimentazione",
 ] },
-aspiratore_chirurgico: { label: "Aspiratore chirurgico", items: [
+aspiratore_chirurgico: { label: __t("Aspiratore chirurgico"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Sostituzione filtro antibatterico/antivirale (e ad ogni contatto con liquidi)",
 "Controllo/sostituzione vaso di raccolta, tubi e guarnizioni",
 "Controllo integrità cavo alimentazione",
 ] },
-generico: { label: "Generico", items: [
+generico: { label: __t("Generico"), items: [
 "Pulizia esterna e disinfezione delle superfici",
 "Controllo integrità cavo alimentazione, spina e connettori",
 "Sostituzione batteria a fine vita (se presente)",
 "Controllo accessori ed etichette; sostituzione parti di usura",
 ] },
-bbraun_infusomat_space_tsc: { label: "Pompa infusione B.Braun Infusomat Space", items: [
+bbraun_infusomat_space_tsc: { label: __t("Pompa infusione B.Braun Infusomat Space"), items: [
 "Pulizia esterna e disinfezione (Meliseptol); controllo sportello, guida linea e morsetti",
 "Pulizia sensori (aria, pressione, occlusione)",
 "Controllo/pulizia dita peristaltiche / membrana di pompaggio",
 "Sostituzione batteria (Battery-Pack SP) a fine vita; verifica età/autonomia",
 ] },
-audiometro: { label: "Audiometro", items: [
+audiometro: { label: __t("Audiometro"), items: [
 "Pulizia esterna, cuscinetti cuffie e archetto",
 "Controllo cavi cuffie/auricolari e pulsante risposta paziente",
 "Sostituzione cuscinetti auricolari usurati",
 "Controllo integrità cavo alimentazione",
 ] },
-spirometro: { label: "Spirometro", items: [
+spirometro: { label: __t("Spirometro"), items: [
 "Pulizia esterna e disinfezione",
 "Pulizia/sostituzione boccagli e filtri antibatterici",
 "Controllo trasduttore di flusso (turbina/PNT) e tubo",
 ] },
-frigoemoteca: { label: "Frigoemoteca / frigo farmaci", items: [
+frigoemoteca: { label: __t("Frigoemoteca / frigo farmaci"), items: [
 "Pulizia esterna/interna; controllo e sostituzione guarnizioni porta usurate",
 "Pulizia condensatore/filtro e griglie di ventilazione",
 "Controllo registratore/datalogger; sostituzione batteria di backup allarme a fine vita",
 ] },
-bilancia: { label: "Bilancia pesapersone / pesaneonati", items: [
+bilancia: { label: __t("Bilancia pesapersone / pesaneonati"), items: [
 "Pulizia piatto e struttura",
 "Controllo stabilità, livella e piedini",
 "Sostituzione batteria a fine vita",
 ] },
-concentratore_ossigeno: { label: "Concentratore di ossigeno", items: [
+concentratore_ossigeno: { label: __t("Concentratore di ossigeno"), items: [
 "Pulizia esterna; pulizia/sostituzione filtro aria di ingresso",
 "Sostituzione filtri prodotto/HEPA secondo costruttore",
 "Controllo/sostituzione umidificatore e tenute",
 ] },
-eeg: { label: "Elettroencefalografo (EEG)", items: [
+eeg: { label: __t("Elettroencefalografo (EEG)"), items: [
 "Pulizia esterna; pulizia elettrodi, cuffia e cavi",
 "Sostituzione elettrodi/cuffia usurati",
 "Controllo connettori e integrità cavi",
 ] },
-dialisi: { label: "Apparecchio per emodialisi", items: [
+dialisi: { label: __t("Apparecchio per emodialisi"), items: [
 "Pulizia esterna e disinfezione del percorso idraulico (cicli di disinfezione)",
 "Sostituzione filtri (ingresso acqua, dializzato), guarnizioni e O-ring",
 "Controllo/sostituzione parti di usura delle pompe (sangue, UF)",
 ] },
-capnografo: { label: "Capnografo / monitor gas respiratori", items: [
+capnografo: { label: __t("Capnografo / monitor gas respiratori"), items: [
 "Pulizia esterna; sostituzione water trap e linea di campionamento",
 "Pulizia cella di misura e cuvetta",
 "Controllo/sostituzione parti di usura della pompa di aspirazione",
 ] },
-tavolo_operatorio: { label: "Tavolo operatorio", items: [
+tavolo_operatorio: { label: __t("Tavolo operatorio"), items: [
 "Pulizia/disinfezione superfici e materassini; sostituzione cuscini usurati",
 "Lubrificazione snodi e controllo attuatori idraulici/elettrici",
 "Controllo blocchi/freni e stabilità",
 "Sostituzione batteria telecomando a fine vita",
 ] },
-culla_termica: { label: "Culla termica / radiant warmer", items: [
+culla_termica: { label: __t("Culla termica / radiant warmer"), items: [
 "Pulizia/disinfezione superfici e sonde",
 "Controllo sonda cute e cavo; sostituzione se danneggiati",
 "Pulizia e controllo riscaldatore radiante",
 ] },
-holter_ecg: { label: "Holter ECG", items: [
+holter_ecg: { label: __t("Holter ECG"), items: [
 "Pulizia esterna; controllo/sostituzione cavi paziente",
 "Controllo vano batteria e contatti; sostituzione batteria",
 "Pulizia contatti caricabatteria (se presente)",
 ] },
-riunito_odontoiatrico: { label: "Riunito odontoiatrico", items: [
+riunito_odontoiatrico: { label: __t("Riunito odontoiatrico"), items: [
 "Pulizia/disinfezione riunito e sputacchiera; cicli di disinfezione condotte idriche",
 "Sostituzione filtri (aspirazione, aria/acqua), guarnizioni e O-ring dei manipoli",
 "Lubrificazione/manutenzione manipoli secondo costruttore",
 "Controllo poltrona (snodi, freni); lubrificazione",
 ] },
-elettrocardiografo: { label: "Elettrocardiografo (ECG)", items: [
+elettrocardiografo: { label: __t("Elettrocardiografo (ECG)"), items: [
 "Pulizia esterna; controllo/sostituzione cavo paziente ed elettrodi",
 "Sostituzione carta stampante; pulizia testina e rullo",
 "Sostituzione batteria a fine vita",
 ] },
-sfigmomanometro: { label: "Sfigmomanometro automatico (NIBP)", items: [
+sfigmomanometro: { label: __t("Sfigmomanometro automatico (NIBP)"), items: [
 "Pulizia esterna; controllo bracciali, tubi e raccordi",
 "Sostituzione bracciali e tubi usurati",
 "Sostituzione batteria a fine vita",
 ] },
-termometro_clinico: { label: "Termometro clinico elettronico", items: [
+termometro_clinico: { label: __t("Termometro clinico elettronico"), items: [
 "Pulizia/disinfezione sonda e involucro",
 "Sostituzione copri-sonda; controllo/sostituzione puntale",
 "Sostituzione batteria a fine vita",
 ] },
-incubatrice_neonatale: { label: "Incubatrice neonatale", items: [
+incubatrice_neonatale: { label: __t("Incubatrice neonatale"), items: [
 "Pulizia/disinfezione cupola, materassino e umidificatore",
 "Sostituzione/pulizia filtro aria; sostituzione guarnizioni cupola usurate",
 "Controllo e pulizia ventola di circolazione",
 ] },
-lampada_scialitica: { label: "Lampada scialitica", items: [
+lampada_scialitica: { label: __t("Lampada scialitica"), items: [
 "Pulizia maniglie sterilizzabili e cupola",
 "Controllo snodi/bracci, stabilità e bilanciamento; lubrificazione",
 "Sostituzione LED/lampade a fine vita; sostituzione batteria di emergenza",
 ] },
-fototerapia_neonatale: { label: "Lampada fototerapia neonatale", items: [
+fototerapia_neonatale: { label: __t("Lampada fototerapia neonatale"), items: [
 "Pulizia esterna e superfici",
 "Sostituzione sorgenti (LED/tubi) a fine vita; verifica ore di funzionamento",
 "Pulizia e controllo ventilazione",
 ] },
-elettrostimolatore: { label: "Elettrostimolatore / TENS", items: [
+elettrostimolatore: { label: __t("Elettrostimolatore / TENS"), items: [
 "Pulizia esterna; controllo cavi ed elettrodi",
 "Sostituzione elettrodi/gel usurati",
 "Sostituzione batteria a fine vita",
 ] },
-autoclave: { label: "Autoclave / sterilizzatrice a vapore", items: [
+autoclave: { label: __t("Autoclave / sterilizzatrice a vapore"), items: [
 "Pulizia camera, guarnizione portello e filtro; controllo tenuta portello",
 "Sostituzione guarnizione portello e filtri secondo costruttore",
 "Controllo qualità acqua di alimentazione e pulizia serbatoi",
 "Nota: convalida prestazionale/biologica del processo = attività specialistica separata",
 ] },
-pulsossimetro: { label: "Pulsossimetro / SpO2", items: [
+pulsossimetro: { label: __t("Pulsossimetro / SpO2"), items: [
 "Pulizia esterna; controllo/sostituzione sensore e cavo",
 "Sostituzione sensori/parti monouso usurati",
 "Sostituzione batteria a fine vita",
 ] },
-ecografo: { label: "Ecografo", items: [
+ecografo: { label: __t("Ecografo"), items: [
 "Pulizia/disinfezione sonde e involucro; pulizia/sostituzione filtri di ventilazione",
 "Ispezione sonde (lente, cavo, connettore) per crepe/distacchi",
 "Pulizia trackball/tastiera; sostituzione batteria/UPS a fine vita",
 ] },
-letto_elettrico: { label: "Letto elettrico / barella motorizzata", items: [
+letto_elettrico: { label: __t("Letto elettrico / barella motorizzata"), items: [
 "Pulizia/disinfezione superfici e sponde",
 "Controllo attuatori e pulsantiera; lubrificazione snodi",
 "Controllo freni, ruote e stabilità",
@@ -199,7 +200,7 @@ return cndToTemplate((asset && asset.cnd) || "") || guessTemplate((asset && asse
 }
 function ppmNorm(s) { return (s == null ? "" : String(s)).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim(); }
 const PPM_MODEL_DEFAULTS = [
-{ brand: "drager", model: "oxylog 3000", label: "Dräger Oxylog 3000 plus", items: [
+{ brand: "drager", model: "oxylog 3000", label: __t("Dräger Oxylog 3000 plus"), items: [
 "Sostituzione kit manutenzione annuale: cartuccia/filtro presa aria fresca, guarnizioni e O-ring, membrane/valvole di usura (1 anno)",
 "Controllo/sostituzione sensore di flusso (1 anno)",
 "Controllo cella sensore O2 e sostituzione a fine vita (1 anno / su condizione)",
@@ -288,10 +289,10 @@ const vsePass = !(f.iecMeasures || []).some(mm => measVerdict(mm, mm.value) === 
 const overall = funcPass && vsePass;
 
 // steps
-const steps = [{ ph: "Preparazione", key: "setup", name: "Dati e configurazione" }, { ph: "Manutenzione", key: "maint", name: "Checklist manutenzione" }]
+const steps = [{ ph: "Preparazione", key: "setup", name: __t("Dati e configurazione") }, { ph: "Manutenzione", key: "maint", name: __t("Checklist manutenzione") }]
 .concat(funcSecs.map(sec => ({ ph: "Funzionale", key: "funcsec", sec: sec, name: sec.title })))
 .concat((f.iecMeasures || []).map((mm, i) => ({ ph: "Sicurezza elettrica", key: "meas", idx: i, m: mm, name: mm.name })))
-.concat([{ ph: "Esito", key: "esito", name: "Esito e salvataggio" }]);
+.concat([{ ph: "Esito", key: "esito", name: __t("Esito e salvataggio") }]);
 const TOT = steps.length;
 const cur = Math.min(step, TOT - 1);
 const sObj = steps[cur];
@@ -310,7 +311,7 @@ return true;
 const doneCount = steps.filter(stepFilled).length;
 const go = (i) => { setStep(Math.max(0, Math.min(TOT - 1, i))); setTutOpen(false); try { window.scrollTo(0, 0); } catch (e) { } };
 React.useEffect(() => { if (sObj.key !== "esito" || f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [sObj.key]);
-const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Firma del tecnico obbligatoria", color: "#ef4444" } })); } catch (e) { } return; } onSaveFull({ technicianSignature: f.technicianSignature || "", departmentSignature: f.departmentSignature || "", assetId: f.assetId, date: f.date, technician: f.technician, templateId: f.templateId, categoryId: f.categoryId, maint: f.maint, funcSections: f.funcSections, funcPass: funcPass, iecMeasures: f.iecMeasures, iecConfig: { norm: f.norm, equipClass: f.equipClass, patientType: f.patientType, leakageMethod: f.leakageMethod }, vsePass: vsePass, overall: overall, notes: f.notes }); };
+const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: __t("Firma del tecnico obbligatoria"), color: "#ef4444" } })); } catch (e) { } return; } onSaveFull({ technicianSignature: f.technicianSignature || "", departmentSignature: f.departmentSignature || "", assetId: f.assetId, date: f.date, technician: f.technician, templateId: f.templateId, categoryId: f.categoryId, maint: f.maint, funcSections: f.funcSections, funcPass: funcPass, iecMeasures: f.iecMeasures, iecConfig: { norm: f.norm, equipClass: f.equipClass, patientType: f.patientType, leakageMethod: f.leakageMethod }, vsePass: vsePass, overall: overall, notes: f.notes }); };
 
 const selStyle = { width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 };
 const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", marginBottom: 4, display: "block" };
@@ -323,30 +324,30 @@ onNA ? h("button", { type: "button", onClick: onNA, style: { background: val ===
 let content;
 if (sObj.key === "setup") {
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-h("div", null, h("span", { style: lblStyle }, "Apparecchio"),
-h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: "Cerca apparecchio…" })),
+h("div", null, h("span", { style: lblStyle }, __t("Apparecchio")),
+h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: __t("Cerca apparecchio…") })),
 f.assetId ? h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 f.templateId === "generico"
-? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, "Scegli qui sotto il protocollo corretto per questo apparecchio."))
-: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, "Protocollo funzionale: ", h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? "Chiudi" : "Cambia")),
+? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Scegli qui sotto il protocollo corretto per questo apparecchio.")))
+: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, __t("Protocollo funzionale: "), h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? __t("Chiudi") : __t("Cambia"))),
 (f.templateId === "generico" || tplOpen) ? h("select", { value: f.templateId, onChange: e => pickTpl(e.target.value), style: selStyle }, Object.keys(templates || {}).sort((a, b) => (((templates[a] || {}).label) || a).localeCompare(((templates[b] || {}).label) || b)).map(k => h("option", { key: k, value: k }, ((templates[k] || {}).label) || k))) : null,
-h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, "Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti.")) : null,
-h("div", null, h("span", { style: lblStyle }, "Data"), h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
-h(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians }),
-h("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginTop: 4 } }, "Parametri sicurezza elettrica"),
+h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, __t("Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti."))) : null,
+h("div", null, h("span", { style: lblStyle }, __t("Data")), h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
+h(TecnicoPicker, { label: __t("Tecnico/i"), value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians }),
+h("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginTop: 4 } }, __t("Parametri sicurezza elettrica")),
 h("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
-h("div", null, h("span", { style: lblStyle }, "Norma"), h("select", { value: f.norm, onChange: e => regenIec({ norm: e.target.value }), style: selStyle }, h("option", { value: "62353" }, "IEC 62353"), h("option", { value: "60601" }, "IEC 60601-1"), h("option", { value: "61010" }, "IEC 61010-1"))),
-h("div", null, h("span", { style: lblStyle }, "Classe"), h("select", { value: f.equipClass, onChange: e => regenIec({ equipClass: e.target.value }), style: selStyle }, h("option", { value: "I" }, "Classe I"), h("option", { value: "II" }, "Classe II"), h("option", { value: "III" }, "Classe III"))),
-h("div", null, h("span", { style: lblStyle }, "Parte applicata"), h("select", { value: f.patientType, onChange: e => regenIec({ patientType: e.target.value }), style: selStyle }, h("option", { value: "B" }, "Tipo B"), h("option", { value: "BF" }, "Tipo BF"), h("option", { value: "CF" }, "Tipo CF"))),
-f.norm === "62353" ? h("div", null, h("span", { style: lblStyle }, "Metodo"), h("select", { value: f.leakageMethod, onChange: e => regenIec({ leakageMethod: e.target.value }), style: selStyle }, h("option", { value: "diretto" }, "Diretto"), h("option", { value: "differenziale" }, "Differenziale"), h("option", { value: "alternativo" }, "Alternativo"))) : h("div")));
+h("div", null, h("span", { style: lblStyle }, __t("Norma")), h("select", { value: f.norm, onChange: e => regenIec({ norm: e.target.value }), style: selStyle }, h("option", { value: "62353" }, "IEC 62353"), h("option", { value: "60601" }, "IEC 60601-1"), h("option", { value: "61010" }, "IEC 61010-1"))),
+h("div", null, h("span", { style: lblStyle }, __t("Classe")), h("select", { value: f.equipClass, onChange: e => regenIec({ equipClass: e.target.value }), style: selStyle }, h("option", { value: "I" }, __t("Classe I")), h("option", { value: "II" }, __t("Classe II")), h("option", { value: "III" }, __t("Classe III")))),
+h("div", null, h("span", { style: lblStyle }, __t("Parte applicata")), h("select", { value: f.patientType, onChange: e => regenIec({ patientType: e.target.value }), style: selStyle }, h("option", { value: "B" }, __t("Tipo B")), h("option", { value: "BF" }, __t("Tipo BF")), h("option", { value: "CF" }, __t("Tipo CF")))),
+f.norm === "62353" ? h("div", null, h("span", { style: lblStyle }, __t("Metodo")), h("select", { value: f.leakageMethod, onChange: e => regenIec({ leakageMethod: e.target.value }), style: selStyle }, h("option", { value: "diretto" }, __t("Diretto")), h("option", { value: "differenziale" }, __t("Differenziale")), h("option", { value: "alternativo" }, __t("Alternativo")))) : h("div")));
 } else if (sObj.key === "maint") {
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
-(f.maint || []).length === 0 ? h("div", { style: { fontSize: 13, color: "var(--text-4)" } }, "Nessuna voce di manutenzione per questa categoria.") : null,
+(f.maint || []).length === 0 ? h("div", { style: { fontSize: 13, color: "var(--text-4)" } }, __t("Nessuna voce di manutenzione per questa categoria.")) : null,
 (f.maint || []).map((it, i) => h("div", { key: i, style: { background: "var(--surface)", border: "1px solid " + (it.status === "fatto" ? TEAL + "66" : it.status === "na" ? "var(--border)" : "var(--border)"), borderRadius: 12, padding: "11px 13px" } },
 h("div", { style: { display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 } },
 h("span", { style: { fontSize: 13, color: "var(--text)", flex: 1, minWidth: 0, lineHeight: 1.35 } }, it.text),
 okNo(it.status === "fatto" ? true : it.status === "na" ? "na" : null, () => setMaint(i, "fatto"), null, () => setMaint(i, "na"), "✓ Fatto")),
-it.status === "fatto" ? h("input", { type: "text", value: it.note, onChange: e => setMaintNote(i, e.target.value), placeholder: "Nota (facoltativa)…", style: { width: "100%", marginTop: 8, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "7px 9px", fontSize: 12 } }) : null)));
+it.status === "fatto" ? h("input", { type: "text", value: it.note, onChange: e => setMaintNote(i, e.target.value), placeholder: __t("Nota (facoltativa)…"), style: { width: "100%", marginTop: 8, background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "7px 9px", fontSize: 12 } }) : null)));
 } else if (sObj.key === "funcsec") {
 const sec = sObj.sec; const sd = f.funcSections[sec.id] || { items: {}, measures: {} };
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
@@ -371,29 +372,29 @@ const margin = (!isNaN(v) && !isNaN(lv)) ? Math.abs(lv - v) : null;
 const marginTxt = margin == null ? "—" : (verd === false ? "−" : "") + margin.toFixed(margin < 1 ? 3 : (margin < 10 ? 2 : 0)) + " " + mm.unit;
 content = h("div", null,
 h("div", { style: { background: "var(--surface)", border: "1px solid " + (mm.na ? "var(--border)" : verd === true ? TEAL : verd === false ? RED : "var(--border)"), borderRadius: 16, padding: "18px", marginBottom: 12, opacity: mm.na ? 0.6 : 1 } },
-h("div", { style: { fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 10 } }, "Valore rilevato"),
+h("div", { style: { fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 10 } }, __t("Valore rilevato")),
 h("div", { style: { display: "flex", alignItems: "center", gap: 10, borderBottom: "2px solid var(--border)", paddingBottom: 8 } },
 h("input", { type: "number", inputMode: "decimal", disabled: mm.na, value: mm.value, onChange: e => setIecMeas(mm.id, e.target.value), placeholder: "—", style: { flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "var(--text)", fontSize: 30, fontWeight: 800, fontFamily: "'IBM Plex Mono', monospace" } }),
 h("span", { style: { fontSize: 17, fontWeight: 700, color: "var(--text-3)" } }, mm.unit)),
-h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ? "var(--text-4)" : verd === true ? TEAL : verd === false ? RED : "var(--text-4)" } }, mm.na ? "Non applicabile" : verd === true ? "✓ Entro i limiti" : verd === false ? "✗ Fuori limite" : "Inserisci il valore misurato"),
+h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ? "var(--text-4)" : verd === true ? TEAL : verd === false ? RED : "var(--text-4)" } }, mm.na ? __t("Non applicabile") : verd === true ? "✓ Entro i limiti" : verd === false ? "✗ Fuori limite" : __t("Inserisci il valore misurato")),
 h("div", { style: { display: "flex", gap: 10, marginTop: 12 } },
-h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Limite normativo"), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
-h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Margine"), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
-h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--text-3)", cursor: "pointer" } }, h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleIecNA(mm.id) }), "Non applicabile (N/A)"));
+h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, __t("Limite normativo")), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
+h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, __t("Margine")), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
+h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--text-3)", cursor: "pointer" } }, h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleIecNA(mm.id) }), __t("Non applicabile (N/A)")));
 } else {
 const maintDone = (f.maint || []).filter(it => it.status).length;
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 h("div", { style: { background: overall ? TEAL + "1a" : RED + "1a", border: "1px solid " + (overall ? TEAL + "66" : RED + "66"), borderRadius: 16, padding: "20px", textAlign: "center" } },
 h("div", { style: { fontSize: 34, fontWeight: 800, color: overall ? TEAL : RED } }, overall ? "✓" : "✗"),
-h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, overall ? "Conforme" : "Non conforme"),
-h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, "Manutenzione + funzionale + sicurezza elettrica in un unico verbale")),
+h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, overall ? __t("Conforme") : __t("Non conforme")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, __t("Manutenzione + funzionale + sicurezza elettrica in un unico verbale"))),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Manutenzione", maintDone + "/" + (f.maint || []).length + " voci"], ["Funzionale", funcPass ? "Conforme" : "Non conforme"], ["Sicurezza elettrica", vsePass ? "Conforme" : "Non conforme"], ["Esito complessivo", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 13, fontWeight: 600, color: (i >= 2) ? ((i === 2 ? funcPass : i === 3 ? vsePass : overall) ? TEAL : RED) : "var(--text)" } }, r[1])))),
-h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
+h("div", null, h("span", { style: lblStyle }, __t("Note conclusive")), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: __t("Annotazioni finali…"), style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
-h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })),
-h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center" } }, "Al salvataggio: crea il verbale di manutenzione, la verifica funzionale e la VSE collegate, aggiorna le scadenze e apre il PDF unico."));
+h(SignaturePad, { label: __t("Firma Referente reparto (opzionale)"), value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })),
+h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center" } }, __t("Al salvataggio: crea il verbale di manutenzione, la verifica funzionale e la VSE collegate, aggiorna le scadenze e apre il PDF unico.")));
 }
 
 // shell
@@ -403,19 +404,19 @@ h("div", { style: { padding: "2px 2px 14px" } },
 h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 } },
 h("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
 h("span", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: phColor, background: phColor + "22", padding: "3px 8px", borderRadius: 99 } }, sObj.ph),
-h("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT))),
+h("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, __t("Passo "), cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT))),
 h("div", { style: { fontSize: 12, color: "var(--text-3)" } }, doneCount + "/" + TOT)),
 h("div", { style: { height: 6, background: "var(--surface-2)", borderRadius: 99, overflow: "hidden" } }, h("div", { style: { height: "100%", width: Math.round((cur / (TOT - 1)) * 100) + "%", background: phColor, borderRadius: 99, transition: "width .2s" } }))),
 h("div", { style: { marginBottom: 14 } },
 h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.name),
-h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, data e parametri" : sObj.key === "maint" ? "Pulizia e sostituzione parti di usura" : sObj.key === "funcsec" ? "Prove di funzionamento" : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : "Riepilogo e salvataggio")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? __t("Apparecchio, data e parametri") : sObj.key === "maint" ? __t("Pulizia e sostituzione parti di usura") : sObj.key === "funcsec" ? __t("Prove di funzionamento") : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : __t("Riepilogo e salvataggio"))),
 content,
 h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
-h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
+h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? __t("Indietro") : __t("Esci")),
 cur < TOT - 1
-? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, "Avanti", h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
+? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, __t("Avanti"), h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
 : h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva e genera PDF")),
-(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona l'apparecchio per continuare" : sObj.key === "maint" ? "Segna ogni voce (Fatto o N/A) per continuare" : sObj.key === "funcsec" ? "Completa voci e misure della sezione" : "Inserisci il valore o segna N/A per continuare") : null);
+(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? __t("Seleziona l'apparecchio per continuare") : sObj.key === "maint" ? __t("Segna ogni voce (Fatto o N/A) per continuare") : sObj.key === "funcsec" ? __t("Completa voci e misure della sezione") : __t("Inserisci il valore o segna N/A per continuare")) : null);
 }
 export function PpmVerifyForm({ initial, assetId: propAssetId, assets, customers, existingReports, technicians, onSave, onClose, showToast, ppmReports, funcReports, iecReports, onLink, onPdf, setModal, pushModal }) {
 var _a = React.useState(propAssetId || (initial && initial.assetId) || ""); var assetId = _a[0], setAssetId = _a[1];
@@ -451,24 +452,24 @@ function sv(k) { return function (e) { var val = (e && e.target) ? e.target.valu
 function setItemStatus(i, st) { setF(function (x) { var it = (x.items || []).slice(); it[i] = Object.assign(Object.assign({}, it[i]), { status: st }); return Object.assign(Object.assign({}, x), { items: it }); }); }
 function setItemNote(i, v) { setF(function (x) { var it = (x.items || []).slice(); it[i] = Object.assign(Object.assign({}, it[i]), { note: v }); return Object.assign(Object.assign({}, x), { items: it }); }); }
 function doSave() {
-if (!f.technicianSignature) { showToast && showToast("Firma del tecnico obbligatoria", "#ef4444"); return; }
-if (!assetId) { showToast && showToast("Seleziona un apparecchio", "#ef4444"); return; }
+if (!f.technicianSignature) { showToast && showToast(__t("Firma del tecnico obbligatoria"), "#ef4444"); return; }
+if (!assetId) { showToast && showToast(__t("Seleziona un apparecchio"), "#ef4444"); return; }
 var asset = (assets || []).find(function (a) { return a.id === assetId; }) || {};
 onSave(Object.assign(Object.assign({}, f), { assetId: assetId, customerId: f.customerId || asset.customerId || "" }));
 }
 var items = f.items || [];
 return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement("div", null,
-React.createElement("label", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, display: "block", marginBottom: 5 } }, "Apparecchio"),
-React.createElement(AssetCombobox, { value: assetId, onChange: function (id) { setAssetId(id); }, assets: assets, customers: customers, placeholder: "Cerca apparecchio\u2026" })),
+React.createElement("label", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, display: "block", marginBottom: 5 } }, __t("Apparecchio")),
+React.createElement(AssetCombobox, { value: assetId, onChange: function (id) { setAssetId(id); }, assets: assets, customers: customers, placeholder: __t("Cerca apparecchio\u2026") })),
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Data", type: "date", value: f.date, onChange: sv("date") }),
-React.createElement(Inp, { label: "Tecnico", value: f.technician, onChange: sv("technician"), placeholder: "Nome tecnico" })),
+React.createElement(Inp, { label: __t("Data"), type: "date", value: f.date, onChange: sv("date") }),
+React.createElement(Inp, { label: __t("Tecnico"), value: f.technician, onChange: sv("technician"), placeholder: __t("Nome tecnico") })),
 effectiveAsset ? React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)" } }, "Periodicit\u00e0 costruttore: " + (parseInt(effectiveAsset.intervalPpm, 10) || 12) + " mesi") : null,
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 8 } }, "Checklist manutenzione" + (items.length ? (" (" + items.length + ")") : "")),
-!assetId ? React.createElement("div", { style: { fontSize: 13, color: "var(--text-4)", padding: "6px 0" } }, "Seleziona un apparecchio per caricare la checklist.")
-: items.length === 0 ? React.createElement("div", { style: { fontSize: 13, color: "var(--text-4)", padding: "6px 0" } }, "Nessuna voce per questa categoria. Aggiungile in \u2699 Checklist.")
+!assetId ? React.createElement("div", { style: { fontSize: 13, color: "var(--text-4)", padding: "6px 0" } }, __t("Seleziona un apparecchio per caricare la checklist."))
+: items.length === 0 ? React.createElement("div", { style: { fontSize: 13, color: "var(--text-4)", padding: "6px 0" } }, __t("Nessuna voce per questa categoria. Aggiungile in \u2699 Checklist."))
 : React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 items.map(function (it, i) {
 var st = it.status || "fatto";
@@ -476,46 +477,46 @@ return React.createElement("div", { key: i, style: { background: "var(--surface)
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 13, color: "var(--text)", flex: 1, minWidth: 0 } }, it.text),
 React.createElement("div", { style: { display: "flex", gap: 4, flexShrink: 0 } },
-React.createElement("button", { onClick: function () { setItemStatus(i, "fatto"); }, style: { background: st === "fatto" ? "#10b981" : "transparent", color: st === "fatto" ? "#04211d" : "var(--text-3)", border: "1px solid " + (st === "fatto" ? "#10b981" : "var(--border)"), borderRadius: 8, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "Fatto"),
+React.createElement("button", { onClick: function () { setItemStatus(i, "fatto"); }, style: { background: st === "fatto" ? "#10b981" : "transparent", color: st === "fatto" ? "#04211d" : "var(--text-3)", border: "1px solid " + (st === "fatto" ? "#10b981" : "var(--border)"), borderRadius: 8, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, __t("Fatto")),
 React.createElement("button", { onClick: function () { setItemStatus(i, "na"); }, style: { background: st === "na" ? "#64748b" : "transparent", color: st === "na" ? "#fff" : "var(--text-3)", border: "1px solid " + (st === "na" ? "#64748b" : "var(--border)"), borderRadius: 8, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "N.A."))),
-React.createElement("input", { value: it.note || "", onChange: function (e) { setItemNote(i, e.target.value); }, placeholder: "Nota (opzionale)\u2026", style: { marginTop: 8, width: "100%", boxSizing: "border-box", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "7px 10px", fontSize: 13 } }));
+React.createElement("input", { value: it.note || "", onChange: function (e) { setItemNote(i, e.target.value); }, placeholder: __t("Nota (opzionale)\u2026"), style: { marginTop: 8, width: "100%", boxSizing: "border-box", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "7px 10px", fontSize: 13 } }));
 }))),
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 8 } }, "Esito complessivo"),
+React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 8 } }, __t("Esito complessivo")),
 React.createElement("div", { style: { display: "flex", gap: 8 } },
-React.createElement("button", { onClick: function () { setF(function (x) { return Object.assign(Object.assign({}, x), { overallPass: true }); }); }, style: { flex: 1, background: f.overallPass !== false ? "#10b981" : "transparent", color: f.overallPass !== false ? "#04211d" : "var(--text-3)", border: "1px solid " + (f.overallPass !== false ? "#10b981" : "var(--border)"), borderRadius: 8, padding: "9px", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, "Conforme"),
-React.createElement("button", { onClick: function () { setF(function (x) { return Object.assign(Object.assign({}, x), { overallPass: false }); }); }, style: { flex: 1, background: f.overallPass === false ? "#ef4444" : "transparent", color: f.overallPass === false ? "#fff" : "var(--text-3)", border: "1px solid " + (f.overallPass === false ? "#ef4444" : "var(--border)"), borderRadius: 8, padding: "9px", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, "Non conforme"))),
-React.createElement(Inp, { label: "Note generali", value: f.notes, onChange: sv("notes"), placeholder: "Annotazioni sull'intervento\u2026" }),
+React.createElement("button", { onClick: function () { setF(function (x) { return Object.assign(Object.assign({}, x), { overallPass: true }); }); }, style: { flex: 1, background: f.overallPass !== false ? "#10b981" : "transparent", color: f.overallPass !== false ? "#04211d" : "var(--text-3)", border: "1px solid " + (f.overallPass !== false ? "#10b981" : "var(--border)"), borderRadius: 8, padding: "9px", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, __t("Conforme")),
+React.createElement("button", { onClick: function () { setF(function (x) { return Object.assign(Object.assign({}, x), { overallPass: false }); }); }, style: { flex: 1, background: f.overallPass === false ? "#ef4444" : "transparent", color: f.overallPass === false ? "#fff" : "var(--text-3)", border: "1px solid " + (f.overallPass === false ? "#ef4444" : "var(--border)"), borderRadius: 8, padding: "9px", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, __t("Non conforme")))),
+React.createElement(Inp, { label: __t("Note generali"), value: f.notes, onChange: sv("notes"), placeholder: __t("Annotazioni sull'intervento\u2026") }),
 initial ? (function () {
 var livePpm = (ppmReports || []).find(function (r) { return r.id === initial.id; }) || initial;
 var aFunc = (funcReports || []).filter(function (r) { return r.assetId === livePpm.assetId; }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 var aIec = (iecReports || []).filter(function (r) { return r.assetId === livePpm.assetId; }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 var selStyle = { flex: 1, minWidth: 0, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 13 };
 return React.createElement("div", { style: { borderTop: "1px solid var(--border-2)", paddingTop: 14 } },
-React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 6 } }, "Verifiche collegate"),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", marginBottom: 10, lineHeight: 1.4 } }, "Esegui la verifica funzionale e la VSE (col pulsante \u201cEsegui\u201d o dalle loro sezioni), poi collegale qui. Confluiscono nel PDF unico."),
+React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .5, marginBottom: 6 } }, __t("Verifiche collegate")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", marginBottom: 10, lineHeight: 1.4 } }, __t("Esegui la verifica funzionale e la VSE (col pulsante \u201cEsegui\u201d o dalle loro sezioni), poi collegale qui. Confluiscono nel PDF unico.")),
 React.createElement("div", { style: { marginBottom: 10 } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, "Verifica funzionale"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, __t("Verifica funzionale")),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("select", { value: livePpm.funcReportId || "", onChange: function (e) { onLink(livePpm.id, { funcReportId: e.target.value }); }, style: selStyle },
 React.createElement("option", { value: "" }, "\u2014 non collegata \u2014"),
 aFunc.map(function (r) { return React.createElement("option", { key: r.id, value: r.id }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + " \u00b7 " + (r.overallPass ? "conforme" : "non conf.")); })),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "func", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, "Esegui"))),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "func", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, __t("Esegui")))),
 React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, "Sicurezza elettrica (VSE)"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 } }, __t("Sicurezza elettrica (VSE)")),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("select", { value: livePpm.iecReportId || "", onChange: function (e) { onLink(livePpm.id, { iecReportId: e.target.value }); }, style: selStyle },
 React.createElement("option", { value: "" }, "\u2014 non collegata \u2014"),
 aIec.map(function (r) { return React.createElement("option", { key: r.id, value: r.id }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + " \u00b7 " + (r.overallPass ? "conforme" : "non conf.")); })),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "iec", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, "Esegui"))),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "iec", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, __t("Esegui")))),
 React.createElement(Btn, { onClick: function () { onPdf(livePpm); } }, "\u2193 Scarica PDF unico"));
-})() : React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", borderTop: "1px solid var(--border-2)", paddingTop: 12 } }, "Salva la checklist, poi riapri la PPM per collegare verifica funzionale e VSE e scaricare il PDF unico."),
+})() : React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", borderTop: "1px solid var(--border-2)", paddingTop: 12 } }, __t("Salva la checklist, poi riapri la PPM per collegare verifica funzionale e VSE e scaricare il PDF unico.")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 React.createElement(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: function (v) { setF(function (x) { return Object.assign({}, x, { technicianSignature: v }); }); }, height: 120 }),
-React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: function (v) { setF(function (x) { return Object.assign({}, x, { departmentSignature: v }); }); }, height: 120 })),
+React.createElement(SignaturePad, { label: __t("Firma Referente reparto (opzionale)"), value: f.departmentSignature || "", onChange: function (v) { setF(function (x) { return Object.assign({}, x, { departmentSignature: v }); }); }, height: 120 })),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
-React.createElement(Btn, { onClick: doSave }, "Salva PPM")));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
+React.createElement(Btn, { onClick: doSave }, __t("Salva PPM"))));
 }
 export function PpmPage({ setModal, ppmReports, assets, customers, onNew, onOpen, onDelete, onPdf }) {
 var reports = (ppmReports || []).slice().sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
@@ -523,13 +524,13 @@ function assetName(id) { var a = (assets || []).find(function (x) { return x.id 
 return React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, "Manutenzione Programmata"),
+React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, __t("Manutenzione Programmata")),
 React.createElement("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 2 } }, reports.length + " interventi \u00b7 checklist + funzionale + sicurezza elettrica")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { setModal({ type: "ppmChecklist" }); } }, "\u2699 Checklist"),
 React.createElement(Btn, { sm: true, onClick: onNew }, "+ Nuova PPM"))),
 reports.length === 0
-? React.createElement(EmptyState, { icon: "\u2713", title: "Nessuna manutenzione programmata", subtitle: "Esegui la PPM periodica: checklist meccanica, verifica funzionale e sicurezza elettrica in un'unica uscita.", actions: [{ label: "+ Nuova PPM", onClick: onNew, primary: true }] })
+? React.createElement(EmptyState, { icon: "\u2713", title: __t("Nessuna manutenzione programmata"), subtitle: __t("Esegui la PPM periodica: checklist meccanica, verifica funzionale e sicurezza elettrica in un'unica uscita."), actions: [{ label: "+ Nuova PPM", onClick: onNew, primary: true }] })
 : React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 reports.map(function (r) {
 var ok = r.overallPass !== false;
@@ -541,7 +542,7 @@ React.createElement("div", { style: { display: "flex", justifyContent: "space-be
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text)" } }, assetName(r.assetId)),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + (r.technician ? (" \u00b7 " + r.technician) : ""))),
-React.createElement("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 700, padding: "3px 9px", borderRadius: 20, background: ok ? "#10b98122" : "#ef444422", color: ok ? "#10b981" : "#ef4444" } }, ok ? "Conforme" : "Non conforme")),
+React.createElement("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 700, padding: "3px 9px", borderRadius: 20, background: ok ? "#10b98122" : "#ef444422", color: ok ? "#10b981" : "#ef4444" } }, ok ? __t("Conforme") : __t("Non conforme"))),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 6 } }, done + " voci eseguite" + (na ? (" \u00b7 " + na + " N.A.") : ""))),
 React.createElement("div", { style: { display: "flex", borderTop: "1px solid var(--border-2)" } },
 React.createElement("button", { onClick: function () { onPdf(r); }, style: { flex: 1, background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "PDF"),
