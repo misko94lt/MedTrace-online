@@ -1532,4 +1532,8 @@ export const EN = {
 "⬇ Excel": "⬇ Excel",
 "⬇ Excel Pianificazione": "⬇ Schedule Excel",
 "🏷 Sticker apparecchio": "🏷 Asset sticker",
+/* — blank state e conferme lunghe + PPM (v3.40) — */
+"⚠ ATTENZIONE — Stai per cancellare TUTTI i dati:\n\n• Apparecchi, Clienti, Job\n• Verifiche di sicurezza elettrica e funzionali\n• Strumenti, Procedure\n• Magazzino, Ordini, Scarichi\n• Preventivi\n\nL'operazione è IRREVERSIBILE.\n\nProcedere?": "⚠ WARNING — You are about to delete ALL data:\n\n• Assets, Customers, Jobs\n• Electrical safety and functional tests\n• Instruments, Procedures\n• Stock, Orders, Withdrawals\n• Quotes\n\nThis operation is IRREVERSIBLE.\n\nProceed?",
+"Esegui verifiche periodiche IEC 62353 (elettromedicali) o IEC 61010-1 (laboratorio): misure di PE, isolamento, dispersioni Equipment Leakage e Applied Part. Metodi supportati: diretto, differenziale, alternativo.": "Run recurrent IEC 62353 (medical electrical) or IEC 61010-1 (laboratory) tests: PE, insulation, Equipment Leakage and Applied Part measurements. Supported methods: direct, differential, alternative.",
+" il download diretto di Excel non è disponibile su questo dispositivo, quindi clicca \"Copia tutto\" e incolla i dati direttamente in Excel o Google Sheets (oppure salvali come file di testo .csv, che Excel apre).": " direct Excel download is not available on this device, so click \"Copy all\" and paste the data straight into Excel or Google Sheets (or save it as a .csv text file, which Excel opens).",
 };
