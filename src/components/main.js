@@ -43,7 +43,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.36";
+const APP_VERSION = "3.37";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -2535,7 +2535,7 @@ const NAV = NAV_GROUPS_VISIBLE.flatMap(g => g.items);
 const __bnIcon = (paths) => React.createElement("svg", { width: 23, height: 23, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round" }, paths.map((d, i) => React.createElement("path", { key: i, d: d })));
 const BOTTOM_NAV = [
 { id: "assets", label: __t("Apparecchi"), paths: ["M3 5.5h18v11H3z", "M8.5 20.5h7", "M12 16.5v4"] },
-{ id: "iec", label: "VSE", paths: ["M13 2 4 14h7l-1 8 9-12h-7z"] },
+{ id: "iec", label: __t("VSE"), paths: ["M13 2 4 14h7l-1 8 9-12h-7z"] },
 { id: "func", label: __t("Funzionale"), paths: ["M3 12h4l2.4-8 5 16 2.6-8h4"] },
 { id: "jobs", label: __t("Job"), paths: ["M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2", "M9 3.5h6v3H9z", "M9 12h6", "M9 16h4"] },
 ].filter(it => NAV.some(n => n.id === it.id));
@@ -3032,7 +3032,7 @@ patientType: { label: __t("Tipo parte applicata"), options: ["B", "BF", "CF"], v
 cnd: { label: "CND", options: [...new Set(assets.map(a => a.cnd).filter(Boolean))].sort(), value: activeFilters.assets.cnd },
 }, onChange: (k, v) => setFilter("assets", k, v), onClearAll: () => clearFilters("assets") }),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
-React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "▤ Vista estesa" : "≣ Vista compatta")),
+React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? __t("▤ Vista estesa") : __t("≣ Vista compatta"))),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
 filteredAssets.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessun apparecchio corrisponde ai filtri"))),
 filteredAssets.map(a => {
@@ -3079,9 +3079,9 @@ a.location)),
 days !== null && React.createElement(AlertChip, { days: days })))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isAdmin ? "40px 1fr 1fr 1fr 36px" : "40px 1fr 1fr 1fr", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: {}, kind: "asset", assetId: a.id }); }, title: __t("Sticker QR apparecchio"), style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", touchAction: "manipulation" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#a855f7", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u26A1 Sicur."),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#06b6d4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2713 Funz."),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: isAdmin ? "1px solid var(--border-2)" : "none", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Mod."),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#a855f7", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u26A1 Sicur.")),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#06b6d4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u2713 Funz.")),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: isAdmin ? "1px solid var(--border-2)" : "none", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Mod.")),
 isAdmin ? React.createElement("button", { onClick: (e) => { e.stopPropagation(); delAsset(a.id); }, title: __t("Elimina apparecchio (solo admin)"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715") : null))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_apparecchi", defaultSort: "assetCode", onRowClick: row => openAsset(row.id), rowBg: row => row.status === "fuori servizio" ? "#ef333308" : row.status === "in manutenzione" ? "#f59e0b08" : "", cols: [
@@ -3212,7 +3212,7 @@ React.createElement("span", { style: { fontSize: 13, color: "#a855f7", fontWeigh
 total.toFixed(0)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateJobPDF(j, assets, parts, customers, company); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "job", data: j }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "job", data: j }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); delJob(j.id); }, title: __t("Elimina job"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_job", defaultSort: "openDate", rowBg: row => row.priority === "urgente" && row.status !== "chiuso" ? "#ef333308" : row.priority === "alta" && row.status !== "chiuso" ? "#f9730008" : "", cols: [
@@ -3331,7 +3331,7 @@ React.createElement("span", { style: { color: "#22c55e", fontWeight: 700, fontFa
 parseFloat(p.sellPrice || p.unitPrice || 0).toFixed(2)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "withdrawal", partId: p.id }); }, style: { background: "transparent", color: "#22c55e", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2193 Scarica"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "part", data: p }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "part", data: p }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); delPart(p.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_ricambi", defaultSort: "name", rowBg: row => row.qty === 0 ? "#ef333308" : row.qty <= row.minQty ? "#f59e0b08" : "", cols: [
@@ -3409,7 +3409,7 @@ c.address && React.createElement("div", { style: { fontSize: 11, color: "var(--t
 c.address)),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "44px 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "clientReport", data: c }); }, title: __t("Report parco macchine"), style: { background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14 } }, ""),
-isAdmin && React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "customer", data: c }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+isAdmin && React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "customer", data: c }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 isAdmin && React.createElement("button", { onClick: (e) => { e.stopPropagation(); delCustomer(c.id); }, title: __t("Elimina cliente"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_clienti", defaultSort: "name", cols: [
@@ -3491,7 +3491,7 @@ React.createElement("span", { style: { fontSize: 16, color: "#22c55e", fontWeigh
 tot.toFixed(2)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateInvoicePDF(i, c, jobs, assets, parts, company); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "invoice", data: i }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "invoice", data: i }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); delInvoice(i.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_fatture", defaultSort: "date", cols: [
@@ -3594,7 +3594,7 @@ funcReports.length,
 Object.keys(allTemplates).length - 1,
 " template disponibili")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "func", data: null, assetId: null }) }, "+ Nuova verifica"),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "func", data: null, assetId: null }) }, __t("+ Nuova verifica")),
 React.createElement(OverflowMenu, { items: [
 { label: "\u2699 Gestione template", onClick: () => setModal({ type: "templateManager" }) },
 { label: "\u2699 Checklist PPM", onClick: () => setModal({ type: "ppmChecklist" }) }
@@ -3622,7 +3622,7 @@ outcome: x => x.verifyStatus === "non_disponibile" ? "non eseguita" : ((x.overal
 });
 return (React.createElement(React.Fragment, null,
 React.createElement(MobileSearch, { value: mobileSearch.func, onChange: v => updMS("func", v), placeholder: __t("Cerca verifica funzionale\u2026"), count: filteredFunc.length, total: funcReports.length }),
-filteredFunc.length > 0 && React.createElement("div", { style: { margin: "0 0 10px" } }, React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { mtStartBulk(filteredFunc, "func", { assets: assets, customers: customers, company: company, templates: allTemplates }); } }, "\u2B07 Scarica tutti i PDF in ZIP (" + filteredFunc.length + ")")),
+filteredFunc.length > 0 && React.createElement("div", { style: { margin: "0 0 10px" } }, React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { mtStartBulk(filteredFunc, "func", { assets: assets, customers: customers, company: company, templates: allTemplates }); } }, __t("\u2B07 Scarica tutti i PDF in ZIP (") + filteredFunc.length + ")")),
 React.createElement(FilterDropdown, { filters: {
 templateId: { label: __t("Tipo apparecchio"), options: Object.values(allTemplates).map(t => t.label).sort(), value: activeFilters.func.templateId },
 verifyType: { label: __t("Tipo verifica"), options: ["periodica", "dopo riparazione", "prima messa in servizio", "straordinaria"], value: activeFilters.func.verifyType },
@@ -3641,7 +3641,7 @@ React.createElement("option", { value: "date_desc" }, __t("Data (pi\u00F9 recent
 React.createElement("option", { value: "date_asc" }, __t("Data (pi\u00F9 vecchie)")),
 React.createElement("option", { value: "asset_asc" }, __t("Apparecchio (A \u2192 Z)")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
-React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "\u25a4 Vista estesa" : "\u2263 Vista compatta")),
+React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? __t("\u25a4 Vista estesa") : __t("\u2263 Vista compatta"))),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
 filteredFunc.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessuna verifica corrisponde ai filtri"))),
 sortReportsList(filteredFunc, mobileSort.func).map(r => {
@@ -3677,7 +3677,7 @@ c.name && React.createElement("div", { style: { fontSize: 11, color: "var(--text
 "",
 c.name),
 React.createElement("div", { style: { display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap", fontSize: 10 } },
-React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: r.verifyType === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, r.verifyType || "periodica"),
+React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: r.verifyType === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, __t(r.verifyType || "periodica")),
 React.createElement("span", { style: { padding: "2px 6px", color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, r.date)),
 r.technician && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 6 } },
 " ",
@@ -3688,7 +3688,7 @@ React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: r.p
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "40px 1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: r, kind: "func" }); }, title: __t("Sticker QR"), style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateFuncPDF(r, a, c, company, allTemplates); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", data: r }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", data: r }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); delFuncReport(r.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_verifiche_funzionali", defaultSort: "date", rowBg: row => row.overallPass === false || row.overallPass === "false" ? "#ef333308" : "", cols: [
@@ -3722,9 +3722,9 @@ React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, d
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 "IEC 62353 \u00B7 IEC 61010-1 \u00B7 ",
 iecReports.length,
-" rapporti")),
+__t(" rapporti"))),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "iec", data: null, assetId: null }) }, "+ Nuova verifica"),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "iec", data: null, assetId: null }) }, __t("+ Nuova verifica")),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportIecReports }] }))),
 iecReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u26A1", title: __t("Nessuna verifica di sicurezza elettrica"), subtitle: __t("Esegui verifiche periodiche IEC 62353 (elettromedicali) o IEC 61010-1 (laboratorio): misure di PE, isolamento, dispersioni Equipment Leakage e Applied Part. Metodi supportati: diretto, differenziale, alternativo."), actions: [
 { label: "+ Nuova verifica sicurezza elettrica", onClick: () => setModal({ type: "iec", data: null, assetId: null }), primary: true }
@@ -3750,7 +3750,7 @@ outcome: x => x.verifyStatus === "non_disponibile" ? "non eseguita" : ((x.overal
 });
 return (React.createElement(React.Fragment, null,
 React.createElement(MobileSearch, { value: mobileSearch.iec, onChange: v => updMS("iec", v), placeholder: __t("Cerca seriale, n\u00B0 inventario, rapporto\u2026"), count: filteredIec.length, total: iecReports.length }),
-filteredIec.length > 0 && React.createElement("div", { style: { margin: "0 0 10px" } }, React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { mtStartBulk(filteredIec, "iec", { assets: assets, customers: customers, company: company, templates: allTemplates }); } }, "\u2B07 Scarica tutti i PDF in ZIP (" + filteredIec.length + ")")),
+filteredIec.length > 0 && React.createElement("div", { style: { margin: "0 0 10px" } }, React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { mtStartBulk(filteredIec, "iec", { assets: assets, customers: customers, company: company, templates: allTemplates }); } }, __t("\u2B07 Scarica tutti i PDF in ZIP (") + filteredIec.length + ")")),
 React.createElement(FilterDropdown, { filters: {
 norm: { label: __t("Norma"), options: ["62353", "61010"], value: activeFilters.iec.norm },
 equipClass: { label: __t("Classe elettrica"), options: ["I", "II", "III"], value: activeFilters.iec.equipClass },
@@ -3772,7 +3772,7 @@ React.createElement("option", { value: "date_desc" }, __t("Data (pi\u00F9 recent
 React.createElement("option", { value: "date_asc" }, __t("Data (pi\u00F9 vecchie)")),
 React.createElement("option", { value: "asset_asc" }, __t("Apparecchio (A \u2192 Z)")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
-React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "▤ Vista estesa" : "≣ Vista compatta")),
+React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? __t("▤ Vista estesa") : __t("≣ Vista compatta"))),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
 filteredIec.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessuna verifica corrisponde ai filtri"))),
 sortReportsList(filteredIec, mobileSort.iec).map(r => {
@@ -3812,7 +3812,7 @@ r.norm),
 r.equipClass && React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: "var(--text-2)" } },
 __t("Cl. "),
 r.equipClass),
-React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: r.verifyType === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, r.verifyType || "periodica"),
+React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: r.verifyType === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, __t(r.verifyType || "periodica")),
 React.createElement("span", { style: { padding: "2px 6px", color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, r.date)),
 r.technician && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 6 } },
 " ",
@@ -3823,7 +3823,7 @@ React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: r.p
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "40px 1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: r, kind: "iec" }); }, title: __t("Sticker QR"), style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateIECPDF(r, a, c, company); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", data: r }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", data: r }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); delIecReport(r.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_verifiche_sicurezza", defaultSort: "date", rowBg: row => row.overallPass === false || row.overallPass === "false" ? "#ef333308" : "", cols: [
