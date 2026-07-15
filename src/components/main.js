@@ -2494,7 +2494,7 @@ items: [
 ]
 },
 {
-id: "g_assets", label: "APPARECCHIATURE",
+id: "g_assets", label: __t("APPARECCHIATURE"),
 items: [
 { id: "assets", label: __t("Apparecchi"), icon: "›", badge: stats.outOfService > 0 ? stats.outOfService : null, bColor: "#ef4444" },
 { id: "ricognizione", label: "RFID", icon: "›" },
@@ -2503,7 +2503,7 @@ items: [
 ]
 },
 {
-id: "g_maint", label: "MANUTENZIONE",
+id: "g_maint", label: __t("MANUTENZIONE"),
 items: [
 { id: "jobs", label: __t("Job / Interventi"), icon: "›", badge: stats.urgentJobs > 0 ? stats.urgentJobs : null, bColor: "#ef4444" },
 { id: "richieste", label: __t("Richieste clienti"), icon: "›", badge: (richieste.filter(r => r.status === "nuova").length) || null, bColor: "#2dd4bf" },
@@ -2515,14 +2515,14 @@ items: [
 ]
 },
 {
-id: "g_stock", label: "GESTIONE",
+id: "g_stock", label: __t("GESTIONE"),
 items: [
 { id: "parts", label: __t("Magazzino"), icon: "›", badge: stats.lowStock > 0 ? stats.lowStock : null, bColor: "#f59e0b" },
 { id: "invoices", label: __t("Preventivi"), icon: "›", badge: stats.pendingInvoices > 0 ? stats.pendingInvoices : null, bColor: "#2dd4bf" },
 ]
 },
 {
-id: "g_sys", label: "DOCUMENTAZIONE & AIUTO",
+id: "g_sys", label: __t("DOCUMENTAZIONE & AIUTO"),
 items: [
 { id: "help", label: __t("Guida"), icon: "›" },
 ]
@@ -2736,9 +2736,9 @@ React.createElement("div", { style: { textAlign: "center", marginBottom: 24 } },
 React.createElement("div", { style: { fontSize: 22, fontWeight: 800, color: "var(--text-bright)", marginBottom: 6 } }, "Benvenuto" + (company.name ? " in " + company.name : " in MedTrace")),
 React.createElement("div", { style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 } }, __t("Tre passi per iniziare. Bastano un paio di minuti."))),
 [
-{ n: 1, t: "Aggiungi un cliente", d: "La struttura o lo studio dove si trovano gli apparecchi.", show: isAdmin, btn: "+ Nuovo cliente", go: () => { setTab("customers"); setModal({ type: "customer", data: null }); } },
-{ n: 2, t: "Registra un apparecchio", d: "Il dispositivo da gestire: nome, marca, numero di serie.", show: true, btn: "+ Nuovo apparecchio", go: () => { setTab("assets"); setModal({ type: "asset", data: null }); } },
-{ n: 3, t: "Esegui la prima verifica", d: "Sicurezza elettrica o funzionale, dalla scheda dell'apparecchio.", show: true, btn: "Vai agli apparecchi", go: () => setTab("assets") },
+{ n: 1, t: __t("Aggiungi un cliente"), d: __t("La struttura o lo studio dove si trovano gli apparecchi."), show: isAdmin, btn: __t("+ Nuovo cliente"), go: () => { setTab("customers"); setModal({ type: "customer", data: null }); } },
+{ n: 2, t: __t("Registra un apparecchio"), d: __t("Il dispositivo da gestire: nome, marca, numero di serie."), show: true, btn: __t("+ Nuovo apparecchio"), go: () => { setTab("assets"); setModal({ type: "asset", data: null }); } },
+{ n: 3, t: __t("Esegui la prima verifica"), d: __t("Sicurezza elettrica o funzionale, dalla scheda dell'apparecchio."), show: true, btn: __t("Vai agli apparecchi"), go: () => setTab("assets") },
 ].filter(s => s.show).map(s => (React.createElement("div", { key: s.n, style: { display: "flex", gap: 14, alignItems: "center", background: "var(--surface)", border: "1px solid #24242F", borderRadius: 12, padding: "14px 16px", marginBottom: 10 } },
 React.createElement("div", { style: { width: 32, height: 32, borderRadius: "50%", background: "#2dd4bf22", border: "1px solid #2dd4bf55", color: "#5eead4", fontWeight: 800, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 } }, s.n),
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
