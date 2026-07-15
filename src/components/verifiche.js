@@ -547,7 +547,12 @@ h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 1
 h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleNA(mm.id) }), __t("Non applicabile a questo apparecchio (N/A)")),
 h("button", { type: "button", onClick: () => setTutOpen(o => !o), style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: "11px 14px", color: "var(--text-2)", fontSize: 13, fontWeight: 600, cursor: "pointer" } }, h("span", null, __t("Come mi collego")), h("span", { style: { color: TEAL, transform: tutOpen ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "›")),
 tutOpen ? h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 10px 10px", padding: "12px 14px", marginTop: -4 } },
-["Spegni e scollega l'apparecchio dalla rete.", "Collega le sonde del tester secondo la misura (PE su masse, parte applicata, ecc.).", "Avvia la misura e attendi il valore stabile, poi trascrivilo."].map((t, i) => h("div", { key: i, style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, paddingLeft: 18, position: "relative", marginBottom: 4 } }, h("span", { style: { position: "absolute", left: 0, color: TEAL, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }, (i + 1) + "."), t))) : null);
+(() => { const tut = tutorialFor(mm.id, f.fixedInstall); if (tut) { return h("div", null,
+h("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--text)", marginBottom: 10 } }, tut.titolo),
+h("div", { style: { display: "flex", justifyContent: "center", marginBottom: 10 } }, h(TutorialSVG, { kind: tut.svg })),
+h("ol", { style: { margin: 0, paddingLeft: 18, fontSize: 12, color: "var(--text-strong)", lineHeight: 1.6 } }, tut.passi.map((p, i) => h("li", { key: i }, p))),
+tut.nota ? h("div", { style: { fontSize: 11, color: "#f59e0b", marginTop: 8, fontStyle: "italic" } }, "\u26A0 ", tut.nota) : null); }
+return h("ol", { style: { margin: 0, paddingLeft: 18, fontSize: 12, color: "var(--text-strong)", lineHeight: 1.6 } }, [__t("Spegni e scollega l'apparecchio dalla rete."), __t("Collega le sonde del tester secondo la misura (PE su masse, parte applicata, ecc.)."), __t("Avvia la misura e attendi il valore stabile, poi trascrivilo.")].map((p, i) => h("li", { key: i }, p))); })()) : null);
 } else {
 // esito
 const incomplete = steps.some(st => (st.key === "meas" || st.key === "visiva" || st.key === "setup") && !stepFilled(st));
@@ -590,240 +595,9 @@ cur < TOT - 1
 (cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? __t("Seleziona l'apparecchio per continuare") : sObj.key === "visiva" ? __t("Segna tutte le voci (OK/NO) per continuare") : __t("Inserisci il valore o segna N/A per continuare")) : null);
 }
 export function IECReportForm({ initial, assetId: propAssetId, assets, customers, existingReports, instruments, technicians, onSave, onClose, isAdmin }) {
-const MEAS_TUTORIAL = {
-encl: {
-titolo: "Dispersione dell'involucro (touch current)",
-passi: [
-"Inserisci la SPINA del dispositivo nell'analizzatore: lo strumento lo alimenta e misura la corrente di ritorno (servono sempre due collegamenti).",
-"Apparecchio acceso, nelle normali condizioni d'uso. Imposta l'analizzatore in modalità dispersione involucro / touch.",
-"Con la sonda dell'analizzatore tocca le parti metalliche accessibili NON collegate a terra (carcassa, viti, connettori esterni, supporti).",
-"Leggi la corrente: su apparecchio sano resta molto bassa. Limite ≤ 100 µA in condizione normale (NC)."
-],
-nota: "Due collegamenti: spina del MD nell'analizzatore + sonda sull'involucro. Sui fissi questa misura sostituisce l'equipment leakage; l'interruzione del PE non si simula come primo guasto (niente SFC sulla terra).",
-svg: "encl"
-},
-pat: {
-titolo: "Dispersione parte applicata (paziente)",
-passi: [
-"Inserisci la SPINA del dispositivo nell'analizzatore (anche qui servono due collegamenti).",
-"Collega i terminali della parte applicata al morsetto P.A. Attenzione: ogni elettrodo è una parte applicata a sé (un ECG ne ha tanti). Raggruppa al morsetto i terminali della STESSA funzione.",
-"Imposta il tipo corretto B / BF / CF (sull'etichetta dell'apparecchio). Le CF una funzione alla volta; le tipo B di solito non si misurano a parte.",
-"Leggi e confronta col limite del tipo: BF ≤ 5000 µA, CF ≤ 50 µA. Il CF è molto più severo perché applicato al cuore."
-],
-nota: "Due collegamenti: spina del MD + terminali P.A. al morsetto. Su apparecchi con più parti applicate (es. ECG) si misura una funzione alla volta.",
-svg: "pat"
-},
-ins_main: {
-titolo: "Resistenza di isolamento — rete vs parti accessibili",
-passi: [
-"Apparecchio SPENTO e scollegato dalla rete. Interruttore d'accensione su ON (così la prova copre tutto il circuito di rete).",
-"L'analizzatore applica 500 Vdc tra i conduttori di rete (fase+neutro uniti) e le parti accessibili / terra.",
-"Leggi la resistenza in MΩ: più alta è, meglio è. Su Classe I limite ≥ 2 MΩ; su Classe II ≥ 7 MΩ (l'isolamento è l'UNICA protezione, quindi più severo).",
-"Valori bassi = isolamento degradato: campanello d'allarme anche se le dispersioni sembrano a posto."
-],
-nota: "È una prova in tensione continua, non una dispersione. Si fa a macchina spenta. Alcuni costruttori la sconsigliano su elettronica sensibile: controlla i documenti d'accompagnamento.",
-svg: "ins"
-},
-ins_pa: {
-titolo: "Resistenza di isolamento — parte applicata vs rete",
-passi: [
-"Apparecchio spento. Collega insieme i terminali della parte applicata.",
-"L'analizzatore applica 500 Vdc tra la parte applicata e i conduttori di rete.",
-"Leggi in MΩ: limite ≥ 2 MΩ. Verifica la tenuta dell'isolamento tra paziente e rete.",
-"Per parti applicate multiple (es. ECG) raggruppa per funzione, come per la dispersione."
-],
-nota: "Prova in continua a macchina spenta. Su elettronica sensibile, verifica prima i documenti del costruttore.",
-svg: "ins"
-},
-id_eq: {
-titolo: "Equipment leakage (dispersione d'apparecchio)",
-passi: [
-"Inserisci la SPINA del dispositivo nell'analizzatore (servono sempre due collegamenti).",
-"Apparecchio acceso. L'analizzatore misura la dispersione TOTALE verso terra (somma di involucro, parti applicate e parte di rete).",
-"Su Classe I limite ≤ 500 µA; su Classe II ≤ 100 µA (qui si chiama touch current perché non c'è terra di protezione).",
-"Metodo diretto o differenziale; sui fissi vale l'avviso sul percorso di terra secondario."
-],
-nota: "Su Classe II non c'è PE: la protezione è tutta nell'isolamento, perciò il limite di dispersione è più severo (100 µA).",
-svg: "encl"
-}
-};
-function tutorialFor(id, fixed) {
-if (id === "pe") {
-return fixed ? {
-titolo: "Resistenza di terra — apparecchio FISSO (point-to-point)",
-passi: [
-"L'apparecchio è cablato in rete: non c'è spina da inserire nell'analizzatore.",
-"Inserisci un cavo nella presa AUX GROUND dell'analizzatore e portalo al PE dell'impianto (morsetto di terra del quadro/equipotenziale).",
-"Con la sonda mobile tocca il nodo equipotenziale della macchina e ogni parte metallica accessibile.",
-"L'analizzatore misura la resistenza TRA i due cavi (point-to-point). Misura più punti, tieni il valore più alto."
-],
-nota: "Limite dipendente dalla lunghezza del conduttore: su un fisso può superare 0,3 Ω (campo modificabile).",
-svg: "pe_fixed"
-} : {
-titolo: "Resistenza conduttore di protezione (PE) — apparecchio MOBILE",
-passi: [
-"Inserisci la SPINA dell'apparecchio nella presa dell'analizzatore: così lo strumento accede al polo di terra del cavo.",
-"Prendi la sonda mobile dell'analizzatore e appoggiala sul nodo equipotenziale dietro la macchina (e su ogni parte metallica accessibile).",
-"L'analizzatore misura la resistenza dal cavo (spina) fino al punto toccato dalla sonda.",
-"Misura più punti, non uno solo: tieni il valore PIÙ ALTO come risultato."
-],
-nota: "Corrente di prova ≥ 200 mA. Per apparecchio con cavo: fletti il cavo durante la misura, il valore non deve saltare.",
-svg: "pe_mobile"
-};
-}
-if (id === "encl") {
-return fixed ? {
-titolo: "Dispersione involucro — FISSO (point-to-point)",
-passi: [
-"L'apparecchio è cablato in rete e resta acceso, alimentato dalla SUA rete (non dall'analizzatore).",
-"Puntale NERO (riferimento) sul nodo equipotenziale dell'impianto; puntale ROSSO sulle parti metalliche accessibili della macchina.",
-"È il metodo DIRETTO point-to-point. Misura più punti; il limite touch resta ≤ 100 µA.",
-"⚠ Attenzione al percorso di terra secondario: se la macchina è collegata a terra anche da struttura/cavo dati, la corrente può fluire da lì e darti una lettura ZERO ingannevole (apparecchio guasto che 'passa')."
-],
-nota: "Rimedio: scollega la terra secondaria (es. cavo dati) se puoi; se NON puoi rimuoverla, passa al metodo DIFFERENZIALE (non usa il modello da 1 kΩ e misura comunque la dispersione totale).",
-svg: "encl_fixed"
-} : MEAS_TUTORIAL.encl;
-}
-if (id === "id_pa" || id === "pat") {
-return fixed ? {
-titolo: "Dispersione parte applicata — FISSO (point-to-point)",
-passi: [
-"Apparecchio acceso e alimentato dalla sua rete. Puntale NERO sul nodo equipotenziale.",
-"Puntale ROSSO sui terminali della parte applicata (raggruppati per funzione). Ogni elettrodo è una P.A. a sé: misura una funzione alla volta.",
-"Limiti per tipo: BF ≤ 5000 µA, CF ≤ 50 µA.",
-"⚠ Vale lo stesso avviso sul percorso di terra secondario: lettura troppo bassa può ingannare."
-],
-nota: "Se c'è terra secondaria non rimovibile, usa il metodo differenziale. Nota: molti apparecchi fissi (radiografici) non hanno parti applicate — in quel caso questa misura non si applica.",
-svg: "pat_fixed"
-} : MEAS_TUTORIAL.pat;
-}
-if (MEAS_TUTORIAL[id])
-return MEAS_TUTORIAL[id];
-for (const k of Object.keys(MEAS_TUTORIAL)) {
-if (id && id.indexOf(k) === 0)
-return MEAS_TUTORIAL[k];
-}
-return null;
-}
-function TutorialSVG({ kind }) {
-const C = { fill: "#161c2b", stroke: "#37425e", dut: "#6678a0", ana: "#2dd4bf", red: "#f0584f", neu: "#d3dbf2", pa: "#b06cf2", txt: "var(--text)", sub: "var(--text-2)", faint: "#7e8aa8" };
-const Card = ({ x, y, w, h, label, sub, tone }) => (React.createElement("g", null,
-React.createElement("rect", { x: x, y: y, width: w, height: h, rx: 12, fill: C.fill, stroke: tone || C.stroke, strokeWidth: 1.8 }),
-React.createElement("text", { x: x + w / 2, y: y + (sub ? h / 2 - 5 : h / 2 + 4), textAnchor: "middle", fill: C.txt, fontSize: 12, fontWeight: 700, fontFamily: "system-ui" }, label),
-sub ? React.createElement("text", { x: x + w / 2, y: y + h / 2 + 13, textAnchor: "middle", fill: C.faint, fontSize: 10, fontFamily: "system-ui" }, sub) : null));
-const Dot = ({ x, y, c }) => (React.createElement("g", null,
-React.createElement("circle", { cx: x, cy: y, r: 7, fill: "none", stroke: c, strokeWidth: 1.4, opacity: 0.4 }),
-React.createElement("circle", { cx: x, cy: y, r: 4, fill: c, stroke: "#0a0a0f", strokeWidth: 1 })));
-const Wire = ({ d, c, flow }) => React.createElement("path", { d: d, stroke: c, strokeWidth: flow ? 3 : 2.5, fill: "none", strokeLinecap: "round", strokeLinejoin: "round", strokeDasharray: flow ? "6 7" : "none" }, flow ? React.createElement("animate", { attributeName: "stroke-dashoffset", from: "0", to: "-13", dur: "0.9s", repeatCount: "indefinite" }) : null);
-const T = ({ x, y, t, a }) => React.createElement("text", { x: x, y: y, textAnchor: a || "middle", fill: C.sub, fontSize: 10, fontFamily: "system-ui" }, t);
-const Leg = ({ x, y, c, t }) => (React.createElement("g", null,
-React.createElement("rect", { x: x, y: y - 7, width: 16, height: 9, rx: 3, fill: c }),
-React.createElement("text", { x: x + 23, y: y + 1.5, fill: C.faint, fontSize: 11, fontFamily: "system-ui" }, t)));
-const Gnd = ({ x, y }) => (React.createElement("g", { stroke: C.neu, strokeWidth: 1.6, strokeLinecap: "round" },
-React.createElement("line", { x1: x, y1: y - 8, x2: x, y2: y }),
-React.createElement("line", { x1: x - 7, y1: y, x2: x + 7, y2: y }),
-React.createElement("line", { x1: x - 4.5, y1: y + 3, x2: x + 4.5, y2: y + 3 }),
-React.createElement("line", { x1: x - 2, y1: y + 6, x2: x + 2, y2: y + 6 })));
-const MD = ({ x, y }) => (React.createElement("g", null,
-React.createElement("rect", { x: x, y: y, width: 48, height: 18, rx: 5, fill: "#0e1422", stroke: C.red, strokeWidth: 1.2 }),
-React.createElement("text", { x: x + 24, y: y + 12.5, textAnchor: "middle", fill: C.red, fontSize: 10, fontWeight: 700, fontFamily: "system-ui" }, __t("MD 1k\u03A9"))));
-const wrap = (h, kids) => React.createElement("svg", { viewBox: "0 0 340 " + h, style: { width: "100%", maxWidth: 340, height: "auto" } }, kids);
-if (kind === "pe_mobile")
-return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: __t("Apparecchio"), tone: C.dut }),
-React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(Wire, { key: "w1", d: "M150 96 H210", c: C.red }),
-React.createElement(T, { key: "t1", x: 180, y: 89, t: "spina \u2192 analizzatore" }),
-React.createElement(Wire, { key: "w2", d: "M210 54 H150", c: C.neu, flow: true }),
-React.createElement(Dot, { key: "dot", x: 150, y: 54, c: C.neu }),
-React.createElement(Gnd, { key: "g", x: 131, y: 80 }),
-React.createElement(T, { key: "t2", x: 150, y: 24, t: "equipotenziale / parti metalliche" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 188, c: C.red, t: "spina dell'apparecchio nell'analizzatore" }),
-React.createElement(Leg, { key: "l2", x: 20, y: 206, c: C.neu, t: "sonda sull'equipotenziale (percorso di prova)" })
-]);
-if (kind === "pe_fixed")
-return wrap(230, [
-React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: __t("Apparecchio"), sub: "(fisso)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(Wire, { key: "w2", d: "M210 54 H150", c: C.neu, flow: true }),
-React.createElement(Dot, { key: "dot", x: 150, y: 54, c: C.neu }),
-React.createElement(T, { key: "t2", x: 150, y: 24, t: "equipotenziale macchina" }),
-React.createElement(Wire, { key: "w1", d: "M252 112 V188 H56 V172", c: C.red }),
-React.createElement(Gnd, { key: "g", x: 56, y: 184 }),
-React.createElement(T, { key: "t3", x: 72, y: 165, t: "PE impianto (quadro)", a: "start" }),
-React.createElement(T, { key: "t4", x: 256, y: 128, t: "aux ground" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 210, c: C.red, t: "cavo AUX GROUND \u2192 PE impianto" }),
-React.createElement(Leg, { key: "l2", x: 20, y: 226, c: C.neu, t: "sonda \u2192 equipotenziale macchina" })
-]);
-if (kind === "encl")
-return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(acceso)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(MD, { key: "md", x: 243, y: 88 }),
-React.createElement(Wire, { key: "w1", d: "M160 98 H215", c: C.red, flow: true }),
-React.createElement(T, { key: "t1", x: 188, y: 91, t: "spina (via MD)" }),
-React.createElement(Wire, { key: "w2", d: "M215 54 H160", c: C.neu, flow: true }),
-React.createElement(Dot, { key: "dot", x: 160, y: 54, c: C.neu }),
-React.createElement(T, { key: "t2", x: 156, y: 24, t: "involucro (parti non a terra)" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 190, c: C.red, t: "spina nell'analizzatore (corrente via MD)" }),
-React.createElement(Leg, { key: "l2", x: 20, y: 207, c: C.neu, t: "sonda sull'involucro" })
-]);
-if (kind === "encl_fixed")
-return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(fisso, su sua rete)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(Wire, { key: "w1", d: "M215 54 H160", c: C.red, flow: true }),
-React.createElement(Dot, { key: "d1", x: 160, y: 54, c: C.red }),
-React.createElement(T, { key: "t1", x: 150, y: 24, t: "ROSSO \u2192 involucro macchina" }),
-React.createElement(Wire, { key: "w2", d: "M262 116 V186 H50 V160", c: C.neu }),
-React.createElement(Dot, { key: "d2", x: 50, y: 160, c: C.neu }),
-React.createElement(Gnd, { key: "g", x: 50, y: 176 }),
-React.createElement(T, { key: "t2", x: 66, y: 154, t: "NERO \u2192 nodo equipotenziale", a: "start" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 207, c: C.red, t: "rosso sulla parte da misurare" })
-]);
-if (kind === "ins")
-return wrap(195, [
-React.createElement(Card, { key: "d", x: 20, y: 36, w: 140, h: 78, label: __t("Apparecchio"), sub: "(SPENTO, scollegato)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 36, w: 105, h: 78, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(Wire, { key: "w1", d: "M160 62 H215", c: C.red }),
-React.createElement(T, { key: "t1", x: 188, y: 55, t: "500 Vdc \u2192 rete" }),
-React.createElement(Wire, { key: "w2", d: "M160 92 H215", c: C.neu }),
-React.createElement(Dot, { key: "dot", x: 160, y: 92, c: C.neu }),
-React.createElement(T, { key: "t2", x: 186, y: 106, t: "parti access. / terra" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 172, c: C.red, t: "500 Vdc applicati ai conduttori di rete" })
-]);
-if (kind === "pat_fixed")
-return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(fisso)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(Wire, { key: "w1", d: "M215 50 H160", c: C.red, flow: true }),
-React.createElement(Wire, { key: "w1b", d: "M215 68 H160", c: C.red, flow: true }),
-React.createElement(Dot, { key: "d1", x: 160, y: 50, c: C.red }),
-React.createElement(Dot, { key: "d2", x: 160, y: 68, c: C.red }),
-React.createElement(T, { key: "t1", x: 150, y: 24, t: "ROSSO \u2192 parte applicata" }),
-React.createElement(Wire, { key: "w2", d: "M262 116 V186 H50 V160", c: C.neu }),
-React.createElement(Dot, { key: "d3", x: 50, y: 160, c: C.neu }),
-React.createElement(Gnd, { key: "g", x: 50, y: 176 }),
-React.createElement(T, { key: "t2", x: 66, y: 154, t: "NERO \u2192 nodo equipotenziale", a: "start" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 207, c: C.red, t: "rosso sui terminali P.A. (una funzione per volta)" })
-]);
-return wrap(235, [
-React.createElement(Card, { key: "d", x: 20, y: 36, w: 130, h: 94, label: __t("Apparecchio"), tone: C.dut }),
-React.createElement(Card, { key: "a", x: 225, y: 36, w: 95, h: 94, label: __t("Analizzatore"), tone: C.ana }),
-React.createElement(MD, { key: "md", x: 248, y: 96 }),
-React.createElement(Wire, { key: "w1", d: "M150 116 H225", c: C.red, flow: true }),
-React.createElement(T, { key: "t1", x: 188, y: 109, t: "spina (via MD)" }),
-React.createElement(Dot, { key: "p1", x: 150, y: 54, c: C.pa }),
-React.createElement(Dot, { key: "p2", x: 150, y: 74, c: C.pa }),
-React.createElement(Dot, { key: "p3", x: 150, y: 94, c: C.pa }),
-React.createElement(Wire, { key: "wp1", d: "M150 54 Q196 54 225 64", c: C.pa, flow: true }),
-React.createElement(Wire, { key: "wp2", d: "M150 74 H225", c: C.pa, flow: true }),
-React.createElement(Wire, { key: "wp3", d: "M150 94 Q196 94 225 82", c: C.pa, flow: true }),
-React.createElement(T, { key: "t2", x: 150, y: 26, t: "terminali stessa P.A. (es. elettrodi ECG)" }),
-React.createElement(Leg, { key: "l1", x: 20, y: 208, c: C.red, t: "spina nell'analizzatore (corrente via MD)" }),
-React.createElement(Leg, { key: "l2", x: 20, y: 225, c: C.pa, t: "terminali stessa funzione \u2192 morsetto P.A." })
-]);
-}
+
+
+
 const getMeasures = React.useCallback((norm, cls, patientType, method, sfc, fixed) => {
 if (norm === "61010")
 return [
@@ -1306,4 +1080,240 @@ React.createElement("ul", { style: { margin: "0 0 8px", paddingLeft: 18, fontSiz
 (info.opt && info.opt.length) ? React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, __t("Consigliati")) : null,
 (info.opt && info.opt.length) ? React.createElement("ul", { style: { margin: 0, paddingLeft: 18, fontSize: 12, color: "var(--text-2)", lineHeight: 1.5 } }, info.opt.map(function (s, i) { return React.createElement("li", { key: i }, s); })) : null,
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 8, fontStyle: "italic" } }, __t("Modelli citati come esempi neutri. Verifica la taratura degli strumenti e i limiti esatti su norme/manuali ufficiali."))));
+}
+
+/* — tutorial di collegamento: promossi a livello modulo per essere condivisi tra form classico e wizard (v3.32) — */
+const MEAS_TUTORIAL = {
+encl: {
+titolo: "Dispersione dell'involucro (touch current)",
+passi: [
+"Inserisci la SPINA del dispositivo nell'analizzatore: lo strumento lo alimenta e misura la corrente di ritorno (servono sempre due collegamenti).",
+"Apparecchio acceso, nelle normali condizioni d'uso. Imposta l'analizzatore in modalità dispersione involucro / touch.",
+"Con la sonda dell'analizzatore tocca le parti metalliche accessibili NON collegate a terra (carcassa, viti, connettori esterni, supporti).",
+"Leggi la corrente: su apparecchio sano resta molto bassa. Limite ≤ 100 µA in condizione normale (NC)."
+],
+nota: "Due collegamenti: spina del MD nell'analizzatore + sonda sull'involucro. Sui fissi questa misura sostituisce l'equipment leakage; l'interruzione del PE non si simula come primo guasto (niente SFC sulla terra).",
+svg: "encl"
+},
+pat: {
+titolo: "Dispersione parte applicata (paziente)",
+passi: [
+"Inserisci la SPINA del dispositivo nell'analizzatore (anche qui servono due collegamenti).",
+"Collega i terminali della parte applicata al morsetto P.A. Attenzione: ogni elettrodo è una parte applicata a sé (un ECG ne ha tanti). Raggruppa al morsetto i terminali della STESSA funzione.",
+"Imposta il tipo corretto B / BF / CF (sull'etichetta dell'apparecchio). Le CF una funzione alla volta; le tipo B di solito non si misurano a parte.",
+"Leggi e confronta col limite del tipo: BF ≤ 5000 µA, CF ≤ 50 µA. Il CF è molto più severo perché applicato al cuore."
+],
+nota: "Due collegamenti: spina del MD + terminali P.A. al morsetto. Su apparecchi con più parti applicate (es. ECG) si misura una funzione alla volta.",
+svg: "pat"
+},
+ins_main: {
+titolo: "Resistenza di isolamento — rete vs parti accessibili",
+passi: [
+"Apparecchio SPENTO e scollegato dalla rete. Interruttore d'accensione su ON (così la prova copre tutto il circuito di rete).",
+"L'analizzatore applica 500 Vdc tra i conduttori di rete (fase+neutro uniti) e le parti accessibili / terra.",
+"Leggi la resistenza in MΩ: più alta è, meglio è. Su Classe I limite ≥ 2 MΩ; su Classe II ≥ 7 MΩ (l'isolamento è l'UNICA protezione, quindi più severo).",
+"Valori bassi = isolamento degradato: campanello d'allarme anche se le dispersioni sembrano a posto."
+],
+nota: "È una prova in tensione continua, non una dispersione. Si fa a macchina spenta. Alcuni costruttori la sconsigliano su elettronica sensibile: controlla i documenti d'accompagnamento.",
+svg: "ins"
+},
+ins_pa: {
+titolo: "Resistenza di isolamento — parte applicata vs rete",
+passi: [
+"Apparecchio spento. Collega insieme i terminali della parte applicata.",
+"L'analizzatore applica 500 Vdc tra la parte applicata e i conduttori di rete.",
+"Leggi in MΩ: limite ≥ 2 MΩ. Verifica la tenuta dell'isolamento tra paziente e rete.",
+"Per parti applicate multiple (es. ECG) raggruppa per funzione, come per la dispersione."
+],
+nota: "Prova in continua a macchina spenta. Su elettronica sensibile, verifica prima i documenti del costruttore.",
+svg: "ins"
+},
+id_eq: {
+titolo: "Equipment leakage (dispersione d'apparecchio)",
+passi: [
+"Inserisci la SPINA del dispositivo nell'analizzatore (servono sempre due collegamenti).",
+"Apparecchio acceso. L'analizzatore misura la dispersione TOTALE verso terra (somma di involucro, parti applicate e parte di rete).",
+"Su Classe I limite ≤ 500 µA; su Classe II ≤ 100 µA (qui si chiama touch current perché non c'è terra di protezione).",
+"Metodo diretto o differenziale; sui fissi vale l'avviso sul percorso di terra secondario."
+],
+nota: "Su Classe II non c'è PE: la protezione è tutta nell'isolamento, perciò il limite di dispersione è più severo (100 µA).",
+svg: "encl"
+}
+};
+function tutorialFor(id, fixed) {
+if (id === "pe") {
+return fixed ? {
+titolo: __t("Resistenza di terra — apparecchio FISSO (point-to-point)"),
+passi: [
+__t("L'apparecchio è cablato in rete: non c'è spina da inserire nell'analizzatore."),
+__t("Inserisci un cavo nella presa AUX GROUND dell'analizzatore e portalo al PE dell'impianto (morsetto di terra del quadro/equipotenziale)."),
+__t("Con la sonda mobile tocca il nodo equipotenziale della macchina e ogni parte metallica accessibile."),
+__t("L'analizzatore misura la resistenza TRA i due cavi (point-to-point). Misura più punti, tieni il valore più alto.")
+],
+nota: __t("Limite dipendente dalla lunghezza del conduttore: su un fisso può superare 0,3 Ω (campo modificabile)."),
+svg: "pe_fixed"
+} : {
+titolo: __t("Resistenza conduttore di protezione (PE) — apparecchio MOBILE"),
+passi: [
+__t("Inserisci la SPINA dell'apparecchio nella presa dell'analizzatore: così lo strumento accede al polo di terra del cavo."),
+__t("Prendi la sonda mobile dell'analizzatore e appoggiala sul nodo equipotenziale dietro la macchina (e su ogni parte metallica accessibile)."),
+__t("L'analizzatore misura la resistenza dal cavo (spina) fino al punto toccato dalla sonda."),
+__t("Misura più punti, non uno solo: tieni il valore PIÙ ALTO come risultato.")
+],
+nota: __t("Corrente di prova ≥ 200 mA. Per apparecchio con cavo: fletti il cavo durante la misura, il valore non deve saltare."),
+svg: "pe_mobile"
+};
+}
+if (id === "encl") {
+return fixed ? {
+titolo: __t("Dispersione involucro — FISSO (point-to-point)"),
+passi: [
+__t("L'apparecchio è cablato in rete e resta acceso, alimentato dalla SUA rete (non dall'analizzatore)."),
+__t("Puntale NERO (riferimento) sul nodo equipotenziale dell'impianto; puntale ROSSO sulle parti metalliche accessibili della macchina."),
+__t("È il metodo DIRETTO point-to-point. Misura più punti; il limite touch resta ≤ 100 µA."),
+__t("⚠ Attenzione al percorso di terra secondario: se la macchina è collegata a terra anche da struttura/cavo dati, la corrente può fluire da lì e darti una lettura ZERO ingannevole (apparecchio guasto che 'passa').")
+],
+nota: __t("Rimedio: scollega la terra secondaria (es. cavo dati) se puoi; se NON puoi rimuoverla, passa al metodo DIFFERENZIALE (non usa il modello da 1 kΩ e misura comunque la dispersione totale)."),
+svg: "encl_fixed"
+} : MEAS_TUTORIAL.encl;
+}
+if (id === "id_pa" || id === "pat") {
+return fixed ? {
+titolo: __t("Dispersione parte applicata — FISSO (point-to-point)"),
+passi: [
+__t("Apparecchio acceso e alimentato dalla sua rete. Puntale NERO sul nodo equipotenziale."),
+__t("Puntale ROSSO sui terminali della parte applicata (raggruppati per funzione). Ogni elettrodo è una P.A. a sé: misura una funzione alla volta."),
+__t("Limiti per tipo: BF ≤ 5000 µA, CF ≤ 50 µA."),
+__t("⚠ Vale lo stesso avviso sul percorso di terra secondario: lettura troppo bassa può ingannare.")
+],
+nota: __t("Se c'è terra secondaria non rimovibile, usa il metodo differenziale. Nota: molti apparecchi fissi (radiografici) non hanno parti applicate — in quel caso questa misura non si applica."),
+svg: "pat_fixed"
+} : MEAS_TUTORIAL.pat;
+}
+if (MEAS_TUTORIAL[id])
+return MEAS_TUTORIAL[id];
+for (const k of Object.keys(MEAS_TUTORIAL)) {
+if (id && id.indexOf(k) === 0)
+return MEAS_TUTORIAL[k];
+}
+return null;
+}
+function TutorialSVG({ kind }) {
+const C = { fill: "#161c2b", stroke: "#37425e", dut: "#6678a0", ana: "#2dd4bf", red: "#f0584f", neu: "#d3dbf2", pa: "#b06cf2", txt: "var(--text)", sub: "var(--text-2)", faint: "#7e8aa8" };
+const Card = ({ x, y, w, h, label, sub, tone }) => (React.createElement("g", null,
+React.createElement("rect", { x: x, y: y, width: w, height: h, rx: 12, fill: C.fill, stroke: tone || C.stroke, strokeWidth: 1.8 }),
+React.createElement("text", { x: x + w / 2, y: y + (sub ? h / 2 - 5 : h / 2 + 4), textAnchor: "middle", fill: C.txt, fontSize: 12, fontWeight: 700, fontFamily: "system-ui" }, label),
+sub ? React.createElement("text", { x: x + w / 2, y: y + h / 2 + 13, textAnchor: "middle", fill: C.faint, fontSize: 10, fontFamily: "system-ui" }, sub) : null));
+const Dot = ({ x, y, c }) => (React.createElement("g", null,
+React.createElement("circle", { cx: x, cy: y, r: 7, fill: "none", stroke: c, strokeWidth: 1.4, opacity: 0.4 }),
+React.createElement("circle", { cx: x, cy: y, r: 4, fill: c, stroke: "#0a0a0f", strokeWidth: 1 })));
+const Wire = ({ d, c, flow }) => React.createElement("path", { d: d, stroke: c, strokeWidth: flow ? 3 : 2.5, fill: "none", strokeLinecap: "round", strokeLinejoin: "round", strokeDasharray: flow ? "6 7" : "none" }, flow ? React.createElement("animate", { attributeName: "stroke-dashoffset", from: "0", to: "-13", dur: "0.9s", repeatCount: "indefinite" }) : null);
+const T = ({ x, y, t, a }) => React.createElement("text", { x: x, y: y, textAnchor: a || "middle", fill: C.sub, fontSize: 10, fontFamily: "system-ui" }, t);
+const Leg = ({ x, y, c, t }) => (React.createElement("g", null,
+React.createElement("rect", { x: x, y: y - 7, width: 16, height: 9, rx: 3, fill: c }),
+React.createElement("text", { x: x + 23, y: y + 1.5, fill: C.faint, fontSize: 11, fontFamily: "system-ui" }, t)));
+const Gnd = ({ x, y }) => (React.createElement("g", { stroke: C.neu, strokeWidth: 1.6, strokeLinecap: "round" },
+React.createElement("line", { x1: x, y1: y - 8, x2: x, y2: y }),
+React.createElement("line", { x1: x - 7, y1: y, x2: x + 7, y2: y }),
+React.createElement("line", { x1: x - 4.5, y1: y + 3, x2: x + 4.5, y2: y + 3 }),
+React.createElement("line", { x1: x - 2, y1: y + 6, x2: x + 2, y2: y + 6 })));
+const MD = ({ x, y }) => (React.createElement("g", null,
+React.createElement("rect", { x: x, y: y, width: 48, height: 18, rx: 5, fill: "#0e1422", stroke: C.red, strokeWidth: 1.2 }),
+React.createElement("text", { x: x + 24, y: y + 12.5, textAnchor: "middle", fill: C.red, fontSize: 10, fontWeight: 700, fontFamily: "system-ui" }, __t("MD 1k\u03A9"))));
+const wrap = (h, kids) => React.createElement("svg", { viewBox: "0 0 340 " + h, style: { width: "100%", maxWidth: 340, height: "auto" } }, kids);
+if (kind === "pe_mobile")
+return wrap(215, [
+React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: __t("Apparecchio"), tone: C.dut }),
+React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(Wire, { key: "w1", d: "M150 96 H210", c: C.red }),
+React.createElement(T, { key: "t1", x: 180, y: 89, t: "spina \u2192 analizzatore" }),
+React.createElement(Wire, { key: "w2", d: "M210 54 H150", c: C.neu, flow: true }),
+React.createElement(Dot, { key: "dot", x: 150, y: 54, c: C.neu }),
+React.createElement(Gnd, { key: "g", x: 131, y: 80 }),
+React.createElement(T, { key: "t2", x: 150, y: 24, t: "equipotenziale / parti metalliche" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 188, c: C.red, t: "spina dell'apparecchio nell'analizzatore" }),
+React.createElement(Leg, { key: "l2", x: 20, y: 206, c: C.neu, t: "sonda sull'equipotenziale (percorso di prova)" })
+]);
+if (kind === "pe_fixed")
+return wrap(230, [
+React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: __t("Apparecchio"), sub: "(fisso)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(Wire, { key: "w2", d: "M210 54 H150", c: C.neu, flow: true }),
+React.createElement(Dot, { key: "dot", x: 150, y: 54, c: C.neu }),
+React.createElement(T, { key: "t2", x: 150, y: 24, t: "equipotenziale macchina" }),
+React.createElement(Wire, { key: "w1", d: "M252 112 V188 H56 V172", c: C.red }),
+React.createElement(Gnd, { key: "g", x: 56, y: 184 }),
+React.createElement(T, { key: "t3", x: 72, y: 165, t: "PE impianto (quadro)", a: "start" }),
+React.createElement(T, { key: "t4", x: 256, y: 128, t: "aux ground" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 210, c: C.red, t: "cavo AUX GROUND \u2192 PE impianto" }),
+React.createElement(Leg, { key: "l2", x: 20, y: 226, c: C.neu, t: "sonda \u2192 equipotenziale macchina" })
+]);
+if (kind === "encl")
+return wrap(215, [
+React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(acceso)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(MD, { key: "md", x: 243, y: 88 }),
+React.createElement(Wire, { key: "w1", d: "M160 98 H215", c: C.red, flow: true }),
+React.createElement(T, { key: "t1", x: 188, y: 91, t: "spina (via MD)" }),
+React.createElement(Wire, { key: "w2", d: "M215 54 H160", c: C.neu, flow: true }),
+React.createElement(Dot, { key: "dot", x: 160, y: 54, c: C.neu }),
+React.createElement(T, { key: "t2", x: 156, y: 24, t: "involucro (parti non a terra)" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 190, c: C.red, t: "spina nell'analizzatore (corrente via MD)" }),
+React.createElement(Leg, { key: "l2", x: 20, y: 207, c: C.neu, t: "sonda sull'involucro" })
+]);
+if (kind === "encl_fixed")
+return wrap(215, [
+React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(fisso, su sua rete)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(Wire, { key: "w1", d: "M215 54 H160", c: C.red, flow: true }),
+React.createElement(Dot, { key: "d1", x: 160, y: 54, c: C.red }),
+React.createElement(T, { key: "t1", x: 150, y: 24, t: "ROSSO \u2192 involucro macchina" }),
+React.createElement(Wire, { key: "w2", d: "M262 116 V186 H50 V160", c: C.neu }),
+React.createElement(Dot, { key: "d2", x: 50, y: 160, c: C.neu }),
+React.createElement(Gnd, { key: "g", x: 50, y: 176 }),
+React.createElement(T, { key: "t2", x: 66, y: 154, t: "NERO \u2192 nodo equipotenziale", a: "start" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 207, c: C.red, t: "rosso sulla parte da misurare" })
+]);
+if (kind === "ins")
+return wrap(195, [
+React.createElement(Card, { key: "d", x: 20, y: 36, w: 140, h: 78, label: __t("Apparecchio"), sub: "(SPENTO, scollegato)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 36, w: 105, h: 78, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(Wire, { key: "w1", d: "M160 62 H215", c: C.red }),
+React.createElement(T, { key: "t1", x: 188, y: 55, t: "500 Vdc \u2192 rete" }),
+React.createElement(Wire, { key: "w2", d: "M160 92 H215", c: C.neu }),
+React.createElement(Dot, { key: "dot", x: 160, y: 92, c: C.neu }),
+React.createElement(T, { key: "t2", x: 186, y: 106, t: "parti access. / terra" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 172, c: C.red, t: "500 Vdc applicati ai conduttori di rete" })
+]);
+if (kind === "pat_fixed")
+return wrap(215, [
+React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(fisso)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(Wire, { key: "w1", d: "M215 50 H160", c: C.red, flow: true }),
+React.createElement(Wire, { key: "w1b", d: "M215 68 H160", c: C.red, flow: true }),
+React.createElement(Dot, { key: "d1", x: 160, y: 50, c: C.red }),
+React.createElement(Dot, { key: "d2", x: 160, y: 68, c: C.red }),
+React.createElement(T, { key: "t1", x: 150, y: 24, t: "ROSSO \u2192 parte applicata" }),
+React.createElement(Wire, { key: "w2", d: "M262 116 V186 H50 V160", c: C.neu }),
+React.createElement(Dot, { key: "d3", x: 50, y: 160, c: C.neu }),
+React.createElement(Gnd, { key: "g", x: 50, y: 176 }),
+React.createElement(T, { key: "t2", x: 66, y: 154, t: "NERO \u2192 nodo equipotenziale", a: "start" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 207, c: C.red, t: "rosso sui terminali P.A. (una funzione per volta)" })
+]);
+return wrap(235, [
+React.createElement(Card, { key: "d", x: 20, y: 36, w: 130, h: 94, label: __t("Apparecchio"), tone: C.dut }),
+React.createElement(Card, { key: "a", x: 225, y: 36, w: 95, h: 94, label: __t("Analizzatore"), tone: C.ana }),
+React.createElement(MD, { key: "md", x: 248, y: 96 }),
+React.createElement(Wire, { key: "w1", d: "M150 116 H225", c: C.red, flow: true }),
+React.createElement(T, { key: "t1", x: 188, y: 109, t: "spina (via MD)" }),
+React.createElement(Dot, { key: "p1", x: 150, y: 54, c: C.pa }),
+React.createElement(Dot, { key: "p2", x: 150, y: 74, c: C.pa }),
+React.createElement(Dot, { key: "p3", x: 150, y: 94, c: C.pa }),
+React.createElement(Wire, { key: "wp1", d: "M150 54 Q196 54 225 64", c: C.pa, flow: true }),
+React.createElement(Wire, { key: "wp2", d: "M150 74 H225", c: C.pa, flow: true }),
+React.createElement(Wire, { key: "wp3", d: "M150 94 Q196 94 225 82", c: C.pa, flow: true }),
+React.createElement(T, { key: "t2", x: 150, y: 26, t: "terminali stessa P.A. (es. elettrodi ECG)" }),
+React.createElement(Leg, { key: "l1", x: 20, y: 208, c: C.red, t: "spina nell'analizzatore (corrente via MD)" }),
+React.createElement(Leg, { key: "l2", x: 20, y: 225, c: C.pa, t: "terminali stessa funzione \u2192 morsetto P.A." })
+]);
 }
