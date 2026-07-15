@@ -1,3 +1,4 @@
+import { t as __t } from "../constants/i18n.js";
 /* MedTrace — cuore dell'app: AppMain, App, modali di servizio, guida, testi legali (trasloco finale da app.js, v3.07) */
 import { FUNC_TEMPLATES } from "../constants/funcTemplates.js";
 import { CND_TO_TPL, CND_CAT } from "../constants/cnd.js";
@@ -42,7 +43,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.33";
+const APP_VERSION = "3.34";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -52,12 +53,12 @@ if (this.state.err) {
 var msg = (this.state.err && (this.state.err.message || this.state.err.toString())) || "Errore sconosciuto";
 var stack = (this.state.err && this.state.err.stack) ? String(this.state.err.stack).split("\n").slice(0, 5).join("\n") : "";
 return React.createElement("div", { style: { minHeight: "100vh", background: "var(--bg)", color: "var(--text)", padding: 20, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center", fontFamily: "system-ui, sans-serif" } },
-React.createElement("div", { style: { fontSize: 17, fontWeight: 800, color: "#f87171" } }, "Si \u00e8 verificato un errore"),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)" } }, "Copia questo messaggio e mandalo allo sviluppatore:"),
+React.createElement("div", { style: { fontSize: 17, fontWeight: 800, color: "#f87171" } }, __t("Si \u00e8 verificato un errore")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)" } }, __t("Copia questo messaggio e mandalo allo sviluppatore:")),
 React.createElement("div", { style: { fontSize: 13, color: "#fca5a5", maxWidth: 540, wordBreak: "break-word", fontFamily: "'IBM Plex Mono', monospace", background: "var(--err-bg)", border: "1px solid #f8717155", borderRadius: 8, padding: "10px 12px" } }, msg),
 stack ? React.createElement("pre", { style: { fontSize: 10, color: "var(--text-3)", maxWidth: 540, overflow: "auto", textAlign: "left", whiteSpace: "pre-wrap", background: "var(--bg-deep)", border: "1px solid var(--border-2)", borderRadius: 6, padding: 10 } }, stack) : null,
-React.createElement("button", { onClick: () => this.setState({ err: null }), style: { background: "#2dd4bf", color: "#06251f", border: "none", borderRadius: 8, padding: "10px 20px", fontWeight: 800, cursor: "pointer" } }, "Chiudi e riprova"),
-React.createElement("button", { onClick: () => window.location.reload(), style: { background: "transparent", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 18px", cursor: "pointer" } }, "Ricarica app"));
+React.createElement("button", { onClick: () => this.setState({ err: null }), style: { background: "#2dd4bf", color: "#06251f", border: "none", borderRadius: 8, padding: "10px 20px", fontWeight: 800, cursor: "pointer" } }, __t("Chiudi e riprova")),
+React.createElement("button", { onClick: () => window.location.reload(), style: { background: "transparent", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 18px", cursor: "pointer" } }, __t("Ricarica app")));
 }
 return this.props.children;
 }
@@ -118,7 +119,7 @@ try { localStorage.setItem(PPM_CHECKLIST_KEY, JSON.stringify(data)); return true
 }
 const HELP_SECTIONS = [
 {
-icon: "◈", title: "Dashboard", color: "#2dd4bf",
+icon: "◈", title: __t("Dashboard"), color: "#2dd4bf",
 steps: [
 "Quando apri l'app vedi 5 pillole con i numeri principali: apparecchi totali, job aperti, verifiche di sicurezza elettrica, verifiche funzionali, clienti. Clicca una pillola per andare alla sezione.",
 "Sotto le pillole c'è la sezione 'DA FARE' con tutte le cose da prendere in carico: job urgenti, manutenzioni scadute, scadenze entro 7 giorni, parti sotto scorta. Ogni voce è cliccabile e ti porta dritto al filtro giusto.",
@@ -127,7 +128,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Apparecchi (Parco Macchine)", color: "#2dd4bf",
+icon: "›", title: __t("Apparecchi (Parco Macchine)"), color: "#2dd4bf",
 steps: [
 "Premi '+ Nuovo' in alto a destra per aggiungere un apparecchio. Compila: nome, marca, modello, S/N, cliente, ubicazione, classe di rischio, norma IEC, classe elettrica (I/II/III), tipo parte applicata (B/BF/CF), date acquisto/garanzia/prossimo servizio.",
 "Mobile: tocca una card per aprire la scheda dettaglio. I 4 pulsanti in basso sono: Sicur. (verifica sicurezza elettrica), Funz. (verifica funzionale), Mod. (modifica), (sposta nel cestino, da cui puoi ripristinare).",
@@ -142,7 +143,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Scansione RFID", color: "#2dd4bf",
+icon: "›", title: __t("Scansione RFID"), color: "#2dd4bf",
 steps: [
 "A cosa serve: fai il giro di un reparto, scansioni in blocco i tag RFID degli apparecchi presenti e aggiorni in automatico la loro ultima posizione. La voce 'RFID' è nel gruppo APPARECCHIATURE.",
 "Come si usa: 1) scegli il REPARTO dal menu a tendina (es. Cardiologia); 2) attiva 'Ascolto lettore' e spara col grilletto (il lettore Bluetooth in modalit\u00e0 tastiera/HID digita gli EPC da solo), oppure incolla gli EPC o usa 'Simula scansione' senza hardware, poi premi 'Scansiona'; 3) compare la lista degli apparecchi TROVATI, con le verifiche scadute o in scadenza evidenziate in rosso/ambra; 4) i tag SCONOSCIUTI si associano al volo: tocca l'EPC e scegli l'apparecchio, oppure segnalo come TAG-REPARTO: attaccalo alla porta e da quel momento scansionarlo imposterà il reparto da solo; 5) sotto i trovati compaiono i NON TROVATI: risultavano nel reparto e non sono stati letti.",
@@ -154,7 +155,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Job / Interventi", color: "#f59e0b",
+icon: "›", title: __t("Job / Interventi"), color: "#f59e0b",
 steps: [
 "Un Job è qualsiasi intervento su un apparecchio: correttivo, preventivo, taratura, ecc. Crealo con '+ Nuovo' oppure dalla scheda apparecchio.",
 "Sopra la lista hai 3 tab: APERTI (default, mostra solo job non chiusi), TUTTI, CHIUSI. Ogni tab ha un contatore live.",
@@ -166,7 +167,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Verifiche di Sicurezza Elettrica", color: "#a855f7",
+icon: "›", title: __t("Verifiche di Sicurezza Elettrica"), color: "#a855f7",
 steps: [
 "Apri da menu 'Sicurezza Elettrica' oppure dalla scheda apparecchio (pulsante Sicur.).",
 "Normative supportate: IEC 62353:2014 (test periodico elettromedicali) e IEC 61010-1 (strumenti laboratorio).",
@@ -184,7 +185,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Verifiche Funzionali", color: "#1F7468",
+icon: "›", title: __t("Verifiche Funzionali"), color: "#1F7468",
 steps: [
 "Apri dalla scheda apparecchio (pulsante Funz.) oppure dal menu 'Verifiche Funzionali'.",
 "N° rapporto auto-generato (es. VF-2026-001) — modificabile se serve.",
@@ -199,7 +200,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Magazzino, Ordini, Scarichi", color: "#a855f7",
+icon: "›", title: __t("Magazzino, Ordini, Scarichi"), color: "#a855f7",
 steps: [
 "Stock Parti: ogni parte ha codice, nome, marca, ubicazione, quantità attuale, quantità minima, prezzo acquisto, prezzo vendita.",
 "Il bordo della card mobile è colorato: verde (stock OK), giallo (sotto soglia minima), rosso (esaurita).",
@@ -212,7 +213,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Preventivi", color: "#2dd4bf",
+icon: "›", title: __t("Preventivi"), color: "#2dd4bf",
 steps: [
 "Crea un preventivo con '+ Nuovo'. Il form è SNELLO: in cima solo l'essenziale (cliente + data + righe + totale). Numero, stato, scadenza, modalità di pagamento e note sono raccolti in 'Altri dettagli', una sezione richiudibile che apri solo se ti serve.",
 "Ogni voce: descrizione, quantità, prezzo unitario, aliquota IVA. Totali calcolati in tempo reale.",
@@ -224,7 +225,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Cestino", color: "#5eead4",
+icon: "›", title: __t("Cestino"), color: "#5eead4",
 steps: [
 "Quando elimini qualcosa (apparecchio, job, verifica, cliente, ricambio, preventivo, procedura) non sparisce per sempre: viene SPOSTATO nel cestino.",
 "Apri il cestino da Impostazioni → Cestino. Vedi gli elementi raggruppati per tipo con la data di cancellazione.",
@@ -234,7 +235,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Strumenti di Misura", color: "#2dd4bf",
+icon: "›", title: __t("Strumenti di Misura"), color: "#2dd4bf",
 steps: [
 "Registra i tuoi analizzatori/simulatori/multimetri: marca, modello, n° serie, codice interno, certificato calibrazione, data e scadenza calibrazione.",
 "Stato calibrazione: verde (valida), giallo (in scadenza <30gg), rosso (scaduta).",
@@ -242,7 +243,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Procedure / Knowledge Base", color: "#2dd4bf",
+icon: "›", title: __t("Procedure / Knowledge Base"), color: "#2dd4bf",
 steps: [
 "Repository delle tue procedure di test, riparazione e manutenzione stile iFixit.",
 "Ogni procedura ha categoria, descrizione, lista passi numerati con descrizione + valore atteso + foto.",
@@ -250,7 +251,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Agenda & Pianificazione Annuale", color: "#f59e0b",
+icon: "›", title: __t("Agenda & Pianificazione Annuale"), color: "#f59e0b",
 steps: [
 "Agenda: vista unificata di tutte le attività future (manutenzioni programmate, job aperti, verifiche).",
 "Pianificazione Annuale: tutti gli apparecchi con prossimo servizio nell'anno selezionato, raggruppati per mese.",
@@ -259,7 +260,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Gesti Mobile e PWA", color: "#2dd4bf",
+icon: "›", title: __t("Gesti Mobile e PWA"), color: "#2dd4bf",
 steps: [
 "L'app è installabile come PWA: su Chrome Android tocca menu ⋮ → 'Installa app'. Su iPhone Safari → Condividi → 'Aggiungi a schermata Home'.",
 "Una volta installata funziona offline e si comporta come un'app nativa.",
@@ -268,7 +269,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Impostazioni Azienda", color: "var(--text-3)",
+icon: "›", title: __t("Impostazioni Azienda"), color: "var(--text-3)",
 steps: [
 "Apri Impostazioni dal pulsante in alto a destra (mobile) o in fondo alla sidebar (desktop).",
 "Le impostazioni sono divise in card chiare: Dati azienda, Sincronizzazione cloud, Backup, Account, Zona pericolo.",
@@ -277,7 +278,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Backup, Importazione, Reset", color: "var(--text-3)",
+icon: "›", title: __t("Backup, Importazione, Reset"), color: "var(--text-3)",
 steps: [
 "Impostazioni → 'Esporta backup' scarica direttamente un file .json con tutti i tuoi dati (apparecchi, job, parti, clienti, preventivi, verifiche, strumenti, procedure).",
 "Importa backup: seleziona il file .json salvato — sostituisce TUTTI i dati attuali.",
@@ -287,7 +288,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Account e Sincronizzazione Cloud", color: "#2dd4bf",
+icon: "›", title: __t("Account e Sincronizzazione Cloud"), color: "#2dd4bf",
 steps: [
 "Se usi la versione online, all'avvio devi fare il LOGIN con email e password. Una volta entrato, la sessione resta valida anche offline sul tuo dispositivo — puoi lavorare sul campo senza connessione.",
 "SINCRONIZZAZIONE: in Impostazioni → Sincronizzazione cloud. 'Carica su cloud' invia i dati locali al server; 'Scarica da cloud' li recupera sul dispositivo. Non serve inserire URL o chiavi: è già tutto configurato.",
@@ -297,7 +298,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Report parco macchine (per cliente)", color: "#2dd4bf",
+icon: "›", title: __t("Report parco macchine (per cliente)"), color: "#2dd4bf",
 steps: [
 "Nella pagina Clienti, il pulsante genera un report completo del parco macchine di quel cliente.",
 "Si apre prima un'anteprima a schermo con statistiche (apparecchi, operativi, fuori servizio, verifiche scadute) e l'elenco di tutti gli apparecchi ordinati per scadenza.",
@@ -305,7 +306,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Filtri e Ricerca", color: "#2dd4bf",
+icon: "›", title: __t("Filtri e Ricerca"), color: "#2dd4bf",
 steps: [
 "Ogni lista mobile ha sopra una BARRA DI RICERCA testuale con contatore X/Y a destra.",
 "Sotto la ricerca trovi il pulsante ' Filtri': cliccalo per espandere il pannello con tutti i filtri disponibili per quella sezione (marca, modello, stato, cliente, ecc.).",
@@ -316,7 +317,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Ruoli e permessi", color: "#5eead4",
+icon: "›", title: __t("Ruoli e permessi"), color: "#5eead4",
 steps: [
 "L'app prevede quattro ruoli: Superuser, Admin, Finance, Tecnico. Ogni ruolo vede solo le sezioni che gli competono.",
 "SUPERUSER: vede e fa tutto. È l'unico che può gestire i ruoli/permessi degli altri e modificare i dati fiscali dell'azienda (ragione sociale, P.IVA, IBAN).",
@@ -328,7 +329,7 @@ steps: [
 ]
 },
 {
-icon: "›", title: "Privacy, dati e note legali", color: "#2dd4bf",
+icon: "›", title: __t("Privacy, dati e note legali"), color: "#2dd4bf",
 steps: [
 "DOVE STANNO I DATI: nella versione offline i dati restano solo su questo dispositivo (memoria del browser), non vengono inviati da nessuna parte. Nella versione online i dati sono salvati anche sul cloud (Supabase) per la sincronizzazione tra dispositivi e tra colleghi della stessa organizzazione.",
 "DATI DI TERZI: l'app può contenere dati di clienti e referenti (nomi, strutture, contatti). Sei tu il titolare del trattamento di questi dati: trattali secondo il GDPR (base giuridica, conservazione limitata, diritto di accesso/cancellazione su richiesta).",
@@ -392,8 +393,8 @@ function HelpTab({ helpOpen, setHelpOpen }) {
 const [legal, setLegal] = React.useState(null);
 return (React.createElement("div", { style: { maxWidth: 860, margin: "0 auto" } },
 React.createElement("div", { style: { marginBottom: 24 } },
-React.createElement("h1", { style: { margin: "0 0 4px", fontSize: 22, fontWeight: 800, color: "var(--text-bright)" } }, "Guida all'uso"),
-React.createElement("p", { style: { color: "var(--text-3)", margin: 0, fontSize: 13 } }, "Tutorial completo per usare MedTrace \u2014 clicca una sezione per espanderla")),
+React.createElement("h1", { style: { margin: "0 0 4px", fontSize: 22, fontWeight: 800, color: "var(--text-bright)" } }, __t("Guida all'uso")),
+React.createElement("p", { style: { color: "var(--text-3)", margin: 0, fontSize: 13 } }, __t("Tutorial completo per usare MedTrace \u2014 clicca una sezione per espanderla"))),
 HELP_SECTIONS.map((section, si) => {
 const isOpen = helpOpen[si] !== false && (helpOpen[si] === true || si === 0);
 return (React.createElement("div", { key: si, style: { marginBottom: 10, background: "var(--surface)", border: "1px solid var(--border-4)", borderRadius: 12, overflow: "hidden" } },
@@ -406,9 +407,9 @@ React.createElement("ol", { style: { margin: "12px 0 0", paddingLeft: 20, displa
 React.createElement("span", { style: { color: "var(--text-bright)" } }, step)))))))));
 }),
 React.createElement("div", { style: { marginTop: 20, background: "#1F746818", border: "1px solid #1F746844", borderRadius: 10, padding: "14px 18px" } },
-React.createElement("div", { style: { fontWeight: 700, color: "#2dd4bf", marginBottom: 6, fontSize: 13 } }, "Nota"),
+React.createElement("div", { style: { fontWeight: 700, color: "#2dd4bf", marginBottom: 6, fontSize: 13 } }, __t("Nota")),
 React.createElement("p", { style: { color: "var(--text-2)", fontSize: 12, margin: 0, lineHeight: 1.7 } },
-"Per ogni apparecchio il flusso ideale \u00E8: ",
+__t("Per ogni apparecchio il flusso ideale \u00E8: "),
 React.createElement("strong", { style: { color: "var(--text-bright)" } }, "1. Crea apparecchio"),
 " \u2192 ",
 React.createElement("strong", { style: { color: "var(--text-bright)" } }, "2. Esegui Verifica di Sicurezza Elettrica"),
@@ -417,12 +418,12 @@ React.createElement("strong", { style: { color: "var(--text-bright)" } }, "3. Es
 " \u2192 il sistema crea automaticamente i job e pianifica le prossime scadenze in base agli intervalli dell'apparecchio.")),
 React.createElement("div", { style: { marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" } },
 React.createElement("button", { onClick: () => setLegal("privacy"), style: { flex: 1, minWidth: 150, background: "var(--surface)", border: "1px solid var(--border-4)", borderRadius: 10, padding: "12px 16px", cursor: "pointer", color: "var(--text)", fontSize: 13, fontWeight: 700, textAlign: "left" } },
-"Informativa Privacy",
-React.createElement("span", { style: { display: "block", fontSize: 11, color: "var(--text-3)", marginTop: 3, fontWeight: 400 } }, "Come vengono trattati i dati")),
+__t("Informativa Privacy"),
+React.createElement("span", { style: { display: "block", fontSize: 11, color: "var(--text-3)", marginTop: 3, fontWeight: 400 } }, __t("Come vengono trattati i dati"))),
 React.createElement("button", { onClick: () => setLegal("terms"), style: { flex: 1, minWidth: 150, background: "var(--surface)", border: "1px solid var(--border-4)", borderRadius: 10, padding: "12px 16px", cursor: "pointer", color: "var(--text)", fontSize: 13, fontWeight: 700, textAlign: "left" } },
-"Termini d'uso e licenza",
-React.createElement("span", { style: { display: "block", fontSize: 11, color: "var(--text-3)", marginTop: 3, fontWeight: 400 } }, "Condizioni e responsabilit\u00E0"))),
-legal && (React.createElement(Modal, { title: legal === "privacy" ? "Informativa sulla Privacy" : "Termini d'uso e licenza", onClose: () => setLegal(null) },
+__t("Termini d'uso e licenza"),
+React.createElement("span", { style: { display: "block", fontSize: 11, color: "var(--text-3)", marginTop: 3, fontWeight: 400 } }, __t("Condizioni e responsabilit\u00E0")))),
+legal && (React.createElement(Modal, { title: legal === "privacy" ? __t("Informativa sulla Privacy") : __t("Termini d'uso e licenza"), onClose: () => setLegal(null) },
 React.createElement("div", { style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.7, whiteSpace: "pre-line", maxHeight: "70vh", overflow: "auto" } }, legal === "privacy" ? PRIVACY_TEXT : TERMS_TEXT)))));
 }
 const FieldError = ({ error }) => {
@@ -502,20 +503,20 @@ return (React.createElement("div", { style: { display: "flex", flexDirection: "c
 React.createElement(ErrorSummary, { errors: errors }),
 React.createElement(Grid, { cols: "1fr 1fr" },
 React.createElement(Span2, null,
-React.createElement(Inp, { label: "Ragione sociale", value: f.name, onChange: s("name") })),
-React.createElement(Inp, { label: "Partita IVA", value: f.vat, onChange: s("vat") }),
-React.createElement(Inp, { label: "Codice fiscale", value: f.fiscalCode, onChange: s("fiscalCode") }),
+React.createElement(Inp, { label: __t("Ragione sociale"), value: f.name, onChange: s("name") })),
+React.createElement(Inp, { label: __t("Partita IVA"), value: f.vat, onChange: s("vat") }),
+React.createElement(Inp, { label: __t("Codice fiscale"), value: f.fiscalCode, onChange: s("fiscalCode") }),
 React.createElement(Span2, null,
-React.createElement(Inp, { label: "Indirizzo", value: f.address, onChange: s("address") })),
-React.createElement(Inp, { label: "Referente", value: f.contact, onChange: s("contact") }),
-React.createElement(Inp, { label: "Email", value: f.email, onChange: s("email") }),
-React.createElement(Inp, { label: "Telefono", value: f.phone, onChange: s("phone") }),
+React.createElement(Inp, { label: __t("Indirizzo"), value: f.address, onChange: s("address") })),
+React.createElement(Inp, { label: __t("Referente"), value: f.contact, onChange: s("contact") }),
+React.createElement(Inp, { label: __t("Email"), value: f.email, onChange: s("email") }),
+React.createElement(Inp, { label: __t("Telefono"), value: f.phone, onChange: s("phone") }),
 React.createElement("div", null),
 React.createElement(Span2, null,
-React.createElement(Txt, { label: "Note", value: f.notes, onChange: s("notes") }))),
+React.createElement(Txt, { label: __t("Note"), value: f.notes, onChange: s("notes") }))),
 (initial === null || initial === void 0 ? void 0 : initial.id) && React.createElement(PortaleClienteBox, { customer: Object.assign(Object.assign({}, initial), { email: f.email }), isSuperuser: isSuperuser }),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
 React.createElement(Btn, { onClick: () => {
 var _a;
 const errs = {};
@@ -527,7 +528,7 @@ setErrors(errs);
 if (Object.keys(errs).length > 0)
 return;
 onSave(f);
-} }, "Salva"))));
+} }, __t("Salva")))));
 }
 function PartForm({ initial, assets, onSave, onClose }) {
 const blank = { code: "", name: "", brand: "", compatible: [], qty: 0, minQty: 0, unitPrice: 0, sellPrice: 0, markupPct: 30, location: "", notes: "" };
@@ -541,30 +542,30 @@ setF(x => (Object.assign(Object.assign({}, x), { sellPrice: +(cost * (1 + pct / 
 };
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Codice parte", value: f.code, onChange: s("code") }),
-React.createElement(Inp, { label: "Nome", value: f.name, onChange: s("name") }),
-React.createElement(Inp, { label: "Marca", value: f.brand, onChange: s("brand") }),
-React.createElement(Inp, { label: "Ubicazione magazzino", value: f.location, onChange: s("location") }),
-React.createElement(Inp, { label: "Quantit\u00E0", type: "number", value: f.qty, onChange: s("qty") }),
-React.createElement(Inp, { label: "Quantit\u00E0 minima", type: "number", value: f.minQty, onChange: s("minQty") }),
-React.createElement(Inp, { label: "Prezzo di acquisto (\u20AC)", type: "number", step: "0.01", value: f.unitPrice, onChange: s("unitPrice") }),
+React.createElement(Inp, { label: __t("Codice parte"), value: f.code, onChange: s("code") }),
+React.createElement(Inp, { label: __t("Nome"), value: f.name, onChange: s("name") }),
+React.createElement(Inp, { label: __t("Marca"), value: f.brand, onChange: s("brand") }),
+React.createElement(Inp, { label: __t("Ubicazione magazzino"), value: f.location, onChange: s("location") }),
+React.createElement(Inp, { label: __t("Quantit\u00E0"), type: "number", value: f.qty, onChange: s("qty") }),
+React.createElement(Inp, { label: __t("Quantit\u00E0 minima"), type: "number", value: f.minQty, onChange: s("minQty") }),
+React.createElement(Inp, { label: __t("Prezzo di acquisto (\u20AC)"), type: "number", step: "0.01", value: f.unitPrice, onChange: s("unitPrice") }),
 React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "end" } },
 React.createElement("div", { style: { flex: 1 } },
-React.createElement(Inp, { label: "Markup %", type: "number", value: f.markupPct, onChange: s("markupPct") })),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: applyMarkup, style: { padding: "10px 12px" } }, "Applica")),
+React.createElement(Inp, { label: __t("Markup %"), type: "number", value: f.markupPct, onChange: s("markupPct") })),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: applyMarkup, style: { padding: "10px 12px" } }, __t("Applica"))),
 React.createElement(Span2, null,
-React.createElement(Inp, { label: "Prezzo di vendita (\u20AC)", type: "number", step: "0.01", value: f.sellPrice, onChange: s("sellPrice") })),
+React.createElement(Inp, { label: __t("Prezzo di vendita (\u20AC)"), type: "number", step: "0.01", value: f.sellPrice, onChange: s("sellPrice") })),
 assets.length > 0 && (React.createElement(Span2, null,
-React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, display: "block", marginBottom: 8 } }, "Apparecchi compatibili"),
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, display: "block", marginBottom: 8 } }, __t("Apparecchi compatibili")),
 React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 } }, assets.map(a => (React.createElement("button", { key: a.id, onClick: () => toggle(a.id), style: { background: f.compatible.includes(a.id) ? "#2dd4bf22" : "var(--surface-2)", border: "1px solid " + (f.compatible.includes(a.id) ? "#2dd4bf" : "var(--surface-4)"), color: f.compatible.includes(a.id) ? "#5eead4" : "var(--text-3)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 12 } },
 (a.assetCode || a.id),
 " \u2014 ",
 a.name)))))),
 React.createElement(Span2, null,
-React.createElement(Txt, { label: "Note", value: f.notes, onChange: s("notes") }))),
+React.createElement(Txt, { label: __t("Note"), value: f.notes, onChange: s("notes") }))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
-React.createElement(Btn, { onClick: () => onSave(Object.assign(Object.assign({}, f), { qty: +f.qty, minQty: +f.minQty, unitPrice: +f.unitPrice, sellPrice: +f.sellPrice, markupPct: +f.markupPct })) }, "Salva"))));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
+React.createElement(Btn, { onClick: () => onSave(Object.assign(Object.assign({}, f), { qty: +f.qty, minQty: +f.minQty, unitPrice: +f.unitPrice, sellPrice: +f.sellPrice, markupPct: +f.markupPct })) }, __t("Salva")))));
 }
 function OrderForm({ initial, parts, onSave, onClose }) {
 var _a;
@@ -578,50 +579,50 @@ setF(x => (Object.assign(Object.assign({}, x), { unitPrice: pt.unitPrice })));
 } }, [f.partId]);
 if (parts.length === 0) {
 return (React.createElement("div", { style: { textAlign: "center", padding: "20px 0", color: "var(--text-2)" } },
-"Devi prima registrare almeno una parte.",
+__t("Devi prima registrare almeno una parte."),
 React.createElement("div", { style: { marginTop: 14 } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Chiudi"))));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")))));
 }
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Fornitore", value: f.supplier, onChange: s("supplier") }),
-React.createElement(Sel, { label: "Parte", value: f.partId, onChange: s("partId") }, parts.map(p => React.createElement("option", { key: p.id, value: p.id },
+React.createElement(Inp, { label: __t("Fornitore"), value: f.supplier, onChange: s("supplier") }),
+React.createElement(Sel, { label: __t("Parte"), value: f.partId, onChange: s("partId") }, parts.map(p => React.createElement("option", { key: p.id, value: p.id },
 p.code,
 " \u2014 ",
 p.name))),
-React.createElement(Inp, { label: "Quantit\u00E0", type: "number", value: f.qty, onChange: s("qty") }),
-React.createElement(Inp, { label: "Prezzo unitario (\u20AC)", type: "number", step: "0.01", value: f.unitPrice, onChange: s("unitPrice") }),
-React.createElement(Sel, { label: "Stato ordine", value: f.status, onChange: s("status") }, ["in attesa", "confermato", "spedito", "ricevuto", "annullato"].map(v => React.createElement("option", { key: v }, v))),
+React.createElement(Inp, { label: __t("Quantit\u00E0"), type: "number", value: f.qty, onChange: s("qty") }),
+React.createElement(Inp, { label: __t("Prezzo unitario (\u20AC)"), type: "number", step: "0.01", value: f.unitPrice, onChange: s("unitPrice") }),
+React.createElement(Sel, { label: __t("Stato ordine"), value: f.status, onChange: s("status") }, ["in attesa", "confermato", "spedito", "ricevuto", "annullato"].map(v => React.createElement("option", { key: v }, v))),
 React.createElement("div", null),
-React.createElement(Inp, { label: "Data ordine", type: "date", value: f.orderDate, onChange: s("orderDate") }),
-React.createElement(Inp, { label: "Data prevista consegna", type: "date", value: f.expectedDate, onChange: s("expectedDate") }),
+React.createElement(Inp, { label: __t("Data ordine"), type: "date", value: f.orderDate, onChange: s("orderDate") }),
+React.createElement(Inp, { label: __t("Data prevista consegna"), type: "date", value: f.expectedDate, onChange: s("expectedDate") }),
 React.createElement(Span2, null,
-React.createElement(Txt, { label: "Note", value: f.notes, onChange: s("notes") }))),
+React.createElement(Txt, { label: __t("Note"), value: f.notes, onChange: s("notes") }))),
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: "12px 16px" } },
 React.createElement("span", { style: { color: "var(--text-3)", fontSize: 12 } },
-"Valore ordine: ",
+__t("Valore ordine: "),
 React.createElement("strong", { style: { color: "#a855f7", fontSize: 14 } },
 "\u20AC",
 (+f.qty * (+f.unitPrice)).toFixed(2)))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Annulla"),
-React.createElement(Btn, { onClick: () => onSave(Object.assign(Object.assign({}, f), { qty: +f.qty, unitPrice: +f.unitPrice })) }, "Salva"))));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
+React.createElement(Btn, { onClick: () => onSave(Object.assign(Object.assign({}, f), { qty: +f.qty, unitPrice: +f.unitPrice })) }, __t("Salva")))));
 }
 function CestinoModal({ cestino, onRestore, onPurge, onClose }) {
 const TIPI = [
-{ key: "assets", label: "Apparecchi", nome: r => r.name || r.assetCode || r.id },
-{ key: "jobs", label: "Job / Interventi", nome: r => r.description || r.id },
-{ key: "customers", label: "Clienti", nome: r => r.name || r.id },
-{ key: "parts", label: "Ricambi", nome: r => r.name || r.code || r.id },
-{ key: "iecReports", label: "Verifiche Sicurezza Elettrica", nome: r => (r.reportNumber || r.id) },
-{ key: "funcReports", label: "Verifiche Funzionali", nome: r => (r.reportNumber || r.id) },
-{ key: "invoices", label: "Preventivi", nome: r => r.number || r.id },
-{ key: "quotes", label: "Preventivi", nome: r => r.number || r.id },
-{ key: "orders", label: "Ordini", nome: r => (r.supplier || "Ordine") + " " + (r.id || "") },
-{ key: "instruments", label: "Strumenti", nome: r => (r.brand || "") + " " + (r.model || r.id) },
-{ key: "procedures", label: "Procedure", nome: r => r.title || r.id },
-{ key: "recalls", label: "Avvisi di sicurezza", nome: r => (r.manufacturer || "") + " " + (r.subject || r.ref || r.id) },
-{ key: "withdrawals", label: "Prelievi", nome: r => r.id },
+{ key: "assets", label: __t("Apparecchi"), nome: r => r.name || r.assetCode || r.id },
+{ key: "jobs", label: __t("Job / Interventi"), nome: r => r.description || r.id },
+{ key: "customers", label: __t("Clienti"), nome: r => r.name || r.id },
+{ key: "parts", label: __t("Ricambi"), nome: r => r.name || r.code || r.id },
+{ key: "iecReports", label: __t("Verifiche Sicurezza Elettrica"), nome: r => (r.reportNumber || r.id) },
+{ key: "funcReports", label: __t("Verifiche Funzionali"), nome: r => (r.reportNumber || r.id) },
+{ key: "invoices", label: __t("Preventivi"), nome: r => r.number || r.id },
+{ key: "quotes", label: __t("Preventivi"), nome: r => r.number || r.id },
+{ key: "orders", label: __t("Ordini"), nome: r => (r.supplier || "Ordine") + " " + (r.id || "") },
+{ key: "instruments", label: __t("Strumenti"), nome: r => (r.brand || "") + " " + (r.model || r.id) },
+{ key: "procedures", label: __t("Procedure"), nome: r => r.title || r.id },
+{ key: "recalls", label: __t("Avvisi di sicurezza"), nome: r => (r.manufacturer || "") + " " + (r.subject || r.ref || r.id) },
+{ key: "withdrawals", label: __t("Prelievi"), nome: r => r.id },
 ];
 const fmtData = (iso) => { try {
 return new Date(iso).toLocaleDateString("it-IT");
@@ -632,12 +633,12 @@ return "";
 const totale = TIPI.reduce((n, t) => n + ((cestino[t.key] || []).length), 0);
 return (React.createElement(Modal, { title: "Cestino" + (totale > 0 ? " (" + totale + ")" : ""), onClose: onClose, wide: true },
 React.createElement("div", { style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 18 } },
-"Gli elementi spostati nel cestino non compaiono pi\u00F9 nelle liste, ma puoi ",
+__t("Gli elementi spostati nel cestino non compaiono pi\u00F9 nelle liste, ma puoi "),
 React.createElement("strong", { style: { color: "#5eead4" } }, "ripristinarli"),
 " o eliminarli ",
 React.createElement("strong", { style: { color: "#f87171" } }, "definitivamente"),
 ". Gli elementi vengono svuotati automaticamente dopo 90 giorni."),
-totale === 0 ? (React.createElement("div", { style: { textAlign: "center", color: "var(--text-3)", padding: "40px 0", fontSize: 14 } }, "Il cestino \u00E8 vuoto.")) : (TIPI.filter(t => (cestino[t.key] || []).length > 0).map(t => (React.createElement("div", { key: t.key, style: { marginBottom: 20 } },
+totale === 0 ? (React.createElement("div", { style: { textAlign: "center", color: "var(--text-3)", padding: "40px 0", fontSize: 14 } }, __t("Il cestino \u00E8 vuoto."))) : (TIPI.filter(t => (cestino[t.key] || []).length > 0).map(t => (React.createElement("div", { key: t.key, style: { marginBottom: 20 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-4)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 } },
 t.label,
 " (",
@@ -647,11 +648,11 @@ t.label,
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 13, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, t.nome(rec)),
 rec.deletedAt && React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } },
-"Cestinato il ",
+__t("Cestinato il "),
 fmtData(rec.deletedAt))),
 React.createElement("button", { onClick: () => onRestore(t.key, rec.id), style: { background: "#2dd4bf18", border: "1px solid #2dd4bf55", color: "#5eead4", borderRadius: 8, padding: "6px 12px", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap", fontWeight: 600 } }, "\u21A9 Ripristina"),
-React.createElement("button", { onClick: () => { if (confirm("Eliminare DEFINITIVAMENTE questo elemento? Non sarà più recuperabile."))
-onPurge(t.key, rec.id); }, style: { background: "#ef444415", border: "1px solid #ef444455", color: "#f87171", borderRadius: 8, padding: "6px 10px", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap" } }, "Elimina"))))))))));
+React.createElement("button", { onClick: () => { if (confirm(__t("Eliminare DEFINITIVAMENTE questo elemento? Non sarà più recuperabile.")))
+onPurge(t.key, rec.id); }, style: { background: "#ef444415", border: "1px solid #ef444455", color: "#f87171", borderRadius: 8, padding: "6px 10px", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap" } }, __t("Elimina")))))))))));
 }
 const STATUS_COLOR_PORTAL = {
 'aperto': '#ef4444',
@@ -684,47 +685,47 @@ function delItem(i) { setItems(function (x) { return x.filter(function (_, j) { 
 function resetCatDefault() { if (scope !== "cat") return; setItems((((PPM_CHECKLISTS_DEFAULT[catId] || {}).items) || []).slice()); }
 function save() {
 var clean = items.map(function (s) { return (s || "").trim(); }).filter(Boolean);
-if (scope === "model" && !brand.trim() && !model.trim()) { showToast && showToast("Inserisci marca e/o modello", "#ef4444"); return; }
+if (scope === "model" && !brand.trim() && !model.trim()) { showToast && showToast(__t("Inserisci marca e/o modello"), "#ef4444"); return; }
 var d = JSON.parse(JSON.stringify(data));
 if (scope === "cat") { d.byCat = d.byCat || {}; if (clean.length) d.byCat[catId] = { items: clean }; else delete d.byCat[catId]; }
 else { d.byModel = d.byModel || {}; if (clean.length) d.byModel[modelKey] = { brand: brand.trim(), model: model.trim(), items: clean }; else delete d.byModel[modelKey]; }
 savePpmChecklists(d); setData(d);
-showToast && showToast("Checklist PPM salvata", "#2dd4bf");
+showToast && showToast(__t("Checklist PPM salvata"), "#2dd4bf");
 }
 return React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-React.createElement("div", { style: { fontSize: 13, color: "var(--text-3)", lineHeight: 1.45 } }, "Definisci le voci della checklist di manutenzione. La CATEGORIA \u00e8 il template generico (modificabile); il MODELLO aggiunge voci specifiche che si sommano a quelle della categoria."),
-React.createElement(Sel, { label: "Ambito", value: scope, onChange: function (e) { setScope(e.target.value); } },
-React.createElement("option", { value: "cat" }, "Categoria (template generico)"),
-React.createElement("option", { value: "model" }, "Modello (voci aggiuntive)")),
+React.createElement("div", { style: { fontSize: 13, color: "var(--text-3)", lineHeight: 1.45 } }, __t("Definisci le voci della checklist di manutenzione. La CATEGORIA \u00e8 il template generico (modificabile); il MODELLO aggiunge voci specifiche che si sommano a quelle della categoria.")),
+React.createElement(Sel, { label: __t("Ambito"), value: scope, onChange: function (e) { setScope(e.target.value); } },
+React.createElement("option", { value: "cat" }, __t("Categoria (template generico)")),
+React.createElement("option", { value: "model" }, __t("Modello (voci aggiuntive)"))),
 scope === "cat"
-? React.createElement(Sel, { label: "Categoria", value: catId, onChange: function (e) { setCatId(e.target.value); } }, cats.map(function (c) { return React.createElement("option", { key: c, value: c }, (PPM_CHECKLISTS_DEFAULT[c].label || c)); }))
+? React.createElement(Sel, { label: __t("Categoria"), value: catId, onChange: function (e) { setCatId(e.target.value); } }, cats.map(function (c) { return React.createElement("option", { key: c, value: c }, (PPM_CHECKLISTS_DEFAULT[c].label || c)); }))
 : React.createElement(Grid, { cols: "1fr 1fr" },
-React.createElement(Inp, { label: "Marca", value: brand, onChange: function (e) { setBrand(e.target.value); }, placeholder: "es. B.Braun" }),
-React.createElement(Inp, { label: "Modello", value: model, onChange: function (e) { setModel(e.target.value); }, placeholder: "es. Infusomat Space" })),
+React.createElement(Inp, { label: __t("Marca"), value: brand, onChange: function (e) { setBrand(e.target.value); }, placeholder: "es. B.Braun" }),
+React.createElement(Inp, { label: __t("Modello"), value: model, onChange: function (e) { setModel(e.target.value); }, placeholder: "es. Infusomat Space" })),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
-items.length === 0 ? React.createElement("div", { style: { color: "var(--text-4)", fontSize: 12, padding: "6px 0" } }, scope === "cat" ? "Nessuna voce \u2014 aggiungine o ripristina il default." : "Nessuna voce aggiuntiva per questo modello.") : null,
+items.length === 0 ? React.createElement("div", { style: { color: "var(--text-4)", fontSize: 12, padding: "6px 0" } }, scope === "cat" ? __t("Nessuna voce \u2014 aggiungine o ripristina il default.") : __t("Nessuna voce aggiuntiva per questo modello.")) : null,
 items.map(function (t, i) {
 return React.createElement("div", { key: i, style: { display: "flex", gap: 6, alignItems: "center" } },
-React.createElement("input", { value: t, onChange: function (e) { setItem(i, e.target.value); }, placeholder: "Descrizione voce\u2026", style: { flex: 1, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 13 } }),
-React.createElement("button", { onClick: function () { delItem(i); }, title: "Rimuovi", style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 8, color: "#ef4444", padding: "7px 10px", cursor: "pointer", fontSize: 13 } }, "\u2715"));
+React.createElement("input", { value: t, onChange: function (e) { setItem(i, e.target.value); }, placeholder: __t("Descrizione voce\u2026"), style: { flex: 1, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "8px 10px", fontSize: 13 } }),
+React.createElement("button", { onClick: function () { delItem(i); }, title: __t("Rimuovi"), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 8, color: "#ef4444", padding: "7px 10px", cursor: "pointer", fontSize: 13 } }, "\u2715"));
 })),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: addItem }, "+ Aggiungi voce"),
 scope === "cat" ? React.createElement(Btn, { sm: true, variant: "ghost", onClick: resetCatDefault }, "\u21BA Ripristina default") : null),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 } },
-React.createElement(Btn, { variant: "ghost", onClick: onClose }, "Chiudi"),
-React.createElement(Btn, { onClick: save }, "Salva checklist")));
+React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")),
+React.createElement(Btn, { onClick: save }, __t("Salva checklist"))));
 }
 function TemplateManagerModal({ allTemplates, customTemplates, onNew, onEdit, onDelete, onClose }) {
 const predefiniti = Object.entries(allTemplates).filter(([id, t]) => !t.isCustom);
 const custom = Object.entries(customTemplates || {});
 const ROW = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "11px 14px", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 10, marginBottom: 7 };
 return (React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginBottom: 16, lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px" } }, "Crea template di verifica personalizzati per i tuoi standard specifici (es. EN 60601-2-14, EN 62745). Appariranno nel menu quando crei una nuova verifica funzionale."),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginBottom: 16, lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px" } }, __t("Crea template di verifica personalizzati per i tuoi standard specifici (es. EN 60601-2-14, EN 62745). Appariranno nel menu quando crei una nuova verifica funzionale.")),
 React.createElement("button", { onClick: onNew, style: Object.assign(Object.assign({}, FORM_BTN_PRIMARY), { width: "100%", marginBottom: 18 }) }, "+ Crea nuovo template"),
 custom.length > 0 && (React.createElement("div", { style: { marginBottom: 18 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "#2dd4bf", marginBottom: 8, textTransform: "uppercase", letterSpacing: .6 } },
-"I tuoi template (",
+__t("I tuoi template ("),
 custom.length,
 ")"),
 custom.map(([id, t]) => {
@@ -733,20 +734,20 @@ return (React.createElement("div", { key: id, style: ROW },
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, t.label),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)" } },
-t.norm || "Nessuna norma",
+t.norm || __t("Nessuna norma"),
 " \u00B7 ",
 ((_a = t.sections) === null || _a === void 0 ? void 0 : _a.length) || 0,
 " sezioni")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexShrink: 0 } },
-React.createElement("button", { onClick: () => onEdit(t), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "6px 11px", cursor: "pointer", fontSize: 12, fontWeight: 700 } }, "Modifica"),
-React.createElement("button", { onClick: () => onDelete(id), style: { background: "#ef444415", border: "1px solid #ef444433", borderRadius: 6, color: "#ef4444", padding: "6px 11px", cursor: "pointer", fontSize: 12, fontWeight: 700 } }, "Elimina"))));
+React.createElement("button", { onClick: () => onEdit(t), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "6px 11px", cursor: "pointer", fontSize: 12, fontWeight: 700 } }, __t("Modifica")),
+React.createElement("button", { onClick: () => onDelete(id), style: { background: "#ef444415", border: "1px solid #ef444433", borderRadius: 6, color: "#ef4444", padding: "6px 11px", cursor: "pointer", fontSize: 12, fontWeight: 700 } }, __t("Elimina")))));
 }))),
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--text-3)", marginBottom: 8, textTransform: "uppercase", letterSpacing: .6 } },
-"Template predefiniti (",
+__t("Template predefiniti ("),
 predefiniti.length,
 ")"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8 } }, "Di sola lettura. Per personalizzarli, crea un nuovo template."),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8 } }, __t("Di sola lettura. Per personalizzarli, crea un nuovo template.")),
 predefiniti.map(([id, t]) => {
 var _a;
 return (React.createElement("div", { key: id, style: Object.assign(Object.assign({}, ROW), { opacity: .7 }) },
@@ -760,7 +761,7 @@ t.norm || "",
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", flexShrink: 0 } }, "predefinito")));
 })),
 React.createElement("div", { style: FORM_FOOTER },
-React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Chiudi"))));
+React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, __t("Chiudi")))));
 }
 function ClientReportModal({ customer, assets, iecReports, funcReports, jobs, company, onClose }) {
 const myAssets = React.useMemo(() => assets.filter(a => a.customerId === customer.id), [assets, customer.id]);
@@ -788,16 +789,16 @@ React.createElement("div", { style: { marginBottom: 16 } },
 React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: "var(--text)" } }, customer.name),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, [customer.vat && ("P.IVA " + customer.vat), customer.address].filter(Boolean).join(" · ") || "—")),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 } },
-React.createElement(Stat, { n: myAssets.length, label: "Apparecchi" }),
-React.createElement(Stat, { n: totOperativi, label: "Operativi", color: "#22c55e" }),
-React.createElement(Stat, { n: totFuoriServizio, label: "Fuori serv.", color: totFuoriServizio > 0 ? "#ef4444" : "#22c55e" }),
-React.createElement(Stat, { n: scadute, label: "Scadute", color: scadute > 0 ? "#ef4444" : "#22c55e" }),
-React.createElement(Stat, { n: verificheCliente, label: "Verifiche", color: "#a855f7" })),
+React.createElement(Stat, { n: myAssets.length, label: __t("Apparecchi") }),
+React.createElement(Stat, { n: totOperativi, label: __t("Operativi"), color: "#22c55e" }),
+React.createElement(Stat, { n: totFuoriServizio, label: __t("Fuori serv."), color: totFuoriServizio > 0 ? "#ef4444" : "#22c55e" }),
+React.createElement(Stat, { n: scadute, label: __t("Scadute"), color: scadute > 0 ? "#ef4444" : "#22c55e" }),
+React.createElement(Stat, { n: verificheCliente, label: __t("Verifiche"), color: "#a855f7" })),
 React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .6, marginBottom: 8 } },
-"Apparecchi (",
+__t("Apparecchi ("),
 myAssets.length,
 ")"),
-myAssets.length === 0 ? (React.createElement("div", { style: { padding: "20px", textAlign: "center", color: "var(--text-3)", fontSize: 13, background: "var(--bg-2)", borderRadius: 10 } }, "Nessun apparecchio registrato per questo cliente.")) : (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, maxHeight: "40vh", overflowY: "auto" } }, sorted.map(a => {
+myAssets.length === 0 ? (React.createElement("div", { style: { padding: "20px", textAlign: "center", color: "var(--text-3)", fontSize: 13, background: "var(--bg-2)", borderRadius: 10 } }, __t("Nessun apparecchio registrato per questo cliente."))) : (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6, maxHeight: "40vh", overflowY: "auto" } }, sorted.map(a => {
 const st = a.status || "operativo";
 let scadColor = "var(--text-3)", scadNote = "";
 if (a.nextService) {
@@ -827,8 +828,8 @@ a.nextService,
 scadNote))));
 }))),
 React.createElement("div", { style: FORM_FOOTER },
-React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, "Chiudi"),
-React.createElement("button", { onClick: () => generateClientReportPDF(customer, assets, iecReports, funcReports, jobs, company), style: FORM_BTN_PRIMARY }, "Scarica PDF"))));
+React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, __t("Chiudi")),
+React.createElement("button", { onClick: () => generateClientReportPDF(customer, assets, iecReports, funcReports, jobs, company), style: FORM_BTN_PRIMARY }, __t("Scarica PDF")))));
 }
 function QRScanCam({ onResult, onClose }) {
 const videoRef = React.useRef(null);
@@ -881,8 +882,8 @@ return stop;
 }, []);
 return React.createElement("div", { style: { position: "fixed", inset: 0, background: "#000", zIndex: 9999, display: "flex", flexDirection: "column" } },
 React.createElement("div", { style: { padding: "14px 18px", display: "flex", justifyContent: "space-between", alignItems: "center", color: "#e8e8ef" } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700 } }, "Inquadra il QR dell'apparecchio"),
-React.createElement("button", { onClick: onClose, style: { background: "#1a1a22", border: "1px solid #2e2e3a", color: "#9a9aab", borderRadius: 8, padding: "6px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, "Chiudi")),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700 } }, __t("Inquadra il QR dell'apparecchio")),
+React.createElement("button", { onClick: onClose, style: { background: "#1a1a22", border: "1px solid #2e2e3a", color: "#9a9aab", borderRadius: 8, padding: "6px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer" } }, __t("Chiudi"))),
 React.createElement("div", { style: { flex: 1, position: "relative", overflow: "hidden" } },
 React.createElement("video", { ref: videoRef, muted: true, playsInline: true, style: { width: "100%", height: "100%", objectFit: "cover" } }),
 React.createElement("div", { style: { position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "68vw", maxWidth: 300, height: "68vw", maxHeight: 300, border: "3px solid #2dd4bf", borderRadius: 20, boxShadow: "0 0 0 9999px rgba(0,0,0,0.45)" } })),
@@ -935,7 +936,7 @@ document.head.appendChild(style);
 const _emptyData = {
 assets: [], parts: [], jobs: [], orders: [], withdrawals: [],
 customers: [], invoices: [], quotes: [], instruments: [], procedures: [], recalls: [],
-company: { name: "MedTrace", subtitle: "Gestione Apparecchiature Elettromedicali", address: "", vat: "", iban: "", invoicePrefix: "F" }
+company: { name: __t("MedTrace"), subtitle: __t("Gestione Apparecchiature Elettromedicali"), address: "", vat: "", iban: "", invoicePrefix: "F" }
 };
 const initialData = (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED && typeof DEMO_SEED !== "undefined" && DEMO_SEED) ? DEMO_SEED : (loadData() || _emptyData);
 const [quotes, setQuotes] = React.useState(initialData.quotes || []);
@@ -1435,7 +1436,7 @@ setFuncReports(data.funcReports);
 catch (e) { }
 setPtrRefreshing(false);
 setPtrPull(0);
-showToast("Aggiornato", "#22c55e");
+showToast(__t("Aggiornato"), "#22c55e");
 }, 600);
 }
 else {
@@ -1510,12 +1511,12 @@ setTimeout(() => setToast(null), 3000);
 }, []);
 const checkLocked = React.useCallback(() => {
 if (typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED) {
-setToast({ msg: "Modalità DEMO: modifiche disabilitate. Scarica la versione completa per personalizzare.", color: "#f59e0b" });
+setToast({ msg: __t("Modalità DEMO: modifiche disabilitate. Scarica la versione completa per personalizzare."), color: "#f59e0b" });
 setTimeout(() => setToast(null), 3500);
 return true;
 }
 if (subScaduto()) {
-setToast({ msg: "⛔ Abbonamento scaduto: MedTrace è in sola lettura. I dati restano consultabili; rinnova per riattivare le modifiche.", color: "#ef4444" });
+setToast({ msg: __t("⛔ Abbonamento scaduto: MedTrace è in sola lettura. I dati restano consultabili; rinnova per riattivare le modifiche."), color: "#ef4444" });
 setTimeout(() => setToast(null), 4000);
 return true;
 }
@@ -1739,7 +1740,7 @@ if (matched.length)
 showToast(matched.length + " apparecchi aggiornati dalla scansione RFID");
 return { when: now, total: (rows || []).length, updated: matched.length, unknown: unknown, crit: crit, byLoc: byLoc };
 };
-const reconSimulate = () => { const we = (assets || []).filter(a => a.epc); if (!we.length) { setReconInput("E20099AA00DEADBEEF000001 E20099AA00CAFEBABE000002"); showToast("Parco senza tag: generati 2 EPC di prova, premi Scansiona e associali", "#2dd4bf"); return; } let s = we.filter(() => Math.random() < 0.7); if (!s.length) s = we.slice(0, Math.min(5, we.length)); const lines = s.map(a => a.epc); lines.push("E20099AA00DEADBEEF000001"); setReconInput(lines.join("\n")); };
+const reconSimulate = () => { const we = (assets || []).filter(a => a.epc); if (!we.length) { setReconInput("E20099AA00DEADBEEF000001 E20099AA00CAFEBABE000002"); showToast(__t("Parco senza tag: generati 2 EPC di prova, premi Scansiona e associali"), "#2dd4bf"); return; } let s = we.filter(() => Math.random() < 0.7); if (!s.length) s = we.slice(0, Math.min(5, we.length)); const lines = s.map(a => a.epc); lines.push("E20099AA00DEADBEEF000001"); setReconInput(lines.join("\n")); };
 React.useEffect(() => { const onScan = (e) => { try { const rows = parseRfidScan(e.detail); if (rows.length) importRfidScan(rows); } catch (err) { } }; window.addEventListener("medtrace-rfid-scan", onScan); return () => window.removeEventListener("medtrace-rfid-scan", onScan); }, [assets]);
 React.useEffect(() => { if (tab !== "ricognizione" && reconListening) { stopWedge(); setReconListening(false); } }, [tab, reconListening]);
 React.useEffect(() => () => { stopWedge(); }, []);
@@ -1753,7 +1754,7 @@ return;
 }
 setReconLive(0); setReconLastEpc("");
 const ok = startWedge((epc, n) => { setReconLive(n); setReconLastEpc(epc); const hit = (assets || []).find(x => isWardTag(x) && String(x.epc || "").trim().toUpperCase() === epc); if (hit) { setReconWard(hit.name || ""); showToast("Reparto: " + (hit.name || "")); } });
-if (ok) { setReconListening(true); showToast("Ascolto attivo: spara col lettore (o digita EPC + Invio)"); }
+if (ok) { setReconListening(true); showToast(__t("Ascolto attivo: spara col lettore (o digita EPC + Invio)")); }
 };
 const reconAssign = (a) => {
 const epc = assocEpc;
@@ -1820,16 +1821,16 @@ const setter = SETTER_PER_TIPO[tipo];
 if (setter)
 setter(arr => upsertInList(arr || [], restored));
 setCestino(c => (Object.assign(Object.assign({}, c), { [tipo]: (c[tipo] || []).filter(r => r.id !== id) })));
-showToast("Ripristinato");
+showToast(__t("Ripristinato"));
 };
 const purgeFromTrash = (tipo, id) => {
 const adesso = new Date().toISOString();
 setCestino(c => (Object.assign(Object.assign({}, c), { [tipo]: (c[tipo] || []).map(r => r.id === id ? { id: r.id, deleted: true, purged: true, deletedAt: (r.deletedAt || adesso), updatedAt: adesso } : r) })));
 supabaseDeleteById(tipo, id);
-showToast("Eliminato definitivamente", "#ef4444");
+showToast(__t("Eliminato definitivamente"), "#ef4444");
 };
-const delAsset = id => { if (!isAdmin) { showToast("Solo admin e superuser possono eliminare apparecchi", "#ef4444"); return; } if (checkLocked())
-return; appConfirm("Spostare questo apparecchio nel cestino?", () => { const r = assets.find(x => x.id === id); moveToTrash("assets", r); setAssets(a => a.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+const delAsset = id => { if (!isAdmin) { showToast(__t("Solo admin e superuser possono eliminare apparecchi"), "#ef4444"); return; } if (checkLocked())
+return; appConfirm(__t("Spostare questo apparecchio nel cestino?"), () => { const r = assets.find(x => x.id === id); moveToTrash("assets", r); setAssets(a => a.filter(x => x.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const savePart = f => {
 if (checkLocked())
 return;
@@ -1841,10 +1842,10 @@ else {
 setParts(p => upsertInList(p, withCreateMeta(f)));
 }
 setModal(null);
-showToast("Parte salvata");
+showToast(__t("Parte salvata"));
 };
 const delPart = id => { if (checkLocked())
-return; appConfirm("Spostare questo ricambio nel cestino?", () => { const r = parts.find(x => x.id === id); moveToTrash("parts", r); setParts(p => p.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+return; appConfirm(__t("Spostare questo ricambio nel cestino?"), () => { const r = parts.find(x => x.id === id); moveToTrash("parts", r); setParts(p => p.filter(x => x.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const [richieste, setRichieste] = React.useState([]);
 const loadRichieste = () => __awaiter(this, void 0, void 0, function* () {
 if (OFFLINE_MODE)
@@ -1869,7 +1870,7 @@ yield supaDB.update("richieste", req.id, { status: "convertita" });
 }
 catch (e) { }
 yield loadRichieste();
-showToast("Job creato (stato: da accettare) ✓", "#22c55e");
+showToast(__t("Job creato (stato: da accettare) ✓"), "#22c55e");
 });
 const saveJob = f => {
 if (checkLocked())
@@ -1898,18 +1899,18 @@ setJobs(j => upsertInList(j, withCreateMeta(Object.assign(Object.assign({}, f), 
 }
 setModal(null);
 if (diventaChiuso && (f.parts || []).length > 0)
-showToast("Job chiuso — parti scaricate dal magazzino", "#22c55e");
+showToast(__t("Job chiuso — parti scaricate dal magazzino"), "#22c55e");
 else if (tornaAperto && (modal.data.parts || []).length > 0)
-showToast("Job riaperto — parti rimesse in magazzino", "#f59e0b");
+showToast(__t("Job riaperto — parti rimesse in magazzino"), "#f59e0b");
 else
-showToast("Job salvato");
+showToast(__t("Job salvato"));
 };
-const delJob = id => { if (!isAdmin) { showToast("Solo admin e superuser possono eliminare i job", "#ef4444"); return; } if (checkLocked())
-return; appConfirm("Spostare questo job nel cestino?", () => { const r = jobs.find(x => x.id === id); moveToTrash("jobs", r); setJobs(j => j.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+const delJob = id => { if (!isAdmin) { showToast(__t("Solo admin e superuser possono eliminare i job"), "#ef4444"); return; } if (checkLocked())
+return; appConfirm(__t("Spostare questo job nel cestino?"), () => { const r = jobs.find(x => x.id === id); moveToTrash("jobs", r); setJobs(j => j.filter(x => x.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const saveTimeline = (jobId, data) => {
 setJobs(js => js.map(j => j.id === jobId ? withUpdateMeta(Object.assign(Object.assign({}, j), { timeline: data.timeline, photos: data.photos })) : j));
 setModal(null);
-showToast("Timeline salvata");
+showToast(__t("Timeline salvata"));
 };
 const saveCustomer = f => {
 if (checkLocked())
@@ -1922,20 +1923,20 @@ else {
 setCustomers(c => upsertInList(c, withCreateMeta(f)));
 }
 setModal(null);
-showToast("Cliente salvato");
+showToast(__t("Cliente salvato"));
 };
 const delCustomer = id => {
 if (checkLocked())
 return;
 if (assets.some(a => a.customerId === id)) {
-alert("Non puoi spostare nel cestino: ci sono apparecchi associati a questo cliente.");
+alert(__t("Non puoi spostare nel cestino: ci sono apparecchi associati a questo cliente."));
 return;
 }
-appConfirm("Spostare questo cliente nel cestino?", () => {
+appConfirm(__t("Spostare questo cliente nel cestino?"), () => {
 const r = customers.find(x => x.id === id);
 moveToTrash("customers", r);
 setCustomers(c => c.filter(x => x.id !== id));
-showToast("Spostato nel cestino", "#f59e0b");
+showToast(__t("Spostato nel cestino"), "#f59e0b");
 });
 };
 const saveInvoice = f => {
@@ -1949,7 +1950,7 @@ else {
 setInvoices(i => upsertInList(i, withCreateMeta(f)));
 }
 setModal(null);
-showToast("Preventivo salvato");
+showToast(__t("Preventivo salvato"));
 };
 const quoteFromJob = (job) => {
 if (!job)
@@ -1974,13 +1975,13 @@ jobIds: [job.id],
 };
 pushModal({ type: "invoice", data: null, prefillFromJob: prefill });
 if (items.length === 0)
-showToast("Job senza parti/manodopera/viaggio — preventivo vuoto da compilare", "#f59e0b");
+showToast(__t("Job senza parti/manodopera/viaggio — preventivo vuoto da compilare"), "#f59e0b");
 };
 const delInvoice = id => { if (checkLocked())
-return; appConfirm("Spostare questo preventivo nel cestino?", () => { const r = invoices.find(x => x.id === id); moveToTrash("invoices", r); setInvoices(i => i.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+return; appConfirm(__t("Spostare questo preventivo nel cestino?"), () => { const r = invoices.find(x => x.id === id); moveToTrash("invoices", r); setInvoices(i => i.filter(x => x.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const markInvoicePaid = inv => {
 setInvoices(is => is.map(i => i.id === inv.id ? Object.assign(Object.assign({}, i), { status: "pagata" }) : i));
-showToast("Preventivo pagato");
+showToast(__t("Preventivo pagato"));
 };
 const saveOrder = f => {
 var _a;
@@ -1999,11 +2000,11 @@ setParts(ps => ps.map(p => p.id === f.partId ? Object.assign(Object.assign({}, p
 showToast("Ordine ricevuto — stock +" + (f.qty) + " pz.");
 }
 else
-showToast("Ordine salvato");
+showToast(__t("Ordine salvato"));
 setModal(null);
 };
 const delOrder = id => { if (checkLocked())
-return; appConfirm("Spostare questo ordine nel cestino?", () => { const r = orders.find(x => x.id === id); moveToTrash("orders", r); setOrders(o => o.filter(x => x.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+return; appConfirm(__t("Spostare questo ordine nel cestino?"), () => { const r = orders.find(x => x.id === id); moveToTrash("orders", r); setOrders(o => o.filter(x => x.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const quickReceive = o => {
 setOrders(os => os.map(x => x.id === o.id ? Object.assign(Object.assign({}, x), { status: "ricevuto" }) : x));
 setParts(ps => ps.map(p => p.id === o.partId ? Object.assign(Object.assign({}, p), { qty: p.qty + o.qty }) : p));
@@ -2023,9 +2024,9 @@ else
 setFuncReports(rs => rs.map(r => r.id === id ? updated : r));
 supabasePushOne(kind === "iec" ? "iecReports" : "funcReports", updated).then(ok => {
 if (value)
-showToast(ok ? "Pubblicato: il cliente lo vede nel portale" : "Pubblicato in locale — arriva al cliente alla prossima Sincronizza", ok ? "#22c55e" : "#f59e0b");
+showToast(ok ? __t("Pubblicato: il cliente lo vede nel portale") : __t("Pubblicato in locale — arriva al cliente alla prossima Sincronizza"), ok ? "#22c55e" : "#f59e0b");
 else
-showToast(ok ? "Ritirato dal portale" : "Ritirato in locale — effettivo alla prossima Sincronizza", "#f59e0b");
+showToast(ok ? __t("Ritirato dal portale") : __t("Ritirato in locale — effettivo alla prossima Sincronizza"), "#f59e0b");
 });
 };
 const saveIecReport = f => {
@@ -2036,7 +2037,7 @@ const isNew = !(f.id && iecReports.some(r => r.id === f.id));
 const wasPublished = !isNew && (iecReports.find(r => r.id === f.id) || {}).published === true;
 const savedReport = isNew ? withCreateMeta(Object.assign(Object.assign({}, f), { published: false })) : withUpdateMeta(Object.assign(Object.assign({}, f), { published: false }));
 if (wasPublished)
-showToast("Il verbale è tornato in bozza: ripubblicalo quando confermi", "#f59e0b");
+showToast(__t("Il verbale è tornato in bozza: ripubblicalo quando confermi"), "#f59e0b");
 const reportId = savedReport.id;
 if (isNew) {
 const asset = assets.find(a => a.id === f.assetId) || {};
@@ -2067,7 +2068,7 @@ showToast("⚠ Verifica NON CONFORME — creata manutenzione correttiva (nei Job
 const isExtraordinary = f.verifyType === "straordinaria";
 const isNotAvail = f.verifyStatus === "non_disponibile";
 if (isNotAvail) {
-showToast("Verifica non eseguibile registrata — la scadenza resta invariata (apparecchio non verificato)");
+showToast(__t("Verifica non eseguibile registrata — la scadenza resta invariata (apparecchio non verificato)"));
 }
 else if (!isExtraordinary) {
 const asset2 = assets.find(a => a.id === f.assetId) || {};
@@ -2080,14 +2081,14 @@ showToast("Verifica di Sicurezza Elettrica salvata · Prossima: " + nextServiceD
 }
 else {
 setAssets(as => as.map(a => a.id === f.assetId ? Object.assign(Object.assign({}, a), { lastService: f.date || new Date().toISOString().slice(0, 10) }) : a));
-showToast("Verifica straordinaria salvata (pianificazione invariata)");
+showToast(__t("Verifica straordinaria salvata (pianificazione invariata)"));
 }
 if (f.verifyStatus !== "non_disponibile" && f.overallPass === false) {
 showToast("⚠ Verifica NON CONFORME — creata richiesta di manutenzione correttiva (la trovi nei Job, stato Aperto)");
 }
 }
 else {
-showToast("Rapporto di sicurezza elettrica aggiornato");
+showToast(__t("Rapporto di sicurezza elettrica aggiornato"));
 }
 if (isNew) {
 setIecReports(rs => [...rs, savedReport]);
@@ -2097,19 +2098,19 @@ setIecReports(rs => rs.map(r => r.id === reportId ? savedReport : r));
 }
 if (_ppmLink) {
 setPpmReports(rs => rs.map(r => r.id === _ppmLink ? withUpdateMeta(Object.assign(Object.assign({}, r), { iecReportId: reportId })) : r));
-showToast("VSE collegata alla PPM", "#2dd4bf");
+showToast(__t("VSE collegata alla PPM"), "#2dd4bf");
 popModal();
 }
 else if (isNew) {
 if (company.stickerPrompt) {
-appConfirm("Verifica salvata! Vuoi stampare lo sticker QR da applicare sull'apparecchio?", () => {
+appConfirm(__t("Verifica salvata! Vuoi stampare lo sticker QR da applicare sull'apparecchio?"), () => {
 setModal({ type: "sticker", data: savedReport, kind: "iec" });
 }, 'positive');
 }
 else if (f.verifyStatus !== "non_disponibile") {
 const _aid = f.assetId;
 setModal(null);
-appConfirm("Verifica elettrica salvata. Vuoi fare anche la verifica funzionale su questo apparecchio?", () => setModal({ type: "func", assetId: _aid, data: null }), 'positive');
+appConfirm(__t("Verifica elettrica salvata. Vuoi fare anche la verifica funzionale su questo apparecchio?"), () => setModal({ type: "func", assetId: _aid, data: null }), 'positive');
 }
 else {
 setModal(null);
@@ -2120,7 +2121,7 @@ setModal(null);
 }
 };
 const delIecReport = id => { if (checkLocked())
-return; appConfirm("Spostare questa verifica di sicurezza elettrica nel cestino?", () => { const r = iecReports.find(x => x.id === id); moveToTrash("iecReports", r); setIecReports(rs => rs.filter(r => r.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+return; appConfirm(__t("Spostare questa verifica di sicurezza elettrica nel cestino?"), () => { const r = iecReports.find(x => x.id === id); moveToTrash("iecReports", r); setIecReports(rs => rs.filter(r => r.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const saveFuncReport = f => {
 if (checkLocked())
 return;
@@ -2133,7 +2134,7 @@ const wasPublished = (funcReports.find(r => r.id === f.id) || {}).published === 
 const upd = withUpdateMeta(Object.assign(Object.assign({}, f), { published: false }));
 setFuncReports(rs => rs.map(r => r.id === f.id ? upd : r));
 if (wasPublished)
-showToast("Il verbale è tornato in bozza: ripubblicalo quando confermi", "#f59e0b");
+showToast(__t("Il verbale è tornato in bozza: ripubblicalo quando confermi"), "#f59e0b");
 }
 else {
 const saved = withCreateMeta(Object.assign(Object.assign({}, f), { published: false }));
@@ -2157,30 +2158,30 @@ funcReportId: rid,
 showToast("⚠ Verifica NON CONFORME — creata richiesta di manutenzione correttiva (nei Job, stato Aperto)");
 }
 else {
-showToast("Verifica funzionale salvata");
+showToast(__t("Verifica funzionale salvata"));
 }
 if (_ppmLink) {
 setPpmReports(rs => rs.map(r => r.id === _ppmLink ? withUpdateMeta(Object.assign(Object.assign({}, r), { funcReportId: saved.id })) : r));
-showToast("Funzionale collegata alla PPM", "#2dd4bf");
+showToast(__t("Funzionale collegata alla PPM"), "#2dd4bf");
 popModal();
 }
 else if (company.stickerPrompt) {
-appConfirm("Verifica salvata! Vuoi stampare lo sticker QR da applicare sull'apparecchio?", () => {
+appConfirm(__t("Verifica salvata! Vuoi stampare lo sticker QR da applicare sull'apparecchio?"), () => {
 setModal({ type: "sticker", data: saved, kind: "func" });
 }, 'positive');
 }
 else if (f.verifyStatus !== "non_disponibile") {
 const _aid = f.assetId;
 setModal(null);
-appConfirm("Verifica funzionale salvata. Vuoi fare anche la verifica di sicurezza elettrica su questo apparecchio?", () => setModal({ type: "iec", assetId: _aid, data: null }), 'positive');
+appConfirm(__t("Verifica funzionale salvata. Vuoi fare anche la verifica di sicurezza elettrica su questo apparecchio?"), () => setModal({ type: "iec", assetId: _aid, data: null }), 'positive');
 }
 else {
 setModal(null);
 }
 return;
 }
-if (_ppmLink) { setPpmReports(rs => rs.map(r => r.id === _ppmLink ? withUpdateMeta(Object.assign(Object.assign({}, r), { funcReportId: f.id })) : r)); showToast("Funzionale collegata alla PPM", "#2dd4bf"); popModal(); }
-else { setModal(null); showToast("Rapporto funzionale aggiornato"); }
+if (_ppmLink) { setPpmReports(rs => rs.map(r => r.id === _ppmLink ? withUpdateMeta(Object.assign(Object.assign({}, r), { funcReportId: f.id })) : r)); showToast(__t("Funzionale collegata alla PPM"), "#2dd4bf"); popModal(); }
+else { setModal(null); showToast(__t("Rapporto funzionale aggiornato")); }
 };
 const saveCustomTemplate = (tpl) => {
 if (checkLocked())
@@ -2192,10 +2193,10 @@ showToast("✓ Template salvato");
 const deleteCustomTemplate = (id) => {
 if (checkLocked())
 return;
-if (!confirm("Eliminare questo template? Le verifiche già fatte con questo template restano invariate."))
+if (!confirm(__t("Eliminare questo template? Le verifiche già fatte con questo template restano invariate.")))
 return;
 setCustomTemplates(prev => { const c = Object.assign({}, prev); delete c[id]; return c; });
-showToast("Template eliminato", "#ef4444");
+showToast(__t("Template eliminato"), "#ef4444");
 };
 const duplicateAsset = a => {
 const clone = Object.assign({}, a);
@@ -2258,7 +2259,7 @@ clone.name = (c.name || "") + " (copia)";
 pushModal({ type: "customer", data: clone });
 };
 const delFuncReport = id => { if (checkLocked())
-return; appConfirm("Spostare questa verifica funzionale nel cestino?", () => { const r = funcReports.find(x => x.id === id); moveToTrash("funcReports", r); setFuncReports(rs => rs.filter(r => r.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
+return; appConfirm(__t("Spostare questa verifica funzionale nel cestino?"), () => { const r = funcReports.find(x => x.id === id); moveToTrash("funcReports", r); setFuncReports(rs => rs.filter(r => r.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
 const savePpmFull = (p) => {
 if (checkLocked()) return;
 const today = p.date || new Date().toISOString().slice(0, 10);
@@ -2294,7 +2295,7 @@ return;
 const isNew = !(f.id && ppmReports.some(r => r.id === f.id));
 if (!isNew) {
 setPpmReports(rs => rs.map(r => r.id === f.id ? withUpdateMeta(Object.assign({}, f)) : r));
-showToast("Manutenzione programmata salvata", "#2dd4bf");
+showToast(__t("Manutenzione programmata salvata"), "#2dd4bf");
 popModal();
 }
 else {
@@ -2302,13 +2303,13 @@ const saved = withCreateMeta(Object.assign({}, f));
 setPpmReports(rs => [...rs, saved]);
 const asset = assets.find(a => a.id === f.assetId);
 if (asset && f.date) { var _mm = parseInt(asset.intervalPpm, 10) || 12; var _nd = new Date(f.date); if (!isNaN(_nd.getTime())) { _nd.setMonth(_nd.getMonth() + _mm); var _rec = withUpdateMeta(Object.assign(Object.assign({}, asset), { lastPpm: f.date, nextPpm: _nd.toISOString().slice(0, 10) })); setAssets(a => upsertInList(a, _rec)); } }
-showToast("Checklist salvata \u2014 esegui/collega funzionale e VSE qui sotto", "#2dd4bf");
+showToast(__t("Checklist salvata \u2014 esegui/collega funzionale e VSE qui sotto"), "#2dd4bf");
 setModal({ type: "ppm", data: saved });
 }
 };
 const delPpmReport = id => { if (checkLocked())
-return; appConfirm("Spostare questa manutenzione programmata nel cestino?", () => { const r = ppmReports.find(x => x.id === id); moveToTrash("ppmReports", r); setPpmReports(rs => rs.filter(r => r.id !== id)); showToast("Spostato nel cestino", "#f59e0b"); }); };
-const linkPpmReport = (id, patch) => { if (checkLocked()) return; setPpmReports(rs => rs.map(r => r.id === id ? withUpdateMeta(Object.assign(Object.assign({}, r), patch)) : r)); showToast("Verifica collegata alla PPM", "#2dd4bf"); };
+return; appConfirm(__t("Spostare questa manutenzione programmata nel cestino?"), () => { const r = ppmReports.find(x => x.id === id); moveToTrash("ppmReports", r); setPpmReports(rs => rs.filter(r => r.id !== id)); showToast(__t("Spostato nel cestino"), "#f59e0b"); }); };
+const linkPpmReport = (id, patch) => { if (checkLocked()) return; setPpmReports(rs => rs.map(r => r.id === id ? withUpdateMeta(Object.assign(Object.assign({}, r), patch)) : r)); showToast(__t("Verifica collegata alla PPM"), "#2dd4bf"); };
 const openPpmPdf = (ppm) => { const a = assets.find(x => x.id === ppm.assetId) || {}; const c = customers.find(x => x.id === a.customerId) || {}; const fr = ppm.funcReportId ? funcReports.find(r => r.id === ppm.funcReportId) : null; const ir = ppm.iecReportId ? iecReports.find(r => r.id === ppm.iecReportId) : null; generatePPMPDF(ppm, a, c, company, allTemplates, fr, ir); };
 const handleWithdraw = data => {
 if (checkLocked())
@@ -2352,7 +2353,7 @@ const r = await supaGetUser();
 const u = r && r.data && r.data.user;
 if (annullato || !u) return;
 autoPulledRef.current = true;
-showToast("Scarico i tuoi dati dal cloud\u2026", "#2dd4bf");
+showToast(__t("Scarico i tuoi dati dal cloud\u2026"), "#2dd4bf");
 const snapshot = { assets, parts, jobs, orders, withdrawals, customers, invoices, quotes, instruments, procedures, iecReports, funcReports, recalls, company, customTemplates, cestino };
 const { merged, mergedTrash } = await supabaseSyncMerge(snapshot);
 if (annullato || !merged) return;
@@ -2388,7 +2389,7 @@ applica(remote.iecReports, rt.iecReports, setIecReports);
 applica(remote.funcReports, rt.funcReports, setFuncReports);
 if (remoteTrash)
 setCestino(prev => (Object.assign(Object.assign(Object.assign({}, CESTINO_VUOTO), prev), remoteTrash)));
-showToast("Dati uniti dal cloud (nessun dato perso)");
+showToast(__t("Dati uniti dal cloud (nessun dato perso)"));
 };
 const handleImport = data => {
 if (checkLocked())
@@ -2448,11 +2449,11 @@ showToast("✓ Backup unito — nuovi record aggiunti senza sovrascrivere");
 const handleReset = () => {
 if (checkLocked())
 return;
-appConfirm("⚠ ATTENZIONE — Stai per cancellare TUTTI i dati:\n\n• Apparecchi, Clienti, Job\n• Verifiche di sicurezza elettrica e funzionali\n• Strumenti, Procedure\n• Magazzino, Ordini, Scarichi\n• Preventivi\n\nL'operazione è IRREVERSIBILE.\n\nProcedere?", () => {
-appConfirm("Confermi davvero? Tutti i dati saranno persi.", () => {
-appPromptCb('Per confermare, scrivi la parola: CANCELLA', (val) => {
+appConfirm(__t("⚠ ATTENZIONE — Stai per cancellare TUTTI i dati:\n\n• Apparecchi, Clienti, Job\n• Verifiche di sicurezza elettrica e funzionali\n• Strumenti, Procedure\n• Magazzino, Ordini, Scarichi\n• Preventivi\n\nL'operazione è IRREVERSIBILE.\n\nProcedere?"), () => {
+appConfirm(__t("Confermi davvero? Tutti i dati saranno persi."), () => {
+appPromptCb(__t('Per confermare, scrivi la parola: CANCELLA'), (val) => {
 if (val !== 'CANCELLA') {
-showToast("Reset annullato", "var(--text-2)");
+showToast(__t("Reset annullato"), "var(--text-2)");
 return;
 }
 setAssets([]);
@@ -2468,62 +2469,62 @@ setProcedures([]);
 setIecReports([]);
 setFuncReports([]);
 setModal(null);
-showToast("Sistema completamente azzerato", "#ef4444");
+showToast(__t("Sistema completamente azzerato"), "#ef4444");
 });
 });
 });
 };
-const exportAssets = () => downloadXLSX("medtrace_apparecchi.xlsx", assets.map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "" })); }), [{ key: "id", label: "ID" }, { key: "name", label: "Nome" }, { key: "brand", label: "Marca" }, { key: "model", label: "Modello" }, { key: "serial", label: "N.Serie" }, { key: "civab", label: "CIVAB" }, { key: "cnd", label: "CND" }, { key: "emdn", label: "EMDN" }, { key: "location", label: "Ubicazione" }, { key: "lastLocation", label: "Ultima posizione (scan)" }, { key: "lastLocationDate", label: "Data ultima posizione" }, { key: "cliente", label: "Cliente" }, { key: "status", label: "Stato" }, { key: "lastService", label: "Ultimo Serv." }, { key: "nextService", label: "Prossimo Serv." }, { key: "notes", label: "Note" }]);
-const exportParts = () => downloadXLSX("medtrace_parti.xlsx", parts.map(p => (Object.assign(Object.assign({}, p), { compatibile: (p.compatible || []).map(id => { var _a; return ((_a = assets.find(a => a.id === id)) === null || _a === void 0 ? void 0 : _a.name) || id; }).join(", ") }))), [{ key: "id", label: "ID" }, { key: "code", label: "Codice" }, { key: "name", label: "Nome" }, { key: "brand", label: "Marca" }, { key: "qty", label: "Q.tà" }, { key: "minQty", label: "Q.Min" }, { key: "unitPrice", label: "Costo" }, { key: "sellPrice", label: "Vendita" }, { key: "location", label: "Ubicazione" }, { key: "compatibile", label: "Compatibile con" }, { key: "notes", label: "Note" }]);
+const exportAssets = () => downloadXLSX("medtrace_apparecchi.xlsx", assets.map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "" })); }), [{ key: "id", label: "ID" }, { key: "name", label: __t("Nome") }, { key: "brand", label: __t("Marca") }, { key: "model", label: __t("Modello") }, { key: "serial", label: __t("N.Serie") }, { key: "civab", label: "CIVAB" }, { key: "cnd", label: "CND" }, { key: "emdn", label: "EMDN" }, { key: "location", label: __t("Ubicazione") }, { key: "lastLocation", label: __t("Ultima posizione (scan)") }, { key: "lastLocationDate", label: __t("Data ultima posizione") }, { key: "cliente", label: __t("Cliente") }, { key: "status", label: __t("Stato") }, { key: "lastService", label: __t("Ultimo Serv.") }, { key: "nextService", label: __t("Prossimo Serv.") }, { key: "notes", label: __t("Note") }]);
+const exportParts = () => downloadXLSX("medtrace_parti.xlsx", parts.map(p => (Object.assign(Object.assign({}, p), { compatibile: (p.compatible || []).map(id => { var _a; return ((_a = assets.find(a => a.id === id)) === null || _a === void 0 ? void 0 : _a.name) || id; }).join(", ") }))), [{ key: "id", label: "ID" }, { key: "code", label: __t("Codice") }, { key: "name", label: __t("Nome") }, { key: "brand", label: __t("Marca") }, { key: "qty", label: __t("Q.tà") }, { key: "minQty", label: __t("Q.Min") }, { key: "unitPrice", label: __t("Costo") }, { key: "sellPrice", label: __t("Vendita") }, { key: "location", label: __t("Ubicazione") }, { key: "compatibile", label: __t("Compatibile con") }, { key: "notes", label: __t("Note") }]);
 const exportJobs = () => downloadXLSX("medtrace_job.xlsx", jobs.map(j => {
 const a = assets.find(x => x.id === j.assetId) || {};
 const c = customers.find(x => x.id === (j.customerId || a.customerId)) || {};
 const cp = j.parts.reduce((s, p) => { const pt = parts.find(x => x.id === p.partId); return s + (pt ? (pt.sellPrice || pt.unitPrice) * p.qty : 0); }, 0);
 return Object.assign(Object.assign({}, j), { apparecchio: a.name || j.assetId, cliente: c.name || "", partiUsate: j.parts.map(p => { const pt = parts.find(x => x.id === p.partId); return ((pt === null || pt === void 0 ? void 0 : pt.name) || p.partId) + " x" + p.qty; }).join(", "), costoParti: cp.toFixed(2), costoManodopera: (j.laborHours * j.laborRate).toFixed(2), totale: (cp + j.laborHours * j.laborRate).toFixed(2), parts: undefined, timeline: undefined, photos: undefined });
-}), [{ key: "id", label: "ID" }, { key: "apparecchio", label: "Apparecchio" }, { key: "cliente", label: "Cliente" }, { key: "type", label: "Tipo" }, { key: "priority", label: "Priorità" }, { key: "status", label: "Stato" }, { key: "assignee", label: "Tecnico" }, { key: "openDate", label: "Apertura" }, { key: "closeDate", label: "Chiusura" }, { key: "description", label: "Descrizione" }, { key: "partiUsate", label: "Parti" }, { key: "laborHours", label: "Ore" }, { key: "laborRate", label: "Tariffa €/h" }, { key: "costoParti", label: "Costo Parti" }, { key: "costoManodopera", label: "Manodopera" }, { key: "totale", label: "Totale" }]);
-const exportOrders = () => downloadXLSX("medtrace_ordini.xlsx", orders.map(o => { var _a; return (Object.assign(Object.assign({}, o), { nomeParte: ((_a = parts.find(p => p.id === o.partId)) === null || _a === void 0 ? void 0 : _a.name) || o.partId, totale: (o.qty * o.unitPrice).toFixed(2) })); }), [{ key: "id", label: "ID" }, { key: "supplier", label: "Fornitore" }, { key: "nomeParte", label: "Parte" }, { key: "qty", label: "Q.tà" }, { key: "unitPrice", label: "Prezzo Unit." }, { key: "totale", label: "Totale" }, { key: "status", label: "Stato" }, { key: "orderDate", label: "Data Ordine" }, { key: "expectedDate", label: "Consegna Prev." }, { key: "notes", label: "Note" }]);
-const exportInvoices = () => downloadXLSX("medtrace_preventivi.xlsx", invoices.map(i => { var _a; const sub = i.items.reduce((s, it) => s + it.qty * it.unitPrice, 0); const vat = i.items.reduce((s, it) => s + it.qty * it.unitPrice * it.vat / 100, 0); return Object.assign(Object.assign({}, i), { cliente: ((_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "", imponibile: sub.toFixed(2), iva: vat.toFixed(2), totale: (sub + vat).toFixed(2), items: undefined, jobIds: undefined }); }), [{ key: "number", label: "N.Preventivo" }, { key: "cliente", label: "Cliente" }, { key: "date", label: "Data" }, { key: "dueDate", label: "Scadenza" }, { key: "status", label: "Stato" }, { key: "imponibile", label: "Imponibile" }, { key: "iva", label: "IVA" }, { key: "totale", label: "Totale" }, { key: "paymentTerms", label: "Pagamento" }, { key: "notes", label: "Note" }]);
-const exportIecReports = () => downloadXLSX("medtrace_verifiche_sicurezza.xlsx", iecReports.map(r => { var _a; const a = assets.find(x => x.id === r.assetId) || {}; const c = customers.find(x => x.id === a.customerId) || {}; return Object.assign(Object.assign({}, r), { apparecchio: a.name || r.assetId || "", nSerie: a.serial || "", cliente: c.name || "", misure: ((_a = r.measures) === null || _a === void 0 ? void 0 : _a.map(m => m.name + ": " + m.value + m.unit + " (lim." + m.limit + ")").join("; ")) || "", measures: undefined, visual: undefined }); }), [{ key: "reportNumber", label: "N.Rapporto" }, { key: "date", label: "Data" }, { key: "norm", label: "Norma" }, { key: "apparecchio", label: "Apparecchio" }, { key: "nSerie", label: "N.Serie" }, { key: "cliente", label: "Cliente" }, { key: "technician", label: "Tecnico" }, { key: "instrument", label: "Strumento" }, { key: "equipClass", label: "Classe" }, { key: "patientType", label: "Tipo Paziente" }, { key: "verifyType", label: "Tipo Verifica" }, { key: "overallPass", label: "Esito" }, { key: "misure", label: "Misure" }, { key: "notes", label: "Note" }]);
+}), [{ key: "id", label: "ID" }, { key: "apparecchio", label: __t("Apparecchio") }, { key: "cliente", label: __t("Cliente") }, { key: "type", label: __t("Tipo") }, { key: "priority", label: __t("Priorità") }, { key: "status", label: __t("Stato") }, { key: "assignee", label: __t("Tecnico") }, { key: "openDate", label: __t("Apertura") }, { key: "closeDate", label: __t("Chiusura") }, { key: "description", label: __t("Descrizione") }, { key: "partiUsate", label: __t("Parti") }, { key: "laborHours", label: __t("Ore") }, { key: "laborRate", label: __t("Tariffa €/h") }, { key: "costoParti", label: __t("Costo Parti") }, { key: "costoManodopera", label: __t("Manodopera") }, { key: "totale", label: __t("Totale") }]);
+const exportOrders = () => downloadXLSX("medtrace_ordini.xlsx", orders.map(o => { var _a; return (Object.assign(Object.assign({}, o), { nomeParte: ((_a = parts.find(p => p.id === o.partId)) === null || _a === void 0 ? void 0 : _a.name) || o.partId, totale: (o.qty * o.unitPrice).toFixed(2) })); }), [{ key: "id", label: "ID" }, { key: "supplier", label: __t("Fornitore") }, { key: "nomeParte", label: __t("Parte") }, { key: "qty", label: __t("Q.tà") }, { key: "unitPrice", label: __t("Prezzo Unit.") }, { key: "totale", label: __t("Totale") }, { key: "status", label: __t("Stato") }, { key: "orderDate", label: __t("Data Ordine") }, { key: "expectedDate", label: __t("Consegna Prev.") }, { key: "notes", label: __t("Note") }]);
+const exportInvoices = () => downloadXLSX("medtrace_preventivi.xlsx", invoices.map(i => { var _a; const sub = i.items.reduce((s, it) => s + it.qty * it.unitPrice, 0); const vat = i.items.reduce((s, it) => s + it.qty * it.unitPrice * it.vat / 100, 0); return Object.assign(Object.assign({}, i), { cliente: ((_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "", imponibile: sub.toFixed(2), iva: vat.toFixed(2), totale: (sub + vat).toFixed(2), items: undefined, jobIds: undefined }); }), [{ key: "number", label: __t("N.Preventivo") }, { key: "cliente", label: __t("Cliente") }, { key: "date", label: __t("Data") }, { key: "dueDate", label: __t("Scadenza") }, { key: "status", label: __t("Stato") }, { key: "imponibile", label: __t("Imponibile") }, { key: "iva", label: "IVA" }, { key: "totale", label: __t("Totale") }, { key: "paymentTerms", label: __t("Pagamento") }, { key: "notes", label: __t("Note") }]);
+const exportIecReports = () => downloadXLSX("medtrace_verifiche_sicurezza.xlsx", iecReports.map(r => { var _a; const a = assets.find(x => x.id === r.assetId) || {}; const c = customers.find(x => x.id === a.customerId) || {}; return Object.assign(Object.assign({}, r), { apparecchio: a.name || r.assetId || "", nSerie: a.serial || "", cliente: c.name || "", misure: ((_a = r.measures) === null || _a === void 0 ? void 0 : _a.map(m => m.name + ": " + m.value + m.unit + " (lim." + m.limit + ")").join("; ")) || "", measures: undefined, visual: undefined }); }), [{ key: "reportNumber", label: __t("N.Rapporto") }, { key: "date", label: __t("Data") }, { key: "norm", label: __t("Norma") }, { key: "apparecchio", label: __t("Apparecchio") }, { key: "nSerie", label: __t("N.Serie") }, { key: "cliente", label: __t("Cliente") }, { key: "technician", label: __t("Tecnico") }, { key: "instrument", label: __t("Strumento") }, { key: "equipClass", label: __t("Classe") }, { key: "patientType", label: __t("Tipo Paziente") }, { key: "verifyType", label: __t("Tipo Verifica") }, { key: "overallPass", label: __t("Esito") }, { key: "misure", label: __t("Misure") }, { key: "notes", label: __t("Note") }]);
 const NAV_GROUPS = [
 {
 id: "g_dash", label: null,
 items: [
-{ id: "dashboard", label: "Dashboard", icon: "◈" },
-{ id: "kpi", label: "KPI & Statistiche", icon: "›" },
+{ id: "dashboard", label: __t("Dashboard"), icon: "◈" },
+{ id: "kpi", label: __t("KPI & Statistiche"), icon: "›" },
 ]
 },
 {
 id: "g_assets", label: "APPARECCHIATURE",
 items: [
-{ id: "assets", label: "Apparecchi", icon: "›", badge: stats.outOfService > 0 ? stats.outOfService : null, bColor: "#ef4444" },
+{ id: "assets", label: __t("Apparecchi"), icon: "›", badge: stats.outOfService > 0 ? stats.outOfService : null, bColor: "#ef4444" },
 { id: "ricognizione", label: "RFID", icon: "›" },
-{ id: "instruments", label: "Strumenti", icon: "›" },
-{ id: "customers", label: "Clienti", icon: "›" },
+{ id: "instruments", label: __t("Strumenti"), icon: "›" },
+{ id: "customers", label: __t("Clienti"), icon: "›" },
 ]
 },
 {
 id: "g_maint", label: "MANUTENZIONE",
 items: [
-{ id: "jobs", label: "Job / Interventi", icon: "›", badge: stats.urgentJobs > 0 ? stats.urgentJobs : null, bColor: "#ef4444" },
-{ id: "richieste", label: "Richieste clienti", icon: "›", badge: (richieste.filter(r => r.status === "nuova").length) || null, bColor: "#2dd4bf" },
-{ id: "iec", label: "Sicurezza Elettrica", icon: "›" },
-{ id: "func", label: "Verif. Funzionale", icon: "›" },
-{ id: "ppm", label: "Manut. Programmata", icon: "›" },
-{ id: "recalls", label: "Avvisi di sicurezza", icon: "›", badge: (recalls.filter(r => r.status !== "chiuso").length) || null, bColor: "#ef4444" },
-{ id: "agenda", label: "Pianificazione", icon: "›", badge: upcomingMaintenance.length > 0 ? upcomingMaintenance.length : null, bColor: "#f59e0b" },
+{ id: "jobs", label: __t("Job / Interventi"), icon: "›", badge: stats.urgentJobs > 0 ? stats.urgentJobs : null, bColor: "#ef4444" },
+{ id: "richieste", label: __t("Richieste clienti"), icon: "›", badge: (richieste.filter(r => r.status === "nuova").length) || null, bColor: "#2dd4bf" },
+{ id: "iec", label: __t("Sicurezza Elettrica"), icon: "›" },
+{ id: "func", label: __t("Verif. Funzionale"), icon: "›" },
+{ id: "ppm", label: __t("Manut. Programmata"), icon: "›" },
+{ id: "recalls", label: __t("Avvisi di sicurezza"), icon: "›", badge: (recalls.filter(r => r.status !== "chiuso").length) || null, bColor: "#ef4444" },
+{ id: "agenda", label: __t("Pianificazione"), icon: "›", badge: upcomingMaintenance.length > 0 ? upcomingMaintenance.length : null, bColor: "#f59e0b" },
 ]
 },
 {
 id: "g_stock", label: "GESTIONE",
 items: [
-{ id: "parts", label: "Magazzino", icon: "›", badge: stats.lowStock > 0 ? stats.lowStock : null, bColor: "#f59e0b" },
-{ id: "invoices", label: "Preventivi", icon: "›", badge: stats.pendingInvoices > 0 ? stats.pendingInvoices : null, bColor: "#2dd4bf" },
+{ id: "parts", label: __t("Magazzino"), icon: "›", badge: stats.lowStock > 0 ? stats.lowStock : null, bColor: "#f59e0b" },
+{ id: "invoices", label: __t("Preventivi"), icon: "›", badge: stats.pendingInvoices > 0 ? stats.pendingInvoices : null, bColor: "#2dd4bf" },
 ]
 },
 {
 id: "g_sys", label: "DOCUMENTAZIONE & AIUTO",
 items: [
-{ id: "help", label: "Guida", icon: "›" },
+{ id: "help", label: __t("Guida"), icon: "›" },
 ]
 },
 ];
@@ -2533,10 +2534,10 @@ const NAV_GROUPS_VISIBLE = NAV_GROUPS
 const NAV = NAV_GROUPS_VISIBLE.flatMap(g => g.items);
 const __bnIcon = (paths) => React.createElement("svg", { width: 23, height: 23, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round" }, paths.map((d, i) => React.createElement("path", { key: i, d: d })));
 const BOTTOM_NAV = [
-{ id: "assets", label: "Apparecchi", paths: ["M3 5.5h18v11H3z", "M8.5 20.5h7", "M12 16.5v4"] },
+{ id: "assets", label: __t("Apparecchi"), paths: ["M3 5.5h18v11H3z", "M8.5 20.5h7", "M12 16.5v4"] },
 { id: "iec", label: "VSE", paths: ["M13 2 4 14h7l-1 8 9-12h-7z"] },
-{ id: "func", label: "Funzionale", paths: ["M3 12h4l2.4-8 5 16 2.6-8h4"] },
-{ id: "jobs", label: "Job", paths: ["M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2", "M9 3.5h6v3H9z", "M9 12h6", "M9 16h4"] },
+{ id: "func", label: __t("Funzionale"), paths: ["M3 12h4l2.4-8 5 16 2.6-8h4"] },
+{ id: "jobs", label: __t("Job"), paths: ["M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2", "M9 3.5h6v3H9z", "M9 12h6", "M9 16h4"] },
 ].filter(it => NAV.some(n => n.id === it.id));
 const filteredJobs = React.useMemo(() => {
 return jobs.filter(j => {
@@ -2571,8 +2572,8 @@ const isEmpty = assets.length === 0 && parts.length === 0 && jobs.length === 0 &
 return (React.createElement("div", { style: { minHeight: "100vh", background: "var(--bg)" } },
 loadingMsg && React.createElement(LoadingOverlay, { message: loadingMsg }),
 toast && React.createElement("div", { style: { position: "fixed", top: 16, right: 16, background: toast.color + "22", border: "1px solid " + (toast.color) + "55", color: toast.color, borderRadius: 10, padding: "11px 18px", zIndex: 2000, fontSize: 13, fontWeight: 700, maxWidth: "90vw" } }, toast.msg),
-!isMobile && !modal && React.createElement("button", { onClick: () => setScanOpen(true), title: "Scansiona QR apparecchio", style: { position: "fixed", right: 16, bottom: isMobile ? "calc(90px + env(safe-area-inset-bottom))" : 24, zIndex: 1500, width: 54, height: 54, borderRadius: 16, background: "var(--acc-teal)", color: "#04211d", border: "none", boxShadow: "0 6px 16px rgba(0,0,0,.4)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" }), React.createElement("circle", { cx: 12, cy: 13, r: 3 }))),
-scanOpen && React.createElement(QRScanCam, { onClose: () => setScanOpen(false), onResult: (text) => { setScanOpen(false); var id = text; try { var m = String(text).match(/[?&]asset=([^&]+)/); if (m) id = decodeURIComponent(m[1]); } catch (e) {} var found = (assets || []).find(function (a) { return a.id === id || a.assetCode === id; }); if (found) { setTab("assets"); openAsset(found.id); } else { setToast({ msg: "QR non riconosciuto: nessun apparecchio con questo codice", color: "#ef4444" }); } } }),
+!isMobile && !modal && React.createElement("button", { onClick: () => setScanOpen(true), title: __t("Scansiona QR apparecchio"), style: { position: "fixed", right: 16, bottom: isMobile ? "calc(90px + env(safe-area-inset-bottom))" : 24, zIndex: 1500, width: 54, height: 54, borderRadius: 16, background: "var(--acc-teal)", color: "#04211d", border: "none", boxShadow: "0 6px 16px rgba(0,0,0,.4)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" }), React.createElement("circle", { cx: 12, cy: 13, r: 3 }))),
+scanOpen && React.createElement(QRScanCam, { onClose: () => setScanOpen(false), onResult: (text) => { setScanOpen(false); var id = text; try { var m = String(text).match(/[?&]asset=([^&]+)/); if (m) id = decodeURIComponent(m[1]); } catch (e) {} var found = (assets || []).find(function (a) { return a.id === id || a.assetCode === id; }); if (found) { setTab("assets"); openAsset(found.id); } else { setToast({ msg: __t("QR non riconosciuto: nessun apparecchio con questo codice"), color: "#ef4444" }); } } }),
 isMobile && (React.createElement("div", { style: {
 position: "fixed", inset: 0, background: "#000b", zIndex: 800, backdropFilter: "blur(4px)",
 opacity: navOpen ? 1 : 0,
@@ -2600,7 +2601,7 @@ React.createElement("path", { d: "M6 24 Q11 14 16 24 Q21 34 26 24", strokeWidth:
 React.createElement("path", { d: "M1 24 Q9 10 16 24 Q23 38 31 24", strokeWidth: "2.5" }),
 React.createElement("path", { d: "M-4 24 Q7 6 16 24 Q25 42 36 24", strokeWidth: "2.5" }),
 React.createElement("circle", { cx: "42", cy: "24", r: "3.5", fill: "#2dd4bf", stroke: "none" })),
-React.createElement("text", { x: "54", y: "28", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif", fontSize: "20", fontWeight: "800", style: { fill: "var(--text-bright)" }, letterSpacing: "-0.3" }, "MedTrace"),
+React.createElement("text", { x: "54", y: "28", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif", fontSize: "20", fontWeight: "800", style: { fill: "var(--text-bright)" }, letterSpacing: "-0.3" }, __t("MedTrace")),
 React.createElement("text", { x: "54", y: "40", fontFamily: "-apple-system, BlinkMacSystemFont, system-ui, sans-serif", fontSize: "8.5", fontWeight: "600", fill: "#475569", letterSpacing: "2" }, "MEDICAL \u00B7 CMMS")),
 company.name && React.createElement("div", { style: { fontSize: 10, fontWeight: 600, color: "var(--text-3)", marginTop: 4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, company.name)),
 React.createElement("nav", { style: { flex: 1, padding: "14px 8px" } }, NAV_GROUPS_VISIBLE.map((group, gi) => (React.createElement("div", { key: group.id, style: { marginBottom: gi < NAV_GROUPS_VISIBLE.length - 1 ? 10 : 0 } },
@@ -2651,7 +2652,7 @@ React.createElement("path", { d: "M6 24 Q11 14 16 24 Q21 34 26 24", strokeWidth:
 React.createElement("path", { d: "M1 24 Q9 10 16 24 Q23 38 31 24", strokeWidth: "2.5" }),
 React.createElement("path", { d: "M-4 24 Q7 6 16 24 Q25 42 36 24", strokeWidth: "2.5" }),
 React.createElement("circle", { cx: "42", cy: "24", r: "3.5", fill: "#2dd4bf", stroke: "none" })),
-React.createElement("text", { x: "54", y: "28", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif", fontSize: "20", fontWeight: "800", style: { fill: "var(--text-bright)" }, letterSpacing: "-0.3" }, "MedTrace"),
+React.createElement("text", { x: "54", y: "28", fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif", fontSize: "20", fontWeight: "800", style: { fill: "var(--text-bright)" }, letterSpacing: "-0.3" }, __t("MedTrace")),
 React.createElement("text", { x: "54", y: "40", fontFamily: "-apple-system, BlinkMacSystemFont, system-ui, sans-serif", fontSize: "8.5", fontWeight: "600", fill: "#475569", letterSpacing: "2" }, "MEDICAL \u00B7 CMMS")),
 company.name && React.createElement("div", { style: { fontSize: 10, fontWeight: 600, color: "var(--text-3)", marginTop: 4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, company.name)),
 React.createElement("nav", { style: { flex: 1, padding: "14px 8px", overflowY: "auto" } }, NAV_GROUPS_VISIBLE.map((group, gi) => (React.createElement("div", { key: group.id, style: { marginBottom: gi < NAV_GROUPS_VISIBLE.length - 1 ? 8 : 0 } },
@@ -2685,8 +2686,8 @@ React.createElement("div", { style: { display: "flex", justifyContent: "space-be
 React.createElement("span", { style: { fontSize: 10, color: "#334155", fontFamily: "'IBM Plex Mono', monospace", letterSpacing: .5 } },
 "v",
 APP_VERSION),
-React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, title: "Tema chiaro / scuro", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: 0, lineHeight: 1 } }, "◐"), React.createElement("button", { onClick: () => setModal({ type: "settings" }), onMouseEnter: e => e.currentTarget.style.color = "#2dd4bf", onMouseLeave: e => e.currentTarget.style.color = "var(--text-3)", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", transition: "color .15s" } }, "\u2699 Impostazioni"))))),
-isMobile ? React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 90, display: "flex", background: "var(--card)", borderTop: "1px solid var(--border)", boxShadow: "0 -4px 24px rgba(0,0,0,.45)", paddingBottom: "env(safe-area-inset-bottom)" } }, BOTTOM_NAV.concat([{ id: "__altro", label: "Altro", paths: ["M4 7h16", "M4 12h16", "M4 17h16"] }]).map(it => {
+React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, title: __t("Tema chiaro / scuro"), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: 0, lineHeight: 1 } }, "◐"), React.createElement("button", { onClick: () => setModal({ type: "settings" }), onMouseEnter: e => e.currentTarget.style.color = "#2dd4bf", onMouseLeave: e => e.currentTarget.style.color = "var(--text-3)", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", transition: "color .15s" } }, "\u2699 Impostazioni"))))),
+isMobile ? React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 90, display: "flex", background: "var(--card)", borderTop: "1px solid var(--border)", boxShadow: "0 -4px 24px rgba(0,0,0,.45)", paddingBottom: "env(safe-area-inset-bottom)" } }, BOTTOM_NAV.concat([{ id: "__altro", label: __t("Altro"), paths: ["M4 7h16", "M4 12h16", "M4 17h16"] }]).map(it => {
 const active = it.id === "__altro" ? navOpen : tab === it.id;
 return React.createElement("button", { key: it.id, onClick: () => { if (it.id === "__altro") { setNavOpen(true); } else { setTab(it.id); setSearch(""); setNavOpen(false); } }, style: { flex: 1, background: "transparent", border: "none", cursor: "pointer", padding: "9px 2px 7px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, color: active ? "#2dd4bf" : "var(--text-3)", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", position: "relative" } }, (active && it.id !== "__altro") ? React.createElement("span", { style: { position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 26, height: 3, borderRadius: "0 0 3px 3px", background: "#2dd4bf" } }) : null, __bnIcon(it.paths), React.createElement("div", { style: { fontSize: 10, fontWeight: active ? 700 : 500, letterSpacing: 0.1, whiteSpace: "nowrap" } }, it.label));
 })) : null,
@@ -2694,10 +2695,10 @@ isMobile ? React.createElement("div", { style: { position: "fixed", top: 0, left
 React.createElement("div", { style: { height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 14px" } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
 React.createElement("svg", { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", stroke: "#2dd4bf", strokeWidth: 2.2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M2 12h4l2-6 4 12 2-6h6" })),
-React.createElement("span", { style: { fontWeight: 800, fontSize: 14.5, color: "var(--text)", letterSpacing: -.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "52vw" } }, tab === "scheda" ? (((assets.find(a => a.id === schedaId) || {}).assetCode) || "Apparecchio") : (((_a = NAV.find(n => n.id === tab)) === null || _a === void 0 ? void 0 : _a.label) || "MedTrace"))),
+React.createElement("span", { style: { fontWeight: 800, fontSize: 14.5, color: "var(--text)", letterSpacing: -.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "52vw" } }, tab === "scheda" ? (((assets.find(a => a.id === schedaId) || {}).assetCode) || __t("Apparecchio")) : (((_a = NAV.find(n => n.id === tab)) === null || _a === void 0 ? void 0 : _a.label) || __t("MedTrace")))),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6 } },
-React.createElement("button", { onClick: () => setModal({ type: "settings" }), title: "Impostazioni", style: { background: "transparent", border: "none", color: "var(--text-3)", fontSize: 19, cursor: "pointer", padding: "6px 8px", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, "\u2699"),
-React.createElement("button", { onClick: () => setScanOpen(true), title: "Scansiona QR apparecchio", style: { background: "transparent", color: "var(--acc-teal)", border: "1px solid var(--border)", borderRadius: 10, width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0 } },
+React.createElement("button", { onClick: () => setModal({ type: "settings" }), title: __t("Impostazioni"), style: { background: "transparent", border: "none", color: "var(--text-3)", fontSize: 19, cursor: "pointer", padding: "6px 8px", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, "\u2699"),
+React.createElement("button", { onClick: () => setScanOpen(true), title: __t("Scansiona QR apparecchio"), style: { background: "transparent", color: "var(--acc-teal)", border: "1px solid var(--border)", borderRadius: 10, width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0 } },
 React.createElement("svg", { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" }), React.createElement("circle", { cx: 12, cy: 13, r: 3 })))))) : null,
 React.createElement("div", { style: { marginLeft: isMobile ? 0 : sideW, padding: isMobile ? "calc(64px + env(safe-area-inset-top)) 14px calc(80px + env(safe-area-inset-bottom))" : "26px 28px", minHeight: "100vh" } },
 typeof DEMO_LOCKED !== "undefined" && DEMO_LOCKED && (React.createElement("div", { style: {
@@ -2714,26 +2715,26 @@ gap: 8,
 fontWeight: 600
 } },
 React.createElement("span", { style: { fontSize: 14 } }, ""),
-React.createElement("span", null, "Modalit\u00E0 DEMO \u2014 sola lettura. Esplora liberamente: le modifiche non sono salvate."))),
+React.createElement("span", null, __t("Modalit\u00E0 DEMO \u2014 sola lettura. Esplora liberamente: le modifiche non sono salvate.")))),
 isMobile && (ptrPull > 0 || ptrRefreshing) && (React.createElement("div", { style: { position: "fixed", top: 8, left: "50%", transform: `translateX(-50%) translateY(${Math.min(ptrPull, 50) - 50}px)`, zIndex: 500, background: "var(--bg)", border: "1px solid #2dd4bf66", borderRadius: 20, padding: "8px 16px", display: "flex", alignItems: "center", gap: 8, boxShadow: "0 4px 14px #000a", opacity: ptrRefreshing ? 1 : Math.min(ptrPull / 60, 1), transition: ptrRefreshing ? "none" : "transform .15s" } },
 React.createElement("span", { style: { display: "inline-block", width: 14, height: 14, border: "2px solid var(--border-4)", borderTopColor: "#2dd4bf", borderRadius: "50%", animation: ptrRefreshing ? "ptr-spin .6s linear infinite" : "none", transform: ptrRefreshing ? "none" : `rotate(${ptrPull * 4}deg)` } }),
-React.createElement("span", { style: { fontSize: 12, color: "#2dd4bf", fontWeight: 700 } }, ptrRefreshing ? "Aggiornamento…" : ptrPull > 60 ? "Rilascia per aggiornare" : "Tira per aggiornare"))),
+React.createElement("span", { style: { fontSize: 12, color: "#2dd4bf", fontWeight: 700 } }, ptrRefreshing ? __t("Aggiornamento…") : ptrPull > 60 ? __t("Rilascia per aggiornare") : __t("Tira per aggiornare")))),
 React.createElement("style", null, `@keyframes ptr-spin { to { transform: rotate(360deg); } }`),
 tab === "scheda" && (function () {
 var schedaAsset = assets.find(function (x) { return x.id === schedaId; });
 if (!schedaAsset) return React.createElement("div", { style: { maxWidth: 700, margin: "40px auto", textAlign: "center", color: "var(--text-3)" } },
-React.createElement("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 8 } }, "Apparecchio non trovato"),
-React.createElement("button", { onClick: function () { setTab("assets"); }, style: { background: "#2dd4bf", color: "#04201c", border: "none", borderRadius: 8, padding: "9px 18px", fontWeight: 700, cursor: "pointer" } }, "Vai agli apparecchi"));
+React.createElement("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 8 } }, __t("Apparecchio non trovato")),
+React.createElement("button", { onClick: function () { setTab("assets"); }, style: { background: "#2dd4bf", color: "#04201c", border: "none", borderRadius: 8, padding: "9px 18px", fontWeight: 700, cursor: "pointer" } }, __t("Vai agli apparecchi")));
 return React.createElement("div", { style: { maxWidth: 1100, margin: "0 auto" } },
 React.createElement("button", { onClick: function () { try { window.history.back(); } catch (e) { setTab("assets"); } }, style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "7px 14px", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 14, display: "inline-flex", alignItems: "center", gap: 6, touchAction: "manipulation" } }, "\u2190 Indietro"),
-React.createElement(AssetDetailModal, { asset: schedaAsset, page: true, recalls: recalls, jobs: jobs, parts: parts, iecReports: iecReports, funcReports: funcReports, customers: customers, company: company, templates: allTemplates, generateIECPDF: generateIECPDF, generateFuncPDF: generateFuncPDF, onClose: function () { try { window.history.back(); } catch (e) { setTab("assets"); } }, onEditAsset: function () { pushModal({ type: "asset", data: schedaAsset }); }, onNewJob: function () { pushModal({ type: "job", data: { assetId: schedaAsset.id, type: "correttiva", priority: "normale", status: "aperto", description: "", openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }); }, onNewIec: function () { pushModal({ type: "iec", assetId: schedaAsset.id, data: null }); }, onNewFunc: function () { pushModal({ type: "func", assetId: schedaAsset.id, data: null }); }, onAssetSticker: function () { pushModal({ type: "sticker", data: {}, kind: "asset", assetId: schedaAsset.id }); }, onOpenJob: function (j) { pushModal({ type: "job", data: j }); }, onOpenIec: function (r) { pushModal({ type: "iec", data: r }); }, onOpenFunc: function (r) { pushModal({ type: "func", data: r }); }, onOpenRecall: openRecall, onQuickLocation: function (loc) { var _now = new Date().toISOString(); var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { lastLocation: loc, lastLocationDate: _now, lastSeenAt: _now })); setAssets(function (a) { return upsertInList(a, rec); }); showToast("Posizione rilevata", "#2dd4bf"); }, onAddDoc: function (att) { var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { documents: (schedaAsset.documents || []).concat([att]) })); setAssets(function (a) { return upsertInList(a, rec); }); }, onDeleteDoc: function (id) { var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { documents: (schedaAsset.documents || []).filter(function (d) { return d.id !== id; }) })); setAssets(function (a) { return upsertInList(a, rec); }); }, showToast: showToast }));
+React.createElement(AssetDetailModal, { asset: schedaAsset, page: true, recalls: recalls, jobs: jobs, parts: parts, iecReports: iecReports, funcReports: funcReports, customers: customers, company: company, templates: allTemplates, generateIECPDF: generateIECPDF, generateFuncPDF: generateFuncPDF, onClose: function () { try { window.history.back(); } catch (e) { setTab("assets"); } }, onEditAsset: function () { pushModal({ type: "asset", data: schedaAsset }); }, onNewJob: function () { pushModal({ type: "job", data: { assetId: schedaAsset.id, type: "correttiva", priority: "normale", status: "aperto", description: "", openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }); }, onNewIec: function () { pushModal({ type: "iec", assetId: schedaAsset.id, data: null }); }, onNewFunc: function () { pushModal({ type: "func", assetId: schedaAsset.id, data: null }); }, onAssetSticker: function () { pushModal({ type: "sticker", data: {}, kind: "asset", assetId: schedaAsset.id }); }, onOpenJob: function (j) { pushModal({ type: "job", data: j }); }, onOpenIec: function (r) { pushModal({ type: "iec", data: r }); }, onOpenFunc: function (r) { pushModal({ type: "func", data: r }); }, onOpenRecall: openRecall, onQuickLocation: function (loc) { var _now = new Date().toISOString(); var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { lastLocation: loc, lastLocationDate: _now, lastSeenAt: _now })); setAssets(function (a) { return upsertInList(a, rec); }); showToast(__t("Posizione rilevata"), "#2dd4bf"); }, onAddDoc: function (att) { var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { documents: (schedaAsset.documents || []).concat([att]) })); setAssets(function (a) { return upsertInList(a, rec); }); }, onDeleteDoc: function (id) { var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { documents: (schedaAsset.documents || []).filter(function (d) { return d.id !== id; }) })); setAssets(function (a) { return upsertInList(a, rec); }); }, showToast: showToast }));
 })(),
 tab === "dashboard" && (React.createElement("div", null,
-!isMobile && React.createElement("h1", { style: { margin: "0 0 20px", fontSize: 20, fontWeight: 800 } }, "Dashboard"),
+!isMobile && React.createElement("h1", { style: { margin: "0 0 20px", fontSize: 20, fontWeight: 800 } }, __t("Dashboard")),
 isEmpty ? (React.createElement("div", { style: { maxWidth: 520, margin: "20px auto" } },
 React.createElement("div", { style: { textAlign: "center", marginBottom: 24 } },
 React.createElement("div", { style: { fontSize: 22, fontWeight: 800, color: "var(--text-bright)", marginBottom: 6 } }, "Benvenuto" + (company.name ? " in " + company.name : " in MedTrace")),
-React.createElement("div", { style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 } }, "Tre passi per iniziare. Bastano un paio di minuti.")),
+React.createElement("div", { style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.5 } }, __t("Tre passi per iniziare. Bastano un paio di minuti."))),
 [
 { n: 1, t: "Aggiungi un cliente", d: "La struttura o lo studio dove si trovano gli apparecchi.", show: isAdmin, btn: "+ Nuovo cliente", go: () => { setTab("customers"); setModal({ type: "customer", data: null }); } },
 { n: 2, t: "Registra un apparecchio", d: "Il dispositivo da gestire: nome, marca, numero di serie.", show: true, btn: "+ Nuovo apparecchio", go: () => { setTab("assets"); setModal({ type: "asset", data: null }); } },
@@ -2744,7 +2745,7 @@ React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 14, fontWeight: 800, color: "var(--text)" } }, s.t),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", lineHeight: 1.4 } }, s.d)),
 React.createElement("button", { onClick: s.go, style: { background: "#2dd4bf", color: "#0a0a0e", border: "none", borderRadius: 8, padding: "8px 14px", fontSize: 13, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 } }, s.btn)))),
-React.createElement("div", { style: { textAlign: "center", fontSize: 11, color: "var(--text-4)", marginTop: 16, lineHeight: 1.5 } }, "I dati restano sul tuo dispositivo. Puoi sincronizzarli sul cloud dalle Impostazioni."))) : (() => {
+React.createElement("div", { style: { textAlign: "center", fontSize: 11, color: "var(--text-4)", marginTop: 16, lineHeight: 1.5 } }, __t("I dati restano sul tuo dispositivo. Puoi sincronizzarli sul cloud dalle Impostazioni.")))) : (() => {
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 const in7days = new Date(today);
@@ -2785,15 +2786,15 @@ return d >= today && d <= in30days;
 const totalTodo = urgentJobs.length + expiredService.length + dueThisWeek.length + lowStock.length;
 return (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(auto-fit,minmax(150px,1fr))", gap: 12, marginBottom: 14 } },
-React.createElement(KpiCard, { label: "Apparecchi", value: stats.totalAssets, color: "#2dd4bf", icon: ICON_MONITOR, sub: stats.operative + " operativi", onClick: () => setTab("assets") }),
-React.createElement(KpiCard, { label: "Job aperti", value: stats.openJobs, color: "#f59e0b", icon: ICON_TOOL, sub: stats.urgentJobs > 0 ? stats.urgentJobs + " urgenti" : "nessun urgente", onClick: () => setTab("jobs") }),
-React.createElement(KpiCard, { label: "Sicurezza", value: iecReports.length, color: "#a855f7", icon: ICON_ZAP, sub: "verifiche VSE", onClick: () => setTab("iec") }),
-React.createElement(KpiCard, { label: "Funzionale", value: funcReports.length, color: "#0891b2", icon: ICON_ACTIVITY, sub: "verifiche", onClick: () => setTab("func") }),
-React.createElement(KpiCard, { label: "Clienti", value: stats.customers, color: "#22c55e", icon: ICON_BUILDING, onClick: () => setTab("customers") })),
+React.createElement(KpiCard, { label: __t("Apparecchi"), value: stats.totalAssets, color: "#2dd4bf", icon: ICON_MONITOR, sub: stats.operative + " operativi", onClick: () => setTab("assets") }),
+React.createElement(KpiCard, { label: __t("Job aperti"), value: stats.openJobs, color: "#f59e0b", icon: ICON_TOOL, sub: stats.urgentJobs > 0 ? stats.urgentJobs + " urgenti" : "nessun urgente", onClick: () => setTab("jobs") }),
+React.createElement(KpiCard, { label: __t("Sicurezza"), value: iecReports.length, color: "#a855f7", icon: ICON_ZAP, sub: "verifiche VSE", onClick: () => setTab("iec") }),
+React.createElement(KpiCard, { label: __t("Funzionale"), value: funcReports.length, color: "#0891b2", icon: ICON_ACTIVITY, sub: "verifiche", onClick: () => setTab("func") }),
+React.createElement(KpiCard, { label: __t("Clienti"), value: stats.customers, color: "#22c55e", icon: ICON_BUILDING, onClick: () => setTab("customers") })),
 React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 14, padding: "16px 18px", marginBottom: 28 } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", marginBottom: 14 } }, "Stato del parco"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", marginBottom: 14 } }, __t("Stato del parco")),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" } },
-React.createElement(Donut, { segments: [{ value: stats.operative, color: "#2dd4bf", label: "Operativi" }, { value: stats.maintenance, color: "#f59e0b", label: "In manutenzione" }, { value: stats.outOfService, color: "#ef4444", label: "Fuori servizio" }], centerTop: stats.totalAssets, centerSub: "TOTALI" }),
+React.createElement(Donut, { segments: [{ value: stats.operative, color: "#2dd4bf", label: __t("Operativi") }, { value: stats.maintenance, color: "#f59e0b", label: __t("In manutenzione") }, { value: stats.outOfService, color: "#ef4444", label: __t("Fuori servizio") }], centerTop: stats.totalAssets, centerSub: "TOTALI" }),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 11, flex: 1, minWidth: 170 } },
 [{ c: "#2dd4bf", l: "Operativi", v: stats.operative }, { c: "#f59e0b", l: "In manutenzione", v: stats.maintenance }, { c: "#ef4444", l: "Fuori servizio", v: stats.outOfService }].map((row, i) => React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { width: 10, height: 10, borderRadius: "50%", background: row.c, flexShrink: 0 } }),
@@ -2804,24 +2805,24 @@ const _su = storageUsage();
 return _su.pct >= 85 ? (React.createElement("div", { style: { marginBottom: 28, padding: "12px 14px", background: "var(--err-bg)", border: "1px solid #7f1d1d", borderLeft: "3px solid #ef4444", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center" } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#fecaca" } },
-"Spazio dati al ",
+__t("Spazio dati al "),
 _su.pct,
 "%"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 2 } }, _su.pct >= 100 ? "I salvataggi stanno fallendo: esporta un backup ed elimina foto pesanti dai job." : "Quasi pieno: esporta un backup. Dettagli in Impostazioni → Spazio dati locale.")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 2 } }, _su.pct >= 100 ? __t("I salvataggi stanno fallendo: esporta un backup ed elimina foto pesanti dai job.") : __t("Quasi pieno: esporta un backup. Dettagli in Impostazioni → Spazio dati locale."))),
 React.createElement("span", { style: { color: "#ef4444", fontSize: 16 } }, ""))) : null;
 })(),
 React.createElement("div", { style: { marginBottom: 28 } },
 React.createElement("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10, paddingBottom: 6, borderBottom: "1px solid var(--border-2)" } },
-React.createElement("h2", { style: { margin: 0, fontSize: 13, fontWeight: 800, color: "var(--text)", letterSpacing: .5, textTransform: "uppercase" } }, "Da fare"),
+React.createElement("h2", { style: { margin: 0, fontSize: 13, fontWeight: 800, color: "var(--text)", letterSpacing: .5, textTransform: "uppercase" } }, __t("Da fare")),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, totalTodo === 0 ? "tutto in ordine" : totalTodo + " attività")),
-totalTodo === 0 ? (React.createElement("div", { style: { padding: "20px 16px", textAlign: "center", color: "var(--text-3)", fontSize: 12, background: "var(--bg)", borderRadius: 8, border: "1px dashed var(--border-2)" } }, "Nessuna scadenza imminente. Tutto sotto controllo.")) : (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
+totalTodo === 0 ? (React.createElement("div", { style: { padding: "20px 16px", textAlign: "center", color: "var(--text-3)", fontSize: 12, background: "var(--bg)", borderRadius: 8, border: "1px dashed var(--border-2)" } }, __t("Nessuna scadenza imminente. Tutto sotto controllo."))) : (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } },
 urgentJobs.length > 0 && (React.createElement("div", { className: "mt-tap", onClick: () => setTab("jobs"), style: { padding: "10px 14px", background: "var(--bg)", border: "1px solid var(--border-2)", borderLeft: "3px solid #ef4444", borderRadius: 8, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } },
 urgentJobs.length,
 " ",
 urgentJobs.length === 1 ? "job urgente" : "job urgenti"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, "Da prendere in carico subito")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, __t("Da prendere in carico subito"))),
 React.createElement("span", { style: { color: "#ef4444", fontSize: 14 } }, "\u203A"))),
 expiredService.length > 0 && (React.createElement("div", { className: "mt-tap", onClick: () => setTab("agenda"), style: { padding: "10px 14px", background: "var(--bg)", border: "1px solid var(--border-2)", borderLeft: "3px solid #ef4444", borderRadius: 8, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", null,
@@ -2829,14 +2830,14 @@ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var
 expiredService.length,
 " ",
 expiredService.length === 1 ? "manutenzione scaduta" : "manutenzioni scadute"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, "Da pianificare con priorit\u00E0")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, __t("Da pianificare con priorit\u00E0"))),
 React.createElement("span", { style: { color: "#ef4444", fontSize: 14 } }, "\u203A"))),
 dueThisWeek.filter(a => a.daysToService >= 0).length > 0 && (React.createElement("div", { className: "mt-tap", onClick: () => setTab("agenda"), style: { padding: "10px 14px", background: "var(--bg)", border: "1px solid var(--border-2)", borderLeft: "3px solid #f59e0b", borderRadius: 8, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } },
 dueThisWeek.filter(a => a.daysToService >= 0).length,
 " manutenzioni questa settimana"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, "Scadenza entro 7 giorni")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, __t("Scadenza entro 7 giorni"))),
 React.createElement("span", { style: { color: "#f59e0b", fontSize: 14 } }, "\u203A"))),
 lowStock.length > 0 && (React.createElement("div", { className: "mt-tap", onClick: () => setTab("parts"), style: { padding: "10px 14px", background: "var(--bg)", border: "1px solid var(--border-2)", borderLeft: "3px solid #f59e0b", borderRadius: 8, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", null,
@@ -2844,11 +2845,11 @@ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var
 lowStock.length,
 " ",
 lowStock.length === 1 ? "parte sotto scorta" : "parti sotto scorta"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, "Da riordinare")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } }, __t("Da riordinare"))),
 React.createElement("span", { style: { color: "#f59e0b", fontSize: 14 } }, "\u203A")))))),
 (urgentJobs.length > 0 || expiredService.length > 0) && (React.createElement("div", { style: { marginBottom: 28 } },
 React.createElement("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10, paddingBottom: 6, borderBottom: "1px solid var(--border-2)" } },
-React.createElement("h2", { style: { margin: 0, fontSize: 13, fontWeight: 800, color: "#ef4444", letterSpacing: .5, textTransform: "uppercase" } }, "Critico"),
+React.createElement("h2", { style: { margin: 0, fontSize: 13, fontWeight: 800, color: "#ef4444", letterSpacing: .5, textTransform: "uppercase" } }, __t("Critico")),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } },
 urgentJobs.length + expiredService.length,
 " elementi")),
@@ -2858,7 +2859,7 @@ const a = assets.find(x => x.id === j.assetId) || {};
 return (React.createElement("div", { key: j.id, onClick: () => setModal({ type: "jobDetail", data: j }), style: { padding: "10px 14px", background: "var(--surface)", border: "1px solid #ef444433", borderRadius: 8, cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 } },
 React.createElement("span", { style: { fontSize: 10, color: "#ef4444", fontWeight: 800, letterSpacing: .5, textTransform: "uppercase" } },
-"Job urgente \u00B7 ",
+__t("Job urgente \u00B7 "),
 j.id),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, j.openDate)),
 React.createElement("div", { style: { fontSize: 13, color: "var(--text)", fontWeight: 600 } }, a.name || "(apparecchio sconosciuto)"),
@@ -2870,7 +2871,7 @@ const days = Math.round((today - new Date(a.nextService)) / 86400000);
 return (React.createElement("div", { key: a.id, onClick: () => openAsset(a.id), style: { padding: "10px 14px", background: "var(--surface)", border: "1px solid #ef444433", borderRadius: 8, cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 } },
 React.createElement("span", { style: { fontSize: 10, color: "#ef4444", fontWeight: 800, letterSpacing: .5, textTransform: "uppercase" } },
-"Manut. scaduta da ",
+__t("Manut. scaduta da "),
 days,
 "gg"),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, a.nextService)),
@@ -2883,7 +2884,7 @@ urgentJobs.length + expiredService.length - 6,
 " elementi critici \u203A"))))),
 upcoming30.length > 0 && (React.createElement("div", { style: { marginBottom: 28 } },
 React.createElement("div", { style: { display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10, paddingBottom: 6, borderBottom: "1px solid var(--border-2)" } },
-React.createElement("h2", { style: { margin: 0, fontSize: 13, fontWeight: 800, color: "var(--text)", letterSpacing: .5, textTransform: "uppercase" } }, "Prossimi 30 giorni"),
+React.createElement("h2", { style: { margin: 0, fontSize: 13, fontWeight: 800, color: "var(--text)", letterSpacing: .5, textTransform: "uppercase" } }, __t("Prossimi 30 giorni")),
 React.createElement("span", { onClick: () => setTab("agenda"), style: { fontSize: 11, color: "#2dd4bf", cursor: "pointer", fontWeight: 600 } }, "vedi agenda \u203A")),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4 } }, upcoming30.map(a => {
 const c = customers.find(x => x.id === a.customerId) || {};
@@ -2916,30 +2917,30 @@ React.createElement("strong", { style: { color: "var(--text-2)", fontFamily: "'I
 tab === "kpi" && React.createElement(KpiPage, { assets: assets, jobs: jobs, customers: customers, iecReports: iecReports, funcReports: funcReports, parts: parts, isMobile: isMobile }),
 tab === "ricognizione" && (React.createElement("div", null,
 React.createElement("div", { style: { marginBottom: 12 } },
-React.createElement("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--text)" } }, "Scansione RFID"),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, "Scansiona gli apparecchi di un reparto: aggiorna la posizione e gestisci le scadenze sul posto.")),
+React.createElement("div", { style: { fontSize: 17, fontWeight: 800, color: "var(--text)" } }, __t("Scansione RFID")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Scansiona gli apparecchi di un reparto: aggiorna la posizione e gestisci le scadenze sul posto."))),
 React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: 12, marginBottom: 10 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 700, marginBottom: 6 } }, "REPARTO"),
 React.createElement("input", { value: reconWard, onChange: e => setReconWard(e.target.value), list: "recon-wards", placeholder: "es. Cardiologia", style: { width: "100%", boxSizing: "border-box", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 14 } }),
 React.createElement("datalist", { id: "recon-wards" }, (reconWards || []).map(w => React.createElement("option", { key: w, value: w }))),
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 6 } }, "Pi\u00f9 avanti: un tag-reparto imposter\u00e0 il reparto in automatico alla scansione.")),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 6 } }, __t("Pi\u00f9 avanti: un tag-reparto imposter\u00e0 il reparto in automatico alla scansione."))),
 React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: 12, marginBottom: 10 } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 700 } }, "EPC SCANSIONATI"),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("button", { onClick: reconToggleListen, style: { background: reconListening ? "#2dd4bf" : "transparent", border: "1px solid " + (reconListening ? "#2dd4bf" : "var(--border)"), borderRadius: 6, color: reconListening ? "#04201c" : "#2dd4bf", padding: "3px 8px", fontSize: 11, cursor: "pointer", fontWeight: 700 } }, reconListening ? ("\u25a0 Termina (" + reconLive + ")") : "\u25b6 Ascolto lettore"),
-React.createElement("button", { onClick: reconSimulate, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "#2dd4bf", padding: "3px 8px", fontSize: 11, cursor: "pointer", fontWeight: 700 } }, "Simula scansione"))),
+React.createElement("button", { onClick: reconSimulate, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "#2dd4bf", padding: "3px 8px", fontSize: 11, cursor: "pointer", fontWeight: 700 } }, __t("Simula scansione")))),
 reconListening && React.createElement("div", { style: { fontSize: 11, color: "#2dd4bf", fontWeight: 700, marginBottom: 6, fontFamily: "'IBM Plex Mono', monospace" } }, "\u25cf " + reconLive + " tag letti" + (reconLastEpc ? (" \u00b7 ultimo: " + reconLastEpc) : "") + " \u2014 tocca Termina per riversarli"),
-React.createElement("textarea", { value: reconInput, onChange: e => setReconInput(e.target.value), placeholder: "Incolla gli EPC (uno per riga o separati). Senza lettore usa Simula scansione.", rows: 4, style: { width: "100%", boxSizing: "border-box", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13, fontFamily: "'IBM Plex Mono', monospace", resize: "vertical" } }),
+React.createElement("textarea", { value: reconInput, onChange: e => setReconInput(e.target.value), placeholder: __t("Incolla gli EPC (uno per riga o separati). Senza lettore usa Simula scansione."), rows: 4, style: { width: "100%", boxSizing: "border-box", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13, fontFamily: "'IBM Plex Mono', monospace", resize: "vertical" } }),
 React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 8 } },
-React.createElement("button", { onClick: reconScan, style: { flex: 1, background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201c", padding: "10px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, "Scansiona"),
-reconResult && React.createElement("button", { onClick: () => { setReconResult(null); setReconInput(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "10px 14px", fontSize: 13, cursor: "pointer" } }, "Pulisci"))),
+React.createElement("button", { onClick: reconScan, style: { flex: 1, background: "#2dd4bf", border: "none", borderRadius: 8, color: "#04201c", padding: "10px", fontSize: 14, fontWeight: 800, cursor: "pointer" } }, __t("Scansiona")),
+reconResult && React.createElement("button", { onClick: () => { setReconResult(null); setReconInput(""); }, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "10px 14px", fontSize: 13, cursor: "pointer" } }, __t("Pulisci")))),
 reconResult && (React.createElement("div", { style: { marginBottom: 10 } },
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8, alignItems: "center" } },
 React.createElement("span", { style: { fontSize: 12, color: "#2dd4bf", fontWeight: 700 } }, reconResult.found.length + " trovati"),
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)" } }, "su " + reconResult.scanned + " scansionati"),
 reconResult.unknown.length > 0 && React.createElement("span", { style: { fontSize: 12, color: "#f59e0b", fontWeight: 700 } }, reconResult.unknown.length + " sconosciuti")),
-(reconResult.applied ? React.createElement("div", { style: { background: "var(--ok-bg)", border: "1px solid #22c55e55", borderRadius: 8, color: "#4ade80", padding: "9px 12px", fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "\u2713 Posizione aggiornata: " + reconResult.applied + (DEMO_LOCKED ? " (demo: non salvato)" : "")) : (reconResult.found.length > 0 ? React.createElement("div", { style: { background: "#3a2a10", border: "1px solid #f59e0b44", borderRadius: 8, color: "#fbbf24", padding: "9px 12px", fontSize: 12, marginBottom: 10 } }, "Imposta un reparto e ri-scansiona per aggiornare la posizione") : null)),
+(reconResult.applied ? React.createElement("div", { style: { background: "var(--ok-bg)", border: "1px solid #22c55e55", borderRadius: 8, color: "#4ade80", padding: "9px 12px", fontSize: 13, fontWeight: 700, marginBottom: 10 } }, "\u2713 Posizione aggiornata: " + reconResult.applied + (DEMO_LOCKED ? " (demo: non salvato)" : "")) : (reconResult.found.length > 0 ? React.createElement("div", { style: { background: "#3a2a10", border: "1px solid #f59e0b44", borderRadius: 8, color: "#fbbf24", padding: "9px 12px", fontSize: 12, marginBottom: 10 } }, __t("Imposta un reparto e ri-scansiona per aggiornare la posizione")) : null)),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, reconResult.found.map(f => React.createElement("div", { key: f.asset.id, onClick: () => openAsset(f.asset.id), style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "var(--surface)", border: "1px solid " + (f.status === "scaduta" ? "#ef444455" : f.status === "scadenza" ? "#f59e0b44" : "var(--border-2)"), borderRadius: 8, cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, f.asset.name || f.asset.assetCode || f.asset.id),
@@ -2948,7 +2949,7 @@ f.status !== "ok" && React.createElement("span", { style: { fontSize: 10, fontWe
 React.createElement("span", { style: { color: "var(--text-4)", fontSize: 16 } }, "\u203a")))),
 reconResult.missing && reconResult.missing.length > 0 && React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "var(--bg)", border: "1px dashed #ef444455", borderRadius: 8 } },
 React.createElement("div", { style: { fontSize: 11, color: "#ef4444", fontWeight: 700, marginBottom: 2 } }, "NON TROVATI QUI (" + reconResult.missing.length + ")"),
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 6 } }, "Risultavano in questo reparto e non sono stati letti nel giro."),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 6 } }, __t("Risultavano in questo reparto e non sono stati letti nel giro.")),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4 } }, reconResult.missing.map(a => React.createElement("div", { key: a.id, onClick: () => openAsset(a.id), style: { display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 6, cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", { style: { flex: 1, minWidth: 0 } },
 React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, a.name || a.assetCode || a.id),
@@ -2958,17 +2959,17 @@ reconResult.unknown.length > 0 && React.createElement("div", { style: { marginTo
 React.createElement("div", { style: { fontSize: 11, color: "#f59e0b", fontWeight: 700, marginBottom: 4 } }, "EPC sconosciuti (" + reconResult.unknown.length + ")"),
 React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6 } }, reconResult.unknown.map(e => React.createElement("span", { key: e, onClick: () => setAssocEpc(assocEpc === e ? null : e), style: { fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", color: assocEpc === e ? "#04201c" : "var(--text-2)", background: assocEpc === e ? "#f59e0b" : "var(--surface)", border: "1px solid " + (assocEpc === e ? "#f59e0b" : "var(--border)"), borderRadius: 6, padding: "4px 8px", cursor: "pointer", wordBreak: "break-all", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, e))),
 assocEpc && reconResult.unknown.indexOf(assocEpc) !== -1 && React.createElement(RfidAssocPicker, { epc: assocEpc, assets: assets, onAssign: reconAssign, onClose: () => setAssocEpc(null), wards: reconWards, onAssignWard: reconAssignWard }),
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 4 } }, "Tag non associati. Tocca un EPC per associarlo a un apparecchio.")))),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 4 } }, __t("Tag non associati. Tocca un EPC per associarlo a un apparecchio."))))),
 reconByWard.length > 0 && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: 12 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 700, marginBottom: 8 } }, "REPARTI SCANSIONATI"),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 6 } }, reconByWard.map(r => React.createElement("div", { key: r.ward, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: "var(--surface)", borderRadius: 6 } },
 React.createElement("div", null, React.createElement("span", { style: { fontSize: 13, color: "var(--text)", fontWeight: 600 } }, r.ward), r.last ? React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", marginLeft: 8 } }, fmtDateTimeIt(r.last)) : null),
 React.createElement("span", { style: { fontSize: 12, color: "#2dd4bf", fontWeight: 700 } }, r.count)))),
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 8 } }, "Calcolato dall'ultima posizione di ogni apparecchio. Nessun dato aggiuntivo salvato."))))),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 8 } }, __t("Calcolato dall'ultima posizione di ogni apparecchio. Nessun dato aggiuntivo salvato.")))))),
 tab === "assets" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: isMobile ? 14 : 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Apparecchi Medicali"),
+React.createElement("h1", { style: { margin: 0, fontSize: isMobile ? 14 : 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Apparecchi Medicali")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: isMobile ? 0 : "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 assets.length,
 " totali \u00B7 ",
@@ -2991,10 +2992,10 @@ return React.createElement("div", { style: { display: "grid", gridTemplateColumn
 })(),
 !isMobile && React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8, fontStyle: "italic" } }, "\u2192 Doppio click su una riga per aprire la scheda dettaglio dell'apparecchio"),
 isMobile && assetMobileView === "table" && assets.length > 0 && React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8, fontStyle: "italic" } }, "\u2192 Tocca le intestazioni per ordinare \u00B7 scorri lateralmente \u00B7 filtri sotto ogni colonna"),
-assets.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Nessun apparecchio ancora", subtitle: "Inizia aggiungendo il primo apparecchio del tuo parco macchine. Potrai poi gestirne verifiche di sicurezza, interventi e manutenzioni programmate.", actions: [
+assets.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun apparecchio ancora"), subtitle: __t("Inizia aggiungendo il primo apparecchio del tuo parco macchine. Potrai poi gestirne verifiche di sicurezza, interventi e manutenzioni programmate."), actions: [
 { label: "+ Nuovo apparecchio", onClick: () => setModal({ type: "asset", data: null }), primary: true },
 { label: "⬆ Importa Excel/CSV", onClick: () => setModal({ type: "assetImport" }) },
-{ label: "Importa backup", onClick: () => setModal({ type: "settings" }) }
+{ label: __t("Importa backup"), onClick: () => setModal({ type: "settings" }) }
 ] })) : (isMobile && assetMobileView === "cards") ? (React.createElement(React.Fragment, null, (() => {
 const filteredAssets = assets.filter(a => {
 const q = mobileSearch.assets.toLowerCase();
@@ -3016,24 +3017,24 @@ const tb = b.updatedAt || b.createdAt || "";
 return tb.localeCompare(ta);
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.assets, onChange: v => updMS("assets", v), placeholder: "Cerca apparecchio, marca, S/N\u2026", count: filteredAssets.length, total: assets.length }),
+React.createElement(MobileSearch, { value: mobileSearch.assets, onChange: v => updMS("assets", v), placeholder: __t("Cerca apparecchio, marca, S/N\u2026"), count: filteredAssets.length, total: assets.length }),
 React.createElement(FilterDropdown, { filters: {
-name: { label: "Nome apparecchio", options: [...new Set(assets.map(a => a.name).filter(Boolean))].sort(), value: activeFilters.assets.name },
-brand: { label: "Marca", options: [...new Set(assets.map(a => a.brand).filter(Boolean))].sort(), value: activeFilters.assets.brand },
-model: { label: "Modello", options: [...new Set(assets.map(a => a.model).filter(Boolean))].sort(), value: activeFilters.assets.model },
-serial: { label: "Numero di serie", options: [...new Set(assets.map(a => a.serial).filter(Boolean))].sort(), value: activeFilters.assets.serial },
-location: { label: "Ubicazione", options: [...new Set(assets.map(a => a.location).filter(Boolean))].sort(), value: activeFilters.assets.location },
-status: { label: "Stato", options: ["operativo", "in manutenzione", "fuori servizio"], value: activeFilters.assets.status },
-customer: { label: "Cliente", options: [...new Set(assets.map(a => { var _a; return (_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.assets.customer },
-riskClass: { label: "Classe rischio (MDR)", options: ["I", "IIa", "IIb", "III"], value: activeFilters.assets.riskClass },
-iecClass: { label: "Classe elettrica", options: ["I", "II", "III"], value: activeFilters.assets.iecClass },
-patientType: { label: "Tipo parte applicata", options: ["B", "BF", "CF"], value: activeFilters.assets.patientType },
+name: { label: __t("Nome apparecchio"), options: [...new Set(assets.map(a => a.name).filter(Boolean))].sort(), value: activeFilters.assets.name },
+brand: { label: __t("Marca"), options: [...new Set(assets.map(a => a.brand).filter(Boolean))].sort(), value: activeFilters.assets.brand },
+model: { label: __t("Modello"), options: [...new Set(assets.map(a => a.model).filter(Boolean))].sort(), value: activeFilters.assets.model },
+serial: { label: __t("Numero di serie"), options: [...new Set(assets.map(a => a.serial).filter(Boolean))].sort(), value: activeFilters.assets.serial },
+location: { label: __t("Ubicazione"), options: [...new Set(assets.map(a => a.location).filter(Boolean))].sort(), value: activeFilters.assets.location },
+status: { label: __t("Stato"), options: ["operativo", "in manutenzione", "fuori servizio"], value: activeFilters.assets.status },
+customer: { label: __t("Cliente"), options: [...new Set(assets.map(a => { var _a; return (_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.assets.customer },
+riskClass: { label: __t("Classe rischio (MDR)"), options: ["I", "IIa", "IIb", "III"], value: activeFilters.assets.riskClass },
+iecClass: { label: __t("Classe elettrica"), options: ["I", "II", "III"], value: activeFilters.assets.iecClass },
+patientType: { label: __t("Tipo parte applicata"), options: ["B", "BF", "CF"], value: activeFilters.assets.patientType },
 cnd: { label: "CND", options: [...new Set(assets.map(a => a.cnd).filter(Boolean))].sort(), value: activeFilters.assets.cnd },
 }, onChange: (k, v) => setFilter("assets", k, v), onClearAll: () => clearFilters("assets") }),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
 React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "▤ Vista estesa" : "≣ Vista compatta")),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
-filteredAssets.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessun apparecchio corrisponde ai filtri")),
+filteredAssets.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessun apparecchio corrisponde ai filtri"))),
 filteredAssets.map(a => {
 const cust = customers.find(c => c.id === a.customerId);
 const days = a.nextService ? Math.round((new Date(a.nextService) - new Date()) / 86400000) : null;
@@ -3060,7 +3061,7 @@ React.createElement("strong", { style: { color: "#5eead4", fontSize: 16, fontFam
 a.serial && React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } },
 "S/N ",
 a.serial),
-assetHasOpenRecall(a.id, recalls) && React.createElement("span", { onClick: function (e) { e.stopPropagation(); var rc = assetOpenRecall(a.id, recalls); if (rc) openRecall(rc.id); }, title: "Apri avviso di sicurezza", style: { fontSize: 11, color: "#fca5a5", background: "#3a1212", border: "1px solid #ef444466", borderRadius: 6, padding: "1px 6px", fontWeight: 700, cursor: "pointer" } }, "⚠ avviso")),
+assetHasOpenRecall(a.id, recalls) && React.createElement("span", { onClick: function (e) { e.stopPropagation(); var rc = assetOpenRecall(a.id, recalls); if (rc) openRecall(rc.id); }, title: __t("Apri avviso di sicurezza"), style: { fontSize: 11, color: "#fca5a5", background: "#3a1212", border: "1px solid #ef444466", borderRadius: 6, padding: "1px 6px", fontWeight: 700, cursor: "pointer" } }, "⚠ avviso")),
 React.createElement("div", { style: { color: "var(--text)", fontSize: 13, marginTop: 3, wordBreak: "break-word", lineHeight: 1.3 } }, displayName)),
 React.createElement(Badge, { text: a.status, color: statusColor })),
 brandModel && React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", marginBottom: 3 } }, brandModel),
@@ -3070,49 +3071,49 @@ cust.name),
 (a.riskClass || a.location || days !== null) && (React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginTop: 8 } },
 React.createElement("div", { style: { display: "flex", gap: 5, fontSize: 10, color: "var(--text-3)", alignItems: "center", flexWrap: "wrap" } },
 a.riskClass && React.createElement("span", { style: { padding: "1px 6px", border: "1px solid var(--border)", borderRadius: 4 } },
-"Cl.",
+__t("Cl."),
 a.riskClass),
 a.location && React.createElement("span", null,
 "",
 a.location)),
 days !== null && React.createElement(AlertChip, { days: days })))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isAdmin ? "40px 1fr 1fr 1fr 36px" : "40px 1fr 1fr 1fr", gap: 0, background: "var(--bg)" } },
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: {}, kind: "asset", assetId: a.id }); }, title: "Sticker QR apparecchio", style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", touchAction: "manipulation" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: {}, kind: "asset", assetId: a.id }); }, title: __t("Sticker QR apparecchio"), style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", touchAction: "manipulation" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#a855f7", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u26A1 Sicur."),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", assetId: a.id, data: null }); }, style: { background: "transparent", color: "#06b6d4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2713 Funz."),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "asset", data: a }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: isAdmin ? "1px solid var(--border-2)" : "none", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Mod."),
-isAdmin ? React.createElement("button", { onClick: (e) => { e.stopPropagation(); delAsset(a.id); }, title: "Elimina apparecchio (solo admin)", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715") : null))));
+isAdmin ? React.createElement("button", { onClick: (e) => { e.stopPropagation(); delAsset(a.id); }, title: __t("Elimina apparecchio (solo admin)"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715") : null))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_apparecchi", defaultSort: "assetCode", onRowClick: row => openAsset(row.id), rowBg: row => row.status === "fuori servizio" ? "#ef333308" : row.status === "in manutenzione" ? "#f59e0b08" : "", cols: [
-{ key: "assetCode", label: "Codice", render: v => React.createElement("strong", { style: { color: "#5eead4", fontFamily: "'IBM Plex Mono', monospace" } }, v || "—") },
-{ key: "name", label: "Apparecchio", render: v => React.createElement("span", { style: { color: "var(--text-strong)" } }, v) },
-{ key: "brand", label: "Marca" },
-{ key: "model", label: "Modello" },
+{ key: "assetCode", label: __t("Codice"), render: v => React.createElement("strong", { style: { color: "#5eead4", fontFamily: "'IBM Plex Mono', monospace" } }, v || "—") },
+{ key: "name", label: __t("Apparecchio"), render: v => React.createElement("span", { style: { color: "var(--text-strong)" } }, v) },
+{ key: "brand", label: __t("Marca") },
+{ key: "model", label: __t("Modello") },
 { key: "cnd", label: "CND", opts: [...new Set(assets.map(a => a.cnd).filter(Boolean))], render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
-{ key: "serial", label: "N. Serie", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
-{ key: "location", label: "Ubicazione", opts: [...new Set(assets.map(a => a.location).filter(Boolean))] },
-{ key: "cliente", label: "Cliente", opts: [...new Set(assets.map(a => { var _a; return ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
-{ key: "status", label: "Stato", opts: ["operativo", "in manutenzione", "fuori servizio"],
+{ key: "serial", label: __t("N. Serie"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
+{ key: "location", label: __t("Ubicazione"), opts: [...new Set(assets.map(a => a.location).filter(Boolean))] },
+{ key: "cliente", label: __t("Cliente"), opts: [...new Set(assets.map(a => { var _a; return ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
+{ key: "status", label: __t("Stato"), opts: ["operativo", "in manutenzione", "fuori servizio"],
 render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
-{ key: "nextService", label: "Prossimo Serv.", render: (v) => {
+{ key: "nextService", label: __t("Prossimo Serv."), render: (v) => {
 const d = v ? Math.round((new Date(v) - new Date()) / 86400000) : null;
 return React.createElement(AlertChip, { days: d });
 } },
-{ key: "riskClass", label: "Classe R.", render: v => v ? React.createElement("span", { style: { fontWeight: 700, color: v === "C" ? "#ef4444" : v === "B" ? "#f59e0b" : "#22c55e" } }, "Cl." + v) : React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014") },
-{ key: "warrantyExpiry", label: "Scad. Garanzia", render: (v) => {
+{ key: "riskClass", label: __t("Classe R."), render: v => v ? React.createElement("span", { style: { fontWeight: 700, color: v === "C" ? "#ef4444" : v === "B" ? "#f59e0b" : "#22c55e" } }, "Cl." + v) : React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014") },
+{ key: "warrantyExpiry", label: __t("Scad. Garanzia"), render: (v) => {
 if (!v)
 return React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014");
 const d = Math.round((new Date(v) - new Date()) / 86400000);
 return React.createElement("span", { style: { color: d < 0 ? "#ef4444" : d < 90 ? "#f59e0b" : "#22c55e", fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v);
 } },
 ], rows: assets.map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "" })); }), onEdit: row => setModal({ type: "asset", data: assets.find(a => a.id === row.id) }), onDelete: isAdmin ? (id => delAsset(id)) : undefined, actions: row => (React.createElement(React.Fragment, null,
-React.createElement("button", { onClick: () => openAsset(row.id), title: "Scheda apparecchio", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""),
-React.createElement("button", { onClick: () => setModal({ type: "iec", assetId: row.id, data: null }), title: "Verifica di Sicurezza Elettrica", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u26A1"),
-React.createElement("button", { onClick: () => setModal({ type: "func", assetId: row.id, data: null }), title: "Verifica funzionale", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#a855f7", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2713"))) })))),
+React.createElement("button", { onClick: () => openAsset(row.id), title: __t("Scheda apparecchio"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""),
+React.createElement("button", { onClick: () => setModal({ type: "iec", assetId: row.id, data: null }), title: __t("Verifica di Sicurezza Elettrica"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u26A1"),
+React.createElement("button", { onClick: () => setModal({ type: "func", assetId: row.id, data: null }), title: __t("Verifica funzionale"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "#a855f7", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2713"))) })))),
 tab === "jobs" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Job / Interventi"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Job / Interventi")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 jobs.filter(j => j.status !== "chiuso").length,
 " aperti \u00B7 ",
@@ -3122,10 +3123,10 @@ React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" 
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "job", data: null }) }, "+ Nuovo"),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportJobs }] }))),
 jobs.length > 0 && (React.createElement("div", { style: { display: "flex", gap: 0, marginBottom: 14, background: "var(--bg)", borderRadius: 8, padding: 3, border: "1px solid var(--border-2)", width: "fit-content", maxWidth: "100%", overflow: "auto" } }, [
-...(jobs.some(j => j.status === "da accettare") ? [{ id: "toaccept", label: "Da accettare", count: jobs.filter(j => j.status === "da accettare").length, color: "#818cf8" }] : []),
-{ id: "open", label: "Aperti", count: jobs.filter(j => j.status !== "chiuso").length, color: "#2dd4bf" },
-{ id: "all", label: "Tutti", count: jobs.length, color: "var(--text-2)" },
-{ id: "closed", label: "Chiusi", count: jobs.filter(j => j.status === "chiuso").length, color: "var(--text-3)" },
+...(jobs.some(j => j.status === "da accettare") ? [{ id: "toaccept", label: __t("Da accettare"), count: jobs.filter(j => j.status === "da accettare").length, color: "#818cf8" }] : []),
+{ id: "open", label: __t("Aperti"), count: jobs.filter(j => j.status !== "chiuso").length, color: "#2dd4bf" },
+{ id: "all", label: __t("Tutti"), count: jobs.length, color: "var(--text-2)" },
+{ id: "closed", label: __t("Chiusi"), count: jobs.filter(j => j.status === "chiuso").length, color: "var(--text-3)" },
 ].map(f => (React.createElement("button", { key: f.id, onClick: () => setJobFilter(f.id), style: {
 background: jobFilter === f.id ? f.color + "22" : "transparent",
 color: jobFilter === f.id ? f.color : "var(--text-2)",
@@ -3144,7 +3145,7 @@ gap: 6,
 } },
 f.label,
 React.createElement("span", { style: { fontSize: 10, opacity: .7, fontFamily: "'IBM Plex Mono', monospace" } }, f.count)))))),
-jobs.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Nessun intervento registrato", subtitle: assets.length === 0 ? "Prima registra un apparecchio dal menu Apparecchi, poi potrai aprire job di intervento (correttivi, preventivi, tarature)." : "Apri il primo job per tracciare un intervento sui tuoi apparecchi. Puoi gestire timeline, parti utilizzate, ore di manodopera e generare PDF.", actions: assets.length === 0 ? [
+jobs.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun intervento registrato"), subtitle: assets.length === 0 ? __t("Prima registra un apparecchio dal menu Apparecchi, poi potrai aprire job di intervento (correttivi, preventivi, tarature).") : __t("Apri il primo job per tracciare un intervento sui tuoi apparecchi. Puoi gestire timeline, parti utilizzate, ore di manodopera e generare PDF."), actions: assets.length === 0 ? [
 { label: "+ Nuovo apparecchio", onClick: () => setModal({ type: "asset", data: null }), primary: true }
 ] : [
 { label: "+ Nuovo intervento", onClick: () => setModal({ type: "job", data: null }), primary: true }
@@ -3171,17 +3172,17 @@ customer: x => { var _a; return ((_a = customers.find(c => { var _a; return c.id
 });
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.jobs, onChange: v => updMS("jobs", v), placeholder: "Cerca job, apparecchio, tecnico\u2026", count: filteredJobs.length, total: jobs.length }),
+React.createElement(MobileSearch, { value: mobileSearch.jobs, onChange: v => updMS("jobs", v), placeholder: __t("Cerca job, apparecchio, tecnico\u2026"), count: filteredJobs.length, total: jobs.length }),
 React.createElement(FilterDropdown, { filters: {
-assetName: { label: "Apparecchio", options: [...new Set(jobs.map(j => { var _a; return (_a = assets.find(a => a.id === j.assetId)) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.jobs.assetName },
-priority: { label: "Priorità", options: ["urgente", "alta", "normale", "bassa"], value: activeFilters.jobs.priority },
-type: { label: "Tipo", options: [...new Set(jobs.map(j => j.type).filter(Boolean))].sort(), value: activeFilters.jobs.type },
-status: { label: "Stato", options: [...new Set(jobs.map(j => j.status).filter(Boolean))].sort(), value: activeFilters.jobs.status },
-assignee: { label: "Tecnico", options: [...new Set(jobs.map(j => j.assignee).filter(Boolean))].sort(), value: activeFilters.jobs.assignee },
-customer: { label: "Cliente", options: [...new Set(jobs.map(j => { var _a; return (_a = customers.find(c => { var _a; return c.id === (j.customerId || ((_a = assets.find(a => a.id === j.assetId)) === null || _a === void 0 ? void 0 : _a.customerId)); })) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.jobs.customer },
+assetName: { label: __t("Apparecchio"), options: [...new Set(jobs.map(j => { var _a; return (_a = assets.find(a => a.id === j.assetId)) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.jobs.assetName },
+priority: { label: __t("Priorità"), options: ["urgente", "alta", "normale", "bassa"], value: activeFilters.jobs.priority },
+type: { label: __t("Tipo"), options: [...new Set(jobs.map(j => j.type).filter(Boolean))].sort(), value: activeFilters.jobs.type },
+status: { label: __t("Stato"), options: [...new Set(jobs.map(j => j.status).filter(Boolean))].sort(), value: activeFilters.jobs.status },
+assignee: { label: __t("Tecnico"), options: [...new Set(jobs.map(j => j.assignee).filter(Boolean))].sort(), value: activeFilters.jobs.assignee },
+customer: { label: __t("Cliente"), options: [...new Set(jobs.map(j => { var _a; return (_a = customers.find(c => { var _a; return c.id === (j.customerId || ((_a = assets.find(a => a.id === j.assetId)) === null || _a === void 0 ? void 0 : _a.customerId)); })) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.jobs.customer },
 }, onChange: (k, v) => setFilter("jobs", k, v), onClearAll: () => clearFilters("jobs") }),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-filteredJobs.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessun job corrisponde ai filtri")),
+filteredJobs.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessun job corrisponde ai filtri"))),
 filteredJobs.map(j => {
 const a = assets.find(x => x.id === j.assetId) || {};
 const c = customers.find(x => x.id === (j.customerId || a.customerId)) || {};
@@ -3201,37 +3202,37 @@ c.name && React.createElement("div", { style: { fontSize: 11, color: "var(--text
 "",
 c.name),
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } },
-"Aperto: ",
+__t("Aperto: "),
 j.openDate,
 j.closeDate ? " · Chiuso: " + j.closeDate : ""),
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 } },
-React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } }, j.assignee || "Tecnico non assegnato"),
+React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } }, j.assignee || __t("Tecnico non assegnato")),
 React.createElement("span", { style: { fontSize: 13, color: "#a855f7", fontWeight: 800, fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 total.toFixed(0)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateJobPDF(j, assets, parts, customers, company); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "job", data: j }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); delJob(j.id); }, title: "Elimina job", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); delJob(j.id); }, title: __t("Elimina job"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_job", defaultSort: "openDate", rowBg: row => row.priority === "urgente" && row.status !== "chiuso" ? "#ef333308" : row.priority === "alta" && row.status !== "chiuso" ? "#f9730008" : "", cols: [
-{ key: "apparecchio", label: "Apparecchio", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "cliente", label: "Cliente", opts: [...new Set(jobs.map(j => { const a = assetById[j.assetId]; return (customerById[j.customerId || (a && a.customerId)] || {}).name || ""; }).filter(Boolean))] },
-{ key: "type", label: "Tipo", opts: ["correttiva", "preventiva"] },
-{ key: "priority", label: "Priorità", opts: ["urgente", "alta", "normale", "bassa"],
+{ key: "apparecchio", label: __t("Apparecchio"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "cliente", label: __t("Cliente"), opts: [...new Set(jobs.map(j => { const a = assetById[j.assetId]; return (customerById[j.customerId || (a && a.customerId)] || {}).name || ""; }).filter(Boolean))] },
+{ key: "type", label: __t("Tipo"), opts: ["correttiva", "preventiva"] },
+{ key: "priority", label: __t("Priorità"), opts: ["urgente", "alta", "normale", "bassa"],
 render: v => React.createElement(Badge, { text: v, color: PRI_COLOR[v] || "var(--text-3)" }) },
-{ key: "status", label: "Stato", opts: ["da accettare", "aperto", "in corso", "in attesa ricambi", "in attesa cliente", "in attesa accesso", "chiuso"],
+{ key: "status", label: __t("Stato"), opts: ["da accettare", "aperto", "in corso", "in attesa ricambi", "in attesa cliente", "in attesa accesso", "chiuso"],
 render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
-{ key: "assignee", label: "Tecnico" },
-{ key: "openDate", label: "Apertura" },
-{ key: "closeDate", label: "Chiusura", render: v => v || "—" },
-{ key: "totale", label: "Costo", render: v => React.createElement("span", { style: { color: "#a855f7", fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } },
+{ key: "assignee", label: __t("Tecnico") },
+{ key: "openDate", label: __t("Apertura") },
+{ key: "closeDate", label: __t("Chiusura"), render: v => v || "—" },
+{ key: "totale", label: __t("Costo"), render: v => React.createElement("span", { style: { color: "#a855f7", fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v || 0).toFixed(0)) },
-{ key: "steps", label: "Timeline", render: (v, row) => React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11, display: "flex", gap: 6, alignItems: "center" } },
-row.hasIec && React.createElement("span", { title: "Verifica di Sicurezza Elettrica collegata" }, "\u26A1"),
-row.hasFunc && React.createElement("span", { title: "Verifica Funzionale collegata" }, ""),
-v > 0 ? React.createElement("span", { title: "Passaggi registrati" },
+{ key: "steps", label: __t("Timeline"), render: (v, row) => React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11, display: "flex", gap: 6, alignItems: "center" } },
+row.hasIec && React.createElement("span", { title: __t("Verifica di Sicurezza Elettrica collegata") }, "\u26A1"),
+row.hasFunc && React.createElement("span", { title: __t("Verifica Funzionale collegata") }, ""),
+v > 0 ? React.createElement("span", { title: __t("Passaggi registrati") },
 "",
 v) : (!row.hasIec && !row.hasFunc && React.createElement("span", { style: { color: "#3a3a48" } }, "\u2014"))) },
 ], rows: jobs.filter(j => { if (jobFilter === "open" && j.status === "chiuso")
@@ -3244,8 +3245,8 @@ const c = customerById[j.customerId || a.customerId] || {};
 const tot = j.parts.reduce((s, p) => { const pt = partById[p.partId]; return s + (pt ? (pt.sellPrice || pt.unitPrice) * p.qty : 0); }, 0) + j.laborHours * j.laborRate;
 return Object.assign(Object.assign({}, j), { apparecchio: a.name || j.assetId, cliente: c.name || "", totale: tot.toFixed(2), steps: ((_a = j.timeline) === null || _a === void 0 ? void 0 : _a.length) || 0, hasIec: !!j.iecReportId, hasFunc: !!j.funcReportId });
 }), onEdit: row => setModal({ type: "jobDetail", data: jobs.find(j => j.id === row.id) }), onDelete: isAdmin ? (id => delJob(id)) : undefined, actions: row => (React.createElement(React.Fragment, null,
-React.createElement("button", { onClick: () => setModal({ type: "timeline", data: jobs.find(j => j.id === row.id) }), title: "Timeline interventi", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""),
-React.createElement("button", { onClick: () => generateJobPDF(jobs.find(j => j.id === row.id), assets, parts, customers, company), title: "PDF rapporto", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""))) })))),
+React.createElement("button", { onClick: () => setModal({ type: "timeline", data: jobs.find(j => j.id === row.id) }), title: __t("Timeline interventi"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""),
+React.createElement("button", { onClick: () => generateJobPDF(jobs.find(j => j.id === row.id), assets, parts, customers, company), title: __t("PDF rapporto"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, ""))) })))),
 (tab === "parts" || tab === "withdrawals" || tab === "orders") && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", gap: 6, marginBottom: 14, borderBottom: "1px solid var(--border)", paddingBottom: 0, flexWrap: "wrap" } },
 React.createElement("button", { onClick: () => setTab("parts"), style: { background: tab === "parts" ? "#2dd4bf18" : "transparent", color: tab === "parts" ? "#2dd4bf" : "var(--text-2)", border: "none", borderBottom: tab === "parts" ? "2px solid #2dd4bf" : "2px solid transparent", padding: "8px 14px", cursor: "pointer", fontSize: 13, fontWeight: 700, marginBottom: -1, touchAction: "manipulation" } },
@@ -3262,9 +3263,9 @@ orders.length,
 tab === "parts" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Stock Parti"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Stock Parti")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
-"Costo: \u20AC",
+__t("Costo: \u20AC"),
 stats.stockValue.toFixed(2),
 " \u00B7 Vendita: \u20AC",
 stats.stockSellValue.toFixed(2),
@@ -3275,7 +3276,7 @@ React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" 
 React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, " Scarica"),
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "part", data: null }) }, "+ Nuova"),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportParts }] }))),
-parts.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Magazzino vuoto", subtitle: "Aggiungi le parti di ricambio del tuo magazzino: avrai sotto controllo stock minimo, alert sotto-scorta, costo e prezzo vendita per ogni codice.", actions: [
+parts.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Magazzino vuoto"), subtitle: __t("Aggiungi le parti di ricambio del tuo magazzino: avrai sotto controllo stock minimo, alert sotto-scorta, costo e prezzo vendita per ogni codice."), actions: [
 { label: "+ Nuova parte", onClick: () => setModal({ type: "part", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredParts = parts.filter(p => {
@@ -3290,17 +3291,17 @@ stockStatus: x => x.qty === 0 ? "esaurita" : (x.qty <= x.minQty ? "sotto scorta"
 });
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.parts, onChange: v => updMS("parts", v), placeholder: "Cerca codice, nome, marca\u2026", count: filteredParts.length, total: parts.length }),
+React.createElement(MobileSearch, { value: mobileSearch.parts, onChange: v => updMS("parts", v), placeholder: __t("Cerca codice, nome, marca\u2026"), count: filteredParts.length, total: parts.length }),
 React.createElement(FilterDropdown, { filters: {
-code: { label: "Codice", options: [...new Set(parts.map(p => p.code).filter(Boolean))].sort(), value: activeFilters.parts.code },
-name: { label: "Nome parte", options: [...new Set(parts.map(p => p.name).filter(Boolean))].sort(), value: activeFilters.parts.name },
-brand: { label: "Marca", options: [...new Set(parts.map(p => p.brand).filter(Boolean))].sort(), value: activeFilters.parts.brand },
-location: { label: "Ubicazione", options: [...new Set(parts.map(p => p.location).filter(Boolean))].sort(), value: activeFilters.parts.location },
-supplier: { label: "Fornitore", options: [...new Set(parts.map(p => p.supplier).filter(Boolean))].sort(), value: activeFilters.parts.supplier },
-stockStatus: { label: "Stato stock", options: ["disponibile", "sotto scorta", "esaurita"], value: activeFilters.parts.stockStatus },
+code: { label: __t("Codice"), options: [...new Set(parts.map(p => p.code).filter(Boolean))].sort(), value: activeFilters.parts.code },
+name: { label: __t("Nome parte"), options: [...new Set(parts.map(p => p.name).filter(Boolean))].sort(), value: activeFilters.parts.name },
+brand: { label: __t("Marca"), options: [...new Set(parts.map(p => p.brand).filter(Boolean))].sort(), value: activeFilters.parts.brand },
+location: { label: __t("Ubicazione"), options: [...new Set(parts.map(p => p.location).filter(Boolean))].sort(), value: activeFilters.parts.location },
+supplier: { label: __t("Fornitore"), options: [...new Set(parts.map(p => p.supplier).filter(Boolean))].sort(), value: activeFilters.parts.supplier },
+stockStatus: { label: __t("Stato stock"), options: ["disponibile", "sotto scorta", "esaurita"], value: activeFilters.parts.stockStatus },
 }, onChange: (k, v) => setFilter("parts", k, v), onClearAll: () => clearFilters("parts") }),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-filteredParts.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessuna parte corrisponde ai filtri")),
+filteredParts.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessuna parte corrisponde ai filtri"))),
 filteredParts.map(p => {
 const low = p.qty <= p.minQty;
 const zero = p.qty === 0;
@@ -3318,10 +3319,10 @@ p.location && React.createElement("div", { style: { fontSize: 11, color: "var(--
 p.location),
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8, paddingTop: 8, borderTop: "1px solid var(--border-2)", fontSize: 11 } },
 React.createElement("span", { style: { color: "var(--text-3)" } },
-"Min: ",
+__t("Min: "),
 React.createElement("span", { style: { color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, p.minQty)),
 React.createElement("span", { style: { color: "var(--text-3)" } },
-"Acquisto: ",
+__t("Acquisto: "),
 React.createElement("span", { style: { color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(p.unitPrice || 0).toFixed(2))),
@@ -3331,37 +3332,37 @@ parseFloat(p.sellPrice || p.unitPrice || 0).toFixed(2)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "withdrawal", partId: p.id }); }, style: { background: "transparent", color: "#22c55e", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2193 Scarica"),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "part", data: p }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); delPart(p.id); }, title: "Elimina", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); delPart(p.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_ricambi", defaultSort: "name", rowBg: row => row.qty === 0 ? "#ef333308" : row.qty <= row.minQty ? "#f59e0b08" : "", cols: [
-{ key: "code", label: "Codice", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v) },
-{ key: "name", label: "Nome", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "brand", label: "Marca", opts: [...new Set(parts.map(p => p.brand).filter(Boolean))] },
-{ key: "location", label: "Ubicazione", opts: [...new Set(parts.map(p => p.location).filter(Boolean))] },
-{ key: "qty", label: "Q.tà", render: (v, row) => React.createElement("span", { style: { fontWeight: 800, color: v === 0 ? "#ef4444" : v <= row.minQty ? "#f59e0b" : "#22c55e" } }, v) },
-{ key: "minQty", label: "Min.", render: v => React.createElement("span", { style: { color: "var(--text-3)" } }, v) },
-{ key: "unitPrice", label: "Acquisto", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
+{ key: "code", label: __t("Codice"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v) },
+{ key: "name", label: __t("Nome"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "brand", label: __t("Marca"), opts: [...new Set(parts.map(p => p.brand).filter(Boolean))] },
+{ key: "location", label: __t("Ubicazione"), opts: [...new Set(parts.map(p => p.location).filter(Boolean))] },
+{ key: "qty", label: __t("Q.tà"), render: (v, row) => React.createElement("span", { style: { fontWeight: 800, color: v === 0 ? "#ef4444" : v <= row.minQty ? "#f59e0b" : "#22c55e" } }, v) },
+{ key: "minQty", label: __t("Min."), render: v => React.createElement("span", { style: { color: "var(--text-3)" } }, v) },
+{ key: "unitPrice", label: __t("Acquisto"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v).toFixed(2)) },
-{ key: "sellPrice", label: "Vendita", render: v => React.createElement("span", { style: { color: "#a855f7", fontFamily: "'IBM Plex Mono', monospace" } },
+{ key: "sellPrice", label: __t("Vendita"), render: v => React.createElement("span", { style: { color: "#a855f7", fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v || 0).toFixed(2)) },
-{ key: "margine", label: "Margine", render: v => React.createElement("span", { style: { color: "#22c55e", fontFamily: "'IBM Plex Mono', monospace" } },
+{ key: "margine", label: __t("Margine"), render: v => React.createElement("span", { style: { color: "#22c55e", fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v || 0).toFixed(2)) },
-{ key: "valoreStock", label: "Val. Stock", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
+{ key: "valoreStock", label: __t("Val. Stock"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v || 0).toFixed(2)) },
-], rows: parts.map(p => (Object.assign(Object.assign({}, p), { sellPrice: p.sellPrice || p.unitPrice, margine: ((p.sellPrice || p.unitPrice) - p.unitPrice).toFixed(2), valoreStock: (p.qty * p.unitPrice).toFixed(2) }))), onEdit: row => setModal({ type: "part", data: parts.find(p => p.id === row.id) }), onDelete: id => delPart(id), actions: row => (React.createElement("button", { onClick: () => duplicatePart(parts.find(p => p.id === row.id)), title: "Duplica parte", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 7px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2398")) })))),
+], rows: parts.map(p => (Object.assign(Object.assign({}, p), { sellPrice: p.sellPrice || p.unitPrice, margine: ((p.sellPrice || p.unitPrice) - p.unitPrice).toFixed(2), valoreStock: (p.qty * p.unitPrice).toFixed(2) }))), onEdit: row => setModal({ type: "part", data: parts.find(p => p.id === row.id) }), onDelete: id => delPart(id), actions: row => (React.createElement("button", { onClick: () => duplicatePart(parts.find(p => p.id === row.id)), title: __t("Duplica parte"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 7px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2398")) })))),
 tab === "customers" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Clienti"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Clienti")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 customers.length,
 " totali")),
 isAdmin && React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "customer", data: null }) }, "+ Nuovo")),
-customers.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Nessun cliente registrato", subtitle: "Aggiungi i tuoi clienti (cliniche, ospedali, studi medici, RSA) per associare apparecchi, preventivi e interventi.", actions: isAdmin ? [
+customers.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun cliente registrato"), subtitle: __t("Aggiungi i tuoi clienti (cliniche, ospedali, studi medici, RSA) per associare apparecchi, preventivi e interventi."), actions: isAdmin ? [
 { label: "+ Nuovo cliente", onClick: () => setModal({ type: "customer", data: null }), primary: true }
 ] : [] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredCust = customers.filter(c => {
@@ -3374,13 +3375,13 @@ vat: x => x.vat || ""
 });
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.customers, onChange: v => updMS("customers", v), placeholder: "Cerca cliente, contatto, email\u2026", count: filteredCust.length, total: customers.length }),
+React.createElement(MobileSearch, { value: mobileSearch.customers, onChange: v => updMS("customers", v), placeholder: __t("Cerca cliente, contatto, email\u2026"), count: filteredCust.length, total: customers.length }),
 React.createElement(FilterDropdown, { filters: {
-city: { label: "Città / Località", options: [...new Set(customers.map(c => { const addr = c.address || ""; const parts = addr.split(","); return (parts[parts.length - 1] || "").trim(); }).filter(Boolean))].sort(), value: activeFilters.customers.city },
+city: { label: __t("Città / Località"), options: [...new Set(customers.map(c => { const addr = c.address || ""; const parts = addr.split(","); return (parts[parts.length - 1] || "").trim(); }).filter(Boolean))].sort(), value: activeFilters.customers.city },
 vat: { label: "P.IVA", options: [...new Set(customers.map(c => c.vat).filter(Boolean))].sort(), value: activeFilters.customers.vat },
 }, onChange: (k, v) => setFilter("customers", k, v), onClearAll: () => clearFilters("customers") }),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-filteredCust.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessun cliente corrisponde ai filtri")),
+filteredCust.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessun cliente corrisponde ai filtri"))),
 filteredCust.map(c => {
 const nApp = assets.filter(a => a.customerId === c.id).length;
 return (React.createElement(SwipeableCard, { key: c.id, onDelete: isAdmin ? (() => delCustomer(c.id)) : undefined },
@@ -3407,25 +3408,25 @@ c.address && React.createElement("div", { style: { fontSize: 11, color: "var(--t
 "",
 c.address)),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "44px 1fr 36px", gap: 0, background: "var(--bg)" } },
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "clientReport", data: c }); }, title: "Report parco macchine", style: { background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14 } }, ""),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "clientReport", data: c }); }, title: __t("Report parco macchine"), style: { background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14 } }, ""),
 isAdmin && React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "customer", data: c }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
-isAdmin && React.createElement("button", { onClick: (e) => { e.stopPropagation(); delCustomer(c.id); }, title: "Elimina cliente", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+isAdmin && React.createElement("button", { onClick: (e) => { e.stopPropagation(); delCustomer(c.id); }, title: __t("Elimina cliente"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_clienti", defaultSort: "name", cols: [
-{ key: "name", label: "Ragione Sociale", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "name", label: __t("Ragione Sociale"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
 { key: "vat", label: "P.IVA", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
-{ key: "contact", label: "Referente" },
-{ key: "email", label: "Email" },
-{ key: "phone", label: "Telefono", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } }, v || "—") },
-{ key: "address", label: "Indirizzo" },
-{ key: "nApparecchi", label: "Apparecchi", render: v => React.createElement("span", { style: { color: "#2dd4bf", fontWeight: 700 } }, v) },
+{ key: "contact", label: __t("Referente") },
+{ key: "email", label: __t("Email") },
+{ key: "phone", label: __t("Telefono"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } }, v || "—") },
+{ key: "address", label: __t("Indirizzo") },
+{ key: "nApparecchi", label: __t("Apparecchi"), render: v => React.createElement("span", { style: { color: "#2dd4bf", fontWeight: 700 } }, v) },
 ], rows: customers.map(c => (Object.assign(Object.assign({}, c), { nApparecchi: assets.filter(a => a.customerId === c.id).length }))), onEdit: isAdmin ? (row => setModal({ type: "customer", data: customers.find(c => c.id === row.id) })) : undefined, onDelete: isAdmin ? (id => delCustomer(id)) : undefined, actions: row => (React.createElement(React.Fragment, null,
-React.createElement("button", { onClick: () => setModal({ type: "clientReport", data: customers.find(c => c.id === row.id) }), title: "Report parco macchine", style: { background: "#2dd4bf15", border: "1px solid #2dd4bf33", borderRadius: 6, color: "#5eead4", padding: "3px 7px", cursor: "pointer", fontSize: 11, fontWeight: 700, marginRight: 2 } }, ""),
-React.createElement("button", { onClick: () => duplicateCustomer(customers.find(c => c.id === row.id)), title: "Duplica cliente", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 7px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2398"))) })))),
+React.createElement("button", { onClick: () => setModal({ type: "clientReport", data: customers.find(c => c.id === row.id) }), title: __t("Report parco macchine"), style: { background: "#2dd4bf15", border: "1px solid #2dd4bf33", borderRadius: 6, color: "#5eead4", padding: "3px 7px", cursor: "pointer", fontSize: 11, fontWeight: 700, marginRight: 2 } }, ""),
+React.createElement("button", { onClick: () => duplicateCustomer(customers.find(c => c.id === row.id)), title: __t("Duplica cliente"), style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 7px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2398"))) })))),
 tab === "invoices" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Preventivi"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Preventivi")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 stats.pendingInvoices,
 " in sospeso \u00B7 ",
@@ -3434,7 +3435,7 @@ invoices.length,
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "invoice", data: null }) }, "+ Nuova"),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportInvoices }] }))),
-invoices.length === 0 ? (React.createElement(EmptyState, { icon: "", title: "Nessun preventivo emesso", subtitle: "Crea preventivi professionali per i tuoi clienti. Puoi importare manodopera e parti direttamente da un job esistente.", actions: [
+invoices.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun preventivo emesso"), subtitle: __t("Crea preventivi professionali per i tuoi clienti. Puoi importare manodopera e parti direttamente da un job esistente."), actions: [
 { label: "+ Nuovo preventivo", onClick: () => setModal({ type: "invoice", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredInvoices = invoices.filter(i => {
@@ -3451,14 +3452,14 @@ customer: x => { var _a; return ((_a = customers.find(c => c.id === x.customerId
 });
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.invoices, onChange: v => updMS("invoices", v), placeholder: "Cerca preventivo, cliente\u2026", count: filteredInvoices.length, total: invoices.length }),
+React.createElement(MobileSearch, { value: mobileSearch.invoices, onChange: v => updMS("invoices", v), placeholder: __t("Cerca preventivo, cliente\u2026"), count: filteredInvoices.length, total: invoices.length }),
 React.createElement(FilterDropdown, { filters: {
-number: { label: "Numero preventivo", options: [...new Set(invoices.map(i => i.number).filter(Boolean))].sort(), value: activeFilters.invoices.number },
-status: { label: "Stato", options: ["bozza", "emessa", "pagata", "scaduta", "annullato"], value: activeFilters.invoices.status },
-customer: { label: "Cliente", options: [...new Set(invoices.map(i => { var _a; return (_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.invoices.customer },
+number: { label: __t("Numero preventivo"), options: [...new Set(invoices.map(i => i.number).filter(Boolean))].sort(), value: activeFilters.invoices.number },
+status: { label: __t("Stato"), options: ["bozza", "emessa", "pagata", "scaduta", "annullato"], value: activeFilters.invoices.status },
+customer: { label: __t("Cliente"), options: [...new Set(invoices.map(i => { var _a; return (_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.invoices.customer },
 }, onChange: (k, v) => setFilter("invoices", k, v), onClearAll: () => clearFilters("invoices") }),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
-filteredInvoices.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessun preventivo corrisponde ai filtri")),
+filteredInvoices.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessun preventivo corrisponde ai filtri"))),
 filteredInvoices.map(i => {
 const c = customers.find(x => x.id === i.customerId) || {};
 const sub = i.items.reduce((s, it) => s + it.qty * it.unitPrice, 0);
@@ -3475,7 +3476,7 @@ c.name && React.createElement("div", { style: { fontSize: 12, color: "var(--text
 "",
 c.name),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } },
-"Data: ",
+__t("Data: "),
 i.date,
 i.dueDate ? " · Scad: " + i.dueDate : ""),
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8, paddingTop: 8, borderTop: "1px solid var(--border-2)" } },
@@ -3491,21 +3492,21 @@ tot.toFixed(2)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateInvoicePDF(i, c, jobs, assets, parts, company); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "invoice", data: i }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); delInvoice(i.id); }, title: "Elimina", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); delInvoice(i.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_fatture", defaultSort: "date", cols: [
-{ key: "number", label: "N. Preventivo", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, color: "var(--text)" } }, v) },
-{ key: "cliente", label: "Cliente", opts: [...new Set(invoices.map(i => { var _a; return ((_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
-{ key: "date", label: "Data" },
-{ key: "dueDate", label: "Scadenza", render: v => v || "—" },
-{ key: "status", label: "Stato", opts: ["bozza", "emessa", "pagata", "scaduta", "annullato"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-2)" }) },
-{ key: "imponibile", label: "Imponibile", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
+{ key: "number", label: __t("N. Preventivo"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, color: "var(--text)" } }, v) },
+{ key: "cliente", label: __t("Cliente"), opts: [...new Set(invoices.map(i => { var _a; return ((_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
+{ key: "date", label: __t("Data") },
+{ key: "dueDate", label: __t("Scadenza"), render: v => v || "—" },
+{ key: "status", label: __t("Stato"), opts: ["bozza", "emessa", "pagata", "scaduta", "annullato"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-2)" }) },
+{ key: "imponibile", label: __t("Imponibile"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 v) },
 { key: "iva", label: "IVA", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", color: "var(--text-3)" } },
 "\u20AC",
 v) },
-{ key: "totale", label: "Totale", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 800, color: "#22c55e" } },
+{ key: "totale", label: __t("Totale"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 800, color: "#22c55e" } },
 "\u20AC",
 v) },
 ], rows: invoices.map(i => { var _a; const sub = i.items.reduce((s, it) => s + it.qty * it.unitPrice, 0); const vat = i.items.reduce((s, it) => s + it.qty * it.unitPrice * it.vat / 100, 0); return Object.assign(Object.assign({}, i), { cliente: ((_a = customers.find(c => c.id === i.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "—", imponibile: sub.toFixed(2), iva: vat.toFixed(2), totale: (sub + vat).toFixed(2) }); }), onEdit: row => setModal({ type: "invoice", data: invoices.find(i => i.id === row.id) }), onDelete: id => delInvoice(id), actions: row => {
@@ -3513,10 +3514,10 @@ const inv = invoices.find(i => i.id === row.id);
 const cust = customers.find(c => c.id === (inv === null || inv === void 0 ? void 0 : inv.customerId));
 return (React.createElement(React.Fragment, null,
 React.createElement("button", { onClick: () => generateInvoicePDF(inv, cust, jobs, assets, parts, company), title: "PDF", style: { background: "var(--surface-3)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--text-2)", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }),
-(inv === null || inv === void 0 ? void 0 : inv.status) !== "pagata" && (inv === null || inv === void 0 ? void 0 : inv.status) !== "annullato" && React.createElement("button", { onClick: () => markInvoicePaid(inv), title: "Segna pagata", style: { background: "#22c55e15", border: "1px solid #22c55e33", borderRadius: 6, color: "#22c55e", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2713")));
+(inv === null || inv === void 0 ? void 0 : inv.status) !== "pagata" && (inv === null || inv === void 0 ? void 0 : inv.status) !== "annullato" && React.createElement("button", { onClick: () => markInvoicePaid(inv), title: __t("Segna pagata"), style: { background: "#22c55e15", border: "1px solid #22c55e33", borderRadius: 6, color: "#22c55e", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, "\u2713")));
 } })))),
 tab === "calendar" && (React.createElement("div", null,
-React.createElement("h1", { style: { margin: "0 0 16px", fontSize: 18, fontWeight: 800 } }, "Calendario Manutenzioni"),
+React.createElement("h1", { style: { margin: "0 0 16px", fontSize: 18, fontWeight: 800 } }, __t("Calendario Manutenzioni")),
 upcomingMaintenance.filter(a => a.daysToService < 0).length > 0 && (React.createElement("div", { style: { background: "#ef444415", border: "1px solid #ef444433", borderLeft: "4px solid #ef4444", borderRadius: 8, padding: "10px 16px", marginBottom: 10, display: "flex", justifyContent: "space-between", alignItems: "center" } },
 React.createElement("span", { style: { color: "#ef4444", fontWeight: 700, fontSize: 13 } },
 "! ",
@@ -3528,44 +3529,44 @@ React.createElement("span", { style: { color: "#f97316", fontWeight: 700, fontSi
 upcomingMaintenance.filter(a => a.daysToService >= 0 && a.daysToService <= 7).length,
 " manutenzioni entro 7 giorni"))),
 React.createElement(ExcelTable, { exportName: "MedTrace_scadenzario_verifiche", defaultSort: "daysToService", rowBg: row => row.daysToService < 0 ? "#ef333308" : row.daysToService <= 7 ? "#f9730008" : row.daysToService <= 30 ? "#f59e0b08" : "", cols: [
-{ key: "name", label: "Apparecchio", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "brand", label: "Marca" },
-{ key: "location", label: "Ubicazione", opts: [...new Set(assets.map(a => a.location).filter(Boolean))] },
-{ key: "cliente", label: "Cliente", opts: [...new Set(assets.map(a => { var _a; return ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
-{ key: "status", label: "Stato", opts: ["operativo", "in manutenzione", "fuori servizio"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
-{ key: "nextService", label: "Data manut." },
-{ key: "daysToService", label: "Scadenza", render: v => React.createElement(AlertChip, { days: v }) },
-{ key: "serviceInterval", label: "Intervallo (mesi)" },
-], rows: assets.filter(a => a.nextService).map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "", daysToService: Math.round((new Date(a.nextService) - new Date()) / 86400000) })); }), actions: row => (React.createElement("button", { onClick: () => setModal({ type: "job", data: { assetId: row.id, type: "preventiva", priority: "normale", status: "aperto", description: "Manutenzione programmata", openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, "+ Job")) }))),
+{ key: "name", label: __t("Apparecchio"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "brand", label: __t("Marca") },
+{ key: "location", label: __t("Ubicazione"), opts: [...new Set(assets.map(a => a.location).filter(Boolean))] },
+{ key: "cliente", label: __t("Cliente"), opts: [...new Set(assets.map(a => { var _a; return ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
+{ key: "status", label: __t("Stato"), opts: ["operativo", "in manutenzione", "fuori servizio"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
+{ key: "nextService", label: __t("Data manut.") },
+{ key: "daysToService", label: __t("Scadenza"), render: v => React.createElement(AlertChip, { days: v }) },
+{ key: "serviceInterval", label: __t("Intervallo (mesi)") },
+], rows: assets.filter(a => a.nextService).map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "", daysToService: Math.round((new Date(a.nextService) - new Date()) / 86400000) })); }), actions: row => (React.createElement("button", { onClick: () => setModal({ type: "job", data: { assetId: row.id, type: "preventiva", priority: "normale", status: "aperto", description: __t("Manutenzione programmata"), openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, "+ Job")) }))),
 tab === "finance" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
-React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, "Analytics & Report"),
+React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, __t("Analytics & Report")),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
 React.createElement("select", { value: filterYear, onChange: e => setFilterYear(e.target.value), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 11px", color: "var(--text)", fontSize: 12 } }, [new Date().getFullYear() - 2, new Date().getFullYear() - 1, new Date().getFullYear(), new Date().getFullYear() + 1].map(y => React.createElement("option", { key: y, value: y }, y))),
 React.createElement("select", { value: filterMonth, onChange: e => setFilterMonth(e.target.value), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 11px", color: "var(--text)", fontSize: 12 } },
-React.createElement("option", { value: "" }, "Anno intero"),
+React.createElement("option", { value: "" }, __t("Anno intero")),
 ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"].map((m, i) => React.createElement("option", { key: i, value: i }, m))))),
 React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 } },
-React.createElement(Pill, { label: "Ricavi (imponibile)", value: "€" + financials.revenue.toFixed(2), color: "#22c55e" }),
-React.createElement(Pill, { label: "IVA da versare", value: "€" + financials.vatCollected.toFixed(2), color: "#f59e0b" }),
-React.createElement(Pill, { label: "Costo parti acquistate", value: "€" + financials.costsPartsBought.toFixed(2), color: "#ef4444" }),
-React.createElement(Pill, { label: "Costo parti usate", value: "€" + financials.costsPartsUsed.toFixed(2), color: "#f97316" })),
+React.createElement(Pill, { label: __t("Ricavi (imponibile)"), value: "€" + financials.revenue.toFixed(2), color: "#22c55e" }),
+React.createElement(Pill, { label: __t("IVA da versare"), value: "€" + financials.vatCollected.toFixed(2), color: "#f59e0b" }),
+React.createElement(Pill, { label: __t("Costo parti acquistate"), value: "€" + financials.costsPartsBought.toFixed(2), color: "#ef4444" }),
+React.createElement(Pill, { label: __t("Costo parti usate"), value: "€" + financials.costsPartsUsed.toFixed(2), color: "#f97316" })),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 12, padding: "16px", border: "1px solid var(--border-2)", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center" } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 4 } }, " Margine Lordo Stimato"),
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)" } }, "Ricavi \u2212 costo parti usate nei job")),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)" } }, __t("Ricavi \u2212 costo parti usate nei job"))),
 React.createElement("span", { style: { color: "#22c55e", fontWeight: 800, fontSize: 22, fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 financials.margin.toFixed(2))),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 12, padding: "16px", border: "1px solid var(--border-2)", marginBottom: 14 } },
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } },
-"Ricavi mensili \u2014 ",
+__t("Ricavi mensili \u2014 "),
 filterYear),
 React.createElement(BarChart, { data: financials.monthlyData, color: "#22c55e" })),
 financials.periodInvoices.length > 0 && (React.createElement("div", { style: { background: "var(--surface)", borderRadius: 12, padding: "16px", border: "1px solid var(--border-2)" } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 } },
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } },
-"Preventivi del periodo (",
+__t("Preventivi del periodo ("),
 financials.periodInvoices.length,
 ")"),
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportInvoices }, "\u2B07 Excel")),
@@ -3598,7 +3599,7 @@ React.createElement(OverflowMenu, { items: [
 { label: "\u2699 Gestione template", onClick: () => setModal({ type: "templateManager" }) },
 { label: "\u2699 Checklist PPM", onClick: () => setModal({ type: "ppmChecklist" }) }
 ] }))),
-funcReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u2713", title: "Nessuna verifica funzionale", subtitle: "Esegui test di funzionalità periodici sui tuoi apparecchi. Template disponibili: " + Object.values(allTemplates).map(t => t.label).join(", ") + ".", actions: [
+funcReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u2713", title: __t("Nessuna verifica funzionale"), subtitle: "Esegui test di funzionalità periodici sui tuoi apparecchi. Template disponibili: " + Object.values(allTemplates).map(t => t.label).join(", ") + ".", actions: [
 { label: "+ Nuova verifica funzionale", onClick: () => setModal({ type: "func", data: null, assetId: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredFunc = funcReports.filter(r => {
@@ -3620,33 +3621,33 @@ outcome: x => x.verifyStatus === "non_disponibile" ? "non eseguita" : ((x.overal
 });
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.func, onChange: v => updMS("func", v), placeholder: "Cerca verifica funzionale\u2026", count: filteredFunc.length, total: funcReports.length }),
+React.createElement(MobileSearch, { value: mobileSearch.func, onChange: v => updMS("func", v), placeholder: __t("Cerca verifica funzionale\u2026"), count: filteredFunc.length, total: funcReports.length }),
 filteredFunc.length > 0 && React.createElement("div", { style: { margin: "0 0 10px" } }, React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { mtStartBulk(filteredFunc, "func", { assets: assets, customers: customers, company: company, templates: allTemplates }); } }, "\u2B07 Scarica tutti i PDF in ZIP (" + filteredFunc.length + ")")),
 React.createElement(FilterDropdown, { filters: {
-templateId: { label: "Tipo apparecchio", options: Object.values(allTemplates).map(t => t.label).sort(), value: activeFilters.func.templateId },
-verifyType: { label: "Tipo verifica", options: ["periodica", "dopo riparazione", "prima messa in servizio", "straordinaria"], value: activeFilters.func.verifyType },
-assetBrand: { label: "Marca apparecchio", options: [...new Set(funcReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.brand; }).filter(Boolean))].sort(), value: activeFilters.func.assetBrand },
-assetModel: { label: "Modello apparecchio", options: [...new Set(funcReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.model; }).filter(Boolean))].sort(), value: activeFilters.func.assetModel },
-technician: { label: "Tecnico", options: [...new Set(funcReports.map(r => r.technician).filter(Boolean))].sort(), value: activeFilters.func.technician },
-customer: { label: "Cliente", options: [...new Set(funcReports.map(r => { var _a; return (_a = customers.find(c => { var _a; return c.id === ((_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.customerId); })) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.func.customer },
-outcome: { label: "Esito", options: ["conforme", "non conforme", "non eseguita"], value: activeFilters.func.outcome },
+templateId: { label: __t("Tipo apparecchio"), options: Object.values(allTemplates).map(t => t.label).sort(), value: activeFilters.func.templateId },
+verifyType: { label: __t("Tipo verifica"), options: ["periodica", "dopo riparazione", "prima messa in servizio", "straordinaria"], value: activeFilters.func.verifyType },
+assetBrand: { label: __t("Marca apparecchio"), options: [...new Set(funcReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.brand; }).filter(Boolean))].sort(), value: activeFilters.func.assetBrand },
+assetModel: { label: __t("Modello apparecchio"), options: [...new Set(funcReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.model; }).filter(Boolean))].sort(), value: activeFilters.func.assetModel },
+technician: { label: __t("Tecnico"), options: [...new Set(funcReports.map(r => r.technician).filter(Boolean))].sort(), value: activeFilters.func.technician },
+customer: { label: __t("Cliente"), options: [...new Set(funcReports.map(r => { var _a; return (_a = customers.find(c => { var _a; return c.id === ((_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.customerId); })) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.func.customer },
+outcome: { label: __t("Esito"), options: ["conforme", "non conforme", "non eseguita"], value: activeFilters.func.outcome },
 }, onChange: (k, v) => setFilter("func", k, v), onClearAll: () => clearFilters("func") }),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, margin: "0 0 10px" } },
-React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)", whiteSpace: "nowrap" } }, "Ordina:"),
+React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)", whiteSpace: "nowrap" } }, __t("Ordina:")),
 React.createElement("select", { value: mobileSort.func, onChange: e => updSort("func", e.target.value), style: { flex: 1, background: "var(--surface)", color: "var(--text)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px", fontSize: 13 } },
-React.createElement("option", { value: "num_asc" }, "Numero (1 \u2192 100)"),
-React.createElement("option", { value: "num_desc" }, "Numero (100 \u2192 1)"),
-React.createElement("option", { value: "date_desc" }, "Data (pi\u00F9 recenti)"),
-React.createElement("option", { value: "date_asc" }, "Data (pi\u00F9 vecchie)"),
-React.createElement("option", { value: "asset_asc" }, "Apparecchio (A \u2192 Z)"))),
+React.createElement("option", { value: "num_asc" }, __t("Numero (1 \u2192 100)")),
+React.createElement("option", { value: "num_desc" }, __t("Numero (100 \u2192 1)")),
+React.createElement("option", { value: "date_desc" }, __t("Data (pi\u00F9 recenti)")),
+React.createElement("option", { value: "date_asc" }, __t("Data (pi\u00F9 vecchie)")),
+React.createElement("option", { value: "asset_asc" }, __t("Apparecchio (A \u2192 Z)")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
 React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "\u25a4 Vista estesa" : "\u2263 Vista compatta")),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
-filteredFunc.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessuna verifica corrisponde ai filtri")),
+filteredFunc.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessuna verifica corrisponde ai filtri"))),
 sortReportsList(filteredFunc, mobileSort.func).map(r => {
 const a = assets.find(x => x.id === r.assetId) || {};
 const c = customers.find(x => x.id === a.customerId) || {};
-const tpl = allTemplates[r.templateId] || { label: "Generico" };
+const tpl = allTemplates[r.templateId] || { label: __t("Generico") };
 const isNA = r.verifyStatus === "non_disponibile";
 const pass = r.overallPass === true || r.overallPass === "true";
 const borderC = isNA ? "#f59e0b" : (pass ? "#22c55e" : "#ef4444");
@@ -3681,26 +3682,26 @@ React.createElement("span", { style: { padding: "2px 6px", color: "var(--text-3)
 r.technician && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 6 } },
 " ",
 r.technician)),
-React.createElement("div", { onClick: (e) => { e.stopPropagation(); r.published ? appConfirm("Ritirare il verbale dal portale? Il cliente non lo vedrà più finché non lo ripubblichi.", () => setReportPublished("func", r.id, false), "danger") : setReportPublished("func", r.id, true); }, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "8px 14px", borderBottom: "1px solid var(--border-2)", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", background: r.published ? "#22c55e0a" : "#f59e0b0d" } },
-React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: r.published ? "#22c55e" : "#f59e0b" } }, r.published ? "Pubblicato al cliente" : "Bozza — non visibile al cliente"),
-React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: r.published ? "var(--text-3)" : "#2dd4bf" } }, r.published ? "Ritira" : "Pubblica")),
+React.createElement("div", { onClick: (e) => { e.stopPropagation(); r.published ? appConfirm(__t("Ritirare il verbale dal portale? Il cliente non lo vedrà più finché non lo ripubblichi."), () => setReportPublished("func", r.id, false), "danger") : setReportPublished("func", r.id, true); }, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "8px 14px", borderBottom: "1px solid var(--border-2)", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", background: r.published ? "#22c55e0a" : "#f59e0b0d" } },
+React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: r.published ? "#22c55e" : "#f59e0b" } }, r.published ? __t("Pubblicato al cliente") : __t("Bozza — non visibile al cliente")),
+React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: r.published ? "var(--text-3)" : "#2dd4bf" } }, r.published ? __t("Ritira") : __t("Pubblica"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "40px 1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: r, kind: "func" }); }, title: "Sticker QR", style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: r, kind: "func" }); }, title: __t("Sticker QR"), style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateFuncPDF(r, a, c, company, allTemplates); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "func", data: r }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); delFuncReport(r.id); }, title: "Elimina", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); delFuncReport(r.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_verifiche_funzionali", defaultSort: "date", rowBg: row => row.overallPass === false || row.overallPass === "false" ? "#ef333308" : "", cols: [
-{ key: "reportNumber", label: "N. Rapporto", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 } }, v || "—") },
-{ key: "date", label: "Data" },
-{ key: "tplLabel", label: "Tipo apparecchio", render: v => React.createElement("span", { style: { fontWeight: 700, color: "var(--text)" } }, v) },
-{ key: "assetName", label: "Apparecchio", render: v => React.createElement("span", { style: { color: "var(--text-2)" } }, v) },
-{ key: "serial", label: "N. Serie", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
-{ key: "cliente", label: "Cliente", opts: [...new Set(funcReports.map(r => { var _a; const a = assets.find(x => x.id === r.assetId); return ((_a = customers.find(c => c.id === (a === null || a === void 0 ? void 0 : a.customerId))) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
-{ key: "verifyType", label: "Tipo", render: v => React.createElement("span", { style: { fontSize: 11, color: v === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, v || "periodica") },
-{ key: "technician", label: "Tecnico" },
-{ key: "overallPass", label: "Esito", render: v => React.createElement("span", { style: { fontWeight: 800, color: v === true || v === "true" ? "#22c55e" : "#ef4444" } }, v === true || v === "true" ? "✓ OK" : "✗ NO") },
-{ key: "jobId", label: "Intervento", render: v => v ? React.createElement("span", { title: "Questa verifica \u00E8 registrata anche come intervento nello storico/agenda", style: { fontSize: 11, color: "#5eead4", background: "#2dd4bf15", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "2px 8px", fontWeight: 700, whiteSpace: "nowrap" } }, "\u2713 in agenda") : React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014") },
+{ key: "reportNumber", label: __t("N. Rapporto"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 } }, v || "—") },
+{ key: "date", label: __t("Data") },
+{ key: "tplLabel", label: __t("Tipo apparecchio"), render: v => React.createElement("span", { style: { fontWeight: 700, color: "var(--text)" } }, v) },
+{ key: "assetName", label: __t("Apparecchio"), render: v => React.createElement("span", { style: { color: "var(--text-2)" } }, v) },
+{ key: "serial", label: __t("N. Serie"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
+{ key: "cliente", label: __t("Cliente"), opts: [...new Set(funcReports.map(r => { var _a; const a = assets.find(x => x.id === r.assetId); return ((_a = customers.find(c => c.id === (a === null || a === void 0 ? void 0 : a.customerId))) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
+{ key: "verifyType", label: __t("Tipo"), render: v => React.createElement("span", { style: { fontSize: 11, color: v === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, v || "periodica") },
+{ key: "technician", label: __t("Tecnico") },
+{ key: "overallPass", label: __t("Esito"), render: v => React.createElement("span", { style: { fontWeight: 800, color: v === true || v === "true" ? "#22c55e" : "#ef4444" } }, v === true || v === "true" ? "✓ OK" : "✗ NO") },
+{ key: "jobId", label: __t("Intervento"), render: v => v ? React.createElement("span", { title: __t("Questa verifica \u00E8 registrata anche come intervento nello storico/agenda"), style: { fontSize: 11, color: "#5eead4", background: "#2dd4bf15", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "2px 8px", fontWeight: 700, whiteSpace: "nowrap" } }, "\u2713 in agenda") : React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014") },
 ], rows: funcReports.map(r => {
 const a = assets.find(x => x.id === r.assetId) || {};
 const c = customers.find(x => x.id === a.customerId) || {};
@@ -3711,7 +3712,7 @@ const rep = funcReports.find(r => r.id === row.id);
 const a = assets.find(x => x.id === (rep === null || rep === void 0 ? void 0 : rep.assetId)) || {};
 const c = customers.find(x => x.id === a.customerId) || {};
 return (React.createElement(React.Fragment, null,
-React.createElement("button", { onClick: () => setModal({ type: "sticker", data: rep, kind: "func" }), title: "Sticker QR", style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 6, color: "#f59e0b", padding: "3px 7px", cursor: "pointer", fontSize: 11, marginRight: 2 } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
+React.createElement("button", { onClick: () => setModal({ type: "sticker", data: rep, kind: "func" }), title: __t("Sticker QR"), style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 6, color: "#f59e0b", padding: "3px 7px", cursor: "pointer", fontSize: 11, marginRight: 2 } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: () => generateFuncPDF(rep, a, c, company, allTemplates), title: "PDF", style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, " PDF")));
 } })))),
 tab === "iec" && (React.createElement("div", null,
@@ -3725,7 +3726,7 @@ iecReports.length,
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "iec", data: null, assetId: null }) }, "+ Nuova verifica"),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportIecReports }] }))),
-iecReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u26A1", title: "Nessuna verifica di sicurezza elettrica", subtitle: "Esegui verifiche periodiche IEC 62353 (elettromedicali) o IEC 61010-1 (laboratorio): misure di PE, isolamento, dispersioni Equipment Leakage e Applied Part. Metodi supportati: diretto, differenziale, alternativo.", actions: [
+iecReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u26A1", title: __t("Nessuna verifica di sicurezza elettrica"), subtitle: __t("Esegui verifiche periodiche IEC 62353 (elettromedicali) o IEC 61010-1 (laboratorio): misure di PE, isolamento, dispersioni Equipment Leakage e Applied Part. Metodi supportati: diretto, differenziale, alternativo."), actions: [
 { label: "+ Nuova verifica sicurezza elettrica", onClick: () => setModal({ type: "iec", data: null, assetId: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredIec = iecReports.filter(r => {
@@ -3748,32 +3749,32 @@ outcome: x => x.verifyStatus === "non_disponibile" ? "non eseguita" : ((x.overal
 });
 });
 return (React.createElement(React.Fragment, null,
-React.createElement(MobileSearch, { value: mobileSearch.iec, onChange: v => updMS("iec", v), placeholder: "Cerca seriale, n\u00B0 inventario, rapporto\u2026", count: filteredIec.length, total: iecReports.length }),
+React.createElement(MobileSearch, { value: mobileSearch.iec, onChange: v => updMS("iec", v), placeholder: __t("Cerca seriale, n\u00B0 inventario, rapporto\u2026"), count: filteredIec.length, total: iecReports.length }),
 filteredIec.length > 0 && React.createElement("div", { style: { margin: "0 0 10px" } }, React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { mtStartBulk(filteredIec, "iec", { assets: assets, customers: customers, company: company, templates: allTemplates }); } }, "\u2B07 Scarica tutti i PDF in ZIP (" + filteredIec.length + ")")),
 React.createElement(FilterDropdown, { filters: {
-norm: { label: "Norma", options: ["62353", "61010"], value: activeFilters.iec.norm },
-equipClass: { label: "Classe elettrica", options: ["I", "II", "III"], value: activeFilters.iec.equipClass },
-patientType: { label: "Tipo parte applicata", options: ["B", "BF", "CF"], value: activeFilters.iec.patientType },
-leakageMethod: { label: "Metodo misura", options: ["diretto", "differenziale", "alternativo"], value: activeFilters.iec.leakageMethod },
-verifyType: { label: "Tipo verifica", options: ["periodica", "dopo riparazione", "prima messa in servizio", "straordinaria"], value: activeFilters.iec.verifyType },
-assetBrand: { label: "Marca apparecchio", options: [...new Set(iecReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.brand; }).filter(Boolean))].sort(), value: activeFilters.iec.assetBrand },
-assetModel: { label: "Modello apparecchio", options: [...new Set(iecReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.model; }).filter(Boolean))].sort(), value: activeFilters.iec.assetModel },
-technician: { label: "Tecnico", options: [...new Set(iecReports.map(r => r.technician).filter(Boolean))].sort(), value: activeFilters.iec.technician },
-customer: { label: "Cliente", options: [...new Set(iecReports.map(r => { var _a; return (_a = customers.find(c => { var _a; return c.id === ((_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.customerId); })) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.iec.customer },
-outcome: { label: "Esito", options: ["conforme", "non conforme", "non eseguita"], value: activeFilters.iec.outcome },
+norm: { label: __t("Norma"), options: ["62353", "61010"], value: activeFilters.iec.norm },
+equipClass: { label: __t("Classe elettrica"), options: ["I", "II", "III"], value: activeFilters.iec.equipClass },
+patientType: { label: __t("Tipo parte applicata"), options: ["B", "BF", "CF"], value: activeFilters.iec.patientType },
+leakageMethod: { label: __t("Metodo misura"), options: ["diretto", "differenziale", "alternativo"], value: activeFilters.iec.leakageMethod },
+verifyType: { label: __t("Tipo verifica"), options: ["periodica", "dopo riparazione", "prima messa in servizio", "straordinaria"], value: activeFilters.iec.verifyType },
+assetBrand: { label: __t("Marca apparecchio"), options: [...new Set(iecReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.brand; }).filter(Boolean))].sort(), value: activeFilters.iec.assetBrand },
+assetModel: { label: __t("Modello apparecchio"), options: [...new Set(iecReports.map(r => { var _a; return (_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.model; }).filter(Boolean))].sort(), value: activeFilters.iec.assetModel },
+technician: { label: __t("Tecnico"), options: [...new Set(iecReports.map(r => r.technician).filter(Boolean))].sort(), value: activeFilters.iec.technician },
+customer: { label: __t("Cliente"), options: [...new Set(iecReports.map(r => { var _a; return (_a = customers.find(c => { var _a; return c.id === ((_a = assets.find(a => a.id === r.assetId)) === null || _a === void 0 ? void 0 : _a.customerId); })) === null || _a === void 0 ? void 0 : _a.name; }).filter(Boolean))].sort(), value: activeFilters.iec.customer },
+outcome: { label: __t("Esito"), options: ["conforme", "non conforme", "non eseguita"], value: activeFilters.iec.outcome },
 }, onChange: (k, v) => setFilter("iec", k, v), onClearAll: () => clearFilters("iec") }),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, margin: "0 0 8px" } },
-React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)", whiteSpace: "nowrap" } }, "Ordina:"),
+React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)", whiteSpace: "nowrap" } }, __t("Ordina:")),
 React.createElement("select", { value: mobileSort.iec, onChange: e => updSort("iec", e.target.value), style: { flex: 1, background: "var(--surface)", color: "var(--text)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px", fontSize: 13 } },
-React.createElement("option", { value: "num_asc" }, "Numero (1 \u2192 100)"),
-React.createElement("option", { value: "num_desc" }, "Numero (100 \u2192 1)"),
-React.createElement("option", { value: "date_desc" }, "Data (pi\u00F9 recenti)"),
-React.createElement("option", { value: "date_asc" }, "Data (pi\u00F9 vecchie)"),
-React.createElement("option", { value: "asset_asc" }, "Apparecchio (A \u2192 Z)"))),
+React.createElement("option", { value: "num_asc" }, __t("Numero (1 \u2192 100)")),
+React.createElement("option", { value: "num_desc" }, __t("Numero (100 \u2192 1)")),
+React.createElement("option", { value: "date_desc" }, __t("Data (pi\u00F9 recenti)")),
+React.createElement("option", { value: "date_asc" }, __t("Data (pi\u00F9 vecchie)")),
+React.createElement("option", { value: "asset_asc" }, __t("Apparecchio (A \u2192 Z)")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", marginBottom: 8 } },
 React.createElement("button", { onClick: toggleCompact, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "6px 12px", color: "var(--text-2)", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, compactView ? "▤ Vista estesa" : "≣ Vista compatta")),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: compactView ? 0 : 10 } },
-filteredIec.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, "Nessuna verifica corrisponde ai filtri")),
+filteredIec.length === 0 && (React.createElement("div", { style: { textAlign: "center", padding: "30px 20px", background: "var(--surface)", borderRadius: 10, border: "1px dashed var(--border)", fontSize: 13, color: "var(--text-3)" } }, __t("Nessuna verifica corrisponde ai filtri"))),
 sortReportsList(filteredIec, mobileSort.iec).map(r => {
 const a = assets.find(x => x.id === r.assetId) || {};
 const c = customers.find(x => x.id === a.customerId) || {};
@@ -3809,61 +3810,61 @@ React.createElement("span", { style: { padding: "2px 6px", background: "var(--su
 "IEC ",
 r.norm),
 r.equipClass && React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: "var(--text-2)" } },
-"Cl. ",
+__t("Cl. "),
 r.equipClass),
 React.createElement("span", { style: { padding: "2px 6px", background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 4, color: r.verifyType === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, r.verifyType || "periodica"),
 React.createElement("span", { style: { padding: "2px 6px", color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, r.date)),
 r.technician && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 6 } },
 " ",
 r.technician)),
-React.createElement("div", { onClick: (e) => { e.stopPropagation(); r.published ? appConfirm("Ritirare il verbale dal portale? Il cliente non lo vedrà più finché non lo ripubblichi.", () => setReportPublished("iec", r.id, false), "danger") : setReportPublished("iec", r.id, true); }, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "8px 14px", borderBottom: "1px solid var(--border-2)", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", background: r.published ? "#22c55e0a" : "#f59e0b0d" } },
-React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: r.published ? "#22c55e" : "#f59e0b" } }, r.published ? "Pubblicato al cliente" : "Bozza — non visibile al cliente"),
-React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: r.published ? "var(--text-3)" : "#2dd4bf" } }, r.published ? "Ritira" : "Pubblica")),
+React.createElement("div", { onClick: (e) => { e.stopPropagation(); r.published ? appConfirm(__t("Ritirare il verbale dal portale? Il cliente non lo vedrà più finché non lo ripubblichi."), () => setReportPublished("iec", r.id, false), "danger") : setReportPublished("iec", r.id, true); }, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "8px 14px", borderBottom: "1px solid var(--border-2)", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", background: r.published ? "#22c55e0a" : "#f59e0b0d" } },
+React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: r.published ? "#22c55e" : "#f59e0b" } }, r.published ? __t("Pubblicato al cliente") : __t("Bozza — non visibile al cliente")),
+React.createElement("span", { style: { fontSize: 11, fontWeight: 800, color: r.published ? "var(--text-3)" : "#2dd4bf" } }, r.published ? __t("Ritira") : __t("Pubblica"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "40px 1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: r, kind: "iec" }); }, title: "Sticker QR", style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "sticker", data: r, kind: "iec" }); }, title: __t("Sticker QR"), style: { background: "transparent", color: "#f59e0b", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 0", cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center" } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); generateIECPDF(r, a, c, company); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "PDF"),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "iec", data: r }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); delIecReport(r.id); }, title: "Elimina", style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); delIecReport(r.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
 })())) : (React.createElement(ExcelTable, { exportName: "MedTrace_verifiche_sicurezza", defaultSort: "date", rowBg: row => row.overallPass === false || row.overallPass === "false" ? "#ef333308" : "", cols: [
-{ key: "reportNumber", label: "N. Rapporto", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 } }, v || "—") },
-{ key: "date", label: "Data" },
-{ key: "apparecchio", label: "Apparecchio", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "serial", label: "N. Serie", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
-{ key: "cliente", label: "Cliente", opts: [...new Set(iecReports.map(r => { var _a; const a = assets.find(x => x.id === r.assetId); return ((_a = customers.find(c => c.id === (a === null || a === void 0 ? void 0 : a.customerId))) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
-{ key: "norm", label: "Norma", opts: ["62353", "61010"], render: v => React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } },
+{ key: "reportNumber", label: __t("N. Rapporto"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 } }, v || "—") },
+{ key: "date", label: __t("Data") },
+{ key: "apparecchio", label: __t("Apparecchio"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "serial", label: __t("N. Serie"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
+{ key: "cliente", label: __t("Cliente"), opts: [...new Set(iecReports.map(r => { var _a; const a = assets.find(x => x.id === r.assetId); return ((_a = customers.find(c => c.id === (a === null || a === void 0 ? void 0 : a.customerId))) === null || _a === void 0 ? void 0 : _a.name) || ""; }).filter(Boolean))] },
+{ key: "norm", label: __t("Norma"), opts: ["62353", "61010"], render: v => React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } },
 "IEC ",
 v) },
-{ key: "equipClass", label: "Classe" },
-{ key: "verifyType", label: "Tipo", render: v => React.createElement("span", { style: { fontSize: 11, color: v === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, v || "periodica") },
-{ key: "technician", label: "Tecnico" },
-{ key: "overallPass", label: "Esito", render: v => React.createElement("span", { style: { fontWeight: 800, color: v === true || v === "true" ? "#22c55e" : "#ef4444" } }, v === true || v === "true" ? "✓ OK" : "✗ NO") },
-{ key: "jobId", label: "Intervento", render: v => v ? React.createElement("span", { title: "Questa verifica \u00E8 registrata anche come intervento nello storico/agenda", style: { fontSize: 11, color: "#5eead4", background: "#2dd4bf15", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "2px 8px", fontWeight: 700, whiteSpace: "nowrap" } }, "\u2713 in agenda") : React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014") },
+{ key: "equipClass", label: __t("Classe") },
+{ key: "verifyType", label: __t("Tipo"), render: v => React.createElement("span", { style: { fontSize: 11, color: v === "straordinaria" ? "#f59e0b" : "var(--text-3)" } }, v || "periodica") },
+{ key: "technician", label: __t("Tecnico") },
+{ key: "overallPass", label: __t("Esito"), render: v => React.createElement("span", { style: { fontWeight: 800, color: v === true || v === "true" ? "#22c55e" : "#ef4444" } }, v === true || v === "true" ? "✓ OK" : "✗ NO") },
+{ key: "jobId", label: __t("Intervento"), render: v => v ? React.createElement("span", { title: __t("Questa verifica \u00E8 registrata anche come intervento nello storico/agenda"), style: { fontSize: 11, color: "#5eead4", background: "#2dd4bf15", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "2px 8px", fontWeight: 700, whiteSpace: "nowrap" } }, "\u2713 in agenda") : React.createElement("span", { style: { color: "var(--text-4)" } }, "\u2014") },
 ], rows: iecReports.map(r => { const a = assets.find(x => x.id === r.assetId) || {}; const c = customers.find(x => x.id === a.customerId) || {}; return Object.assign(Object.assign({}, r), { apparecchio: a.name || r.assetId || "—", serial: a.serial || "", cliente: c.name || "" }); }), onEdit: row => setModal({ type: "iec", data: iecReports.find(r => r.id === row.id), assetId: row.assetId }), onDelete: id => delIecReport(id), actions: row => {
 const rep = iecReports.find(r => r.id === row.id);
 const a = assets.find(x => x.id === (rep === null || rep === void 0 ? void 0 : rep.assetId)) || {};
 const c = customers.find(x => x.id === a.customerId) || {};
 return (React.createElement(React.Fragment, null,
-React.createElement("button", { onClick: () => setModal({ type: "sticker", data: rep, kind: "iec" }), title: "Sticker QR", style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 6, color: "#f59e0b", padding: "3px 7px", cursor: "pointer", fontSize: 11, marginRight: 2 } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
+React.createElement("button", { onClick: () => setModal({ type: "sticker", data: rep, kind: "iec" }), title: __t("Sticker QR"), style: { background: "#f59e0b15", border: "1px solid #f59e0b44", borderRadius: 6, color: "#f59e0b", padding: "3px 7px", cursor: "pointer", fontSize: 11, marginRight: 2 } }, React.createElement("svg", { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" }), React.createElement("circle", { cx: 7.5, cy: 7.5, r: .5, fill: "currentColor" }))),
 React.createElement("button", { onClick: () => generateIECPDF(rep, a, c, company), title: "PDF", style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11 } }, " PDF")));
 } })))),
 tab === "schedule" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Pianificazione Annuale"),
-React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } }, "Attivit\u00E0 programmate per anno \u2014 basato su nextService degli apparecchi")),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Pianificazione Annuale")),
+React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } }, __t("Attivit\u00E0 programmate per anno \u2014 basato su nextService degli apparecchi"))),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement("select", { value: scheduleYear, onChange: e => setScheduleYear(+e.target.value), style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "7px 11px", color: "var(--text)", fontSize: 13 } }, [new Date().getFullYear() - 1, new Date().getFullYear(), new Date().getFullYear() + 1, new Date().getFullYear() + 2].map(y => React.createElement("option", { key: y, value: y }, y))),
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => {
 const rows = scheduleRows;
-downloadXLSX("pianificazione-" + scheduleYear + ".xlsx", rows, [{ key: "month", label: "Mese" }, { key: "assetName", label: "Apparecchio" }, { key: "brand", label: "Marca" }, { key: "serial", label: "N.Serie" }, { key: "location", label: "Ubicazione" }, { key: "customer", label: "Cliente" }, { key: "norm", label: "Norma IEC" }, { key: "lastService", label: "Ultima verifica" }, { key: "nextService", label: "Data pianificata" }, { key: "status", label: "Stato apparecchio" }]);
+downloadXLSX("pianificazione-" + scheduleYear + ".xlsx", rows, [{ key: "month", label: __t("Mese") }, { key: "assetName", label: __t("Apparecchio") }, { key: "brand", label: __t("Marca") }, { key: "serial", label: __t("N.Serie") }, { key: "location", label: __t("Ubicazione") }, { key: "customer", label: __t("Cliente") }, { key: "norm", label: __t("Norma IEC") }, { key: "lastService", label: __t("Ultima verifica") }, { key: "nextService", label: __t("Data pianificata") }, { key: "status", label: __t("Stato apparecchio") }]);
 } }, "\u2B07 Excel Pianificazione"))),
 scheduleMonths.every(m => m.items.length === 0) ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, ""),
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } },
-"Nessuna attivit\u00E0 pianificata per ",
+__t("Nessuna attivit\u00E0 pianificata per "),
 scheduleYear),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)" } }, "Le attivit\u00E0 compaiono automaticamente quando salvi una Verifica di Sicurezza Elettrica o imposti una data \"Prossimo Servizio\" negli apparecchi."))) : scheduleMonths.map(({ month, monthLabel, items }) => items.length === 0 ? null : (React.createElement("div", { key: month, style: { marginBottom: 20 } },
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)" } }, __t("Le attivit\u00E0 compaiono automaticamente quando salvi una Verifica di Sicurezza Elettrica o imposti una data \"Prossimo Servizio\" negli apparecchi.")))) : scheduleMonths.map(({ month, monthLabel, items }) => items.length === 0 ? null : (React.createElement("div", { key: month, style: { marginBottom: 20 } },
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, padding: "8px 14px", background: "var(--surface)", borderRadius: "8px 8px 0 0", border: "1px solid var(--border)", borderBottom: "none" } },
 React.createElement("span", { style: { fontWeight: 800, fontSize: 14, color: "var(--text)" } },
 monthLabel,
@@ -3877,16 +3878,16 @@ React.createElement(ExcelTable, { exportName: "MedTrace_pianificazione", default
 const d = row._days;
 return d < 0 ? "#ef333308" : d <= 30 ? "#f59e0b08" : "";
 }, cols: [
-{ key: "assetName", label: "Apparecchio", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "brand", label: "Marca" },
-{ key: "serial", label: "N. Serie", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
-{ key: "location", label: "Ubicazione", opts: [...new Set(items.map(i => i.location).filter(Boolean))] },
-{ key: "customer", label: "Cliente", opts: [...new Set(items.map(i => i.customer).filter(Boolean))] },
-{ key: "norm", label: "Norma IEC", opts: ["IEC 62353", "IEC 61010-1", "—"], render: v => React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, v) },
-{ key: "lastService", label: "Ultima verifica", render: v => v || React.createElement("span", { style: { color: "var(--text-4)" } }, "mai") },
-{ key: "nextService", label: "Data pianificata", render: (v, row) => React.createElement(AlertChip, { days: row._days }) },
-{ key: "status", label: "Stato", opts: ["operativo", "in manutenzione", "fuori servizio"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
-], rows: items, actions: row => (React.createElement("button", { onClick: () => setModal({ type: "iec", data: null, assetId: row.assetId }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, "Verifica")) })))))),
+{ key: "assetName", label: __t("Apparecchio"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "brand", label: __t("Marca") },
+{ key: "serial", label: __t("N. Serie"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11 } }, v || "—") },
+{ key: "location", label: __t("Ubicazione"), opts: [...new Set(items.map(i => i.location).filter(Boolean))] },
+{ key: "customer", label: __t("Cliente"), opts: [...new Set(items.map(i => i.customer).filter(Boolean))] },
+{ key: "norm", label: __t("Norma IEC"), opts: ["IEC 62353", "IEC 61010-1", "—"], render: v => React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, v) },
+{ key: "lastService", label: __t("Ultima verifica"), render: v => v || React.createElement("span", { style: { color: "var(--text-4)" } }, "mai") },
+{ key: "nextService", label: __t("Data pianificata"), render: (v, row) => React.createElement(AlertChip, { days: row._days }) },
+{ key: "status", label: __t("Stato"), opts: ["operativo", "in manutenzione", "fuori servizio"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-3)" }) },
+], rows: items, actions: row => (React.createElement("button", { onClick: () => setModal({ type: "iec", data: null, assetId: row.assetId }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, __t("Verifica"))) })))))),
 tab === "richieste" && (React.createElement(RichiestePage, { richieste: richieste, assets: assets, customers: customers, onConvert: convertRichiesta, onRefresh: loadRichieste, online: !OFFLINE_MODE })),
 (tab === "help" || tab === "procedures") && React.createElement(HelpTab, { helpOpen: helpOpen, setHelpOpen: setHelpOpen }),
 tab === "instruments" && (React.createElement(InstrumentsPage, { instruments: instruments, setInstruments: setInstruments, showToast: showToast, checkLocked: checkLocked })),
@@ -3900,7 +3901,7 @@ tab === "piano" && (React.createElement(PianoManuale, { assets: assets, setAsset
 tab === "orders" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Ordini Fornitori"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Ordini Fornitori")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 stats.pendingOrders,
 " in corso \u00B7 ",
@@ -3911,20 +3912,20 @@ React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportOrders }, 
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "order", data: null }) }, "+ Nuovo"))),
 orders.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, ""),
-React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } }, "Nessun ordine"),
-React.createElement(Btn, { onClick: () => setModal({ type: "order", data: null }) }, "Nuovo ordine"))) : (React.createElement(ExcelTable, { exportName: "MedTrace_ordini", defaultSort: "orderDate", rowBg: row => row.status === "in attesa" ? "#f59e0b08" : "", cols: [
-{ key: "supplier", label: "Fornitore", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "nomeParte", label: "Parte" },
-{ key: "qty", label: "Q.tà", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } }, v) },
-{ key: "unitPrice", label: "Prezzo Unit.", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
+React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } }, __t("Nessun ordine")),
+React.createElement(Btn, { onClick: () => setModal({ type: "order", data: null }) }, __t("Nuovo ordine")))) : (React.createElement(ExcelTable, { exportName: "MedTrace_ordini", defaultSort: "orderDate", rowBg: row => row.status === "in attesa" ? "#f59e0b08" : "", cols: [
+{ key: "supplier", label: __t("Fornitore"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "nomeParte", label: __t("Parte") },
+{ key: "qty", label: __t("Q.tà"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } }, v) },
+{ key: "unitPrice", label: __t("Prezzo Unit."), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v).toFixed(2)) },
-{ key: "totale", label: "Totale", render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, color: "#a855f7" } },
+{ key: "totale", label: __t("Totale"), render: v => React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, color: "#a855f7" } },
 "\u20AC",
 v) },
-{ key: "status", label: "Stato", opts: ["in attesa", "confermato", "spedito", "ricevuto", "annullato"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-2)" }) },
-{ key: "orderDate", label: "Data ordine" },
-{ key: "expectedDate", label: "Consegna", render: v => v || "—" },
+{ key: "status", label: __t("Stato"), opts: ["in attesa", "confermato", "spedito", "ricevuto", "annullato"], render: v => React.createElement(Badge, { text: v, color: STATUS_COLOR[v] || "var(--text-2)" }) },
+{ key: "orderDate", label: __t("Data ordine") },
+{ key: "expectedDate", label: __t("Consegna"), render: v => v || "—" },
 ], rows: orders.map(o => { var _a; return (Object.assign(Object.assign({}, o), { nomeParte: ((_a = parts.find(p => p.id === o.partId)) === null || _a === void 0 ? void 0 : _a.name) || o.partId, totale: (o.qty * o.unitPrice).toFixed(2) })); }), onEdit: row => setModal({ type: "order", data: orders.find(o => o.id === row.id) }), onDelete: id => delOrder(id), actions: row => {
 const o = orders.find(x => x.id === row.id);
 return (o === null || o === void 0 ? void 0 : o.status) !== "ricevuto" && (o === null || o === void 0 ? void 0 : o.status) !== "annullato"
@@ -3934,7 +3935,7 @@ return (o === null || o === void 0 ? void 0 : o.status) !== "ricevuto" && (o ===
 tab === "withdrawals" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "Scarichi Magazzino"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Scarichi Magazzino")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 withdrawals.reduce((s, w) => s + w.total, 0).toFixed(2),
@@ -3942,52 +3943,52 @@ withdrawals.reduce((s, w) => s + w.total, 0).toFixed(2),
 parts.length > 0 && assets.length > 0 && React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, " Nuovo")),
 withdrawals.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, "\u2193"),
-React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } }, "Nessuno scarico"),
-React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)" } }, "Le uscite di magazzino verranno registrate qui."))) : (React.createElement(ExcelTable, { defaultSort: "date", cols: [
-{ key: "date", label: "Data" },
-{ key: "apparecchio", label: "Apparecchio", render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
-{ key: "tech", label: "Tecnico", render: v => v || "—" },
-{ key: "reason", label: "Motivo", render: v => React.createElement("span", { style: { color: "var(--text-2)", fontSize: 11 } }, v || "—") },
-{ key: "partiDesc", label: "Parti", render: v => React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11 } }, v) },
-{ key: "total", label: "Totale", render: v => React.createElement("span", { style: { color: "#22c55e", fontWeight: 800, fontFamily: "'IBM Plex Mono', monospace" } },
+React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } }, __t("Nessuno scarico")),
+React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)" } }, __t("Le uscite di magazzino verranno registrate qui.")))) : (React.createElement(ExcelTable, { defaultSort: "date", cols: [
+{ key: "date", label: __t("Data") },
+{ key: "apparecchio", label: __t("Apparecchio"), render: v => React.createElement("strong", { style: { color: "var(--text)" } }, v) },
+{ key: "tech", label: __t("Tecnico"), render: v => v || "—" },
+{ key: "reason", label: __t("Motivo"), render: v => React.createElement("span", { style: { color: "var(--text-2)", fontSize: 11 } }, v || "—") },
+{ key: "partiDesc", label: __t("Parti"), render: v => React.createElement("span", { style: { color: "var(--text-3)", fontSize: 11 } }, v) },
+{ key: "total", label: __t("Totale"), render: v => React.createElement("span", { style: { color: "#22c55e", fontWeight: 800, fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
 parseFloat(v).toFixed(2)) },
 ], rows: withdrawals.map(w => { var _a; return (Object.assign(Object.assign({}, w), { apparecchio: ((_a = assets.find(a => a.id === w.assetId)) === null || _a === void 0 ? void 0 : _a.name) || w.assetId || "—", partiDesc: w.items.map(r => { const p = parts.find(x => x.id === r.partId); return ((p === null || p === void 0 ? void 0 : p.name) || r.partId) + " x" + r.qty; }).join(", ") })); }) })))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "asset" && React.createElement(Modal, { title: modal.data ? "Modifica Apparecchio" : "Nuovo Apparecchio", onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "asset" && React.createElement(Modal, { title: modal.data ? __t("Modifica Apparecchio") : __t("Nuovo Apparecchio"), onClose: popModal },
 React.createElement(AssetForm, { initial: modal.data, customers: customers, assets: assets, onSave: saveAsset, onClose: popModal })),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "assetImport" && React.createElement(Modal, { title: "Importa apparecchi da Excel / CSV", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "assetImport" && React.createElement(Modal, { title: __t("Importa apparecchi da Excel / CSV"), wide: true, onClose: popModal },
 React.createElement(ImportAssetsModal, { customers: customers, assets: assets, onImport: importAssets, onClose: popModal })),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "part" && React.createElement(Modal, { title: modal.data ? "Modifica Parte" : "Nuova Parte", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "part" && React.createElement(Modal, { title: modal.data ? __t("Modifica Parte") : __t("Nuova Parte"), wide: true, onClose: popModal },
 React.createElement(PartForm, { initial: modal.data, assets: assets, onSave: savePart, onClose: popModal })),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "job" && React.createElement(Modal, { title: ((_b = modal.data) === null || _b === void 0 ? void 0 : _b.id) ? "Modifica Job" : "Nuovo Job", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "job" && React.createElement(Modal, { title: ((_b = modal.data) === null || _b === void 0 ? void 0 : _b.id) ? __t("Modifica Job") : __t("Nuovo Job"), wide: true, onClose: popModal },
 React.createElement(JobForm, { initial: ((_c = modal.data) === null || _c === void 0 ? void 0 : _c.id) ? modal.data : null, assets: assets, parts: parts, customers: customers, technicians: company.technicians || [], onSave: saveJob, onClose: popModal })),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "jobDetail" && React.createElement(JobDetailModal, { job: modal.data, assets: assets, parts: parts, customers: customers, company: company, onEdit: () => setModal({ type: "job", data: modal.data }), onTimeline: () => setModal({ type: "timeline", data: modal.data }), onCreateQuote: () => quoteFromJob(modal.data), onClose: popModal }),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "order" && React.createElement(Modal, { title: modal.data ? "Modifica Ordine" : "Nuovo Ordine", onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "order" && React.createElement(Modal, { title: modal.data ? __t("Modifica Ordine") : __t("Nuovo Ordine"), onClose: popModal },
 React.createElement(OrderForm, { initial: modal.data, parts: parts, onSave: saveOrder, onClose: popModal })),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "customer" && React.createElement(Modal, { title: modal.data ? "Modifica Cliente" : "Nuovo Cliente", onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "customer" && React.createElement(Modal, { title: modal.data ? __t("Modifica Cliente") : __t("Nuovo Cliente"), onClose: popModal },
 React.createElement(CustomerForm, { initial: modal.data, onSave: saveCustomer, onClose: popModal, isSuperuser: isSuperuser })),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "invoice" && React.createElement(Modal, { title: modal.data ? "Modifica Preventivo" : "Nuovo Preventivo", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "invoice" && React.createElement(Modal, { title: modal.data ? __t("Modifica Preventivo") : __t("Nuovo Preventivo"), wide: true, onClose: popModal },
 React.createElement(InvoiceForm, { initial: modal.prefillFromJob || modal.data, customers: customers, jobs: jobs, assets: assets, parts: parts, generateNumber: generateInvoiceNumber, onSave: saveInvoice, onClose: popModal })),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "withdrawal" && React.createElement(WithdrawalModal, { parts: parts, assets: assets, preselectPartId: modal.partId, onWithdraw: handleWithdraw, onClose: popModal }),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "assetDetail" && false,
 (modal === null || modal === void 0 ? void 0 : modal.type) === "timeline" && React.createElement(TimelineModal, { job: modal.data, parts: parts, onSave: (data) => saveTimeline(modal.data.id, data), onClose: popModal }),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "settings" && React.createElement(SettingsModal, { isAdmin: isAdmin, isSuperuser: isSuperuser, onImportRfidScan: importRfidScan, data: { assets, parts, jobs, orders, withdrawals, customers, invoices, quotes, instruments, procedures, iecReports, funcReports, recalls, company, customTemplates, cestino, _meta: { version: "3.6", exportedAt: new Date().toISOString(), app: "MedTrace" } }, company: company, onUpdateCompany: setCompany, onImport: handleImport, onMerge: handleMerge, onReset: handleReset, onCloudPull: handleCloudPull, onReplaceJobs: (nj) => setJobs(nj), onClose: popModal, onOpenCestino: () => pushModal({ type: "cestino" }) }),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "cestino" && React.createElement(CestinoModal, { cestino: (() => { const o = {}; Object.keys(cestino || {}).forEach(k => { o[k] = (cestino[k] || []).filter(r => !r.purged); }); return o; })(), onRestore: restoreFromTrash, onPurge: purgeFromTrash, onClose: popModal }),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "templateManager" && (React.createElement(Modal, { title: "Gestione template verifiche", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "templateManager" && (React.createElement(Modal, { title: __t("Gestione template verifiche"), wide: true, onClose: popModal },
 React.createElement(TemplateManagerModal, { allTemplates: allTemplates, customTemplates: customTemplates, onNew: () => setModal({ type: "templateEditor", data: null }), onEdit: (t) => setModal({ type: "templateEditor", data: t }), onDelete: deleteCustomTemplate, onClose: popModal }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "templateEditor" && (React.createElement(Modal, { title: modal.data ? "Modifica template" : "Nuovo template", wide: true, onClose: () => setModal({ type: "templateManager" }) },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "templateEditor" && (React.createElement(Modal, { title: modal.data ? __t("Modifica template") : __t("Nuovo template"), wide: true, onClose: () => setModal({ type: "templateManager" }) },
 React.createElement(TemplateEditor, { initial: modal.data, existingTemplates: allTemplates, onSave: saveCustomTemplate, onClose: () => setModal({ type: "templateManager" }) }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "ppmChecklist" && (React.createElement(Modal, { title: "Checklist Manutenzione Programmata (PPM)", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "ppmChecklist" && (React.createElement(Modal, { title: __t("Checklist Manutenzione Programmata (PPM)"), wide: true, onClose: popModal },
 React.createElement(PpmChecklistEditor, { onClose: popModal, showToast: showToast }))),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "sticker" && (() => {
 const stickerAsset = assets.find(a => { var _a; return a.id === (((_a = modal.data) === null || _a === void 0 ? void 0 : _a.assetId) || modal.assetId); });
 const stickerCustomer = customers.find(c => { var _a; return c.id === (((_a = modal.data) === null || _a === void 0 ? void 0 : _a.customerId) || (stickerAsset === null || stickerAsset === void 0 ? void 0 : stickerAsset.customerId)); });
-return (React.createElement(Modal, { title: modal.kind === "asset" ? "\uD83C\uDFF7 Sticker apparecchio" : "Sticker QR verifica", onClose: popModal },
+return (React.createElement(Modal, { title: modal.kind === "asset" ? "\uD83C\uDFF7 Sticker apparecchio" : __t("Sticker QR verifica"), onClose: popModal },
 React.createElement(StickerModal, { report: modal.data || {}, asset: stickerAsset, customer: stickerCustomer, company: company, kind: modal.kind, assets: assets, onClose: popModal })));
 })(),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "scadenzaEmail" && (React.createElement(Modal, { title: "\u2709 Promemoria scadenza", onClose: popModal },
 React.createElement(ScadenzaEmailModal, { sc: modal.data, company: company, onClose: popModal }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "clientReport" && (React.createElement(Modal, { title: "Report parco macchine", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "clientReport" && (React.createElement(Modal, { title: __t("Report parco macchine"), wide: true, onClose: popModal },
 React.createElement(ClientReportModal, { customer: modal.data, assets: assets, iecReports: iecReports, funcReports: funcReports, jobs: jobs, company: company, onClose: popModal }))),
 csvModal && (React.createElement("div", { style: { position: "fixed", inset: 0, background: "#000d", zIndex: 1001, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 } },
 React.createElement("div", { style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 14, width: "min(640px,97vw)", maxHeight: "90vh", display: "flex", flexDirection: "column", overflow: "hidden" } },
@@ -4000,23 +4001,23 @@ React.createElement("div", { style: { padding: "14px 20px", flex: 1, overflow: "
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 14px", border: "1px solid var(--border-2)", fontSize: 11, color: "var(--text-3)", lineHeight: 1.5 } }, csvModal.isJson
 ? React.createElement(React.Fragment, null,
 React.createElement("strong", { style: { color: "var(--text)" } },
-"Backup completo (",
+__t("Backup completo ("),
 csvModal.filename,
 "):"),
 " Clicca \"Copia tutto\", poi apri Blocco Note, incolla e salva come ",
 React.createElement("strong", { style: { color: "#22c55e" } }, ".json"),
 ". Per ripristinare: Impostazioni \u2192 Importa backup.")
 : React.createElement(React.Fragment, null,
-React.createElement("strong", { style: { color: "var(--text)" } }, "Esporta dati:"),
-" il download diretto di Excel non \u00E8 disponibile su questo dispositivo, quindi clicca \"Copia tutto\" e incolla i dati direttamente in Excel o Google Sheets (oppure salvali come file di testo .csv, che Excel apre).")),
+React.createElement("strong", { style: { color: "var(--text)" } }, __t("Esporta dati:")),
+__t(" il download diretto di Excel non \u00E8 disponibile su questo dispositivo, quindi clicca \"Copia tutto\" e incolla i dati direttamente in Excel o Google Sheets (oppure salvali come file di testo .csv, che Excel apre)."))),
 React.createElement("textarea", { readOnly: true, value: csvModal.isJson ? csvModal.data : ("\uFEFF" + csvModal.data), id: "csv-textarea", style: { flex: 1, minHeight: 280, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", color: "var(--text)", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", resize: "none", outline: "none" }, onClick: e => { e.target.select(); e.target.setSelectionRange(0, 999999); } })),
 React.createElement("div", { style: { padding: "12px 20px", borderTop: "1px solid var(--border)", display: "flex", gap: 8, justifyContent: "space-between", alignItems: "center", flexShrink: 0 } },
 React.createElement("button", { onClick: () => {
 const text = csvModal.isJson ? csvModal.data : ("\uFEFF" + csvModal.data);
 if (navigator.clipboard) {
-navigator.clipboard.writeText(text).then(() => showToast("Copiato!")).catch(() => { });
+navigator.clipboard.writeText(text).then(() => showToast(__t("Copiato!"))).catch(() => { });
 }
-}, style: { background: "#2dd4bf", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, "Copia negli appunti"),
+}, style: { background: "#2dd4bf", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, __t("Copia negli appunti")),
 React.createElement("button", { onClick: () => {
 const text = csvModal.isJson ? csvModal.data : ("\uFEFF" + csvModal.data);
 const ta = document.querySelector("#csv-textarea");
@@ -4025,13 +4026,13 @@ ta.select();
 ta.setSelectionRange(0, 999999);
 }
 if (navigator.clipboard) {
-navigator.clipboard.writeText(text).then(() => showToast("✓ Copiato! Incolla in Notepad e salva come ." + (csvModal.isJson ? "json" : "csv"))).catch(() => showToast("Seleziona il testo e copia con Ctrl+C", "#f59e0b"));
+navigator.clipboard.writeText(text).then(() => showToast("✓ Copiato! Incolla in Notepad e salva come ." + (csvModal.isJson ? "json" : "csv"))).catch(() => showToast(__t("Seleziona il testo e copia con Ctrl+C"), "#f59e0b"));
 }
 else {
-showToast("Seleziona il testo e copia con Ctrl+C", "#f59e0b");
+showToast(__t("Seleziona il testo e copia con Ctrl+C"), "#f59e0b");
 }
-}, style: { background: "#22c55e", color: "#fff", border: "none", borderRadius: 8, padding: "8px 18px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, "Copia tutto"),
-React.createElement("button", { onClick: () => setCsvModal(null), style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, "Chiudi"))))),
+}, style: { background: "#22c55e", color: "#fff", border: "none", borderRadius: 8, padding: "8px 18px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, __t("Copia tutto")),
+React.createElement("button", { onClick: () => setCsvModal(null), style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, __t("Chiudi")))))),
 pdfHtml && (React.createElement("div", { style: { position: "fixed", inset: 0, background: "#000e", zIndex: 1000, display: "flex", flexDirection: "column" } },
 React.createElement("div", { style: { background: "var(--bg)", borderBottom: "1px solid var(--border)", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexShrink: 0, flexWrap: "wrap" } },
 React.createElement("span", { style: { color: "var(--text)", fontWeight: 700, fontSize: 14 } }, " Anteprima documento"),
@@ -4039,7 +4040,7 @@ React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" 
 React.createElement("button", { onClick: () => {
 const iframe = document.getElementById('pdf-print-iframe');
 if (!iframe || !iframe.contentWindow) {
-alert('Anteprima non pronta. Riprova fra un secondo.');
+alert(__t('Anteprima non pronta. Riprova fra un secondo.'));
 return;
 }
 try {
@@ -4050,27 +4051,27 @@ iframe.contentWindow.print();
 catch (err) {
 alert('Stampa non disponibile su questo dispositivo: ' + ((err === null || err === void 0 ? void 0 : err.message) || 'errore sconosciuto'));
 }
-}, style: { background: "#2dd4bf", color: "#000", border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6, touchAction: "manipulation" } }, "Salva PDF"),
+}, style: { background: "#2dd4bf", color: "#000", border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6, touchAction: "manipulation" } }, __t("Salva PDF")),
 React.createElement("button", { onClick: () => setPdfHtml(null), style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "7px 14px", cursor: "pointer", fontSize: 12, fontWeight: 700, touchAction: "manipulation" } }, "\u2715 Chiudi"))),
 React.createElement("div", { style: { flex: 1, overflow: "auto", background: "#f0f0f0", display: "flex", justifyContent: "center" } },
-React.createElement("iframe", { id: "pdf-print-iframe", srcDoc: pdfHtml, style: { background: "#fff", width: "100%", maxWidth: "210mm", height: "100%", border: "none", boxShadow: "0 4px 24px #0004" }, title: "Anteprima documento" })),
+React.createElement("iframe", { id: "pdf-print-iframe", srcDoc: pdfHtml, style: { background: "#fff", width: "100%", maxWidth: "210mm", height: "100%", border: "none", boxShadow: "0 4px 24px #0004" }, title: __t("Anteprima documento") })),
 React.createElement("div", { style: { background: "var(--bg)", borderTop: "1px solid var(--border)", padding: "8px 16px", fontSize: 11, color: "var(--text-3)", flexShrink: 0, textAlign: "center" } },
-"Clicca \"Salva PDF\" \u2192 nel dialogo di stampa scegli ",
+__t("Clicca \"Salva PDF\" \u2192 nel dialogo di stampa scegli "),
 React.createElement("strong", { style: { color: "var(--text-2)" } }, "\"Salva come PDF\""),
 " come destinazione (su Android: \"Salva come PDF\" / su iOS: \"Salva su File\")"))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "iec" && (React.createElement(Modal, { title: modal.data ? "Modifica Verifica di Sicurezza Elettrica" : "Nuova Verifica di Sicurezza Elettrica", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "iec" && (React.createElement(Modal, { title: modal.data ? __t("Modifica Verifica di Sicurezza Elettrica") : __t("Nuova Verifica di Sicurezza Elettrica"), wide: true, onClose: popModal },
 ((modal.data || modal.classic)
 ? React.createElement(IECReportForm, { initial: modal.data || null, assetId: ((_d = modal.data) === null || _d === void 0 ? void 0 : _d.assetId) || modal.assetId || null, assets: assets, customers: customers, existingReports: iecReports, instruments: instruments, technicians: company.technicians || [], onSave: saveIecReport, onClose: popModal, isAdmin: isAdmin })
 : React.createElement(IecWizardForm, { initial: null, assetId: modal.assetId || null, assets: assets, customers: customers, existingReports: iecReports, instruments: instruments, technicians: company.technicians || [], onSave: saveIecReport, onClose: popModal, isAdmin: isAdmin, onClassic: () => setModal(Object.assign(Object.assign({}, modal), { classic: true })) })))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "assetDetail" && modal.data && (React.createElement(Modal, { title: modal.data.name || "Apparecchio", wide: true, onClose: popModal },
-React.createElement(AssetDetailModal, { asset: modal.data, recalls: recalls, jobs: jobs, parts: parts, iecReports: iecReports, funcReports: funcReports, customers: customers, company: company, templates: allTemplates, generateIECPDF: generateIECPDF, generateFuncPDF: generateFuncPDF, onClose: popModal, onEditAsset: () => pushModal({ type: "asset", data: modal.data }), onNewJob: () => pushModal({ type: "job", data: { assetId: modal.data.id, type: "correttiva", priority: "normale", status: "aperto", description: "", openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }), onNewIec: () => pushModal({ type: "iec", assetId: modal.data.id, data: null }), onNewFunc: () => pushModal({ type: "func", assetId: modal.data.id, data: null }), onAssetSticker: () => pushModal({ type: "sticker", data: {}, kind: "asset", assetId: modal.data.id }), onOpenJob: j => pushModal({ type: "job", data: j }), onQuickLocation: (loc) => { const _now = new Date().toISOString(); const rec = withUpdateMeta(Object.assign(Object.assign({}, modal.data), { lastLocation: loc, lastLocationDate: _now, lastSeenAt: _now })); setAssets(a => upsertInList(a, rec)); setModal(m => m ? Object.assign(Object.assign({}, m), { data: rec }) : m); showToast("Posizione rilevata", "#2dd4bf"); } }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "func" && (React.createElement(Modal, { title: modal.data ? "Modifica Verifica Funzionale" : "Nuova Verifica Funzionale", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "assetDetail" && modal.data && (React.createElement(Modal, { title: modal.data.name || __t("Apparecchio"), wide: true, onClose: popModal },
+React.createElement(AssetDetailModal, { asset: modal.data, recalls: recalls, jobs: jobs, parts: parts, iecReports: iecReports, funcReports: funcReports, customers: customers, company: company, templates: allTemplates, generateIECPDF: generateIECPDF, generateFuncPDF: generateFuncPDF, onClose: popModal, onEditAsset: () => pushModal({ type: "asset", data: modal.data }), onNewJob: () => pushModal({ type: "job", data: { assetId: modal.data.id, type: "correttiva", priority: "normale", status: "aperto", description: "", openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }), onNewIec: () => pushModal({ type: "iec", assetId: modal.data.id, data: null }), onNewFunc: () => pushModal({ type: "func", assetId: modal.data.id, data: null }), onAssetSticker: () => pushModal({ type: "sticker", data: {}, kind: "asset", assetId: modal.data.id }), onOpenJob: j => pushModal({ type: "job", data: j }), onQuickLocation: (loc) => { const _now = new Date().toISOString(); const rec = withUpdateMeta(Object.assign(Object.assign({}, modal.data), { lastLocation: loc, lastLocationDate: _now, lastSeenAt: _now })); setAssets(a => upsertInList(a, rec)); setModal(m => m ? Object.assign(Object.assign({}, m), { data: rec }) : m); showToast(__t("Posizione rilevata"), "#2dd4bf"); } }))),
+(modal === null || modal === void 0 ? void 0 : modal.type) === "func" && (React.createElement(Modal, { title: modal.data ? __t("Modifica Verifica Funzionale") : __t("Nuova Verifica Funzionale"), wide: true, onClose: popModal },
 ((modal.data || modal.classic)
 ? React.createElement(FuncVerifyForm, { initial: modal.data || null, assetId: ((_e = modal.data) === null || _e === void 0 ? void 0 : _e.assetId) || modal.assetId || null, assets: assets, customers: customers, existingReports: funcReports, templates: allTemplates, instruments: instruments, technicians: company.technicians || [], onSave: saveFuncReport, onClose: popModal, isAdmin: isAdmin, showToast: showToast })
 : React.createElement(FuncWizardForm, { initial: null, assetId: modal.assetId || null, assets: assets, customers: customers, existingReports: funcReports, templates: allTemplates, instruments: instruments, technicians: company.technicians || [], onSave: saveFuncReport, onClose: popModal, isAdmin: isAdmin, showToast: showToast, onClassic: () => setModal(Object.assign(Object.assign({}, modal), { classic: true })) })))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "ppm" && (React.createElement(Modal, { title: modal.data ? "Modifica Manutenzione Programmata" : "Nuova Manutenzione Programmata", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "ppm" && (React.createElement(Modal, { title: modal.data ? __t("Modifica Manutenzione Programmata") : __t("Nuova Manutenzione Programmata"), wide: true, onClose: popModal },
 React.createElement(PpmVerifyForm, { initial: modal.data || null, assetId: (modal.data && modal.data.assetId) || modal.assetId || null, assets: assets, customers: customers, existingReports: ppmReports, technicians: company.technicians || [], onSave: savePpmReport, onClose: popModal, showToast: showToast, ppmReports: ppmReports, funcReports: funcReports, iecReports: iecReports, onLink: linkPpmReport, onPdf: openPpmPdf, setModal: setModal, pushModal: pushModal }))),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "ppmwiz" && (React.createElement(Modal, { title: "Nuova Manutenzione Programmata", wide: true, onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "ppmwiz" && (React.createElement(Modal, { title: __t("Nuova Manutenzione Programmata"), wide: true, onClose: popModal },
 React.createElement(PpmWizardForm, { assetId: modal.assetId || null, assets: assets, customers: customers, templates: allTemplates, existingFunc: funcReports, existingIec: iecReports, technicians: company.technicians || [], instruments: instruments, onSaveFull: savePpmFull, onClose: popModal }))),
 React.createElement(ConfirmDialog, null),
 React.createElement(PromptDialog, null))));
@@ -4083,11 +4084,11 @@ if (!info || info.valid_until == null)
 return null;
 const g = info.giorni_rimanenti;
 if (info.scaduto) {
-return (React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 9998, background: "var(--err-bg)", borderTop: "1px solid #ef444466", color: "#fca5a5", fontSize: 12, fontWeight: 700, textAlign: "center", padding: "7px 12px" } }, "\u26D4 Abbonamento scaduto \u2014 l'app \u00E8 in sola lettura. I tuoi dati restano al sicuro e consultabili: rinnova per riattivare le modifiche."));
+return (React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 9998, background: "var(--err-bg)", borderTop: "1px solid #ef444466", color: "#fca5a5", fontSize: 12, fontWeight: 700, textAlign: "center", padding: "7px 12px" } }, __t("\u26D4 Abbonamento scaduto \u2014 l'app \u00E8 in sola lettura. I tuoi dati restano al sicuro e consultabili: rinnova per riattivare le modifiche.")));
 }
 if (typeof g === "number" && g <= 30) {
 return (React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 9998, background: "var(--warn-bg)", borderTop: "1px solid #f59e0b55", color: "#fbbf24", fontSize: 12, fontWeight: 700, textAlign: "center", padding: "7px 12px" } },
-"Abbonamento in scadenza tra ",
+__t("Abbonamento in scadenza tra "),
 g,
 " ",
 g === 1 ? "giorno" : "giorni",
@@ -4106,7 +4107,7 @@ return () => { window.removeEventListener("online", on); window.removeEventListe
 }, []);
 if (isOff || !giu)
 return null;
-return (React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 9999, background: "var(--warn-bg)", borderTop: "1px solid #f59e0b55", color: "#fbbf24", fontSize: 12, fontWeight: 700, textAlign: "center", padding: "7px 12px" } }, "Sei offline \u2014 stai lavorando sui dati locali. Quando torna la rete, ricordati di Sincronizzare."));
+return (React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 9999, background: "var(--warn-bg)", borderTop: "1px solid #f59e0b55", color: "#fbbf24", fontSize: 12, fontWeight: 700, textAlign: "center", padding: "7px 12px" } }, __t("Sei offline \u2014 stai lavorando sui dati locali. Quando torna la rete, ricordati di Sincronizzare.")));
 }
 export function App() {
 const [currentUser, setCurrentUser] = React.useState(undefined);
@@ -4214,10 +4215,10 @@ React.createElement("style", null, "@keyframes spin{to{transform:rotate(360deg)}
 if (libError)
 return (React.createElement("div", { style: { minHeight: '100vh', background: 'var(--bg-deep)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 } },
 React.createElement("div", { style: { maxWidth: 360, textAlign: 'center' } },
-React.createElement("div", { style: { fontSize: 30, fontWeight: 800, color: '#2dd4bf', marginBottom: 8 } }, "MedTrace"),
-React.createElement("div", { style: { fontSize: 14, color: 'var(--text)', fontWeight: 700, marginBottom: 10 } }, "Connessione richiesta per il primo accesso"),
-React.createElement("div", { style: { fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6, marginBottom: 18 } }, "Non e stato possibile contattare il servizio di autenticazione. Per accedere la prima volta serve una connessione a internet. Una volta effettuato l'accesso, potrai lavorare anche offline."),
-React.createElement("button", { onClick: () => window.location.reload(), style: { background: '#2dd4bf', color: '#06251f', border: 'none', borderRadius: 10, padding: '11px 22px', fontWeight: 800, fontSize: 14, cursor: 'pointer' } }, "Riprova"))));
+React.createElement("div", { style: { fontSize: 30, fontWeight: 800, color: '#2dd4bf', marginBottom: 8 } }, __t("MedTrace")),
+React.createElement("div", { style: { fontSize: 14, color: 'var(--text)', fontWeight: 700, marginBottom: 10 } }, __t("Connessione richiesta per il primo accesso")),
+React.createElement("div", { style: { fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6, marginBottom: 18 } }, __t("Non e stato possibile contattare il servizio di autenticazione. Per accedere la prima volta serve una connessione a internet. Una volta effettuato l'accesso, potrai lavorare anche offline.")),
+React.createElement("button", { onClick: () => window.location.reload(), style: { background: '#2dd4bf', color: '#06251f', border: 'none', borderRadius: 10, padding: '11px 22px', fontWeight: 800, fontSize: 14, cursor: 'pointer' } }, __t("Riprova")))));
 if (!currentUser)
 return React.createElement(LoginScreen, { onLogin: setCurrentUser });
 return (React.createElement(React.Fragment, null,
