@@ -43,7 +43,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.35";
+const APP_VERSION = "3.36";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -767,7 +767,7 @@ function ClientReportModal({ customer, assets, iecReports, funcReports, jobs, co
 const myAssets = React.useMemo(() => assets.filter(a => a.customerId === customer.id), [assets, customer.id]);
 const today = new Date();
 today.setHours(0, 0, 0, 0);
-const STATUS_LABEL = { operativo: "Operativo", "in manutenzione": "In manutenzione", "fuori servizio": "Fuori servizio", dismesso: "Dismesso" };
+const STATUS_LABEL = { operativo: __t("Operativo"), "in manutenzione": __t("In manutenzione"), "fuori servizio": __t("Fuori servizio"), dismesso: __t("Dismesso") };
 const STATUS_COLOR = { operativo: "#22c55e", "in manutenzione": "#f59e0b", "fuori servizio": "#ef4444", dismesso: "var(--text-3)" };
 const totOperativi = myAssets.filter(a => a.status === "operativo" || !a.status).length;
 const totFuoriServizio = myAssets.filter(a => a.status === "fuori servizio").length;
@@ -2873,7 +2873,7 @@ React.createElement("div", { style: { display: "flex", justifyContent: "space-be
 React.createElement("span", { style: { fontSize: 10, color: "#ef4444", fontWeight: 800, letterSpacing: .5, textTransform: "uppercase" } },
 __t("Manut. scaduta da "),
 days,
-"gg"),
+__t("gg")),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, a.nextService)),
 React.createElement("div", { style: { fontSize: 13, color: "var(--text)", fontWeight: 600 } }, a.name),
 c.name && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 2 } }, c.name)));
@@ -2894,7 +2894,7 @@ React.createElement("div", { style: { minWidth: 0, flex: 1 } },
 React.createElement("div", { style: { fontSize: 12, color: "var(--text)", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, a.name),
 c.name && React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" } }, c.name)),
 React.createElement("div", { style: { textAlign: "right", flexShrink: 0 } },
-React.createElement("div", { style: { fontSize: 11, color: col, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }, a.daysToService === 0 ? "oggi" : a.daysToService === 1 ? "domani" : "tra " + a.daysToService + "gg"),
+React.createElement("div", { style: { fontSize: 11, color: col, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }, a.daysToService === 0 ? __t("oggi") : a.daysToService === 1 ? __t("domani") : __t("tra ") + a.daysToService + __t("gg")),
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace" } }, a.nextService))));
 })))),
 React.createElement("div", { style: { padding: "12px 14px", background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, marginBottom: 18, display: "flex", flexWrap: "wrap", gap: isMobile ? 12 : 20, fontSize: 11, color: "var(--text-3)", alignItems: "center", justifyContent: "space-around" } },
@@ -2972,12 +2972,12 @@ React.createElement("div", null,
 React.createElement("h1", { style: { margin: 0, fontSize: isMobile ? 14 : 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("Apparecchi Medicali")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: isMobile ? 0 : "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 assets.length,
-" totali \u00B7 ",
+__t(" totali \u00B7 "),
 assets.filter(a => a.status === "fuori servizio").length,
-" fuori servizio")),
+__t(" fuori servizio"))),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-isMobile && assets.length > 0 && (React.createElement("button", { onClick: toggleAssetView, style: { background: "var(--card)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "6px 12px", color: "#5eead4", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, assetMobileView === "table" ? "▦ Schede" : "▤ Tabella")),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "asset", data: null }) }, "+ Nuovo"),
+isMobile && assets.length > 0 && (React.createElement("button", { onClick: toggleAssetView, style: { background: "var(--card)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "6px 12px", color: "#5eead4", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, assetMobileView === "table" ? __t("▦ Schede") : __t("▤ Tabella"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "asset", data: null }) }, __t("+ Nuovo")),
 React.createElement(OverflowMenu, { items: [
 { label: "\u2B07 Esporta Excel", onClick: exportAssets },
 { label: "\u2B06 Importa Excel/CSV", onClick: () => setModal({ type: "assetImport" }) }
@@ -3120,7 +3120,7 @@ jobs.filter(j => j.status !== "chiuso").length,
 jobs.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "job", data: null }) }, "+ Nuovo"),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "job", data: null }) }, __t("+ Nuovo")),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportJobs }] }))),
 jobs.length > 0 && (React.createElement("div", { style: { display: "flex", gap: 0, marginBottom: 14, background: "var(--bg)", borderRadius: 8, padding: 3, border: "1px solid var(--border-2)", width: "fit-content", maxWidth: "100%", overflow: "auto" } }, [
 ...(jobs.some(j => j.status === "da accettare") ? [{ id: "toaccept", label: __t("Da accettare"), count: jobs.filter(j => j.status === "da accettare").length, color: "#818cf8" }] : []),
@@ -3274,7 +3274,7 @@ stats.lowStock,
 " sotto min.")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, " Scarica"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "part", data: null }) }, "+ Nuova"),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "part", data: null }) }, __t("+ Nuova")),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportParts }] }))),
 parts.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Magazzino vuoto"), subtitle: __t("Aggiungi le parti di ricambio del tuo magazzino: avrai sotto controllo stock minimo, alert sotto-scorta, costo e prezzo vendita per ogni codice."), actions: [
 { label: "+ Nuova parte", onClick: () => setModal({ type: "part", data: null }), primary: true }
@@ -3361,7 +3361,7 @@ React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, d
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 customers.length,
 " totali")),
-isAdmin && React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "customer", data: null }) }, "+ Nuovo")),
+isAdmin && React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "customer", data: null }) }, __t("+ Nuovo"))),
 customers.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun cliente registrato"), subtitle: __t("Aggiungi i tuoi clienti (cliniche, ospedali, studi medici, RSA) per associare apparecchi, preventivi e interventi."), actions: isAdmin ? [
 { label: "+ Nuovo cliente", onClick: () => setModal({ type: "customer", data: null }), primary: true }
 ] : [] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
@@ -3433,7 +3433,7 @@ stats.pendingInvoices,
 invoices.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "invoice", data: null }) }, "+ Nuova"),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "invoice", data: null }) }, __t("+ Nuova")),
 React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportInvoices }] }))),
 invoices.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun preventivo emesso"), subtitle: __t("Crea preventivi professionali per i tuoi clienti. Puoi importare manodopera e parti direttamente da un job esistente."), actions: [
 { label: "+ Nuovo preventivo", onClick: () => setModal({ type: "invoice", data: null }), primary: true }
@@ -3909,7 +3909,7 @@ orders.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportOrders }, "\u2B07 Excel"),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "order", data: null }) }, "+ Nuovo"))),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "order", data: null }) }, __t("+ Nuovo")))),
 orders.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, ""),
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } }, __t("Nessun ordine")),
