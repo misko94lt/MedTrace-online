@@ -616,13 +616,13 @@ const selStyle = { width: "100%", background: "var(--bg-2)", color: "var(--text)
 const lab = { fontSize: 11, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 4 };
 if (step === 3 && result)
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
-React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#22c55e" } }, "\u2713 Importazione completata"),
+React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "#22c55e" } }, __t("\u2713 Importazione completata")),
 React.createElement("div", { style: { fontSize: 14, color: "var(--text-strong)", lineHeight: 1.7 } },
 __t("Creati: "),
 React.createElement("b", null, result.created),
-" \u00B7 Aggiornati: ",
+__t(" \u00B7 Aggiornati: "),
 React.createElement("b", null, result.updated),
-" \u00B7 Doppioni saltati: ",
+__t(" \u00B7 Doppioni saltati: "),
 React.createElement("b", null, result.skipped)),
 result.errors.length > 0 && React.createElement("div", { style: { fontSize: 12, color: "#f59e0b", lineHeight: 1.6 } },
 result.errors.slice(0, 10).map((e, i) => React.createElement("div", { key: i },
@@ -645,7 +645,7 @@ React.createElement("b", null, mapped),
 React.createElement("div", null,
 React.createElement("div", { style: lab }, __t("Cliente di destinazione *")),
 React.createElement("select", { style: selStyle, value: customerId, onChange: e => setCustomerId(e.target.value) },
-React.createElement("option", { value: "" }, "\u2014 Scegli il cliente \u2014"),
+React.createElement("option", { value: "" }, __t("\u2014 Scegli il cliente \u2014")),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name)))),
 React.createElement("div", { style: { maxHeight: 300, overflowY: "auto", display: "flex", flexDirection: "column", gap: 8, paddingRight: 4 } }, IMP_FIELDS.map(f => (React.createElement("div", { key: f.k, style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, alignItems: "center" } },
 React.createElement("div", { style: { fontSize: 13, color: mapping[f.k] >= 0 ? "var(--text)" : "var(--text-4)" } }, f.label),
@@ -659,7 +659,7 @@ React.createElement("option", { value: "skip" }, __t("Salta la riga (non tocco l
 React.createElement("option", { value: "update" }, __t("Aggiorna l'apparecchio esistente coi dati del file")))),
 fileErr && React.createElement("div", { style: { fontSize: 13, color: "#ef4444" } }, fileErr),
 React.createElement("div", { style: { display: "flex", gap: 10 } },
-React.createElement(Btn, { variant: "ghost", onClick: () => { setStep(1); setFileErr(""); } }, "\u2190 Indietro"),
+React.createElement(Btn, { variant: "ghost", onClick: () => { setStep(1); setFileErr(""); } }, __t("\u2190 Indietro")),
 React.createElement(Btn, { onClick: doImport },
 __t("Importa "),
 rows.length,
@@ -743,14 +743,14 @@ React.createElement(Inp, { label: __t("Marca"), value: f.brand, onChange: s("bra
 React.createElement(Inp, { label: __t("Modello"), value: f.model, onChange: s("model"), onBlur: e => autofillFrom("model", e.target.value), hint: __t("Scrivi un modello gi\u00E0 inserito: marca, tipo e norma si compilano da soli.") }),
 React.createElement(Inp, { label: __t("Numero di serie"), value: f.serial, onChange: s("serial") }),
 React.createElement(Sel, { label: __t("Cliente / Struttura"), value: f.customerId, onChange: s("customerId") },
-React.createElement("option", { value: "" }, "\u2014 Nessuno \u2014"),
+React.createElement("option", { value: "" }, __t("\u2014 Nessuno \u2014")),
 customers.map(c => React.createElement("option", { key: c.id, value: c.id }, c.name))),
 React.createElement(Inp, { label: __t("Ubicazione"), value: f.location, onChange: s("location") }),
 React.createElement(Sel, { label: __t("Stato"), value: f.status, onChange: s("status") }, ["operativo", "in manutenzione", "fuori servizio"].map(v => React.createElement("option", { key: v }, v))),
 React.createElement(Inp, { label: __t("Interv. Sicurezza Elettrica (mesi)"), type: "number", value: f.intervalIec, onChange: s("intervalIec") }),
 React.createElement(Inp, { label: __t("Interv. Funzionale (mesi)"), type: "number", value: f.intervalFunc, onChange: s("intervalFunc") }),
 React.createElement(Inp, { label: __t("Interv. Manut. Programmata / PPM (mesi)"), type: "number", value: f.intervalPpm, onChange: s("intervalPpm"), hint: __t("Periodicità indicata dal costruttore") })),
-React.createElement("button", { onClick: () => setShowAdv(v => !v), style: { background: "transparent", border: "1px dashed var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "9px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, showAdv ? "− Nascondi dettagli avanzati" : "+ Mostra dettagli avanzati (date, norma, garanzia…)"),
+React.createElement("button", { onClick: () => setShowAdv(v => !v), style: { background: "transparent", border: "1px dashed var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "9px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, showAdv ? __t("− Nascondi dettagli avanzati") : __t("+ Mostra dettagli avanzati (date, norma, garanzia…)")),
 showAdv && React.createElement(Grid, { cols: "1fr 1fr" },
 React.createElement(Inp, { label: __t("Ultimo servizio"), type: "date", value: f.lastService, onChange: s("lastService") }),
 React.createElement(Inp, { label: __t("Prossimo servizio"), type: "date", value: f.nextService, onChange: s("nextService") }),
@@ -861,7 +861,7 @@ const sortedSteps = [...steps].sort((a, b) => a.date.localeCompare(b.date));
 return (React.createElement(Modal, { title: "Timeline & Foto — " + (job.id), wide: true, onClose: onClose },
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 18 } },
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, "\u00B7 Cronologia Intervento"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, __t("\u00B7 Cronologia Intervento")),
 sortedSteps.length === 0 && React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, __t("Nessuno step ancora.")),
 sortedSteps.map((step, i) => (React.createElement("div", { key: step.id, style: { display: "flex", gap: 14, marginBottom: 14, position: "relative" } },
 React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center" } },
@@ -879,7 +879,7 @@ step.hours,
 React.createElement(Btn, { sm: true, variant: "danger", onClick: () => removeStep(step.id), style: { padding: "2px 8px", fontSize: 11 } }, "\u2715"))),
 React.createElement("div", { style: { color: "var(--text)", fontSize: 13, lineHeight: 1.4 } }, step.note))))),
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 10, padding: 14, border: "1px dashed var(--border)", marginTop: 12 } },
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginBottom: 10, fontWeight: 700 } }, "+ Nuovo step"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginBottom: 10, fontWeight: 700 } }, __t("+ Nuovo step")),
 React.createElement(Grid, { cols: "1fr 1fr 80px" },
 React.createElement(Sel, { label: __t("Tipo evento"), value: newStep.type, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { type: e.target.value }))) }, Object.entries(TIMELINE_LABEL).map(([k, v]) => React.createElement("option", { key: k, value: k },
 TIMELINE_ICON[k],
@@ -890,16 +890,16 @@ React.createElement(Inp, { label: __t("Ore"), type: "number", step: "0.5", value
 React.createElement("div", { style: { marginTop: 10 } },
 React.createElement(Txt, { label: __t("Descrizione"), value: newStep.note, onChange: e => setNewStep(x => (Object.assign(Object.assign({}, x), { note: e.target.value }))) })),
 React.createElement("div", { style: { marginTop: 10, textAlign: "right" } },
-React.createElement(Btn, { sm: true, onClick: addStep }, "+ Aggiungi step")))),
+React.createElement(Btn, { sm: true, onClick: addStep }, __t("+ Aggiungi step"))))),
 React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } },
-" Foto Allegate (",
+__t(" Foto Allegate ("),
 photos.length,
 ")"),
 React.createElement("label", null,
 React.createElement("input", { ref: fileInputRef, type: "file", accept: "image/*", multiple: true, onChange: uploadPhotos, style: { display: "none" } }),
-React.createElement("span", { style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-block" } }, uploading ? __t("Caricamento...") : "+ Aggiungi foto"))),
+React.createElement("span", { style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 12, fontWeight: 600, display: "inline-block" } }, uploading ? __t("Caricamento...") : __t("+ Aggiungi foto")))),
 photos.length === 0 ? (React.createElement("div", { style: { textAlign: "center", color: "var(--text-4)", padding: "16px 0", fontSize: 12 } }, __t("Nessuna foto. Le foto vengono compresse e, quando sei online, caricate sul cloud: non occupano spazio sul dispositivo."))) : (React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: 8 } }, photos.map(photo => (React.createElement("div", { key: photo.id, style: { position: "relative", aspectRatio: "1", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" } },
 React.createElement("img", { src: photo.data, alt: photo.name, style: { width: "100%", height: "100%", objectFit: "cover", cursor: "pointer" }, onClick: () => window.open(photo.data, "_blank") }),
 React.createElement("button", { onClick: () => removePhoto(photo.id), style: { position: "absolute", top: 4, right: 4, background: "#ef4444", border: "none", color: "#fff", borderRadius: "50%", width: 24, height: 24, cursor: "pointer", fontSize: 14, fontWeight: 700 } }, "\u00D7"))))))),
@@ -911,7 +911,7 @@ photos.forEach(p => { keep[p.id] = 1; });
 (job.photos || []).forEach(p => { if (p && !keep[p.id] && isCloudPhoto(p.data))
 deleteCloudPhoto(p.data); });
 }
-catch (e) { } onSave({ timeline: steps, photos }); } }, "\u2713 Salva tutto")))));
+catch (e) { } onSave({ timeline: steps, photos }); } }, __t("\u2713 Salva tutto"))))));
 }
 export function WithdrawalModal({ parts, assets, preselectPartId, onWithdraw, onClose }) {
 var _a, _b;
@@ -945,13 +945,13 @@ return;
 onWithdraw({ items, reason, assetId, tech, date: new Date().toISOString().slice(0, 10), total });
 };
 if (parts.length === 0 || assets.length === 0) {
-return (React.createElement(Modal, { title: " Scarico Stock", onClose: onClose },
+return (React.createElement(Modal, { title: __t(" Scarico Stock"), onClose: onClose },
 React.createElement("div", { style: { textAlign: "center", padding: "20px 0", color: "var(--text-2)" } },
 __t("Servono almeno un apparecchio e una parte."),
 React.createElement("div", { style: { marginTop: 14 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi"))))));
 }
-return (React.createElement(Modal, { title: " Scarico Stock", wide: true, onClose: onClose },
+return (React.createElement(Modal, { title: __t(" Scarico Stock"), wide: true, onClose: onClose },
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
 React.createElement(Grid, { cols: "1fr 1fr" },
@@ -965,7 +965,7 @@ React.createElement(Inp, { label: __t("Motivo / Riferimento"), value: reason, on
 React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 8 } },
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, __t("Parti")),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: addRow }, "+ Aggiungi")),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: addRow }, __t("+ Aggiungi"))),
 items.map((row, i) => {
 const p = parts.find(x => x.id === row.partId);
 return (React.createElement("div", { key: i, style: { display: "grid", gridTemplateColumns: "1fr 70px 80px auto", gap: 6, marginBottom: 8, alignItems: "center" } },
@@ -986,7 +986,7 @@ React.createElement("span", { style: { color: "#22c55e", fontWeight: 800, fontSi
 total.toFixed(2)))),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Annulla")),
-React.createElement(Btn, { variant: "success", onClick: submit }, "\u2713 Conferma")))));
+React.createElement(Btn, { variant: "success", onClick: submit }, __t("\u2713 Conferma"))))));
 }
 export function AssetDetailModal({ asset, recalls, jobs, parts, iecReports, funcReports, customers, onClose, onEditAsset, onNewJob, onNewIec, onNewFunc, onAssetSticker, onOpenJob, onQuickLocation, company, generateJobPDF, generateIECPDF, generateFuncPDF, templates, page, onAddDoc, onDeleteDoc, showToast, onOpenIec, onOpenFunc, onOpenRecall }) {
 const [tab, setTab] = React.useState("overview");
@@ -1031,7 +1031,7 @@ const serviceDays = asset.nextService ? Math.round((new Date(asset.nextService) 
 const S = { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "14px 16px" };
 const LBL = { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 3 };
 const VAL = { fontSize: 13, color: "var(--text)", fontWeight: 600 };
-const TABS = [{ id: "overview", label: " Scheda" }, { id: "timeline", label: __t("Storico") }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
+const TABS = [{ id: "overview", label: __t(" Scheda") }, { id: "timeline", label: __t("Storico") }, { id: "jobs", label: " Job (" + assetJobs.length + ")" }, { id: "iec", label: "Sicurezza (" + assetIec.length + ")" }, { id: "func", label: "Funzionale (" + assetFunc.length + ")" }, { id: "documenti", label: "Documenti (" + ((asset.documents || []).length) + ")" }];
 const riskColor = { A: "#22c55e", B: "#f59e0b", C: "#ef4444" };
 const CMAX = page ? "none" : "55vh";
 const _mix = (c, p) => "color-mix(in srgb, " + c + " " + p + "%, transparent)";
@@ -1084,7 +1084,7 @@ color: tab === t.id ? "#5eead4" : "var(--text-3)", padding: "8px 14px", cursor: 
 fontSize: 13, fontWeight: tab === t.id ? 700 : 500, marginBottom: -2, whiteSpace: "nowrap", flexShrink: 0
 } }, t.label)))),
 tab === "overview" && (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12, overflow: "auto", maxHeight: CMAX } },
-assetHasOpenRecall(asset.id, recalls) && React.createElement("div", { onClick: function () { var rc = assetOpenRecall(asset.id, recalls); if (rc && onOpenRecall) onOpenRecall(rc.id); }, onMouseEnter: function (e) { e.currentTarget.style.background = "#4a1616"; }, onMouseLeave: function (e) { e.currentTarget.style.background = "#3a1212"; }, style: { background: "#3a1212", border: "1px solid #ef444466", borderRadius: 8, color: "#fca5a5", padding: "10px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, transition: "background .12s ease" } }, React.createElement("span", null, "⚠ Avviso di sicurezza aperto su questo apparecchio — azione da eseguire"), React.createElement("span", { style: { fontSize: 11, opacity: .85, whiteSpace: "nowrap" } }, __t("Apri ›"))),
+assetHasOpenRecall(asset.id, recalls) && React.createElement("div", { onClick: function () { var rc = assetOpenRecall(asset.id, recalls); if (rc && onOpenRecall) onOpenRecall(rc.id); }, onMouseEnter: function (e) { e.currentTarget.style.background = "#4a1616"; }, onMouseLeave: function (e) { e.currentTarget.style.background = "#3a1212"; }, style: { background: "#3a1212", border: "1px solid #ef444466", borderRadius: 8, color: "#fca5a5", padding: "10px 12px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, transition: "background .12s ease" } }, React.createElement("span", null, __t("⚠ Avviso di sicurezza aperto su questo apparecchio — azione da eseguire")), React.createElement("span", { style: { fontSize: 11, opacity: .85, whiteSpace: "nowrap" } }, __t("Apri ›"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 10 } },
 React.createElement("div", { style: S },
 React.createElement("div", { style: LBL }, __t("Identificazione")),
@@ -1177,7 +1177,7 @@ React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "cent
 React.createElement("span", { style: { fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, color: "var(--text)" } }, r.reportNumber || r.id),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)" } },
 r.norm,
-" \u00B7 Cl.",
+__t(" \u00B7 Cl."),
 r.equipClass,
 " \u00B7 ",
 r.patientType || "BF")),

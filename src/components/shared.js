@@ -193,5 +193,5 @@ background: 'var(--surface-2)', border: '1px dashed #2dd4bf44', borderRadius: 6,
 color: '#2dd4bf', fontSize: 11, fontWeight: 700, opacity: uploading ? .5 : 1,
 } },
 React.createElement("input", { ref: inputRef, type: "file", multiple: true, accept: "image/*,.pdf,.doc,.docx,.xls,.xlsx", onChange: handleFiles, disabled: uploading, style: { display: 'none' } }),
-uploading ? '⏳ Caricamento...' : '+ Carica allegato (PDF, immagine, doc)')));
+uploading ? __t('⏳ Caricamento...') : __t('+ Carica allegato (PDF, immagine, doc)'))));
 }

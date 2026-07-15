@@ -72,8 +72,8 @@ return 0;
 const toggleSort = k => setSort(s => s.key === k ? Object.assign(Object.assign({}, s), { dir: s.dir === "asc" ? "desc" : "asc" }) : { key: k, dir: "asc" });
 return (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", padding: "8px 10px", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderBottom: "none", borderRadius: "10px 10px 0 0", flexWrap: "wrap" } },
-React.createElement("input", { placeholder: " Cerca\u2026", value: gs, onChange: e => setGs(e.target.value), style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 6, padding: "5px 10px", color: "var(--text)", fontSize: 12, outline: "none", width: 200 } }),
-hasF && React.createElement("button", { onClick: clearF, style: { background: "none", border: "1px solid #ef444433", borderRadius: 6, color: "#ef4444", padding: "4px 10px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2715 Azzera"),
+React.createElement("input", { placeholder: __t(" Cerca\u2026"), value: gs, onChange: e => setGs(e.target.value), style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 6, padding: "5px 10px", color: "var(--text)", fontSize: 12, outline: "none", width: 200 } }),
+hasF && React.createElement("button", { onClick: clearF, style: { background: "none", border: "1px solid #ef444433", borderRadius: 6, color: "#ef4444", padding: "4px 10px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, __t("\u2715 Azzera")),
 React.createElement("span", { style: { marginLeft: "auto", fontSize: 11, color: "var(--text-4)", fontFamily: "'IBM Plex Mono', monospace" } },
 filtered.length,
 "/",
@@ -81,7 +81,7 @@ rows.length),
 exportName && filtered.length > 0 && (React.createElement("button", { onClick: () => {
 const expCols = cols.map(c => ({ key: c.key, label: c.label }));
 downloadXLSX(exportName + ".xlsx", filtered, expCols, exportName);
-}, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 6, color: "#2dd4bf", padding: "5px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }, title: __t("Esporta in Excel i risultati filtrati") }, "\u2B07 Excel"))),
+}, style: { background: "#2dd4bf15", border: "1px solid #2dd4bf44", borderRadius: 6, color: "#2dd4bf", padding: "5px 10px", fontSize: 11, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }, title: __t("Esporta in Excel i risultati filtrati") }, __t("\u2B07 Excel")))),
 React.createElement("div", { style: { overflowX: isMobile ? "auto" : "visible", overflowY: "auto", border: "1px solid var(--border-2)", borderRadius: "0 0 10px 10px", background: "var(--surface)", maxHeight: "68vh" } },
 React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: isMobile ? 12 : 12.5, fontFamily: "inherit" } },
 React.createElement("thead", null,
@@ -782,7 +782,7 @@ setLocked(false);
 };
 return (React.createElement("div", { style: { position: "relative", overflow: "hidden", borderRadius: 12 } },
 React.createElement("div", { style: { position: "absolute", inset: 0, background: "linear-gradient(90deg, transparent 0%, #ef4444 60%)", display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 20px", pointerEvents: "none" } },
-React.createElement("span", { style: { color: "#fff", fontSize: 14, fontWeight: 800, opacity: dx < -30 ? 1 : 0, transition: "opacity .15s" } }, "\u2715 Elimina")),
+React.createElement("span", { style: { color: "#fff", fontSize: 14, fontWeight: 800, opacity: dx < -30 ? 1 : 0, transition: "opacity .15s" } }, __t("\u2715 Elimina"))),
 React.createElement("div", { onTouchStart: onTouchStart, onTouchMove: onTouchMove, onTouchEnd: onTouchEnd, style: {
 transform: `translateX(${dx}px)`,
 transition: startX === null ? "transform .2s ease" : "none",
@@ -815,17 +815,18 @@ width: "100%", background: "var(--card)", border: "1px solid var(--border)", bor
 padding: "7px 10px", color: "var(--text)", fontSize: 13, outline: "none",
 fontFamily: "inherit", appearance: "none", paddingRight: 30,
 } },
-React.createElement("option", { value: "" }, "\u2014 Tutti \u2014"),
+React.createElement("option", { value: "" }, __t("\u2014 Tutti \u2014")),
 fdef.options.map(opt => (React.createElement("option", { key: opt, value: opt }, opt))))))),
-activeCount > 0 && (React.createElement("button", { onClick: onClearAll, style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 6, padding: "7px 10px", cursor: "pointer", fontSize: 12, fontWeight: 700, marginTop: 4, touchAction: "manipulation" } }, "\u2715 Pulisci tutti i filtri"))))));
+activeCount > 0 && (React.createElement("button", { onClick: onClearAll, style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 6, padding: "7px 10px", cursor: "pointer", fontSize: 12, fontWeight: 700, marginTop: 4, touchAction: "manipulation" } }, __t("\u2715 Pulisci tutti i filtri")))))));
 };
 
 /* Menu "\u22ef" per azioni secondarie: tiene pulite le barre delle liste (UX giro 3, v3.22) */
 export function OverflowMenu({ items }) {
 const [open, setOpen] = React.useState(false);
+const [alignLeft, setAlignLeft] = React.useState(false);
 return React.createElement("div", { style: { position: "relative", display: "inline-block" } },
-React.createElement("button", { onClick: () => setOpen(o => !o), "aria-label": "Altre azioni", title: "Altre azioni", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", width: 34, height: 34, fontSize: 17, fontWeight: 800, cursor: "pointer", lineHeight: 1, touchAction: "manipulation" } }, "\u22ef"),
+React.createElement("button", { onClick: (e) => { try { const r = e.currentTarget.getBoundingClientRect(); setAlignLeft(r.left < (window.innerWidth / 2)); } catch (err) { } setOpen(o => !o); }, "aria-label": "Altre azioni", title: __t("Altre azioni"), style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", width: 34, height: 34, fontSize: 17, fontWeight: 800, cursor: "pointer", lineHeight: 1, touchAction: "manipulation" } }, "\u22ef"),
 open && React.createElement("div", { style: { position: "fixed", inset: 0, zIndex: 900 }, onClick: () => setOpen(false) }),
-open && React.createElement("div", { style: { position: "absolute", right: 0, top: 38, zIndex: 901, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, boxShadow: "0 8px 24px rgba(0,0,0,.25)", minWidth: 190, overflow: "hidden" } },
+open && React.createElement("div", { style: Object.assign({ position: "absolute", top: 38, zIndex: 901 }, alignLeft ? { left: 0 } : { right: 0 }, { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, boxShadow: "0 8px 24px rgba(0,0,0,.25)", minWidth: 190, overflow: "hidden" }) },
 items.map((it, i) => React.createElement("button", { key: i, onClick: () => { setOpen(false); it.onClick(); }, style: { display: "block", width: "100%", textAlign: "left", background: "transparent", border: "none", borderBottom: i < items.length - 1 ? "1px solid var(--border-2)" : "none", color: "var(--text)", padding: "11px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer", touchAction: "manipulation" } }, it.label))));
 }

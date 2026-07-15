@@ -96,12 +96,12 @@ errore: { t: "Stato non disponibile", c: "var(--text-2)", bg: "#94a3b815" },
 const b = BADGE[stato] || { t: "Verifico…", c: "var(--text-3)", bg: "#64748b15" };
 return (React.createElement("div", { style: { border: "1px solid var(--border-2)", borderRadius: 10, padding: "13px 15px", background: "var(--bg)" } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--text)" } }, "Portale cliente"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "var(--text)" } }, __t("Portale cliente")),
 React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: b.c, background: b.bg, border: "1px solid " + b.c + "44", borderRadius: 8, padding: "4px 9px" } }, b.t)),
 isSuperuser ? (React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 11, flexWrap: "wrap" } },
-stato === "non_abilitato" && React.createElement(Btn, { sm: true, disabled: busy, onClick: abilita }, busy ? __t("Abilito…") : "Abilita portale"),
+stato === "non_abilitato" && React.createElement(Btn, { sm: true, disabled: busy, onClick: abilita }, busy ? __t("Abilito…") : __t("Abilita portale")),
 stato === "invitato" && (React.createElement(React.Fragment, null,
-React.createElement(Btn, { sm: true, disabled: busy, onClick: abilita }, busy ? "…" : "↻ Rigenera invito"),
+React.createElement(Btn, { sm: true, disabled: busy, onClick: abilita }, busy ? "…" : __t("↻ Rigenera invito")),
 React.createElement(Btn, { sm: true, variant: "ghost", disabled: busy, onClick: revoca }, __t("Revoca")))),
 stato === "attivo" && React.createElement(Btn, { sm: true, variant: "ghost", disabled: busy, onClick: revoca }, busy ? "…" : __t("Revoca accesso")))) : (React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 9 } }, __t("Solo il superuser pu\u00F2 abilitare o revocare l'accesso al portale."))),
 msg && React.createElement("div", { style: { fontSize: 12, color: msg.indexOf("✗") === 0 || msg.indexOf("⚠") === 0 ? "#f59e0b" : "#2dd4bf", marginTop: 9, lineHeight: 1.5 } }, msg),
@@ -142,7 +142,7 @@ yield supaDB.delete("richieste", r.id);
 }
 catch (e) { } yield onRefresh(); setBusyId(null); }), "danger"); };
 return (React.createElement("div", { style: { maxWidth: 780, margin: "0 auto" } },
-netOff && (React.createElement("div", { style: { marginBottom: 12, padding: "10px 13px", background: "var(--warn-bg)", border: "1px solid #f59e0b44", borderRadius: 10, color: "#fbbf24", fontSize: 12, lineHeight: 1.5 } }, "Sei offline: le richieste vivono sul cloud, quindi l'elenco potrebbe non essere aggiornato e le azioni richiedono connessione.")),
+netOff && (React.createElement("div", { style: { marginBottom: 12, padding: "10px 13px", background: "var(--warn-bg)", border: "1px solid #f59e0b44", borderRadius: 10, color: "#fbbf24", fontSize: 12, lineHeight: 1.5 } }, __t("Sei offline: le richieste vivono sul cloud, quindi l'elenco potrebbe non essere aggiornato e le azioni richiedono connessione."))),
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, gap: 10, flexWrap: "wrap" } },
 React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "var(--text)" } }, __t("Richieste clienti")),
@@ -171,9 +171,9 @@ r.contact && React.createElement("div", { style: { fontSize: 12, color: "var(--t
 "",
 r.contact),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
-!done && React.createElement("button", { disabled: busy, onClick: () => doConvert(r), style: { background: busy ? "var(--border)" : "#2dd4bf", color: busy ? "var(--text-3)" : "var(--bg-deep)", border: "none", borderRadius: 8, padding: "9px 14px", fontSize: 13, fontWeight: 800, cursor: busy ? "default" : "pointer", touchAction: "manipulation" } }, busy ? "…" : "✓ Accetta e crea job"),
+!done && React.createElement("button", { disabled: busy, onClick: () => doConvert(r), style: { background: busy ? "var(--border)" : "#2dd4bf", color: busy ? "var(--text-3)" : "var(--bg-deep)", border: "none", borderRadius: 8, padding: "9px 14px", fontSize: 13, fontWeight: 800, cursor: busy ? "default" : "pointer", touchAction: "manipulation" } }, busy ? "…" : __t("✓ Accetta e crea job")),
 r.status === "nuova" && React.createElement("button", { disabled: busy, onClick: () => setStatus(r, "presa_in_carico"), style: { background: "transparent", color: "#f59e0b", border: "1px solid #f59e0b55", borderRadius: 8, padding: "9px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("Presa in carico")),
 !done && React.createElement("button", { disabled: busy, onClick: () => setStatus(r, "chiusa"), style: { background: "transparent", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("Ignora")),
-React.createElement("button", { disabled: busy, onClick: () => doDelete(r), style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444455", borderRadius: 8, padding: "9px 14px", fontSize: 13, fontWeight: 700, cursor: busy ? "default" : "pointer", touchAction: "manipulation" } }, "Elimina"))));
+React.createElement("button", { disabled: busy, onClick: () => doDelete(r), style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444455", borderRadius: 8, padding: "9px 14px", fontSize: 13, fontWeight: 700, cursor: busy ? "default" : "pointer", touchAction: "manipulation" } }, __t("Elimina")))));
 })))));
 }

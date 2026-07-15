@@ -169,7 +169,7 @@ reader.readAsText(file);
 return React.createElement(SettingsSection, { icon: "", title: __t("Inventario RFID") },
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", lineHeight: 1.55, marginBottom: 10 } }, __t("Importa la scansione del lettore RFID (file JSON). Aggiorna l'ultima posizione degli apparecchi tramite EPC e segnala quelli con manutenzione scaduta o in scadenza.")),
 React.createElement("input", { ref: inputRef, type: "file", accept: ".json,application/json", style: { display: "none" }, onChange: handleFile }),
-React.createElement(Btn, { sm: true, onClick: () => { if (inputRef.current) inputRef.current.click(); } }, "\u2191 Importa scansione RFID"),
+React.createElement(Btn, { sm: true, onClick: () => { if (inputRef.current) inputRef.current.click(); } }, __t("\u2191 Importa scansione RFID")),
 rep ? React.createElement("div", { style: { marginTop: 12, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "12px 14px", fontSize: 12 } },
 React.createElement("div", { style: { color: "#2dd4bf", fontWeight: 700, marginBottom: 8 } }, __t("Risultato scansione")),
 React.createElement("div", { style: { color: "var(--text)", marginBottom: 4 } }, "Apparecchi aggiornati: " + rep.updated + " su " + rep.total + " letture"),
@@ -226,7 +226,7 @@ React.createElement("div", { style: { fontSize: 12, color: "var(--text-2)", marg
 __t("Stima dello spazio del sito su questo dispositivo. Di cui foto: "),
 React.createElement("b", { style: { color: "var(--text)" } }, fmtMB(ph.chars)),
 ph.count > 0 ? " (" + ph.count + " foto)" : "",
-". I dati grandi vanno nell'archivio esteso del dispositivo (IndexedDB)."));
+__t(". I dati grandi vanno nell'archivio esteso del dispositivo (IndexedDB).")));
 }
 export function SettingsModal({ data, onReplaceJobs, company, onUpdateCompany, onImport, onMerge, onReset, onClose, onCloudPull, isAdmin, isSuperuser, onOpenCestino, onImportRfidScan }) {
 const Section = SettingsSection;
@@ -505,7 +505,7 @@ React.createElement("div", { style: { color: "var(--text-3)", fontSize: 12, line
 React.createElement(Btn, { variant: "danger", onClick: onReset }, __t("Reset completo dei dati")))),
 React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", paddingTop: 4 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")))),
-showPerms && (React.createElement(Modal, { title: "Ruoli e permessi", wide: true, onClose: () => setShowPerms(false) },
+showPerms && (React.createElement(Modal, { title: __t("Ruoli e permessi"), wide: true, onClose: () => setShowPerms(false) },
 React.createElement("div", { style: { maxHeight: "75vh", overflow: "auto" } },
 React.createElement(PermissionMatrix, { value: comp.rolePermissions || DEFAULT_ROLE_PERMS, onChange: (next) => { setComp(x => (Object.assign(Object.assign({}, x), { rolePermissions: next }))); onUpdateCompany(Object.assign(Object.assign({}, company), { rolePermissions: next })); } }),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", lineHeight: 1.5, marginTop: 14 } }, __t("Le modifiche si salvano subito e valgono al prossimo accesso degli utenti. Il Superuser vede sempre tutte le sezioni.")),
@@ -528,7 +528,7 @@ const label = info.valid_until == null
 return (React.createElement("div", { style: { background: "var(--surface)", border: "1px solid var(--border-2)", borderRadius: 12, padding: "14px 16px", marginBottom: 14 } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" } },
 React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: "var(--text)" } },
-"Licenza",
+__t("Licenza"),
 info.plan ? (" · " + info.plan.charAt(0).toUpperCase() + info.plan.slice(1)) : ""),
 React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: col, background: col + "15", border: "1px solid " + col + "44", borderRadius: 8, padding: "4px 9px" } }, label))));
 }

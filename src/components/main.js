@@ -43,7 +43,7 @@ import { bootLoadData } from "../lib/sync.js";
 const useState=React.useState,useEffect=React.useEffect,useMemo=React.useMemo,useCallback=React.useCallback,useRef=React.useRef,useContext=React.useContext;
 const supaGetUser = () => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.getUser(); };
 const supaOnAuth = (cb) => { var _a; return (_a = getSupa()) === null || _a === void 0 ? void 0 : _a.auth.onAuthStateChange(cb); };
-const APP_VERSION = "3.38";
+const APP_VERSION = "3.39";
 class MTErrorBoundary extends React.Component {
 constructor(props) { super(props); this.state = { err: null }; }
 static getDerivedStateFromError(err) { return { err: err }; }
@@ -410,11 +410,11 @@ React.createElement("div", { style: { marginTop: 20, background: "#1F746818", bo
 React.createElement("div", { style: { fontWeight: 700, color: "#2dd4bf", marginBottom: 6, fontSize: 13 } }, __t("Nota")),
 React.createElement("p", { style: { color: "var(--text-2)", fontSize: 12, margin: 0, lineHeight: 1.7 } },
 __t("Per ogni apparecchio il flusso ideale \u00E8: "),
-React.createElement("strong", { style: { color: "var(--text-bright)" } }, "1. Crea apparecchio"),
+React.createElement("strong", { style: { color: "var(--text-bright)" } }, __t("1. Crea apparecchio")),
 " \u2192 ",
-React.createElement("strong", { style: { color: "var(--text-bright)" } }, "2. Esegui Verifica di Sicurezza Elettrica"),
+React.createElement("strong", { style: { color: "var(--text-bright)" } }, __t("2. Esegui Verifica di Sicurezza Elettrica")),
 " \u2192 ",
-React.createElement("strong", { style: { color: "var(--text-bright)" } }, "3. Esegui Verifica Funzionale"),
+React.createElement("strong", { style: { color: "var(--text-bright)" } }, __t("3. Esegui Verifica Funzionale")),
 " \u2192 il sistema crea automaticamente i job e pianifica le prossime scadenze in base agli intervalli dell'apparecchio.")),
 React.createElement("div", { style: { marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" } },
 React.createElement("button", { onClick: () => setLegal("privacy"), style: { flex: 1, minWidth: 150, background: "var(--surface)", border: "1px solid var(--border-4)", borderRadius: 10, padding: "12px 16px", cursor: "pointer", color: "var(--text)", fontSize: 13, fontWeight: 700, textAlign: "left" } },
@@ -637,7 +637,7 @@ __t("Gli elementi spostati nel cestino non compaiono pi\u00F9 nelle liste, ma pu
 React.createElement("strong", { style: { color: "#5eead4" } }, "ripristinarli"),
 " o eliminarli ",
 React.createElement("strong", { style: { color: "#f87171" } }, "definitivamente"),
-". Gli elementi vengono svuotati automaticamente dopo 90 giorni."),
+__t(". Gli elementi vengono svuotati automaticamente dopo 90 giorni.")),
 totale === 0 ? (React.createElement("div", { style: { textAlign: "center", color: "var(--text-3)", padding: "40px 0", fontSize: 14 } }, __t("Il cestino \u00E8 vuoto."))) : (TIPI.filter(t => (cestino[t.key] || []).length > 0).map(t => (React.createElement("div", { key: t.key, style: { marginBottom: 20 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-4)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 } },
 t.label,
@@ -650,7 +650,7 @@ React.createElement("div", { style: { fontSize: 13, color: "var(--text)", whiteS
 rec.deletedAt && React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2 } },
 __t("Cestinato il "),
 fmtData(rec.deletedAt))),
-React.createElement("button", { onClick: () => onRestore(t.key, rec.id), style: { background: "#2dd4bf18", border: "1px solid #2dd4bf55", color: "#5eead4", borderRadius: 8, padding: "6px 12px", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap", fontWeight: 600 } }, "\u21A9 Ripristina"),
+React.createElement("button", { onClick: () => onRestore(t.key, rec.id), style: { background: "#2dd4bf18", border: "1px solid #2dd4bf55", color: "#5eead4", borderRadius: 8, padding: "6px 12px", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap", fontWeight: 600 } }, __t("\u21A9 Ripristina")),
 React.createElement("button", { onClick: () => { if (confirm(__t("Eliminare DEFINITIVAMENTE questo elemento? Non sarà più recuperabile.")))
 onPurge(t.key, rec.id); }, style: { background: "#ef444415", border: "1px solid #ef444455", color: "#f87171", borderRadius: 8, padding: "6px 10px", fontSize: 12, cursor: "pointer", whiteSpace: "nowrap" } }, __t("Elimina")))))))))));
 }
@@ -710,8 +710,8 @@ React.createElement("input", { value: t, onChange: function (e) { setItem(i, e.t
 React.createElement("button", { onClick: function () { delItem(i); }, title: __t("Rimuovi"), style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 8, color: "#ef4444", padding: "7px 10px", cursor: "pointer", fontSize: 13 } }, "\u2715"));
 })),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: addItem }, "+ Aggiungi voce"),
-scope === "cat" ? React.createElement(Btn, { sm: true, variant: "ghost", onClick: resetCatDefault }, "\u21BA Ripristina default") : null),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: addItem }, __t("+ Aggiungi voce")),
+scope === "cat" ? React.createElement(Btn, { sm: true, variant: "ghost", onClick: resetCatDefault }, __t("\u21BA Ripristina default")) : null),
 React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 } },
 React.createElement(Btn, { variant: "ghost", onClick: onClose }, __t("Chiudi")),
 React.createElement(Btn, { onClick: save }, __t("Salva checklist"))));
@@ -722,7 +722,7 @@ const custom = Object.entries(customTemplates || {});
 const ROW = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "11px 14px", background: "var(--bg-2)", border: "1px solid var(--border-2)", borderRadius: 10, marginBottom: 7 };
 return (React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginBottom: 16, lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px" } }, __t("Crea template di verifica personalizzati per i tuoi standard specifici (es. EN 60601-2-14, EN 62745). Appariranno nel menu quando crei una nuova verifica funzionale.")),
-React.createElement("button", { onClick: onNew, style: Object.assign(Object.assign({}, FORM_BTN_PRIMARY), { width: "100%", marginBottom: 18 }) }, "+ Crea nuovo template"),
+React.createElement("button", { onClick: onNew, style: Object.assign(Object.assign({}, FORM_BTN_PRIMARY), { width: "100%", marginBottom: 18 }) }, __t("+ Crea nuovo template")),
 custom.length > 0 && (React.createElement("div", { style: { marginBottom: 18 } },
 React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "#2dd4bf", marginBottom: 8, textTransform: "uppercase", letterSpacing: .6 } },
 __t("I tuoi template ("),
@@ -2063,7 +2063,7 @@ photos: [],
 iecReportId: reportId,
 });
 setJobs(js => [...js, corrJob]);
-showToast("⚠ Verifica NON CONFORME — creata manutenzione correttiva (nei Job, stato Aperto)");
+showToast(__t("⚠ Verifica NON CONFORME — creata manutenzione correttiva (nei Job, stato Aperto)"));
 }
 const isExtraordinary = f.verifyType === "straordinaria";
 const isNotAvail = f.verifyStatus === "non_disponibile";
@@ -2084,7 +2084,7 @@ setAssets(as => as.map(a => a.id === f.assetId ? Object.assign(Object.assign({},
 showToast(__t("Verifica straordinaria salvata (pianificazione invariata)"));
 }
 if (f.verifyStatus !== "non_disponibile" && f.overallPass === false) {
-showToast("⚠ Verifica NON CONFORME — creata richiesta di manutenzione correttiva (la trovi nei Job, stato Aperto)");
+showToast(__t("⚠ Verifica NON CONFORME — creata richiesta di manutenzione correttiva (la trovi nei Job, stato Aperto)"));
 }
 }
 else {
@@ -2155,7 +2155,7 @@ notes: (f.reportNumber ? "Rif.: " + f.reportNumber + ". " : "") + "Generata auto
 parts: [], laborHours: 0, laborRate: 55, timeline: [], photos: [],
 funcReportId: rid,
 })]);
-showToast("⚠ Verifica NON CONFORME — creata richiesta di manutenzione correttiva (nei Job, stato Aperto)");
+showToast(__t("⚠ Verifica NON CONFORME — creata richiesta di manutenzione correttiva (nei Job, stato Aperto)"));
 }
 else {
 showToast(__t("Verifica funzionale salvata"));
@@ -2188,7 +2188,7 @@ if (checkLocked())
 return;
 setCustomTemplates(prev => (Object.assign(Object.assign({}, prev), { [tpl.id]: tpl })));
 setModal({ type: "templateManager" });
-showToast("✓ Template salvato");
+showToast(__t("✓ Template salvato"));
 };
 const deleteCustomTemplate = (id) => {
 if (checkLocked())
@@ -2444,7 +2444,7 @@ setFuncReports(prev => mergeArr(prev, data.funcReports));
 if (data.customTemplates)
 setCustomTemplates(prev => (Object.assign(Object.assign({}, data.customTemplates), (prev || {}))));
 setModal(null);
-showToast("✓ Backup unito — nuovi record aggiunti senza sovrascrivere");
+showToast(__t("✓ Backup unito — nuovi record aggiunti senza sovrascrivere"));
 };
 const handleReset = () => {
 if (checkLocked())
@@ -2627,12 +2627,12 @@ n.badge && React.createElement("span", { style: { background: n.bColor, color: "
 }))))),
 React.createElement("div", { style: { padding: "12px 14px", borderTop: "1px solid var(--border-2)", display: "flex", flexDirection: "column", gap: 10 } },
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", letterSpacing: .5, textAlign: "center" } }, "MedTrace v" + APP_VERSION),
-React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, style: { background: "transparent", border: "1px solid var(--border-2)", borderRadius: 6, color: "var(--text-2)", fontSize: 12, fontWeight: 600, padding: "8px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, touchAction: "manipulation" } }, "◐ Tema chiaro / scuro"), React.createElement("button", { onClick: () => { setModal({ type: "settings" }); setNavOpen(false); }, style: {
+React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, style: { background: "transparent", border: "1px solid var(--border-2)", borderRadius: 6, color: "var(--text-2)", fontSize: 12, fontWeight: 600, padding: "8px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, touchAction: "manipulation" } }, __t("◐ Tema chiaro / scuro")), React.createElement("button", { onClick: () => { setModal({ type: "settings" }); setNavOpen(false); }, style: {
 background: "transparent", border: "1px solid var(--border-2)", borderRadius: 6,
 color: "var(--text-2)", fontSize: 12, fontWeight: 600, padding: "8px",
 cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
 touchAction: "manipulation"
-} }, "\u2699 Impostazioni"))))),
+} }, __t("\u2699 Impostazioni")))))),
 !isMobile && (React.createElement("aside", { style: {
 position: "fixed", left: 0, top: 0, bottom: 0, width: sideW, zIndex: 100,
 background: "linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 100%)",
@@ -2686,7 +2686,7 @@ React.createElement("div", { style: { display: "flex", justifyContent: "space-be
 React.createElement("span", { style: { fontSize: 10, color: "#334155", fontFamily: "'IBM Plex Mono', monospace", letterSpacing: .5 } },
 "v",
 APP_VERSION),
-React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, title: __t("Tema chiaro / scuro"), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: 0, lineHeight: 1 } }, "◐"), React.createElement("button", { onClick: () => setModal({ type: "settings" }), onMouseEnter: e => e.currentTarget.style.color = "#2dd4bf", onMouseLeave: e => e.currentTarget.style.color = "var(--text-3)", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", transition: "color .15s" } }, "\u2699 Impostazioni"))))),
+React.createElement("button", { onClick: () => { if (window.__mtToggle) window.__mtToggle(); }, title: __t("Tema chiaro / scuro"), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", padding: 0, lineHeight: 1 } }, "◐"), React.createElement("button", { onClick: () => setModal({ type: "settings" }), onMouseEnter: e => e.currentTarget.style.color = "#2dd4bf", onMouseLeave: e => e.currentTarget.style.color = "var(--text-3)", style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 14, cursor: "pointer", transition: "color .15s" } }, __t("\u2699 Impostazioni")))))),
 isMobile ? React.createElement("div", { style: { position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 90, display: "flex", background: "var(--card)", borderTop: "1px solid var(--border)", boxShadow: "0 -4px 24px rgba(0,0,0,.45)", paddingBottom: "env(safe-area-inset-bottom)" } }, BOTTOM_NAV.concat([{ id: "__altro", label: __t("Altro"), paths: ["M4 7h16", "M4 12h16", "M4 17h16"] }]).map(it => {
 const active = it.id === "__altro" ? navOpen : tab === it.id;
 return React.createElement("button", { key: it.id, onClick: () => { if (it.id === "__altro") { setNavOpen(true); } else { setTab(it.id); setSearch(""); setNavOpen(false); } }, style: { flex: 1, background: "transparent", border: "none", cursor: "pointer", padding: "9px 2px 7px", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, color: active ? "#2dd4bf" : "var(--text-3)", touchAction: "manipulation", WebkitTapHighlightColor: "transparent", position: "relative" } }, (active && it.id !== "__altro") ? React.createElement("span", { style: { position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 26, height: 3, borderRadius: "0 0 3px 3px", background: "#2dd4bf" } }) : null, __bnIcon(it.paths), React.createElement("div", { style: { fontSize: 10, fontWeight: active ? 700 : 500, letterSpacing: 0.1, whiteSpace: "nowrap" } }, it.label));
@@ -2726,7 +2726,7 @@ if (!schedaAsset) return React.createElement("div", { style: { maxWidth: 700, ma
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, marginBottom: 8 } }, __t("Apparecchio non trovato")),
 React.createElement("button", { onClick: function () { setTab("assets"); }, style: { background: "#2dd4bf", color: "#04201c", border: "none", borderRadius: 8, padding: "9px 18px", fontWeight: 700, cursor: "pointer" } }, __t("Vai agli apparecchi")));
 return React.createElement("div", { style: { maxWidth: 1100, margin: "0 auto" } },
-React.createElement("button", { onClick: function () { try { window.history.back(); } catch (e) { setTab("assets"); } }, style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "7px 14px", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 14, display: "inline-flex", alignItems: "center", gap: 6, touchAction: "manipulation" } }, "\u2190 Indietro"),
+React.createElement("button", { onClick: function () { try { window.history.back(); } catch (e) { setTab("assets"); } }, style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text-2)", padding: "7px 14px", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 14, display: "inline-flex", alignItems: "center", gap: 6, touchAction: "manipulation" } }, __t("\u2190 Indietro")),
 React.createElement(AssetDetailModal, { asset: schedaAsset, page: true, recalls: recalls, jobs: jobs, parts: parts, iecReports: iecReports, funcReports: funcReports, customers: customers, company: company, templates: allTemplates, generateIECPDF: generateIECPDF, generateFuncPDF: generateFuncPDF, onClose: function () { try { window.history.back(); } catch (e) { setTab("assets"); } }, onEditAsset: function () { pushModal({ type: "asset", data: schedaAsset }); }, onNewJob: function () { pushModal({ type: "job", data: { assetId: schedaAsset.id, type: "correttiva", priority: "normale", status: "aperto", description: "", openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }); }, onNewIec: function () { pushModal({ type: "iec", assetId: schedaAsset.id, data: null }); }, onNewFunc: function () { pushModal({ type: "func", assetId: schedaAsset.id, data: null }); }, onAssetSticker: function () { pushModal({ type: "sticker", data: {}, kind: "asset", assetId: schedaAsset.id }); }, onOpenJob: function (j) { pushModal({ type: "job", data: j }); }, onOpenIec: function (r) { pushModal({ type: "iec", data: r }); }, onOpenFunc: function (r) { pushModal({ type: "func", data: r }); }, onOpenRecall: openRecall, onQuickLocation: function (loc) { var _now = new Date().toISOString(); var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { lastLocation: loc, lastLocationDate: _now, lastSeenAt: _now })); setAssets(function (a) { return upsertInList(a, rec); }); showToast(__t("Posizione rilevata"), "#2dd4bf"); }, onAddDoc: function (att) { var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { documents: (schedaAsset.documents || []).concat([att]) })); setAssets(function (a) { return upsertInList(a, rec); }); }, onDeleteDoc: function (id) { var rec = withUpdateMeta(Object.assign(Object.assign({}, schedaAsset), { documents: (schedaAsset.documents || []).filter(function (d) { return d.id !== id; }) })); setAssets(function (a) { return upsertInList(a, rec); }); }, showToast: showToast }));
 })(),
 tab === "dashboard" && (React.createElement("div", null,
@@ -2928,7 +2928,7 @@ React.createElement("div", { style: { background: "var(--bg)", border: "1px soli
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 } },
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", fontWeight: 700 } }, "EPC SCANSIONATI"),
 React.createElement("div", { style: { display: "flex", gap: 6 } },
-React.createElement("button", { onClick: reconToggleListen, style: { background: reconListening ? "#2dd4bf" : "transparent", border: "1px solid " + (reconListening ? "#2dd4bf" : "var(--border)"), borderRadius: 6, color: reconListening ? "#04201c" : "#2dd4bf", padding: "3px 8px", fontSize: 11, cursor: "pointer", fontWeight: 700 } }, reconListening ? ("\u25a0 Termina (" + reconLive + ")") : "\u25b6 Ascolto lettore"),
+React.createElement("button", { onClick: reconToggleListen, style: { background: reconListening ? "#2dd4bf" : "transparent", border: "1px solid " + (reconListening ? "#2dd4bf" : "var(--border)"), borderRadius: 6, color: reconListening ? "#04201c" : "#2dd4bf", padding: "3px 8px", fontSize: 11, cursor: "pointer", fontWeight: 700 } }, reconListening ? ("\u25a0 Termina (" + reconLive + ")") : __t("\u25b6 Ascolto lettore")),
 React.createElement("button", { onClick: reconSimulate, style: { background: "transparent", border: "1px solid var(--border)", borderRadius: 6, color: "#2dd4bf", padding: "3px 8px", fontSize: 11, cursor: "pointer", fontWeight: 700 } }, __t("Simula scansione")))),
 reconListening && React.createElement("div", { style: { fontSize: 11, color: "#2dd4bf", fontWeight: 700, marginBottom: 6, fontFamily: "'IBM Plex Mono', monospace" } }, "\u25cf " + reconLive + " tag letti" + (reconLastEpc ? (" \u00b7 ultimo: " + reconLastEpc) : "") + " \u2014 tocca Termina per riversarli"),
 React.createElement("textarea", { value: reconInput, onChange: e => setReconInput(e.target.value), placeholder: __t("Incolla gli EPC (uno per riga o separati). Senza lettore usa Simula scansione."), rows: 4, style: { width: "100%", boxSizing: "border-box", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px 12px", fontSize: 13, fontFamily: "'IBM Plex Mono', monospace", resize: "vertical" } }),
@@ -2979,8 +2979,8 @@ React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" 
 isMobile && assets.length > 0 && (React.createElement("button", { onClick: toggleAssetView, style: { background: "var(--card)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "6px 12px", color: "#5eead4", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 } }, assetMobileView === "table" ? __t("▦ Schede") : __t("▤ Tabella"))),
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "asset", data: null }) }, __t("+ Nuovo")),
 React.createElement(OverflowMenu, { items: [
-{ label: "\u2B07 Esporta Excel", onClick: exportAssets },
-{ label: "\u2B06 Importa Excel/CSV", onClick: () => setModal({ type: "assetImport" }) }
+{ label: __t("\u2B07 Esporta Excel"), onClick: exportAssets },
+{ label: __t("\u2B06 Importa Excel/CSV"), onClick: () => setModal({ type: "assetImport" }) }
 ] }))),
 !isMobile && assets.length > 0 && (() => {
 const _oper = assets.filter(a => a.status === "operativo").length;
@@ -2990,11 +2990,11 @@ const _gar = assets.filter(a => { if (!a.warrantyExpiry) return false; const _d 
 const _cards = [{ l: "Totali", v: assets.length, c: "var(--text-strong)" }, { l: "Operativi", v: _oper, c: "#22c55e" }, { l: "In manutenzione", v: _manut, c: "#f59e0b" }, { l: "Fuori servizio", v: _fuori, c: "#ef4444" }, { l: "Garanzie < 90gg", v: _gar, c: "#f59e0b" }];
 return React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 16 } }, _cards.map(_k => React.createElement("div", { key: _k.l, style: { background: "var(--card)", border: "1px solid var(--border-2)", borderRadius: 14, padding: "14px 16px" } }, React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", fontWeight: 600, marginBottom: 6, letterSpacing: .3 } }, _k.l), React.createElement("div", { style: { fontSize: 26, fontWeight: 700, color: _k.c, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1 } }, _k.v))));
 })(),
-!isMobile && React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8, fontStyle: "italic" } }, "\u2192 Doppio click su una riga per aprire la scheda dettaglio dell'apparecchio"),
-isMobile && assetMobileView === "table" && assets.length > 0 && React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8, fontStyle: "italic" } }, "\u2192 Tocca le intestazioni per ordinare \u00B7 scorri lateralmente \u00B7 filtri sotto ogni colonna"),
+!isMobile && React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8, fontStyle: "italic" } }, __t("\u2192 Doppio click su una riga per aprire la scheda dettaglio dell'apparecchio")),
+isMobile && assetMobileView === "table" && assets.length > 0 && React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginBottom: 8, fontStyle: "italic" } }, __t("\u2192 Tocca le intestazioni per ordinare \u00B7 scorri lateralmente \u00B7 filtri sotto ogni colonna")),
 assets.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun apparecchio ancora"), subtitle: __t("Inizia aggiungendo il primo apparecchio del tuo parco macchine. Potrai poi gestirne verifiche di sicurezza, interventi e manutenzioni programmate."), actions: [
-{ label: "+ Nuovo apparecchio", onClick: () => setModal({ type: "asset", data: null }), primary: true },
-{ label: "⬆ Importa Excel/CSV", onClick: () => setModal({ type: "assetImport" }) },
+{ label: __t("+ Nuovo apparecchio"), onClick: () => setModal({ type: "asset", data: null }), primary: true },
+{ label: __t("⬆ Importa Excel/CSV"), onClick: () => setModal({ type: "assetImport" }) },
 { label: __t("Importa backup"), onClick: () => setModal({ type: "settings" }) }
 ] })) : (isMobile && assetMobileView === "cards") ? (React.createElement(React.Fragment, null, (() => {
 const filteredAssets = assets.filter(a => {
@@ -3121,7 +3121,7 @@ jobs.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "job", data: null }) }, __t("+ Nuovo")),
-React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportJobs }] }))),
+React.createElement(OverflowMenu, { items: [{ label: __t("\u2B07 Esporta Excel"), onClick: exportJobs }] }))),
 jobs.length > 0 && (React.createElement("div", { style: { display: "flex", gap: 0, marginBottom: 14, background: "var(--bg)", borderRadius: 8, padding: 3, border: "1px solid var(--border-2)", width: "fit-content", maxWidth: "100%", overflow: "auto" } }, [
 ...(jobs.some(j => j.status === "da accettare") ? [{ id: "toaccept", label: __t("Da accettare"), count: jobs.filter(j => j.status === "da accettare").length, color: "#818cf8" }] : []),
 { id: "open", label: __t("Aperti"), count: jobs.filter(j => j.status !== "chiuso").length, color: "#2dd4bf" },
@@ -3146,9 +3146,9 @@ gap: 6,
 f.label,
 React.createElement("span", { style: { fontSize: 10, opacity: .7, fontFamily: "'IBM Plex Mono', monospace" } }, f.count)))))),
 jobs.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun intervento registrato"), subtitle: assets.length === 0 ? __t("Prima registra un apparecchio dal menu Apparecchi, poi potrai aprire job di intervento (correttivi, preventivi, tarature).") : __t("Apri il primo job per tracciare un intervento sui tuoi apparecchi. Puoi gestire timeline, parti utilizzate, ore di manodopera e generare PDF."), actions: assets.length === 0 ? [
-{ label: "+ Nuovo apparecchio", onClick: () => setModal({ type: "asset", data: null }), primary: true }
+{ label: __t("+ Nuovo apparecchio"), onClick: () => setModal({ type: "asset", data: null }), primary: true }
 ] : [
-{ label: "+ Nuovo intervento", onClick: () => setModal({ type: "job", data: null }), primary: true }
+{ label: __t("+ Nuovo intervento"), onClick: () => setModal({ type: "job", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredJobs = jobs.filter(j => {
 if (jobFilter === "open" && j.status === "chiuso")
@@ -3250,14 +3250,14 @@ React.createElement("button", { onClick: () => generateJobPDF(jobs.find(j => j.i
 (tab === "parts" || tab === "withdrawals" || tab === "orders") && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", gap: 6, marginBottom: 14, borderBottom: "1px solid var(--border)", paddingBottom: 0, flexWrap: "wrap" } },
 React.createElement("button", { onClick: () => setTab("parts"), style: { background: tab === "parts" ? "#2dd4bf18" : "transparent", color: tab === "parts" ? "#2dd4bf" : "var(--text-2)", border: "none", borderBottom: tab === "parts" ? "2px solid #2dd4bf" : "2px solid transparent", padding: "8px 14px", cursor: "pointer", fontSize: 13, fontWeight: 700, marginBottom: -1, touchAction: "manipulation" } },
-" Stock parti",
+__t(" Stock parti"),
 stats.lowStock > 0 ? ` (${stats.lowStock}⚠)` : ""),
 React.createElement("button", { onClick: () => setTab("withdrawals"), style: { background: tab === "withdrawals" ? "#2dd4bf18" : "transparent", color: tab === "withdrawals" ? "#2dd4bf" : "var(--text-2)", border: "none", borderBottom: tab === "withdrawals" ? "2px solid #2dd4bf" : "2px solid transparent", padding: "8px 14px", cursor: "pointer", fontSize: 13, fontWeight: 700, marginBottom: -1, touchAction: "manipulation" } },
-" Scarichi (",
+__t(" Scarichi ("),
 withdrawals.length,
 ")"),
 React.createElement("button", { onClick: () => setTab("orders"), style: { background: tab === "orders" ? "#2dd4bf18" : "transparent", color: tab === "orders" ? "#2dd4bf" : "var(--text-2)", border: "none", borderBottom: tab === "orders" ? "2px solid #2dd4bf" : "2px solid transparent", padding: "8px 14px", cursor: "pointer", fontSize: 13, fontWeight: 700, marginBottom: -1, touchAction: "manipulation" } },
-" Ordini (",
+__t(" Ordini ("),
 orders.length,
 ")")))),
 tab === "parts" && (React.createElement("div", null,
@@ -3267,17 +3267,17 @@ React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, d
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 __t("Costo: \u20AC"),
 stats.stockValue.toFixed(2),
-" \u00B7 Vendita: \u20AC",
+__t(" \u00B7 Vendita: \u20AC"),
 stats.stockSellValue.toFixed(2),
 " \u00B7 ",
 stats.lowStock,
 " sotto min.")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, " Scarica"),
+React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, __t(" Scarica")),
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "part", data: null }) }, __t("+ Nuova")),
-React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportParts }] }))),
+React.createElement(OverflowMenu, { items: [{ label: __t("\u2B07 Esporta Excel"), onClick: exportParts }] }))),
 parts.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Magazzino vuoto"), subtitle: __t("Aggiungi le parti di ricambio del tuo magazzino: avrai sotto controllo stock minimo, alert sotto-scorta, costo e prezzo vendita per ogni codice."), actions: [
-{ label: "+ Nuova parte", onClick: () => setModal({ type: "part", data: null }), primary: true }
+{ label: __t("+ Nuova parte"), onClick: () => setModal({ type: "part", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredParts = parts.filter(p => {
 const q = mobileSearch.parts.toLowerCase();
@@ -3330,7 +3330,7 @@ React.createElement("span", { style: { color: "#22c55e", fontWeight: 700, fontFa
 "\u20AC",
 parseFloat(p.sellPrice || p.unitPrice || 0).toFixed(2)))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 36px", gap: 0, background: "var(--bg)" } },
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "withdrawal", partId: p.id }); }, style: { background: "transparent", color: "#22c55e", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2193 Scarica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "withdrawal", partId: p.id }); }, style: { background: "transparent", color: "#22c55e", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u2193 Scarica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: "part", data: p }); }, style: { background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); delPart(p.id); }, title: __t("Elimina"), style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 4px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))));
@@ -3363,7 +3363,7 @@ customers.length,
 " totali")),
 isAdmin && React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "customer", data: null }) }, __t("+ Nuovo"))),
 customers.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun cliente registrato"), subtitle: __t("Aggiungi i tuoi clienti (cliniche, ospedali, studi medici, RSA) per associare apparecchi, preventivi e interventi."), actions: isAdmin ? [
-{ label: "+ Nuovo cliente", onClick: () => setModal({ type: "customer", data: null }), primary: true }
+{ label: __t("+ Nuovo cliente"), onClick: () => setModal({ type: "customer", data: null }), primary: true }
 ] : [] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredCust = customers.filter(c => {
 const q = mobileSearch.customers.toLowerCase();
@@ -3434,9 +3434,9 @@ invoices.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "invoice", data: null }) }, __t("+ Nuova")),
-React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportInvoices }] }))),
+React.createElement(OverflowMenu, { items: [{ label: __t("\u2B07 Esporta Excel"), onClick: exportInvoices }] }))),
 invoices.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessun preventivo emesso"), subtitle: __t("Crea preventivi professionali per i tuoi clienti. Puoi importare manodopera e parti direttamente da un job esistente."), actions: [
-{ label: "+ Nuovo preventivo", onClick: () => setModal({ type: "invoice", data: null }), primary: true }
+{ label: __t("+ Nuovo preventivo"), onClick: () => setModal({ type: "invoice", data: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredInvoices = invoices.filter(i => {
 const q = mobileSearch.invoices.toLowerCase();
@@ -3537,7 +3537,7 @@ React.createElement(ExcelTable, { exportName: "MedTrace_scadenzario_verifiche", 
 { key: "nextService", label: __t("Data manut.") },
 { key: "daysToService", label: __t("Scadenza"), render: v => React.createElement(AlertChip, { days: v }) },
 { key: "serviceInterval", label: __t("Intervallo (mesi)") },
-], rows: assets.filter(a => a.nextService).map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "", daysToService: Math.round((new Date(a.nextService) - new Date()) / 86400000) })); }), actions: row => (React.createElement("button", { onClick: () => setModal({ type: "job", data: { assetId: row.id, type: "preventiva", priority: "normale", status: "aperto", description: __t("Manutenzione programmata"), openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, "+ Job")) }))),
+], rows: assets.filter(a => a.nextService).map(a => { var _a; return (Object.assign(Object.assign({}, a), { cliente: ((_a = customers.find(c => c.id === a.customerId)) === null || _a === void 0 ? void 0 : _a.name) || "", daysToService: Math.round((new Date(a.nextService) - new Date()) / 86400000) })); }), actions: row => (React.createElement("button", { onClick: () => setModal({ type: "job", data: { assetId: row.id, type: "preventiva", priority: "normale", status: "aperto", description: __t("Manutenzione programmata"), openDate: new Date().toISOString().slice(0, 10), parts: [], laborHours: 0, laborRate: 55, notes: "", timeline: [], photos: [] } }), style: { background: "#2dd4bf15", border: "1px solid #2563eb33", borderRadius: 6, color: "#5eead4", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, __t("+ Job"))) }))),
 tab === "finance" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, __t("Analytics & Report")),
@@ -3553,7 +3553,7 @@ React.createElement(Pill, { label: __t("Costo parti acquistate"), value: "€" +
 React.createElement(Pill, { label: __t("Costo parti usate"), value: "€" + financials.costsPartsUsed.toFixed(2), color: "#f97316" })),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 12, padding: "16px", border: "1px solid var(--border-2)", marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center" } },
 React.createElement("div", null,
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 4 } }, " Margine Lordo Stimato"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 4 } }, __t(" Margine Lordo Stimato")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)" } }, __t("Ricavi \u2212 costo parti usate nei job"))),
 React.createElement("span", { style: { color: "#22c55e", fontWeight: 800, fontSize: 22, fontFamily: "'IBM Plex Mono', monospace" } },
 "\u20AC",
@@ -3569,7 +3569,7 @@ React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", text
 __t("Preventivi del periodo ("),
 financials.periodInvoices.length,
 ")"),
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportInvoices }, "\u2B07 Excel")),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportInvoices }, __t("\u2B07 Excel"))),
 financials.periodInvoices.map(inv => {
 const cust = customers.find(c => c.id === inv.customerId);
 const tot = inv.items.reduce((s, it) => s + it.qty * it.unitPrice * (1 + it.vat / 100), 0);
@@ -3586,7 +3586,7 @@ tab === "ppm" && (React.createElement(PpmPage, { setModal: setModal, ppmReports:
 tab === "func" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, " Verifiche Funzionali"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t(" Verifiche Funzionali")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 "IEC 60601-1/2 \u2014 ",
 funcReports.length,
@@ -3596,11 +3596,11 @@ Object.keys(allTemplates).length - 1,
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "func", data: null, assetId: null }) }, __t("+ Nuova verifica")),
 React.createElement(OverflowMenu, { items: [
-{ label: "\u2699 Gestione template", onClick: () => setModal({ type: "templateManager" }) },
-{ label: "\u2699 Checklist PPM", onClick: () => setModal({ type: "ppmChecklist" }) }
+{ label: __t("\u2699 Gestione template"), onClick: () => setModal({ type: "templateManager" }) },
+{ label: __t("\u2699 Checklist PPM"), onClick: () => setModal({ type: "ppmChecklist" }) }
 ] }))),
 funcReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u2713", title: __t("Nessuna verifica funzionale"), subtitle: "Esegui test di funzionalità periodici sui tuoi apparecchi. Template disponibili: " + Object.values(allTemplates).map(t => t.label).join(", ") + ".", actions: [
-{ label: "+ Nuova verifica funzionale", onClick: () => setModal({ type: "func", data: null, assetId: null }), primary: true }
+{ label: __t("+ Nuova verifica funzionale"), onClick: () => setModal({ type: "func", data: null, assetId: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredFunc = funcReports.filter(r => {
 const q = mobileSearch.func.toLowerCase();
@@ -3718,16 +3718,16 @@ React.createElement("button", { onClick: () => generateFuncPDF(rep, a, c, compan
 tab === "iec" && (React.createElement("div", null,
 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 } },
 React.createElement("div", null,
-React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, "\u26A1 Verifiche di Sicurezza Elettrica"),
+React.createElement("h1", { style: { margin: 0, fontSize: 18, fontWeight: 800, display: isMobile ? "none" : "block" } }, __t("\u26A1 Verifiche di Sicurezza Elettrica")),
 React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace" } },
 "IEC 62353 \u00B7 IEC 61010-1 \u00B7 ",
 iecReports.length,
 __t(" rapporti"))),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "iec", data: null, assetId: null }) }, __t("+ Nuova verifica")),
-React.createElement(OverflowMenu, { items: [{ label: "\u2B07 Esporta Excel", onClick: exportIecReports }] }))),
+React.createElement(OverflowMenu, { items: [{ label: __t("\u2B07 Esporta Excel"), onClick: exportIecReports }] }))),
 iecReports.length === 0 ? (React.createElement(EmptyState, { icon: "\u26A1", title: __t("Nessuna verifica di sicurezza elettrica"), subtitle: __t("Esegui verifiche periodiche IEC 62353 (elettromedicali) o IEC 61010-1 (laboratorio): misure di PE, isolamento, dispersioni Equipment Leakage e Applied Part. Metodi supportati: diretto, differenziale, alternativo."), actions: [
-{ label: "+ Nuova verifica sicurezza elettrica", onClick: () => setModal({ type: "iec", data: null, assetId: null }), primary: true }
+{ label: __t("+ Nuova verifica sicurezza elettrica"), onClick: () => setModal({ type: "iec", data: null, assetId: null }), primary: true }
 ] })) : isMobile ? (React.createElement(React.Fragment, null, (() => {
 const filteredIec = iecReports.filter(r => {
 const q = mobileSearch.iec.toLowerCase();
@@ -3858,7 +3858,7 @@ React.createElement("select", { value: scheduleYear, onChange: e => setScheduleY
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: () => {
 const rows = scheduleRows;
 downloadXLSX("pianificazione-" + scheduleYear + ".xlsx", rows, [{ key: "month", label: __t("Mese") }, { key: "assetName", label: __t("Apparecchio") }, { key: "brand", label: __t("Marca") }, { key: "serial", label: __t("N.Serie") }, { key: "location", label: __t("Ubicazione") }, { key: "customer", label: __t("Cliente") }, { key: "norm", label: __t("Norma IEC") }, { key: "lastService", label: __t("Ultima verifica") }, { key: "nextService", label: __t("Data pianificata") }, { key: "status", label: __t("Stato apparecchio") }]);
-} }, "\u2B07 Excel Pianificazione"))),
+} }, __t("\u2B07 Excel Pianificazione")))),
 scheduleMonths.every(m => m.items.length === 0) ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, ""),
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } },
@@ -3908,7 +3908,7 @@ stats.pendingOrders,
 orders.length,
 " totali")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportOrders }, "\u2B07 Excel"),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: exportOrders }, __t("\u2B07 Excel")),
 React.createElement(Btn, { sm: true, onClick: () => setModal({ type: "order", data: null }) }, __t("+ Nuovo")))),
 orders.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, ""),
@@ -3929,7 +3929,7 @@ v) },
 ], rows: orders.map(o => { var _a; return (Object.assign(Object.assign({}, o), { nomeParte: ((_a = parts.find(p => p.id === o.partId)) === null || _a === void 0 ? void 0 : _a.name) || o.partId, totale: (o.qty * o.unitPrice).toFixed(2) })); }), onEdit: row => setModal({ type: "order", data: orders.find(o => o.id === row.id) }), onDelete: id => delOrder(id), actions: row => {
 const o = orders.find(x => x.id === row.id);
 return (o === null || o === void 0 ? void 0 : o.status) !== "ricevuto" && (o === null || o === void 0 ? void 0 : o.status) !== "annullato"
-? React.createElement("button", { onClick: () => quickReceive(o), style: { background: "#22c55e15", border: "1px solid #22c55e33", borderRadius: 6, color: "#22c55e", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, "\u2713 Ricevuto")
+? React.createElement("button", { onClick: () => quickReceive(o), style: { background: "#22c55e15", border: "1px solid #22c55e33", borderRadius: 6, color: "#22c55e", padding: "3px 8px", cursor: "pointer", fontSize: 11, whiteSpace: "nowrap" } }, __t("\u2713 Ricevuto"))
 : null;
 } })))),
 tab === "withdrawals" && (React.createElement("div", null,
@@ -3940,7 +3940,7 @@ React.createElement("p", { style: { color: "var(--text-3)", margin: "2px 0 0", f
 "\u20AC",
 withdrawals.reduce((s, w) => s + w.total, 0).toFixed(2),
 " totali")),
-parts.length > 0 && assets.length > 0 && React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, " Nuovo")),
+parts.length > 0 && assets.length > 0 && React.createElement(Btn, { sm: true, variant: "success", onClick: () => setModal({ type: "withdrawal" }) }, __t(" Nuovo"))),
 withdrawals.length === 0 ? (React.createElement("div", { style: { textAlign: "center", padding: "40px 18px", background: "var(--surface)", borderRadius: 12, border: "1px dashed var(--border)" } },
 React.createElement("div", { style: { fontSize: 40, marginBottom: 10, opacity: .5 } }, "\u2193"),
 React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text-2)", marginBottom: 6 } }, __t("Nessuno scarico")),
@@ -3983,10 +3983,10 @@ React.createElement(PpmChecklistEditor, { onClose: popModal, showToast: showToas
 (modal === null || modal === void 0 ? void 0 : modal.type) === "sticker" && (() => {
 const stickerAsset = assets.find(a => { var _a; return a.id === (((_a = modal.data) === null || _a === void 0 ? void 0 : _a.assetId) || modal.assetId); });
 const stickerCustomer = customers.find(c => { var _a; return c.id === (((_a = modal.data) === null || _a === void 0 ? void 0 : _a.customerId) || (stickerAsset === null || stickerAsset === void 0 ? void 0 : stickerAsset.customerId)); });
-return (React.createElement(Modal, { title: modal.kind === "asset" ? "\uD83C\uDFF7 Sticker apparecchio" : __t("Sticker QR verifica"), onClose: popModal },
+return (React.createElement(Modal, { title: modal.kind === "asset" ? __t("\uD83C\uDFF7 Sticker apparecchio") : __t("Sticker QR verifica"), onClose: popModal },
 React.createElement(StickerModal, { report: modal.data || {}, asset: stickerAsset, customer: stickerCustomer, company: company, kind: modal.kind, assets: assets, onClose: popModal })));
 })(),
-(modal === null || modal === void 0 ? void 0 : modal.type) === "scadenzaEmail" && (React.createElement(Modal, { title: "\u2709 Promemoria scadenza", onClose: popModal },
+(modal === null || modal === void 0 ? void 0 : modal.type) === "scadenzaEmail" && (React.createElement(Modal, { title: __t("\u2709 Promemoria scadenza"), onClose: popModal },
 React.createElement(ScadenzaEmailModal, { sc: modal.data, company: company, onClose: popModal }))),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "clientReport" && (React.createElement(Modal, { title: __t("Report parco macchine"), wide: true, onClose: popModal },
 React.createElement(ClientReportModal, { customer: modal.data, assets: assets, iecReports: iecReports, funcReports: funcReports, jobs: jobs, company: company, onClose: popModal }))),
@@ -3994,7 +3994,7 @@ csvModal && (React.createElement("div", { style: { position: "fixed", inset: 0, 
 React.createElement("div", { style: { background: "var(--surface-2)", border: "1px solid var(--border)", borderRadius: 14, width: "min(640px,97vw)", maxHeight: "90vh", display: "flex", flexDirection: "column", overflow: "hidden" } },
 React.createElement("div", { style: { padding: "16px 20px", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 } },
 React.createElement("div", null,
-React.createElement("div", { style: { fontWeight: 800, fontSize: 14, color: "var(--text)" } }, csvModal.isJson ? " Backup JSON" : " Esporta dati"),
+React.createElement("div", { style: { fontWeight: 800, fontSize: 14, color: "var(--text)" } }, csvModal.isJson ? __t(" Backup JSON") : __t(" Esporta dati")),
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginTop: 2, fontFamily: "'IBM Plex Mono', monospace" } }, csvModal.filename)),
 React.createElement("button", { onClick: () => setCsvModal(null), style: { background: "none", border: "none", color: "var(--text-3)", fontSize: 22, cursor: "pointer", lineHeight: 1 } }, "\u00D7")),
 React.createElement("div", { style: { padding: "14px 20px", flex: 1, overflow: "auto", display: "flex", flexDirection: "column", gap: 12 } },
@@ -4004,9 +4004,9 @@ React.createElement("strong", { style: { color: "var(--text)" } },
 __t("Backup completo ("),
 csvModal.filename,
 "):"),
-" Clicca \"Copia tutto\", poi apri Blocco Note, incolla e salva come ",
+__t(" Clicca \"Copia tutto\", poi apri Blocco Note, incolla e salva come "),
 React.createElement("strong", { style: { color: "#22c55e" } }, ".json"),
-". Per ripristinare: Impostazioni \u2192 Importa backup.")
+__t(". Per ripristinare: Impostazioni \u2192 Importa backup."))
 : React.createElement(React.Fragment, null,
 React.createElement("strong", { style: { color: "var(--text)" } }, __t("Esporta dati:")),
 __t(" il download diretto di Excel non \u00E8 disponibile su questo dispositivo, quindi clicca \"Copia tutto\" e incolla i dati direttamente in Excel o Google Sheets (oppure salvali come file di testo .csv, che Excel apre)."))),
@@ -4035,7 +4035,7 @@ showToast(__t("Seleziona il testo e copia con Ctrl+C"), "#f59e0b");
 React.createElement("button", { onClick: () => setCsvModal(null), style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 } }, __t("Chiudi")))))),
 pdfHtml && (React.createElement("div", { style: { position: "fixed", inset: 0, background: "#000e", zIndex: 1000, display: "flex", flexDirection: "column" } },
 React.createElement("div", { style: { background: "var(--bg)", borderBottom: "1px solid var(--border)", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexShrink: 0, flexWrap: "wrap" } },
-React.createElement("span", { style: { color: "var(--text)", fontWeight: 700, fontSize: 14 } }, " Anteprima documento"),
+React.createElement("span", { style: { color: "var(--text)", fontWeight: 700, fontSize: 14 } }, __t(" Anteprima documento")),
 React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
 React.createElement("button", { onClick: () => {
 const iframe = document.getElementById('pdf-print-iframe');
@@ -4052,12 +4052,12 @@ catch (err) {
 alert('Stampa non disponibile su questo dispositivo: ' + ((err === null || err === void 0 ? void 0 : err.message) || 'errore sconosciuto'));
 }
 }, style: { background: "#2dd4bf", color: "#000", border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, fontWeight: 800, display: "inline-flex", alignItems: "center", gap: 6, touchAction: "manipulation" } }, __t("Salva PDF")),
-React.createElement("button", { onClick: () => setPdfHtml(null), style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "7px 14px", cursor: "pointer", fontSize: 12, fontWeight: 700, touchAction: "manipulation" } }, "\u2715 Chiudi"))),
+React.createElement("button", { onClick: () => setPdfHtml(null), style: { background: "var(--surface-2)", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 8, padding: "7px 14px", cursor: "pointer", fontSize: 12, fontWeight: 700, touchAction: "manipulation" } }, __t("\u2715 Chiudi")))),
 React.createElement("div", { style: { flex: 1, overflow: "auto", background: "#f0f0f0", display: "flex", justifyContent: "center" } },
 React.createElement("iframe", { id: "pdf-print-iframe", srcDoc: pdfHtml, style: { background: "#fff", width: "100%", maxWidth: "210mm", height: "100%", border: "none", boxShadow: "0 4px 24px #0004" }, title: __t("Anteprima documento") })),
 React.createElement("div", { style: { background: "var(--bg)", borderTop: "1px solid var(--border)", padding: "8px 16px", fontSize: 11, color: "var(--text-3)", flexShrink: 0, textAlign: "center" } },
 __t("Clicca \"Salva PDF\" \u2192 nel dialogo di stampa scegli "),
-React.createElement("strong", { style: { color: "var(--text-2)" } }, "\"Salva come PDF\""),
+React.createElement("strong", { style: { color: "var(--text-2)" } }, __t("\"Salva come PDF\"")),
 " come destinazione (su Android: \"Salva come PDF\" / su iOS: \"Salva su File\")"))),
 (modal === null || modal === void 0 ? void 0 : modal.type) === "iec" && (React.createElement(Modal, { title: modal.data ? __t("Modifica Verifica di Sicurezza Elettrica") : __t("Nuova Verifica di Sicurezza Elettrica"), wide: true, onClose: popModal },
 ((modal.data || modal.classic)

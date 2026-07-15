@@ -120,7 +120,7 @@ React.createElement("h2", { style: { fontSize: 19, fontWeight: 800, color: 'var(
 React.createElement("p", { style: { fontSize: 13, color: 'var(--text-2)', lineHeight: 1.55, marginBottom: 18 } },
 __t("Sei l'amministratore (superuser) di "),
 React.createElement("strong", { style: { color: 'var(--text)' } }, orgName.trim()),
-". Questo \u00E8 il ",
+__t(". Questo \u00E8 il "),
 React.createElement("strong", { style: { color: '#2dd4bf' } }, "codice invito"),
 " con cui i tuoi colleghi si registrano:"),
 React.createElement("div", { onClick: () => { try {
@@ -129,7 +129,7 @@ navigator.clipboard.writeText(createdCode);
 setCopied(true);
 }
 catch (e) { } }, style: { background: 'var(--bg)', border: '1px dashed #2dd4bf66', borderRadius: 10, padding: '14px 10px', fontFamily: 'monospace', fontSize: 20, fontWeight: 800, letterSpacing: 2, color: '#2dd4bf', cursor: 'pointer', marginBottom: 8, wordBreak: 'break-all' } }, createdCode),
-React.createElement("div", { style: { fontSize: 11, color: copied ? '#2dd4bf' : 'var(--text-3)', marginBottom: 22 } }, copied ? '✓ Copiato negli appunti' : __t('Tocca per copiare · Conservalo: serve ai colleghi per registrarsi')),
+React.createElement("div", { style: { fontSize: 11, color: copied ? '#2dd4bf' : 'var(--text-3)', marginBottom: 22 } }, copied ? __t('✓ Copiato negli appunti') : __t('Tocca per copiare · Conservalo: serve ai colleghi per registrarsi')),
 React.createElement("button", { onClick: () => { if (createdUser)
 onLogin(createdUser);
 else
@@ -144,7 +144,7 @@ React.createElement("path", { d: "M6 24 Q11 14 16 24 Q21 34 26 24", strokeWidth:
 React.createElement("path", { d: "M1 24 Q9 10 16 24 Q23 38 31 24", strokeWidth: "2.5" }),
 React.createElement("path", { d: "M-4 24 Q7 6 16 24 Q25 42 36 24", strokeWidth: "2.5" }),
 React.createElement("circle", { cx: "42", cy: "24", r: "3.5", fill: "#2dd4bf", stroke: "none" })),
-React.createElement("text", { x: "54", y: "28", fontFamily: "'Segoe UI',Arial,sans-serif", fontSize: "20", fontWeight: "800", style: { fill: "var(--text-bright)" }, letterSpacing: "-0.5" }, "MedTrace"),
+React.createElement("text", { x: "54", y: "28", fontFamily: "'Segoe UI',Arial,sans-serif", fontSize: "20", fontWeight: "800", style: { fill: "var(--text-bright)" }, letterSpacing: "-0.5" }, __t("MedTrace")),
 React.createElement("text", { x: "54", y: "40", fontFamily: "'Segoe UI',Arial,sans-serif", fontSize: "8.5", fontWeight: "600", fill: "#5A5A70", letterSpacing: "1.5" }, "MEDICAL")),
 React.createElement("p", { style: { color: 'var(--text-3)', fontSize: 11, marginTop: 10, letterSpacing: 1.5, textTransform: 'uppercase' } }, __t("Gestione Apparecchiature Elettromedicali"))),
 React.createElement("div", { style: { background: 'var(--surface)', border: '1px solid #2A2A38', borderRadius: 14, padding: 32 } },

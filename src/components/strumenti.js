@@ -65,7 +65,7 @@ React.createElement("div", { style: { borderTop: "1px solid var(--border-2)", pa
 React.createElement("div", { style: FORM_SECTION }, "Apparecchi coinvolti (" + ((f.affected || []).length) + ")"),
 React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" } },
 React.createElement("select", { value: pick, onChange: e => addAsset(e.target.value), style: Object.assign({}, FORM_INP, { flex: 1, minWidth: 180 }) },
-React.createElement("option", { value: "" }, available.length ? "+ Aggiungi apparecchio…" : __t("Tutti gli apparecchi sono già collegati")),
+React.createElement("option", { value: "" }, available.length ? __t("+ Aggiungi apparecchio…") : __t("Tutti gli apparecchi sono già collegati")),
 available.map(a => React.createElement("option", { key: a.id, value: a.id }, assetLabel(a.id)))),
 React.createElement("button", { type: "button", onClick: suggest, style: FORM_BTN_GHOST }, __t("Suggerisci per marca"))),
 (f.affected || []).length === 0
@@ -120,7 +120,7 @@ React.createElement("div", { style: { display: "flex", justifyContent: "space-be
 React.createElement("div", null,
 React.createElement("h2", { style: { margin: 0, fontSize: 18, color: "var(--text)" } }, __t("Avvisi di sicurezza")),
 React.createElement("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Richiami e avvisi di sicurezza (FSN) e azioni correttive di campo"))),
-React.createElement("button", { onClick: () => setModal({ data: null }), style: FORM_BTN_PRIMARY }, "+ Nuovo avviso")),
+React.createElement("button", { onClick: () => setModal({ data: null }), style: FORM_BTN_PRIMARY }, __t("+ Nuovo avviso"))),
 React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" } },
 React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: __t("Cerca produttore, oggetto, rif…"), style: Object.assign({}, FORM_INP, { flex: 1, minWidth: 160 }) }),
 React.createElement("select", { value: fStatus, onChange: e => setFStatus(e.target.value), style: Object.assign({}, FORM_INP, { maxWidth: 180 }) },
@@ -187,7 +187,7 @@ const newInst = withCreateMeta(data);
 setInstruments(prev => [...prev, newInst]);
 }
 setModal(null);
-showToast('✓ Strumento salvato');
+showToast(__t('✓ Strumento salvato'));
 };
 const deleteInstrument = (id) => {
 if (checkLocked && checkLocked())
@@ -237,7 +237,7 @@ expiring,
 " in scadenza \u00B7 ",
 expired,
 " scaduti")),
-React.createElement(Btn, { sm: true, onClick: () => setModal({ type: 'form', data: null }) }, "+ Nuovo strumento")),
+React.createElement(Btn, { sm: true, onClick: () => setModal({ type: 'form', data: null }) }, __t("+ Nuovo strumento"))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)", gap: 10, marginBottom: 16 } }, [
 { label: __t('Totale'), value: instruments.length, color: '#2dd4bf' },
 { label: __t('Validi'), value: valid, color: '#22c55e' },
@@ -247,7 +247,7 @@ React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMo
 React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: k.color, fontFamily: "'IBM Plex Mono', monospace", lineHeight: 1 } }, k.value),
 React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 5, textTransform: "uppercase", letterSpacing: .8, fontWeight: 700 } }, k.label))))),
 instruments.length === 0 ? (React.createElement(EmptyState, { icon: "", title: __t("Nessuno strumento di misura"), subtitle: __t("Registra i tuoi analizzatori, simulatori e multimetri: marca, modello, n\u00B0 serie, certificato di calibrazione e scadenza. Garantisce la rintracciabilit\u00E0 delle tue verifiche."), actions: [
-{ label: "+ Nuovo strumento", onClick: () => setModal({ type: 'form', data: null }), primary: true }
+{ label: __t("+ Nuovo strumento"), onClick: () => setModal({ type: 'form', data: null }), primary: true }
 ] })) : (React.createElement(React.Fragment, null,
 React.createElement(MobileSearch, { value: search, onChange: setSearch, placeholder: __t("Cerca per marca, modello, seriale, categoria\u2026"), count: filtered.length, total: instruments.length }),
 React.createElement(FilterDropdown, { filters: {
@@ -287,8 +287,8 @@ inst.calLab && React.createElement("div", { style: { fontSize: 11, color: "var(-
 __t("Lab: "),
 inst.calLab)),
 React.createElement("div", { style: { display: "flex", justifyContent: "space-around", background: "var(--bg-2)" } },
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: 'renew', data: inst }); }, style: { flex: 1, background: "transparent", color: "#2dd4bf", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u21BB Rinnova"),
-React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: 'form', data: inst }); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u270F Modifica"),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: 'renew', data: inst }); }, style: { flex: 1, background: "transparent", color: "#2dd4bf", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u21BB Rinnova")),
+React.createElement("button", { onClick: (e) => { e.stopPropagation(); setModal({ type: 'form', data: inst }); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "10px 4px", fontSize: 11, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: (e) => { e.stopPropagation(); deleteInstrument(inst.id); }, style: { background: "transparent", color: "#ef4444", border: "none", padding: "10px 14px", fontSize: 14, fontWeight: 700, cursor: "pointer", touchAction: "manipulation" } }, "\u2715")))));
 }))) : (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } }, filtered.map(inst => {
 const status = getStatus(inst);
@@ -321,14 +321,14 @@ __t("Cert.: "),
 React.createElement("span", { style: { color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, inst.certNumber))),
 inst.notes && React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", marginTop: 6, background: "var(--bg)", borderRadius: 6, padding: "6px 10px", border: "1px solid var(--border-2)" } }, inst.notes)),
 React.createElement("div", { style: { display: "flex", gap: 6, flexShrink: 0 } },
-React.createElement("button", { onClick: () => setModal({ type: 'renew', data: inst }), style: { background: "transparent", color: "#2dd4bf", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "5px 12px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u21BB Rinnova"),
-React.createElement("button", { onClick: () => setModal({ type: 'form', data: inst }), style: { background: "transparent", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "5px 12px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u270F Modifica"),
+React.createElement("button", { onClick: () => setModal({ type: 'renew', data: inst }), style: { background: "transparent", color: "#2dd4bf", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "5px 12px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, __t("\u21BB Rinnova")),
+React.createElement("button", { onClick: () => setModal({ type: 'form', data: inst }), style: { background: "transparent", color: "var(--text-2)", border: "1px solid var(--border)", borderRadius: 6, padding: "5px 12px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, __t("\u270F Modifica")),
 React.createElement("button", { onClick: () => deleteInstrument(inst.id), style: { background: "transparent", color: "#ef4444", border: "1px solid #ef444433", borderRadius: 6, padding: "5px 12px", cursor: "pointer", fontSize: 11, fontWeight: 700 } }, "\u2715")))));
 }))))),
 (modal === null || modal === void 0 ? void 0 : modal.type) === 'form' && (React.createElement(Modal, { title: modal.data ? __t('Modifica Strumento') : __t('Nuovo Strumento'), onClose: () => setModal(null) },
 React.createElement(InstrumentForm, { initial: modal.data, onSave: saveInstrument, onClose: () => setModal(null) }))),
 (modal === null || modal === void 0 ? void 0 : modal.type) === 'renew' && (React.createElement(Modal, { title: __t("Rinnova Calibrazione"), onClose: () => setModal(null) },
-React.createElement(RenewCalibrationForm, { instrument: modal.data, onSave: (data) => { saveInstrument(data); showToast('✓ Calibrazione rinnovata'); }, onClose: () => setModal(null) })))));
+React.createElement(RenewCalibrationForm, { instrument: modal.data, onSave: (data) => { saveInstrument(data); showToast(__t('✓ Calibrazione rinnovata')); }, onClose: () => setModal(null) })))));
 }
 function InstrumentForm({ initial, onSave, onClose }) {
 const [form, setForm] = React.useState(initial || {
@@ -367,7 +367,7 @@ React.createElement("input", { style: INP, value: form.internalCode, onChange: e
 React.createElement("div", { style: { marginBottom: 12 } },
 React.createElement("label", { style: LBL }, __t("Categoria")),
 React.createElement("select", { style: INP, value: form.category, onChange: e => set('category', e.target.value) },
-React.createElement("option", { value: "" }, "\u2014 Seleziona \u2014"),
+React.createElement("option", { value: "" }, __t("\u2014 Seleziona \u2014")),
 CATEGORIES.map(c => React.createElement("option", { key: c, value: c }, c)))),
 React.createElement("div", { style: { borderTop: '1px solid #2A2A38', margin: '14px 0 12px', paddingTop: 14 } },
 React.createElement("div", { style: { fontSize: 11, color: '#2dd4bf', fontWeight: 700, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 1 } }, __t("Dati Calibrazione")),
@@ -440,7 +440,7 @@ React.createElement("label", { style: LBL }, __t("N\u00B0 Nuovo certificato")),
 React.createElement("input", { style: INP, value: form.certNumber, onChange: e => set('certNumber', e.target.value), placeholder: "es. CAL-2026-0456" })),
 React.createElement("div", { style: { display: 'flex', gap: 8, justifyContent: 'flex-end' } },
 React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, __t("Annulla")),
-React.createElement("button", { onClick: () => onSave(form), style: FORM_BTN_PRIMARY }, "\u21BB Salva rinnovo"))));
+React.createElement("button", { onClick: () => onSave(form), style: FORM_BTN_PRIMARY }, __t("\u21BB Salva rinnovo")))));
 }
 export function TemplateEditor({ initial, existingTemplates, onSave, onClose }) {
 const [tpl, setTpl] = React.useState(() => initial ? JSON.parse(JSON.stringify(initial)) : blankTemplate());
@@ -526,7 +526,7 @@ React.createElement("input", { style: FORM_INP, value: tpl.norm, onChange: e => 
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-3)", marginBottom: 14, lineHeight: 1.5, background: "#1e2a3a44", borderRadius: 8, padding: "10px 12px" } },
 __t("Costruisci il template aggiungendo "),
 React.createElement("strong", { style: { color: "var(--text-2)" } }, "sezioni"),
-". Ogni sezione pu\u00F2 contenere",
+__t(". Ogni sezione pu\u00F2 contenere"),
 React.createElement("strong", { style: { color: "#5eead4" } }, __t(" controlli s\u00EC/no")),
 " (ispezioni visive, funzionali) e",
 React.createElement("strong", { style: { color: "#a855f7" } }, " misure numeriche"),
@@ -548,7 +548,7 @@ ii + 1,
 React.createElement("input", { style: Object.assign(Object.assign({}, FORM_INP), { padding: "7px 10px", fontSize: 13 }), value: it.text, onChange: e => setItemText(si, ii, e.target.value), placeholder: __t("Descrizione del controllo") }),
 React.createElement("button", { onClick: () => removeItem(si, ii), style: DEL_BTN, title: __t("Rimuovi") }, "\u2715")))))),
 (sec.measures || []).length > 0 && (React.createElement("div", { style: { marginBottom: 10 } },
-React.createElement("div", { style: { fontSize: 10, color: "#a855f7", fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: .5 } }, "\u00B1 Misure numeriche"),
+React.createElement("div", { style: { fontSize: 10, color: "#a855f7", fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: .5 } }, __t("\u00B1 Misure numeriche")),
 sec.measures.map((m, mi) => (React.createElement("div", { key: m.id, style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: 10, marginBottom: 8 } },
 React.createElement("div", { style: { display: "flex", gap: 6, marginBottom: 7, alignItems: "center" } },
 React.createElement("input", { style: Object.assign(Object.assign({}, FORM_INP), { padding: "7px 10px", fontSize: 13 }), value: m.name, onChange: e => setMeasureField(si, mi, "name", e.target.value), placeholder: __t("Nome misura (es. Energia erogata)") }),
@@ -560,8 +560,8 @@ React.createElement("input", { style: Object.assign(Object.assign({}, FORM_INP),
 React.createElement("input", { style: Object.assign(Object.assign({}, FORM_INP), { padding: "6px 9px", fontSize: 12 }), type: "number", value: m.limitVal, onChange: e => setMeasureField(si, mi, "limitVal", e.target.value), placeholder: __t("Max") }))))))),
 React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 10 } },
 React.createElement("button", { onClick: () => addItem(si), style: Object.assign(Object.assign({}, MINI_BTN), { color: "#5eead4", borderColor: "#2dd4bf33" }) }, __t("+ Controllo s\u00EC/no")),
-React.createElement("button", { onClick: () => addMeasure(si), style: Object.assign(Object.assign({}, MINI_BTN), { color: "#a855f7", borderColor: "#a855f733" }) }, "+ Misura numerica"))))),
-React.createElement("button", { onClick: addSection, style: Object.assign(Object.assign({}, FORM_BTN_GHOST), { width: "100%", marginBottom: 8, borderStyle: "dashed" }) }, "+ Aggiungi sezione"),
+React.createElement("button", { onClick: () => addMeasure(si), style: Object.assign(Object.assign({}, MINI_BTN), { color: "#a855f7", borderColor: "#a855f733" }) }, __t("+ Misura numerica")))))),
+React.createElement("button", { onClick: addSection, style: Object.assign(Object.assign({}, FORM_BTN_GHOST), { width: "100%", marginBottom: 8, borderStyle: "dashed" }) }, __t("+ Aggiungi sezione")),
 React.createElement("div", { style: FORM_FOOTER },
 React.createElement("button", { onClick: onClose, style: FORM_BTN_GHOST }, __t("Annulla")),
 React.createElement("button", { onClick: handleSave, style: FORM_BTN_PRIMARY }, initial ? __t("Salva modifiche") : __t("Crea template")))));

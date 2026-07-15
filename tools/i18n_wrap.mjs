@@ -3,7 +3,7 @@ import { parse } from "acorn";
 import fs from "node:fs";
 const UI_PROPS = new Set(["label", "placeholder", "title", "subtitle", "msg", "message", "text", "hint", "emptyText", "tooltip", "confirmText", "cancelText", "okText", "header", "description", "name"]);
 const MSG_FNS = new Set(["showToast", "alert", "appConfirm", "appPromptCb", "confirm", "prompt", "die"]);
-const looksUI = (t) => t.trim().length >= 3 && !/^#|^var\(|^https?:|^data:|^[\d.,]+|^[a-z0-9_\-./:@]+$|^[A-Z0-9_]+$/.test(t.trim()) && (/[àèéìòù]/.test(t) || (/^[A-ZÀÈÌÒÙ]/.test(t) && /[a-z]/.test(t)));
+const looksUI = (t) => { const raw = t.trim(); if (raw.length < 3) return false; if (/^#|^var\(|^https?:|^data:|^[\d.,]+$|^[a-z0-9_\-./:@]+$|^[A-Z0-9_]+$/.test(raw)) return false; const s2 = raw.replace(/^[^A-Za-zÀ-ù]+/, ""); return /[àèéìòù]/.test(s2) || (/^[A-ZÀÈÌÒÙ]/.test(s2) && /[a-z]/.test(s2)); };
 function isCreate(n) { return n && n.type === "CallExpression" && ((n.callee.type === "MemberExpression" && n.callee.property && n.callee.property.name === "createElement") || (n.callee.type === "Identifier" && n.callee.name === "h")); }
 for (const file of process.argv.slice(2)) {
   let src = fs.readFileSync(file, "utf8");

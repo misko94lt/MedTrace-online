@@ -328,7 +328,7 @@ h("div", null, h("span", { style: lblStyle }, __t("Apparecchio")),
 h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: __t("Cerca apparecchio…") })),
 f.assetId ? h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 f.templateId === "generico"
-? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Scegli qui sotto il protocollo corretto per questo apparecchio.")))
+? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, __t("⚠ Nessun protocollo specifico rilevato")), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Scegli qui sotto il protocollo corretto per questo apparecchio.")))
 : h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, __t("Protocollo funzionale: "), h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? __t("Chiudi") : __t("Cambia"))),
 (f.templateId === "generico" || tplOpen) ? h("select", { value: f.templateId, onChange: e => pickTpl(e.target.value), style: selStyle }, Object.keys(templates || {}).sort((a, b) => (((templates[a] || {}).label) || a).localeCompare(((templates[b] || {}).label) || b)).map(k => h("option", { key: k, value: k }, ((templates[k] || {}).label) || k))) : null,
 h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, __t("Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti."))) : null,
@@ -363,7 +363,7 @@ h("input", { type: "number", inputMode: "decimal", disabled: isNA, value: isNA ?
 h("span", { style: { fontSize: 13, color: "var(--text-3)" } }, mm.unit),
 h("span", { style: { fontSize: 12, color: "var(--text-4)", marginLeft: "auto" } }, "lim. " + (mm.expected || mm.limit || ("" + mm.limitVal))),
 h("button", { type: "button", onClick: () => setFuncMeas(sec.id, mm.id, isNA ? "" : "na"), style: { background: isNA ? "#6b7280" : "var(--surface-2)", color: isNA ? "#fff" : "var(--text-4)", border: "1px solid " + (isNA ? "#6b7280" : "var(--border)"), borderRadius: 8, padding: "6px 9px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "N/A")),
-verd != null ? h("div", { style: { fontSize: 12, fontWeight: 700, color: verd ? TEAL : RED, marginTop: 5 } }, verd ? "✓ Entro i limiti" : "✗ Fuori limite") : null); }));
+verd != null ? h("div", { style: { fontSize: 12, fontWeight: 700, color: verd ? TEAL : RED, marginTop: 5 } }, verd ? __t("✓ Entro i limiti") : __t("✗ Fuori limite")) : null); }));
 } else if (sObj.key === "meas") {
 const mm = f.iecMeasures[sObj.idx];
 const verd = measVerdict(mm, mm.value);
@@ -376,7 +376,7 @@ h("div", { style: { fontSize: 11, fontWeight: 600, color: "var(--text-3)", textT
 h("div", { style: { display: "flex", alignItems: "center", gap: 10, borderBottom: "2px solid var(--border)", paddingBottom: 8 } },
 h("input", { type: "number", inputMode: "decimal", disabled: mm.na, value: mm.value, onChange: e => setIecMeas(mm.id, e.target.value), placeholder: "—", style: { flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "var(--text)", fontSize: 30, fontWeight: 800, fontFamily: "'IBM Plex Mono', monospace" } }),
 h("span", { style: { fontSize: 17, fontWeight: 700, color: "var(--text-3)" } }, mm.unit)),
-h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ? "var(--text-4)" : verd === true ? TEAL : verd === false ? RED : "var(--text-4)" } }, mm.na ? __t("Non applicabile") : verd === true ? "✓ Entro i limiti" : verd === false ? "✗ Fuori limite" : __t("Inserisci il valore misurato")),
+h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ? "var(--text-4)" : verd === true ? TEAL : verd === false ? RED : "var(--text-4)" } }, mm.na ? __t("Non applicabile") : verd === true ? __t("✓ Entro i limiti") : verd === false ? __t("✗ Fuori limite") : __t("Inserisci il valore misurato")),
 h("div", { style: { display: "flex", gap: 10, marginTop: 12 } },
 h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, __t("Limite normativo")), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
 h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, __t("Margine")), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
@@ -415,7 +415,7 @@ h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
 h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? __t("Indietro") : __t("Esci")),
 cur < TOT - 1
 ? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, __t("Avanti"), h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
-: h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva e genera PDF")),
+: h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, __t("✓ Salva e genera PDF"))),
 (cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? __t("Seleziona l'apparecchio per continuare") : sObj.key === "maint" ? __t("Segna ogni voce (Fatto o N/A) per continuare") : sObj.key === "funcsec" ? __t("Completa voci e misure della sezione") : __t("Inserisci il valore o segna N/A per continuare")) : null);
 }
 export function PpmVerifyForm({ initial, assetId: propAssetId, assets, customers, existingReports, technicians, onSave, onClose, showToast, ppmReports, funcReports, iecReports, onLink, onPdf, setModal, pushModal }) {
@@ -509,7 +509,7 @@ React.createElement("select", { value: livePpm.iecReportId || "", onChange: func
 React.createElement("option", { value: "" }, "\u2014 non collegata \u2014"),
 aIec.map(function (r) { return React.createElement("option", { key: r.id, value: r.id }, (r.reportNumber || r.id) + " \u00b7 " + (r.date || "") + " \u00b7 " + (r.overallPass ? "conforme" : "non conf.")); })),
 React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { pushModal({ type: "iec", assetId: livePpm.assetId, data: null, ppmLink: livePpm.id }); } }, __t("Esegui")))),
-React.createElement(Btn, { onClick: function () { onPdf(livePpm); } }, "\u2193 Scarica PDF unico"));
+React.createElement(Btn, { onClick: function () { onPdf(livePpm); } }, __t("\u2193 Scarica PDF unico")));
 })() : React.createElement("div", { style: { fontSize: 12, color: "var(--text-4)", borderTop: "1px solid var(--border-2)", paddingTop: 12 } }, __t("Salva la checklist, poi riapri la PPM per collegare verifica funzionale e VSE e scaricare il PDF unico.")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 React.createElement(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: function (v) { setF(function (x) { return Object.assign({}, x, { technicianSignature: v }); }); }, height: 120 }),
@@ -527,10 +527,10 @@ React.createElement("div", null,
 React.createElement("div", { style: { fontSize: 18, fontWeight: 800 } }, __t("Manutenzione Programmata")),
 React.createElement("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 2 } }, reports.length + " interventi \u00b7 checklist + funzionale + sicurezza elettrica")),
 React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } },
-React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { setModal({ type: "ppmChecklist" }); } }, "\u2699 Checklist"),
-React.createElement(Btn, { sm: true, onClick: onNew }, "+ Nuova PPM"))),
+React.createElement(Btn, { sm: true, variant: "ghost", onClick: function () { setModal({ type: "ppmChecklist" }); } }, __t("\u2699 Checklist")),
+React.createElement(Btn, { sm: true, onClick: onNew }, __t("+ Nuova PPM")))),
 reports.length === 0
-? React.createElement(EmptyState, { icon: "\u2713", title: __t("Nessuna manutenzione programmata"), subtitle: __t("Esegui la PPM periodica: checklist meccanica, verifica funzionale e sicurezza elettrica in un'unica uscita."), actions: [{ label: "+ Nuova PPM", onClick: onNew, primary: true }] })
+? React.createElement(EmptyState, { icon: "\u2713", title: __t("Nessuna manutenzione programmata"), subtitle: __t("Esegui la PPM periodica: checklist meccanica, verifica funzionale e sicurezza elettrica in un'unica uscita."), actions: [{ label: __t("+ Nuova PPM"), onClick: onNew, primary: true }] })
 : React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 reports.map(function (r) {
 var ok = r.overallPass !== false;
@@ -546,7 +546,7 @@ React.createElement("span", { style: { flexShrink: 0, fontSize: 11, fontWeight: 
 React.createElement("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 6 } }, done + " voci eseguite" + (na ? (" \u00b7 " + na + " N.A.") : ""))),
 React.createElement("div", { style: { display: "flex", borderTop: "1px solid var(--border-2)" } },
 React.createElement("button", { onClick: function () { onPdf(r); }, style: { flex: 1, background: "transparent", color: "#5eead4", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "PDF"),
-React.createElement("button", { onClick: function () { onOpen(r); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u270F Apri"),
-React.createElement("button", { onClick: function () { onDelete(r.id); }, style: { flex: 1, background: "transparent", color: "#ef4444", border: "none", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, "\u2715 Elimina")));
+React.createElement("button", { onClick: function () { onOpen(r); }, style: { flex: 1, background: "transparent", color: "var(--text-2)", border: "none", borderRight: "1px solid var(--border-2)", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, __t("\u270F Apri")),
+React.createElement("button", { onClick: function () { onDelete(r.id); }, style: { flex: 1, background: "transparent", color: "#ef4444", border: "none", padding: "9px 4px", fontSize: 12, fontWeight: 700, cursor: "pointer" } }, __t("\u2715 Elimina"))));
 })));
 }
