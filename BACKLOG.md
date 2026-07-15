@@ -1,14 +1,16 @@
 # MedTrace — Backlog consolidato (da tutti gli audit)
 
-> Aggiornato: 13/07/2026 (v3.30 in produzione). Fonti: [A] Audit "AI-looking → Linear/Notion" 01/07 · [B] Benchmark 5 assi (data model, UX, IEC, GDPR, RFID) 01/07 · [C] Audit portale clienti 01/07 · [D] Deep research UX desktop+mobile 12/07 · [E] Audit visivo screenshot 12/07 · [F] Audit numerico design system 12/07 · [G] Dizionario IEC IT→EN 10/07.
+> Aggiornato: 13/07/2026 sera (v3.42 in produzione). Fonti: [A] Audit "AI-looking → Linear/Notion" 01/07 · [B] Benchmark 5 assi (data model, UX, IEC, GDPR, RFID) 01/07 · [C] Audit portale clienti 01/07 · [D] Deep research UX desktop+mobile 12/07 · [E] Audit visivo screenshot 12/07 · [F] Audit numerico design system 12/07 · [G] Dizionario IEC IT→EN 10/07.
 > Stati: ✅ fatto · 🔧 in corso · ⬜ da fare · 🧊 deferito (decisione presa) · ❓ da spuntare contro il report originale.
 
 ## 1. i18n — inglese (fonte G) — IL CANTIERE APERTO
 - ✅ Infrastruttura `__t()` + selettore lingua (login + impostazioni) — v3.10-3.13
 - ✅ Lotti: base/portale/rfid · jobs/fatturazione · settings/dashboard/strumenti · assets/PPM — ~900 voci
-- ⬜ **Verifiche** (~196 stringhe, wizard IEC) — M — prossimo lotto
-- ⬜ **Main + guida** (~316; guida = 113 blocchi lunghi, trattare come documento) — M/L
-- ⬜ **PDF/report** (~81) + design lingua-per-cliente (campo su anagrafica; report ASL restano IT) — M
+- ✅ **Verifiche** (197 trad. IEC verbatim) + tutorial SVG nel wizard + tutorial tradotti (57) — v3.31-3.33
+- ✅ **Main** (giro 8: 650 punti, ~400 trad.) + gruppi/onboarding + rifinitura stringhe costruite + caccia globale (149) — v3.34-3.40
+- ✅ Terminologia owner: **Jobs** (44 voci), **EST**, **PPM** (menu+titolo) — v3.38-3.42
+- ⬜ **Guida** (113 blocchi lunghi, trattare come documento) — L — sessione dedicata
+- ⬜ **PDF/report** (~81) + design lingua-per-cliente: campo `language` su anagrafica cliente, `tFor(lang)` nel generatore (lingua del destinatario, non della UI), report ASL restano IT — M — PROSSIMO
 - ⬜ Template tecnici (~319, mappa dedicata) — M — per ultimi
 - ⬜ Privacy/Terms EN: traduzione tecnica + **revisione legale esterna** — S + esterno
 
