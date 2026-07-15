@@ -1085,58 +1085,58 @@ React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marg
 /* — tutorial di collegamento: promossi a livello modulo per essere condivisi tra form classico e wizard (v3.32) — */
 const MEAS_TUTORIAL = {
 encl: {
-titolo: "Dispersione dell'involucro (touch current)",
+titolo: __t("Dispersione dell'involucro (touch current)"),
 passi: [
-"Inserisci la SPINA del dispositivo nell'analizzatore: lo strumento lo alimenta e misura la corrente di ritorno (servono sempre due collegamenti).",
-"Apparecchio acceso, nelle normali condizioni d'uso. Imposta l'analizzatore in modalità dispersione involucro / touch.",
-"Con la sonda dell'analizzatore tocca le parti metalliche accessibili NON collegate a terra (carcassa, viti, connettori esterni, supporti).",
-"Leggi la corrente: su apparecchio sano resta molto bassa. Limite ≤ 100 µA in condizione normale (NC)."
+__t("Inserisci la SPINA del dispositivo nell'analizzatore: lo strumento lo alimenta e misura la corrente di ritorno (servono sempre due collegamenti)."),
+__t("Apparecchio acceso, nelle normali condizioni d'uso. Imposta l'analizzatore in modalità dispersione involucro / touch."),
+__t("Con la sonda dell'analizzatore tocca le parti metalliche accessibili NON collegate a terra (carcassa, viti, connettori esterni, supporti)."),
+__t("Leggi la corrente: su apparecchio sano resta molto bassa. Limite ≤ 100 µA in condizione normale (NC).")
 ],
-nota: "Due collegamenti: spina del MD nell'analizzatore + sonda sull'involucro. Sui fissi questa misura sostituisce l'equipment leakage; l'interruzione del PE non si simula come primo guasto (niente SFC sulla terra).",
+nota: __t("Due collegamenti: spina del MD nell'analizzatore + sonda sull'involucro. Sui fissi questa misura sostituisce l'equipment leakage; l'interruzione del PE non si simula come primo guasto (niente SFC sulla terra)."),
 svg: "encl"
 },
 pat: {
-titolo: "Dispersione parte applicata (paziente)",
+titolo: __t("Dispersione parte applicata (paziente)"),
 passi: [
-"Inserisci la SPINA del dispositivo nell'analizzatore (anche qui servono due collegamenti).",
-"Collega i terminali della parte applicata al morsetto P.A. Attenzione: ogni elettrodo è una parte applicata a sé (un ECG ne ha tanti). Raggruppa al morsetto i terminali della STESSA funzione.",
-"Imposta il tipo corretto B / BF / CF (sull'etichetta dell'apparecchio). Le CF una funzione alla volta; le tipo B di solito non si misurano a parte.",
-"Leggi e confronta col limite del tipo: BF ≤ 5000 µA, CF ≤ 50 µA. Il CF è molto più severo perché applicato al cuore."
+__t("Inserisci la SPINA del dispositivo nell'analizzatore (anche qui servono due collegamenti)."),
+__t("Collega i terminali della parte applicata al morsetto P.A. Attenzione: ogni elettrodo è una parte applicata a sé (un ECG ne ha tanti). Raggruppa al morsetto i terminali della STESSA funzione."),
+__t("Imposta il tipo corretto B / BF / CF (sull'etichetta dell'apparecchio). Le CF una funzione alla volta; le tipo B di solito non si misurano a parte."),
+__t("Leggi e confronta col limite del tipo: BF ≤ 5000 µA, CF ≤ 50 µA. Il CF è molto più severo perché applicato al cuore.")
 ],
-nota: "Due collegamenti: spina del MD + terminali P.A. al morsetto. Su apparecchi con più parti applicate (es. ECG) si misura una funzione alla volta.",
+nota: __t("Due collegamenti: spina del MD + terminali P.A. al morsetto. Su apparecchi con più parti applicate (es. ECG) si misura una funzione alla volta."),
 svg: "pat"
 },
 ins_main: {
-titolo: "Resistenza di isolamento — rete vs parti accessibili",
+titolo: __t("Resistenza di isolamento — rete vs parti accessibili"),
 passi: [
-"Apparecchio SPENTO e scollegato dalla rete. Interruttore d'accensione su ON (così la prova copre tutto il circuito di rete).",
-"L'analizzatore applica 500 Vdc tra i conduttori di rete (fase+neutro uniti) e le parti accessibili / terra.",
-"Leggi la resistenza in MΩ: più alta è, meglio è. Su Classe I limite ≥ 2 MΩ; su Classe II ≥ 7 MΩ (l'isolamento è l'UNICA protezione, quindi più severo).",
-"Valori bassi = isolamento degradato: campanello d'allarme anche se le dispersioni sembrano a posto."
+__t("Apparecchio SPENTO e scollegato dalla rete. Interruttore d'accensione su ON (così la prova copre tutto il circuito di rete)."),
+__t("L'analizzatore applica 500 Vdc tra i conduttori di rete (fase+neutro uniti) e le parti accessibili / terra."),
+__t("Leggi la resistenza in MΩ: più alta è, meglio è. Su Classe I limite ≥ 2 MΩ; su Classe II ≥ 7 MΩ (l'isolamento è l'UNICA protezione, quindi più severo)."),
+__t("Valori bassi = isolamento degradato: campanello d'allarme anche se le dispersioni sembrano a posto.")
 ],
-nota: "È una prova in tensione continua, non una dispersione. Si fa a macchina spenta. Alcuni costruttori la sconsigliano su elettronica sensibile: controlla i documenti d'accompagnamento.",
+nota: __t("È una prova in tensione continua, non una dispersione. Si fa a macchina spenta. Alcuni costruttori la sconsigliano su elettronica sensibile: controlla i documenti d'accompagnamento."),
 svg: "ins"
 },
 ins_pa: {
-titolo: "Resistenza di isolamento — parte applicata vs rete",
+titolo: __t("Resistenza di isolamento — parte applicata vs rete"),
 passi: [
-"Apparecchio spento. Collega insieme i terminali della parte applicata.",
-"L'analizzatore applica 500 Vdc tra la parte applicata e i conduttori di rete.",
-"Leggi in MΩ: limite ≥ 2 MΩ. Verifica la tenuta dell'isolamento tra paziente e rete.",
-"Per parti applicate multiple (es. ECG) raggruppa per funzione, come per la dispersione."
+__t("Apparecchio spento. Collega insieme i terminali della parte applicata."),
+__t("L'analizzatore applica 500 Vdc tra la parte applicata e i conduttori di rete."),
+__t("Leggi in MΩ: limite ≥ 2 MΩ. Verifica la tenuta dell'isolamento tra paziente e rete."),
+__t("Per parti applicate multiple (es. ECG) raggruppa per funzione, come per la dispersione.")
 ],
-nota: "Prova in continua a macchina spenta. Su elettronica sensibile, verifica prima i documenti del costruttore.",
+nota: __t("Prova in continua a macchina spenta. Su elettronica sensibile, verifica prima i documenti del costruttore."),
 svg: "ins"
 },
 id_eq: {
-titolo: "Equipment leakage (dispersione d'apparecchio)",
+titolo: __t("Equipment leakage (dispersione d'apparecchio)"),
 passi: [
-"Inserisci la SPINA del dispositivo nell'analizzatore (servono sempre due collegamenti).",
-"Apparecchio acceso. L'analizzatore misura la dispersione TOTALE verso terra (somma di involucro, parti applicate e parte di rete).",
-"Su Classe I limite ≤ 500 µA; su Classe II ≤ 100 µA (qui si chiama touch current perché non c'è terra di protezione).",
-"Metodo diretto o differenziale; sui fissi vale l'avviso sul percorso di terra secondario."
+__t("Inserisci la SPINA del dispositivo nell'analizzatore (servono sempre due collegamenti)."),
+__t("Apparecchio acceso. L'analizzatore misura la dispersione TOTALE verso terra (somma di involucro, parti applicate e parte di rete)."),
+__t("Su Classe I limite ≤ 500 µA; su Classe II ≤ 100 µA (qui si chiama touch current perché non c'è terra di protezione)."),
+__t("Metodo diretto o differenziale; sui fissi vale l'avviso sul percorso di terra secondario.")
 ],
-nota: "Su Classe II non c'è PE: la protezione è tutta nell'isolamento, perciò il limite di dispersione è più severo (100 µA).",
+nota: __t("Su Classe II non c'è PE: la protezione è tutta nell'isolamento, perciò il limite di dispersione è più severo (100 µA)."),
 svg: "encl"
 }
 };
