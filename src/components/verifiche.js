@@ -1,3 +1,4 @@
+import { t as __t } from "../constants/i18n.js";
 /* MedTrace — verifiche: wizard e form Funzionale + IEC 62353, firma, suggerimento strumenti (estratti da app.js, v2.90) */
 import { TecnicoPicker, Btn, chkRow, techSignature } from "./shared.js";
 import { Hint, useMedia, AssetCombobox, ErrorSummary, SignaturePad, TechSignatureField } from "./ui.js";
@@ -38,7 +39,7 @@ const funcSecs = (tpl && tpl.sections) || [];
 const measVerdict = (mm, raw) => { if (raw === "na" || (mm && mm.na)) return null; var v = parseFloat(raw); if (isNaN(v)) return null; var hasMin = mm.limitMin !== undefined && mm.limitMin !== null; var hasMax = mm.limitVal !== undefined && mm.limitVal !== null; if (!hasMin && !hasMax) return null; if (hasMin && v < parseFloat(mm.limitMin)) return false; if (hasMax) { var lv = parseFloat(mm.limitVal); if (mm.invertPass) { if (v < lv) return false; } else { if (v > lv) return false; } } return true; };
 const funcPass = (function () { for (var s = 0; s < funcSecs.length; s++) { var sec = funcSecs[s]; var sd = f.sections[sec.id] || { items: {}, measures: {} }; var its = sec.items || []; for (var i = 0; i < its.length; i++) { if (sd.items[its[i].id] === false) return false; } var ms = sec.measures || []; for (var m = 0; m < ms.length; m++) { var raw = sd.measures[ms[m].id]; if (raw === undefined || raw === "" || raw === "na") continue; if (measVerdict(ms[m], raw) === false) return false; } } return true; })();
 
-const steps = [{ key: "setup", name: "Dati e configurazione" }].concat(funcSecs.map(sec => ({ key: "funcsec", sec: sec, name: sec.title }))).concat([{ key: "esito", name: "Esito e salvataggio" }]);
+const steps = [{ key: "setup", name: __t("Dati e configurazione") }].concat(funcSecs.map(sec => ({ key: "funcsec", sec: sec, name: sec.title }))).concat([{ key: "esito", name: __t("Esito e salvataggio") }]);
 const TOT = steps.length; const cur = Math.min(step, TOT - 1); const sObj = steps[cur];
 const ast = (assets || []).find(a => a.id === f.assetId);
 
@@ -47,7 +48,7 @@ const stepFilled = (st) => { if (st.key === "setup") return !!f.assetId && !!f.t
 const doneCount = steps.filter(stepFilled).length;
 const go = (i) => { setStep(Math.max(0, Math.min(TOT - 1, i))); try { window.scrollTo(0, 0); } catch (e) { } };
 React.useEffect(() => { if (sObj.key !== "esito" || f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [sObj.key]);
-const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { showToast && showToast("Firma del tecnico obbligatoria", "#ef4444"); go(TOT - 1); return; } const cid = ast ? ast.customerId : null; onSave(Object.assign({}, f, { customerId: cid, overallPass: funcPass })); };
+const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { showToast && showToast(__t("Firma del tecnico obbligatoria"), "#ef4444"); go(TOT - 1); return; } const cid = ast ? ast.customerId : null; onSave(Object.assign({}, f, { customerId: cid, overallPass: funcPass })); };
 
 const selStyle = { width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 };
 const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", marginBottom: 4, display: "block" };
@@ -60,21 +61,21 @@ let content;
 if (sObj.key === "setup") {
 const tplKeys = Object.keys(templates || {}).sort((a, b) => (((templates[a] || {}).label) || a).localeCompare(((templates[b] || {}).label) || b));
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-h("div", null, h("span", { style: lblStyle }, "Apparecchio"),
-h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: "Cerca apparecchio…" })),
+h("div", null, h("span", { style: lblStyle }, __t("Apparecchio")),
+h(AssetCombobox, { value: f.assetId, onChange: pickAsset, assets: assets, customers: customers, placeholder: __t("Cerca apparecchio…") })),
 f.assetId ? h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 f.templateId === "generico"
-? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, "Scegli qui sotto il protocollo corretto per questo apparecchio."))
-: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, "Protocollo: ", h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? "Chiudi" : "Cambia")),
+? h("div", { style: { background: "#f59e0b1a", border: "1px solid #f59e0b66", borderRadius: 8, padding: "10px 12px" } }, h("div", { style: { fontSize: 13, fontWeight: 700, color: "#f59e0b" } }, "⚠ Nessun protocollo specifico rilevato"), h("div", { style: { fontSize: 12, color: "var(--text-3)", marginTop: 2 } }, __t("Scegli qui sotto il protocollo corretto per questo apparecchio.")))
+: h("div", { style: { fontSize: 12, color: "var(--text-3)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 } }, h("div", null, __t("Protocollo: "), h("b", { style: { color: "var(--text)" } }, (tpl && tpl.label) || f.templateId), (tpl && tpl.norm) ? h("div", { style: { fontSize: 11, color: "var(--text-4)", marginTop: 2 } }, tpl.norm) : null), h("button", { type: "button", onClick: () => setTplOpen(v => !v), style: { background: "transparent", border: "none", color: TEAL, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, tplOpen ? __t("Chiudi") : __t("Cambia"))),
 (f.templateId === "generico" || tplOpen) ? h("select", { value: f.templateId, onChange: e => pickTpl(e.target.value), style: selStyle }, tplKeys.map(k => h("option", { key: k, value: k }, ((templates[k] || {}).label) || k))) : null,
-h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, "Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti.")) : null,
-h("div", null, h("span", { style: lblStyle }, "Data"), h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
-h(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians }),
-(instruments && instruments.length) ? h("div", null, h("span", { style: lblStyle }, "Strumento (facoltativo)"),
+h("div", { style: { fontSize: 11, color: "var(--text-4)", lineHeight: 1.4, marginTop: 2 } }, __t("Le procedure di manutenzione e verifica di riferimento sono quelle del fabbricante. I template proposti sono generici, di supporto al tecnico, e non vincolanti."))) : null,
+h("div", null, h("span", { style: lblStyle }, __t("Data")), h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
+h(TecnicoPicker, { label: __t("Tecnico/i"), value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians }),
+(instruments && instruments.length) ? h("div", null, h("span", { style: lblStyle }, __t("Strumento (facoltativo)")),
 h("select", { value: f.instrument, onChange: e => setF(x => Object.assign({}, x, { instrument: e.target.value })), style: selStyle },
 h("option", { value: "" }, "— nessuno —"),
 instruments.map(it => { const t = [it.brand, it.model].filter(Boolean).join(" ") + (it.internalCode ? (" (" + it.internalCode + ")") : ""); return h("option", { key: it.id || t, value: t }, t); }))) : null,
-onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 12, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0" } }, "Apparecchio non disponibile o modulo classico →") : null);
+onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 12, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0" } }, __t("Apparecchio non disponibile o modulo classico →")) : null);
 } else if (sObj.key === "funcsec") {
 const sec = sObj.sec; const sd = f.sections[sec.id] || { items: {}, measures: {} };
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
@@ -95,34 +96,34 @@ verd != null ? h("div", { style: { fontSize: 12, fontWeight: 700, color: verd ? 
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 h("div", { style: { background: funcPass ? TEAL + "1a" : RED + "1a", border: "1px solid " + (funcPass ? TEAL + "66" : RED + "66"), borderRadius: 16, padding: "20px", textAlign: "center" } },
 h("div", { style: { fontSize: 34, fontWeight: 800, color: funcPass ? TEAL : RED } }, funcPass ? "✓" : "✗"),
-h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, funcPass ? "Conforme" : "Non conforme"),
+h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, funcPass ? __t("Conforme") : __t("Non conforme")),
 h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, "Verifica funzionale secondo " + ((tpl && tpl.label) || ""))),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Template", (tpl && tpl.label) || f.templateId], ["Tecnico", f.technician || "—"], ["Esito", funcPass ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 3 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 13, fontWeight: 600, color: i === 3 ? (funcPass ? TEAL : RED) : "var(--text)" } }, r[1])))),
-h("div", null, h("span", { style: lblStyle }, "Note conclusive"), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali…", style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
+h("div", null, h("span", { style: lblStyle }, __t("Note conclusive")), h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: __t("Annotazioni finali…"), style: { width: "100%", minHeight: 64, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
-h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
+h(SignaturePad, { label: __t("Firma Referente reparto (opzionale)"), value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
 }
 
 return h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
 h("div", { style: { padding: "2px 2px 14px" } },
 h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 } },
 h("div", { style: { display: "flex", alignItems: "center", gap: 8 } },
-h("span", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: "#38bdf8", background: "#38bdf822", padding: "3px 8px", borderRadius: 99 } }, "Funzionale"),
-h("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT))),
+h("span", { style: { fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".6px", color: "#38bdf8", background: "#38bdf822", padding: "3px 8px", borderRadius: 99 } }, __t("Funzionale")),
+h("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text)" } }, __t("Passo "), cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT))),
 h("div", { style: { fontSize: 12, color: "var(--text-3)" } }, doneCount + "/" + TOT)),
 h("div", { style: { height: 6, background: "var(--surface-2)", borderRadius: 99, overflow: "hidden" } }, h("div", { style: { height: "100%", width: Math.round((cur / (TOT - 1)) * 100) + "%", background: "#38bdf8", borderRadius: 99, transition: "width .2s" } }))),
 h("div", { style: { marginBottom: 14 } },
 h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.name),
-h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, tipo di verifica e dati" : sObj.key === "funcsec" ? "Voci di controllo e misure della sezione" : "Riepilogo e salvataggio")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? __t("Apparecchio, tipo di verifica e dati") : sObj.key === "funcsec" ? __t("Voci di controllo e misure della sezione") : __t("Riepilogo e salvataggio"))),
 content,
 h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
-h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
+h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? __t("Indietro") : __t("Esci")),
 cur < TOT - 1
-? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, "Avanti", h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
+? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, __t("Avanti"), h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
 : h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva verifica")),
-(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona apparecchio e template per continuare" : "Completa voci e misure della sezione") : null);
+(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? __t("Seleziona apparecchio e template per continuare") : __t("Completa voci e misure della sezione")) : null);
 }
 export function FuncVerifyForm({ initial, assetId: propAssetId, assets, customers, existingReports, templates, instruments, technicians, onSave, onClose, isAdmin, showToast }) {
 const TPLS = templates || FUNC_TEMPLATES;
@@ -216,10 +217,10 @@ const isMobile = useMedia("(max-width:600px)");
 const renderItemRow = ({ secId, item }) => {
 const val = getSectionData(secId).items[item.id];
 const STATES = [
-{ v: true, lbl: "✓", col: "#22c55e", title: "Conforme" },
-{ v: false, lbl: "✗", col: "#ef4444", title: "Non conforme" },
-{ v: "na", lbl: "N/A", col: "var(--text-3)", title: "Non applicabile a questa macchina" },
-{ v: null, lbl: "—", col: "var(--text-4)", title: "Non verificato" },
+{ v: true, lbl: "✓", col: "#22c55e", title: __t("Conforme") },
+{ v: false, lbl: "✗", col: "#ef4444", title: __t("Non conforme") },
+{ v: "na", lbl: "N/A", col: "var(--text-3)", title: __t("Non applicabile a questa macchina") },
+{ v: null, lbl: "—", col: "var(--text-4)", title: __t("Non verificato") },
 ];
 const isOpt = item.optional || /opzionale|optional/i.test(item.text || "");
 return (React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "7px 0", borderBottom: "1px solid var(--border)", gap: 10 } },
@@ -271,22 +272,22 @@ const __nameEl = React.createElement("span", { style: { fontSize: 13, color: fai
 const __expEl = React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, m.expected || m.limit || "");
 const __inputEl = isNA ? React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontStyle: "italic", textAlign: "center" } }, "N/A") : React.createElement("input", { type: "number", step: "any", inputMode: "decimal", value: raw, onChange: e => setMeasure(secId, m.id, e.target.value), placeholder: "\u2014", style: { background: fail ? "#5b1414" : "var(--surface-2)", border: "2px solid " + (fail ? "#f87171" : "#33394a"), borderRadius: 6, padding: "6px 8px", color: fail ? "#ffe4e4" : "#ffffff", fontSize: 14, outline: "none", fontFamily: "'IBM Plex Mono', monospace", fontWeight: 800, boxShadow: fail ? "0 0 0 1px #ef4444" : "none", width: isMobile ? 96 : undefined, minWidth: 0 } });
 const __unitEl = React.createElement("span", { style: { fontWeight: 800, fontSize: 14, textAlign: "center", color: pass === null ? "var(--text-3)" : pass ? "#34d399" : "#f87171", minWidth: isMobile ? 22 : undefined } }, m.unit);
-const __naBtn = React.createElement("button", { title: isNA ? "Ripristina misura" : "Marca come Non Applicabile", onClick: () => setMeasure(secId, m.id, isNA ? "" : "na"), style: { background: isNA ? "#64748b33" : "var(--surface-2)", border: "1px solid " + (isNA ? "#64748b66" : "#33394a"), color: isNA ? "var(--text-strong)" : "var(--text-2)", borderRadius: 6, padding: isMobile ? "5px 10px" : "4px 4px", cursor: "pointer", fontSize: isMobile ? 11 : 9, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0, touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, "N/A");
+const __naBtn = React.createElement("button", { title: isNA ? __t("Ripristina misura") : __t("Marca come Non Applicabile"), onClick: () => setMeasure(secId, m.id, isNA ? "" : "na"), style: { background: isNA ? "#64748b33" : "var(--surface-2)", border: "1px solid " + (isNA ? "#64748b66" : "#33394a"), color: isNA ? "var(--text-strong)" : "var(--text-2)", borderRadius: 6, padding: isMobile ? "5px 10px" : "4px 4px", cursor: "pointer", fontSize: isMobile ? 11 : 9, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0, touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } }, "N/A");
 return (React.createElement("div", { style: { marginBottom: fail ? 8 : 6 } },
 (isMobile ? React.createElement("div", { style: { background: fail ? "#3a0f0f" : "var(--bg)", borderRadius: 6, padding: "8px 10px", opacity: isNA ? 0.55 : 1, border: fail ? "2px solid #ef4444" : "1px solid var(--border-2)" } }, React.createElement("div", { style: { marginBottom: 7 } }, __nameEl), React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" } }, React.createElement("span", { style: { fontSize: 10, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace", flex: "1 1 60px", minWidth: 0 } }, m.expected || m.limit || ""), __inputEl, __unitEl, __naBtn)) : React.createElement("div", { style: { display: "grid", gridTemplateColumns: "minmax(0,1fr) 90px 60px 38px 30px", gap: 6, alignItems: "center", background: fail ? "#3a0f0f" : "var(--bg)", borderRadius: 6, padding: "6px 8px", opacity: isNA ? 0.55 : 1, border: fail ? "2px solid #ef4444" : "1px solid var(--border-2)" } }, __nameEl, __expEl, __inputEl, __unitEl, __naBtn)),
 fail && limitText && (React.createElement("div", { style: { fontSize: 12, color: "#fff", background: "#dc2626", borderRadius: "0 0 6px 6px", margin: "0 2px", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, fontWeight: 600 } },
 React.createElement("span", { style: { fontSize: 13 } }, "\u26A0"),
 React.createElement("span", null,
-"Fuori limite \u2014 ",
+__t("Fuori limite \u2014 "),
 limitText,
 ". Controlla il valore o l'apparecchio.")))));
 };
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
-(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, ""), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
+(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, ""), React.createElement("span", { style: { color: "var(--text)" } }, __t("Verifica conclusa e bloccata"), f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : __t(" \u2014 sola lettura (solo un admin pu\u00F2 riaprirla)."))) : null),
 React.createElement("div", { style: { background: pass ? "#22c55e1f" : "#ef44441f", border: `1px solid ${pass ? "#22c55e55" : "#ef444455"}`, borderRadius: 8, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } },
-"Template: ",
+__t("Template: "),
 React.createElement("strong", { style: { color: "var(--text)" } },
 tpl.icon,
 " ",
@@ -296,7 +297,7 @@ tpl.norm),
 React.createElement("span", { style: { fontWeight: 800, fontSize: 14, letterSpacing: .3, color: pass ? "#04201C" : "#fff", background: pass ? "#2dd4bf" : "#ef4444", borderRadius: 6, padding: "5px 12px", whiteSpace: "nowrap" } }, pass ? "CONFORME" : "NON CONFORME")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 13 } },
 !propAssetId && (React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Apparecchio"),
+React.createElement("label", { style: LBL }, __t("Apparecchio")),
 React.createElement(AssetCombobox, { value: selectedAssetId, onChange: id => {
 setSelectedAssetId(id);
 setF(x => (Object.assign(Object.assign({}, x), { assetId: id })));
@@ -305,9 +306,9 @@ if (a) {
 const t = cndToTemplate(a.cnd) || guessTemplate(a.name);
 setTemplateId(t);
 }
-}, assets: assets, customers: customers, placeholder: "Cerca apparecchio\u2026" }))),
+}, assets: assets, customers: customers, placeholder: __t("Cerca apparecchio\u2026") }))),
 effectiveAsset && React.createElement("div", { style: Object.assign(Object.assign({}, FLD), { justifyContent: "flex-end" }) },
-React.createElement("label", { style: LBL }, "Apparecchio selezionato"),
+React.createElement("label", { style: LBL }, __t("Apparecchio selezionato")),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: "8px 14px", border: "1px solid var(--border-2)", fontSize: 12, color: "var(--text-2)" } },
 React.createElement("strong", { style: { color: "var(--text)" } }, effectiveAsset.name),
 " \u00B7 ",
@@ -317,7 +318,7 @@ effectiveAsset.model,
 " \u00B7 S/N: ",
 effectiveAsset.serial || "—")),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Template verifica funzionale"),
+React.createElement("label", { style: LBL }, __t("Template verifica funzionale")),
 React.createElement("select", { value: templateId, onChange: e => setTemplateId(e.target.value), style: INP }, Object.entries(TPLS).map(([id, t]) => React.createElement("option", { key: id, value: id },
 t.icon,
 " ",
@@ -325,23 +326,23 @@ t.label,
 t.isCustom ? " ★" : "")))),
 React.createElement(TestInstrumentsHint, { templateId: templateId }),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "N\u00B0 Rapporto"),
+React.createElement("label", { style: LBL }, __t("N\u00B0 Rapporto")),
 React.createElement("input", { value: f.reportNumber, onChange: sv("reportNumber"), placeholder: "VF-2026-001", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Data verifica"),
+React.createElement("label", { style: LBL }, __t("Data verifica")),
 React.createElement("input", { type: "date", value: f.date, onChange: sv("date"), style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technician: v }))), technicians: technicians })),
+React.createElement(TecnicoPicker, { label: __t("Tecnico/i"), value: f.technician, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technician: v }))), technicians: technicians })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Tipo verifica"),
+React.createElement("label", { style: LBL }, __t("Tipo verifica")),
 React.createElement("select", { value: f.verifyType || "periodica", onChange: sv("verifyType"), style: INP },
-React.createElement("option", { value: "periodica" }, "Periodica programmata"),
-React.createElement("option", { value: "dopo riparazione" }, "Dopo riparazione"),
-React.createElement("option", { value: "prima messa in servizio" }, "Prima messa in servizio"),
-React.createElement("option", { value: "straordinaria" }, "Straordinaria")),
+React.createElement("option", { value: "periodica" }, __t("Periodica programmata")),
+React.createElement("option", { value: "dopo riparazione" }, __t("Dopo riparazione")),
+React.createElement("option", { value: "prima messa in servizio" }, __t("Prima messa in servizio")),
+React.createElement("option", { value: "straordinaria" }, __t("Straordinaria"))),
 (f.verifyType === "straordinaria") && React.createElement("span", { style: { fontSize: 10, color: "#f59e0b", marginTop: 3 } }, "\u26A0 Straordinaria: non aggiorna la pianificazione annuale")),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Strumento/tester utilizzato"),
+React.createElement("label", { style: LBL }, __t("Strumento/tester utilizzato")),
 (instruments && instruments.length > 0) && (React.createElement("select", { value: "", onChange: e => { const ins = (instruments || []).find(i => i.id === e.target.value); if (ins) {
 const txt = [ins.brand, ins.model].filter(Boolean).join(" ") + (ins.internalCode ? (" (" + ins.internalCode + ")") : "");
 setF(x => (Object.assign(Object.assign({}, x), { instrument: txt, instrumentSerial: ins.serial || "", instrumentCalExpiry: ins.calExpiry || "" })));
@@ -353,7 +354,7 @@ i.internalCode ? (" · " + i.internalCode) : "",
 i.calExpiry ? (" (scad. " + i.calExpiry + ")") : "")))),
 React.createElement("input", { value: f.instrument, onChange: sv("instrument"), placeholder: "o scrivi a mano", style: INP }))),
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 14px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, "Stato verifica"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, __t("Stato verifica")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 } },
 React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { verifyStatus: "completata" }))), style: {
 background: (f.verifyStatus || "completata") === "completata" ? "#22c55e22" : "var(--surface)",
@@ -369,37 +370,37 @@ color: f.verifyStatus === "non_disponibile" ? "#f59e0b" : "var(--text-2)",
 borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "\u26A0 Apparecchio non disponibile")),
-f.verifyStatus === "non_disponibile" && (React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b33", borderRadius: 6, fontSize: 11, color: "#fbbf24" } }, "La verifica non sar\u00E0 eseguita. Sar\u00E0 generato un report di mancata esecuzione da far firmare al reparto."))),
+f.verifyStatus === "non_disponibile" && (React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b33", borderRadius: 6, fontSize: 11, color: "#fbbf24" } }, __t("La verifica non sar\u00E0 eseguita. Sar\u00E0 generato un report di mancata esecuzione da far firmare al reparto.")))),
 f.verifyStatus === "non_disponibile" ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement("div", { style: { background: "#f59e0b08", border: "1px solid #f59e0b44", borderRadius: 10, padding: "14px 16px" } },
 React.createElement("div", { style: { fontSize: 11, color: "#f59e0b", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "\u26A0 Apparecchio non disponibile per verifica"),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Motivo mancata esecuzione *"),
+React.createElement("label", { style: LBL }, __t("Motivo mancata esecuzione *")),
 React.createElement("select", { value: f.notAvailableReason || "", onChange: sv("notAvailableReason"), style: INP },
 React.createElement("option", { value: "" }, "\u2014 Seleziona \u2014"),
-React.createElement("option", { value: "in_uso" }, "Apparecchio in uso su paziente"),
-React.createElement("option", { value: "non_trovato" }, "Apparecchio non reperibile in reparto"),
-React.createElement("option", { value: "trasferito" }, "Apparecchio trasferito ad altro reparto"),
-React.createElement("option", { value: "riparazione_esterna" }, "In riparazione esterna"),
-React.createElement("option", { value: "dismesso" }, "Dismesso / non pi\u00F9 in uso"),
-React.createElement("option", { value: "rifiuto_reparto" }, "Reparto non autorizza intervento ora"),
-React.createElement("option", { value: "altro" }, "Altro (specificare nelle note)"))),
+React.createElement("option", { value: "in_uso" }, __t("Apparecchio in uso su paziente")),
+React.createElement("option", { value: "non_trovato" }, __t("Apparecchio non reperibile in reparto")),
+React.createElement("option", { value: "trasferito" }, __t("Apparecchio trasferito ad altro reparto")),
+React.createElement("option", { value: "riparazione_esterna" }, __t("In riparazione esterna")),
+React.createElement("option", { value: "dismesso" }, __t("Dismesso / non pi\u00F9 in uso")),
+React.createElement("option", { value: "rifiuto_reparto" }, __t("Reparto non autorizza intervento ora")),
+React.createElement("option", { value: "altro" }, __t("Altro (specificare nelle note)")))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 10 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Reparto / Unit\u00E0 operativa *"),
+React.createElement("label", { style: LBL }, __t("Reparto / Unit\u00E0 operativa *")),
 React.createElement("input", { value: f.departmentName || "", onChange: sv("departmentName"), placeholder: "es. UO Cardiologia", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Referente reparto"),
+React.createElement("label", { style: LBL }, __t("Referente reparto")),
 React.createElement("input", { value: f.departmentContact || "", onChange: sv("departmentContact"), placeholder: "es. Caposala Mario Rossi", style: INP }))),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Note aggiuntive"),
+React.createElement("label", { style: LBL }, __t("Note aggiuntive")),
 React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 2, style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", color: "var(--text)", fontSize: 13, outline: "none", width: "100%", boxSizing: "border-box" } })))),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, __t("Firme")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
-React.createElement(SignaturePad, { label: "Firma Referente reparto (presa visione)", value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 }))))) : (React.createElement(React.Fragment, null,
+React.createElement(TechSignatureField, { label: __t("Firma Tecnico verificatore"), profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(SignaturePad, { label: __t("Firma Referente reparto (presa visione)"), value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 }))))) : (React.createElement(React.Fragment, null,
 tpl.sections.map(sec => {
 const isNA = sd_isNA(sec.id);
 return (React.createElement("div", { key: sec.id, style: { background: "var(--card)", borderRadius: 10, padding: "12px 16px", border: "1px solid " + (isNA ? "var(--text-4)" : "var(--border-3)"), opacity: isNA ? 0.6 : 1 } },
@@ -407,13 +408,13 @@ React.createElement("div", { style: { display: "flex", alignItems: "center", jus
 React.createElement("div", { style: { fontSize: 11, color: isNA ? "var(--text-3)" : "#5eead4", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, textDecoration: isNA ? "line-through" : "none" } },
 sec.title,
 isNA && " (N/A)"),
-!tpl.requireAllItems && React.createElement("button", { title: isNA ? "Riabilita sezione" : "Marca tutta la sezione come Non Applicabile", onClick: () => setSectionNA(sec.id, !isNA), style: {
+!tpl.requireAllItems && React.createElement("button", { title: isNA ? __t("Riabilita sezione") : __t("Marca tutta la sezione come Non Applicabile"), onClick: () => setSectionNA(sec.id, !isNA), style: {
 background: isNA ? "#64748b22" : "var(--surface)",
 border: "1px solid " + (isNA ? "#64748b66" : "var(--border)"),
 color: isNA ? "var(--text-2)" : "var(--text-3)",
 borderRadius: 6, padding: "3px 8px", cursor: "pointer", fontSize: 10, fontWeight: 700, whiteSpace: "nowrap",
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
-} }, isNA ? "↻ Riabilita" : "N/A sez.")),
+} }, isNA ? "↻ Riabilita" : __t("N/A sez."))),
 sec.note && React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginBottom: 10, fontStyle: "italic", whiteSpace: "pre-line" } }, sec.note),
 !isNA && (sec.items || []).map(item => renderItemRow({ secId: sec.id, item })),
 !isNA && (sec.measures || []).length > 0 && (React.createElement("div", { style: { marginTop: (sec.items || []).length > 0 ? 10 : 0 } },
@@ -421,21 +422,21 @@ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr
 (sec.measures || []).map(m => renderMeasureRow({ secId: sec.id, m }))))));
 }),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Note e osservazioni"),
+React.createElement("label", { style: LBL }, __t("Note e osservazioni")),
 React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 3, style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", color: "var(--text)", fontSize: 13, outline: "none", width: "100%", boxSizing: "border-box", resize: "vertical" } })),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, __t("Firme")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
-React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
+React.createElement(TechSignatureField, { label: __t("Firma Tecnico verificatore"), profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(SignaturePad, { label: __t("Firma Referente reparto (opzionale)"), value: f.departmentSignature || "", onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
 React.createElement("div", { style: { marginTop: 8, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Reparto / Unit\u00E0 (opzionale)"),
+React.createElement("label", { style: LBL }, __t("Reparto / Unit\u00E0 (opzionale)")),
 React.createElement("input", { value: f.departmentName || "", onChange: sv("departmentName"), placeholder: "es. UO Cardiologia", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Referente (opzionale)"),
+React.createElement("label", { style: LBL }, __t("Referente (opzionale)")),
 React.createElement("input", { value: f.departmentContact || "", onChange: sv("departmentContact"), placeholder: "es. Caposala Rossi", style: INP })))))),
-(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!selectedAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||selectedAssetId,overallPass:f.verifyStatus==="non_disponibile"?null:pass,templateId:templateId});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;if(f.verifyStatus!=="non_disponibile"&&!f.technicianSignature){showToast&&showToast("Firma del tecnico obbligatoria per concludere","#ef4444");return;}var _miss=[];if(tpl.requireAllItems){for(var _si=0;_si<tpl.sections.length;_si++){var _sec=tpl.sections[_si];var _sd=(f.sections[_sec.id]||{items:{},measures:{}});var _its=_sec.items||[];for(var _ii=0;_ii<_its.length;_ii++){var _vv=_sd.items[_its[_ii].id];if(_vv!==true&&_vv!==false){if(_miss.indexOf(_sec.title)<0)_miss.push(_sec.title);}}}}if(_miss.length){showToast&&showToast("Completa tutti i controlli prima di concludere: "+_miss.join(", "),"#ef4444");return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},"Chiudi"),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},"Riapri verifica"),React.createElement(Btn,{onClick:_saveDraft},"Salva modifiche")):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},"Salva bozza"),React.createElement(Btn,{onClick:_conclude},"Concludi e blocca")));})()));
+(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!selectedAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||selectedAssetId,overallPass:f.verifyStatus==="non_disponibile"?null:pass,templateId:templateId});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;if(f.verifyStatus!=="non_disponibile"&&!f.technicianSignature){showToast&&showToast(__t("Firma del tecnico obbligatoria per concludere"),"#ef4444");return;}var _miss=[];if(tpl.requireAllItems){for(var _si=0;_si<tpl.sections.length;_si++){var _sec=tpl.sections[_si];var _sd=(f.sections[_sec.id]||{items:{},measures:{}});var _its=_sec.items||[];for(var _ii=0;_ii<_its.length;_ii++){var _vv=_sd.items[_its[_ii].id];if(_vv!==true&&_vv!==false){if(_miss.indexOf(_sec.title)<0)_miss.push(_sec.title);}}}}if(_miss.length){showToast&&showToast("Completa tutti i controlli prima di concludere: "+_miss.join(", "),"#ef4444");return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},__t("Chiudi")),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},__t("Riapri verifica")),React.createElement(Btn,{onClick:_saveDraft},__t("Salva modifiche"))):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},__t("Salva bozza")),React.createElement(Btn,{onClick:_conclude},__t("Concludi e blocca"))));})()));
 }
 export function IecWizardForm({ initial, assetId: propAssetId, assets, customers, existingReports, instruments, technicians, onSave, onClose, isAdmin, onClassic }) {
 const h = React.createElement;
@@ -471,7 +472,7 @@ const visKeys = [["housing", "Involucro / carcassa integri"], ["cable", "Cavo di
 const visFilled = visKeys.every(([k]) => f.visual[k] === true || f.visual[k] === false);
 const overall = (function () { const visBad = visKeys.some(([k]) => f.visual[k] === false); if (visBad) return false; const bad = (f.measures || []).some(mm => measVerdict(mm) === false); return !bad; })();
 
-const steps = [{ key: "setup", name: "Dati e configurazione" }, { key: "visiva", name: "Ispezione visiva" }].concat((f.measures || []).map((mm, i) => ({ key: "meas", idx: i, m: mm, name: mm.name }))).concat([{ key: "esito", name: "Esito e salvataggio" }]);
+const steps = [{ key: "setup", name: __t("Dati e configurazione") }, { key: "visiva", name: __t("Ispezione visiva") }].concat((f.measures || []).map((mm, i) => ({ key: "meas", idx: i, m: mm, name: mm.name }))).concat([{ key: "esito", name: __t("Esito e salvataggio") }]);
 const TOT = steps.length;
 const cur = Math.min(step, TOT - 1);
 const sObj = steps[cur];
@@ -481,7 +482,7 @@ const stepFilled = (st) => { if (st.key === "setup") return !!f.assetId; if (st.
 const doneCount = steps.filter(st => stepFilled(st)).length;
 const go = (i) => { setStep(Math.max(0, Math.min(TOT - 1, i))); setTutOpen(false); try { window.scrollTo(0, 0); } catch (e) { } };
 React.useEffect(() => { if (sObj.key !== "esito" || f.technicianSignature) return; const sig = techSignature(technicians, f.technician); if (sig) setF(x => Object.assign({}, x, { technicianSignature: sig })); }, [sObj.key]);
-const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: "Firma del tecnico obbligatoria", color: "#ef4444" } })); } catch (e) { } go(TOT - 1); return; } onSave(Object.assign({}, f, { overallPass: overall })); };
+const doSave = () => { if (!f.assetId) return; if (!f.technicianSignature) { try { window.dispatchEvent(new CustomEvent("toast", { detail: { msg: __t("Firma del tecnico obbligatoria"), color: "#ef4444" } })); } catch (e) { } go(TOT - 1); return; } onSave(Object.assign({}, f, { overallPass: overall })); };
 
 const selStyle = { width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "9px 11px", fontSize: 13 };
 const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", marginBottom: 4, display: "block" };
@@ -490,35 +491,35 @@ const lblStyle = { fontSize: 11, fontWeight: 600, color: "var(--text-3)", margin
 let content;
 if (sObj.key === "setup") {
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 12 } },
-h("div", null, h("span", { style: lblStyle }, "Apparecchio"),
-h(AssetCombobox, { value: f.assetId, onChange: id => setF(x => Object.assign({}, x, { assetId: id })), assets: assets, customers: customers, placeholder: "Cerca apparecchio…" })),
+h("div", null, h("span", { style: lblStyle }, __t("Apparecchio")),
+h(AssetCombobox, { value: f.assetId, onChange: id => setF(x => Object.assign({}, x, { assetId: id })), assets: assets, customers: customers, placeholder: __t("Cerca apparecchio…") })),
 h("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
-h("div", null, h("span", { style: lblStyle }, "Norma"),
+h("div", null, h("span", { style: lblStyle }, __t("Norma")),
 h("select", { value: f.norm, onChange: e => regen({ norm: e.target.value }), style: selStyle },
-h("option", { value: "62353" }, "IEC 62353 (elettromedicale)"),
-h("option", { value: "60601" }, "IEC 60601-1 (approfondita)"),
-h("option", { value: "61010" }, "IEC 61010-1 (laboratorio)"))),
-h("div", null, h("span", { style: lblStyle }, "Classe"),
+h("option", { value: "62353" }, __t("IEC 62353 (elettromedicale)")),
+h("option", { value: "60601" }, __t("IEC 60601-1 (approfondita)")),
+h("option", { value: "61010" }, __t("IEC 61010-1 (laboratorio)")))),
+h("div", null, h("span", { style: lblStyle }, __t("Classe")),
 h("select", { value: f.equipClass, onChange: e => regen({ equipClass: e.target.value }), style: selStyle },
-h("option", { value: "I" }, "Classe I"), h("option", { value: "II" }, "Classe II"), h("option", { value: "III" }, "Classe III"))),
-h("div", null, h("span", { style: lblStyle }, "Parte applicata"),
+h("option", { value: "I" }, __t("Classe I")), h("option", { value: "II" }, __t("Classe II")), h("option", { value: "III" }, __t("Classe III")))),
+h("div", null, h("span", { style: lblStyle }, __t("Parte applicata")),
 h("select", { value: f.patientType, onChange: e => regen({ patientType: e.target.value }), style: selStyle },
-h("option", { value: "B" }, "Tipo B"), h("option", { value: "BF" }, "Tipo BF"), h("option", { value: "CF" }, "Tipo CF"))),
-f.norm === "62353" ? h("div", null, h("span", { style: lblStyle }, "Metodo"),
+h("option", { value: "B" }, __t("Tipo B")), h("option", { value: "BF" }, __t("Tipo BF")), h("option", { value: "CF" }, __t("Tipo CF")))),
+f.norm === "62353" ? h("div", null, h("span", { style: lblStyle }, __t("Metodo")),
 h("select", { value: f.leakageMethod, onChange: e => regen({ leakageMethod: e.target.value }), style: selStyle },
-h("option", { value: "diretto" }, "Diretto"), h("option", { value: "differenziale" }, "Differenziale"), h("option", { value: "alternativo" }, "Alternativo"))) : h("div")),
+h("option", { value: "diretto" }, __t("Diretto")), h("option", { value: "differenziale" }, __t("Differenziale")), h("option", { value: "alternativo" }, __t("Alternativo")))) : h("div")),
 h("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
 chkRow(f.sfc !== false, () => regen({ sfc: f.sfc === false }), "Includi prove SFC (guasto singolo)", "Aggiunge le misure in condizione di primo guasto"),
 chkRow(!!f.fixedInstall, () => regen({ fixedInstall: !f.fixedInstall }), "Installato in modo permanente", "Apparecchio fisso: la terra non si interrompe come primo guasto")),
 h("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
-h("div", null, h("span", { style: lblStyle }, "Data verifica"),
+h("div", null, h("span", { style: lblStyle }, __t("Data verifica")),
 h("input", { type: "date", value: f.date, onChange: e => setF(x => Object.assign({}, x, { date: e.target.value })), style: selStyle })),
-h(TecnicoPicker, { label: "Tecnico/i", value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians })),
-(instruments && instruments.length) ? h("div", null, h("span", { style: lblStyle }, "Strumento di misura"),
+h(TecnicoPicker, { label: __t("Tecnico/i"), value: f.technician, onChange: v => setF(x => Object.assign({}, x, { technician: v })), technicians: technicians })),
+(instruments && instruments.length) ? h("div", null, h("span", { style: lblStyle }, __t("Strumento di misura")),
 h("select", { value: f.instrument, onChange: e => setF(x => Object.assign({}, x, { instrument: e.target.value })), style: selStyle },
 h("option", { value: "" }, "— nessuno —"),
 instruments.map(it => { const t = [it.brand, it.model].filter(Boolean).join(" ") + (it.internalCode ? (" (" + it.internalCode + ")") : ""); return h("option", { key: it.id || t, value: t }, t); }))) : null,
-onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 12, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0", marginTop: 2 } }, "Apparecchio non disponibile o serve il modulo classico →") : null);
+onClassic ? h("button", { type: "button", onClick: onClassic, style: { background: "transparent", border: "none", color: "var(--text-4)", fontSize: 12, textDecoration: "underline", cursor: "pointer", alignSelf: "flex-start", padding: "4px 0", marginTop: 2 } }, __t("Apparecchio non disponibile o serve il modulo classico →")) : null);
 } else if (sObj.key === "visiva") {
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
 visKeys.map(([k, label]) => h("div", { key: k, style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--surface)", border: "1px solid " + (f.visual[k] === true ? TEAL + "66" : f.visual[k] === false ? RED + "66" : "var(--border)"), borderRadius: 12, padding: "12px 14px" } },
@@ -534,17 +535,17 @@ const margin = (!isNaN(v) && !isNaN(lv)) ? Math.abs(lv - v) : null;
 const marginTxt = margin == null ? "—" : (verd === false ? "−" : "") + margin.toFixed(margin < 1 ? 3 : (margin < 10 ? 2 : 0)) + " " + mm.unit;
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
 h("div", { style: { background: "var(--surface)", border: "1px solid " + (mm.na ? "var(--border)" : verd === true ? TEAL : verd === false ? RED : "var(--border)"), borderRadius: 16, padding: "18px", marginBottom: 12, opacity: mm.na ? 0.6 : 1 } },
-h("div", { style: { fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 10 } }, "Valore rilevato"),
+h("div", { style: { fontSize: 11, fontWeight: 600, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 10 } }, __t("Valore rilevato")),
 h("div", { style: { display: "flex", alignItems: "center", gap: 10, borderBottom: "2px solid var(--border)", paddingBottom: 8 } },
 h("input", { type: "number", inputMode: "decimal", disabled: mm.na, value: mm.value, onChange: e => setMeas(mm.id, e.target.value), placeholder: "—", style: { flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "var(--text)", fontSize: 30, fontWeight: 800, fontFamily: "'IBM Plex Mono', monospace" } }),
 h("span", { style: { fontSize: 17, fontWeight: 700, color: "var(--text-3)" } }, mm.unit)),
-h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ? "var(--text-4)" : verd === true ? TEAL : verd === false ? RED : "var(--text-4)" } }, mm.na ? "Non applicabile" : verd === true ? "✓ Entro i limiti" : verd === false ? "✗ Fuori limite" : "Inserisci il valore misurato"),
+h("div", { style: { marginTop: 10, fontSize: 13, fontWeight: 700, color: mm.na ? "var(--text-4)" : verd === true ? TEAL : verd === false ? RED : "var(--text-4)" } }, mm.na ? __t("Non applicabile") : verd === true ? "✓ Entro i limiti" : verd === false ? "✗ Fuori limite" : __t("Inserisci il valore misurato")),
 h("div", { style: { display: "flex", gap: 10, marginTop: 12 } },
-h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Limite normativo"), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
-h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, "Margine"), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
+h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, __t("Limite normativo")), h("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, mm.limit + " " + mm.unit)),
+h("div", { style: { flex: 1, background: "var(--surface-2)", borderRadius: 8, padding: "8px 10px" } }, h("div", { style: { fontSize: 10, color: "var(--text-4)", marginBottom: 2 } }, __t("Margine")), h("div", { style: { fontSize: 13, fontWeight: 700, color: verd === false ? RED : "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, marginTxt)))),
 h("label", { style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--text-3)", cursor: "pointer", marginBottom: 10 } },
-h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleNA(mm.id) }), "Non applicabile a questo apparecchio (N/A)"),
-h("button", { type: "button", onClick: () => setTutOpen(o => !o), style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: "11px 14px", color: "var(--text-2)", fontSize: 13, fontWeight: 600, cursor: "pointer" } }, h("span", null, "Come mi collego"), h("span", { style: { color: TEAL, transform: tutOpen ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "›")),
+h("input", { type: "checkbox", checked: !!mm.na, onChange: () => toggleNA(mm.id) }), __t("Non applicabile a questo apparecchio (N/A)")),
+h("button", { type: "button", onClick: () => setTutOpen(o => !o), style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, padding: "11px 14px", color: "var(--text-2)", fontSize: 13, fontWeight: 600, cursor: "pointer" } }, h("span", null, __t("Come mi collego")), h("span", { style: { color: TEAL, transform: tutOpen ? "rotate(90deg)" : "none", transition: "transform .15s" } }, "›")),
 tutOpen ? h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 10px 10px", padding: "12px 14px", marginTop: -4 } },
 ["Spegni e scollega l'apparecchio dalla rete.", "Collega le sonde del tester secondo la misura (PE su masse, parte applicata, ecc.).", "Avvia la misura e attendi il valore stabile, poi trascrivilo."].map((t, i) => h("div", { key: i, style: { fontSize: 13, color: "var(--text-2)", lineHeight: 1.6, paddingLeft: 18, position: "relative", marginBottom: 4 } }, h("span", { style: { position: "absolute", left: 0, color: TEAL, fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace" } }, (i + 1) + "."), t))) : null);
 } else {
@@ -553,15 +554,15 @@ const incomplete = steps.some(st => (st.key === "meas" || st.key === "visiva" ||
 content = h("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 h("div", { style: { background: overall ? TEAL + "1a" : RED + "1a", border: "1px solid " + (overall ? TEAL + "66" : RED + "66"), borderRadius: 16, padding: "20px", textAlign: "center" } },
 h("div", { style: { fontSize: 34, fontWeight: 800, color: overall ? TEAL : RED } }, overall ? "✓" : "✗"),
-h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, overall ? "Conforme" : "Non conforme"),
-h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, incomplete ? "Attenzione: alcuni passi non sono ancora compilati" : "Tutte le prove eseguite secondo la norma selezionata")),
+h("div", { style: { fontSize: 19, fontWeight: 800, color: "var(--text)", marginTop: 4 } }, overall ? __t("Conforme") : __t("Non conforme")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)", marginTop: 4 } }, incomplete ? __t("Attenzione: alcuni passi non sono ancora compilati") : __t("Tutte le prove eseguite secondo la norma selezionata"))),
 h("div", { style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" } },
 [["Apparecchio", ast ? ((ast.name || "") + (ast.assetCode ? " · " + ast.assetCode : "")) : "—"], ["Classe / Tipo", f.equipClass + " · " + f.patientType], ["Norma", f.norm === "61010" ? "IEC 61010-1" : f.norm === "60601" ? "IEC 60601-1" : "IEC 62353"], ["Tecnico", f.technician || "—"], ["Esito", overall ? "Conforme" : "Non conforme"]].map((r, i) => h("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderBottom: i < 4 ? "1px solid var(--border-2)" : "none" } }, h("span", { style: { fontSize: 12, color: "var(--text-3)" } }, r[0]), h("span", { style: { fontSize: 13, fontWeight: 600, color: i === 4 ? (overall ? TEAL : RED) : "var(--text)" } }, r[1])))),
-h("div", null, h("span", { style: lblStyle }, "Note conclusive"),
-h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: "Annotazioni finali, raccomandazioni…", style: { width: "100%", minHeight: 70, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
+h("div", null, h("span", { style: lblStyle }, __t("Note conclusive")),
+h("textarea", { value: f.notes, onChange: e => setF(x => Object.assign({}, x, { notes: e.target.value })), placeholder: __t("Annotazioni finali, raccomandazioni…"), style: { width: "100%", minHeight: 70, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", padding: "10px", fontSize: 13, resize: "vertical", fontFamily: "inherit" } })),
 h("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 } },
 h(TechSignatureField, { profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature || "", onChange: v => setF(x => Object.assign({}, x, { technicianSignature: v })), height: 120 }),
-h(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
+h(SignaturePad, { label: __t("Firma Referente reparto (opzionale)"), value: f.departmentSignature || "", onChange: v => setF(x => Object.assign({}, x, { departmentSignature: v })), height: 120 })));
 }
 
 // --- shell ---
@@ -569,24 +570,24 @@ return h("div", { style: { display: "flex", flexDirection: "column", gap: 0 } },
 // progress header (informativo)
 h("div", { style: { padding: "2px 2px 14px" } },
 h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 7 } },
-h("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text)" } }, "Passo ", cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT)),
+h("div", { style: { fontSize: 14, fontWeight: 700, color: "var(--text)" } }, __t("Passo "), cur + 1, " ", h("span", { style: { fontWeight: 500, color: "var(--text-3)" } }, "di " + TOT)),
 h("div", { style: { fontSize: 12, color: "var(--text-3)" } }, doneCount + "/" + TOT + " compilati")),
 h("div", { style: { height: 6, background: "var(--surface-2)", borderRadius: 99, overflow: "hidden" } }, h("div", { style: { height: "100%", width: Math.round((cur / (TOT - 1)) * 100) + "%", background: TEAL, borderRadius: 99, transition: "width .2s" } }))),
 // step caption + title
 h("div", { style: { marginBottom: 14 } },
 sObj.key !== "meas" ? null : h("div", { style: { fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, fontWeight: 600, letterSpacing: "1px", color: TEAL, textTransform: "uppercase", marginBottom: 6 } }, "Misura " + (sObj.idx + 1) + " di " + (f.measures || []).length),
-h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.key === "setup" ? "Dati e configurazione" : sObj.key === "visiva" ? "Ispezione visiva e meccanica" : sObj.key === "meas" ? sObj.m.name : "Esito della verifica"),
-h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? "Apparecchio, norma e parametri di prova" : sObj.key === "visiva" ? "Stato di cavo, spina, involucro, etichette" : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : "Giudizio complessivo e salvataggio")),
+h("h2", { style: { fontSize: 20, fontWeight: 800, letterSpacing: "-.01em", lineHeight: 1.2, margin: "0 0 4px", color: "var(--text)" } }, sObj.key === "setup" ? __t("Dati e configurazione") : sObj.key === "visiva" ? __t("Ispezione visiva e meccanica") : sObj.key === "meas" ? sObj.m.name : __t("Esito della verifica")),
+h("div", { style: { fontSize: 13, color: "var(--text-3)" } }, sObj.key === "setup" ? __t("Apparecchio, norma e parametri di prova") : sObj.key === "visiva" ? __t("Stato di cavo, spina, involucro, etichette") : sObj.key === "meas" ? ("Limite normativo " + sObj.m.limit + " " + sObj.m.unit) : __t("Giudizio complessivo e salvataggio"))),
 // content
 content,
 // footer: indietro chiaro + avanti/salva chiaro
 h("div", { style: { display: "flex", gap: 10, marginTop: 18 } },
-h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? "Indietro" : "Esci"),
+h("button", { type: "button", onClick: () => cur > 0 ? go(cur - 1) : onClose(), style: { display: "flex", alignItems: "center", gap: 5, background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10, color: "var(--text-2)", padding: "12px 18px", fontSize: 14, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" } }, h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "‹"), cur > 0 ? __t("Indietro") : __t("Esci")),
 cur < TOT - 1
-? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, "Avanti", h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
+? h("button", { type: "button", disabled: !stepFilled(sObj), onClick: () => { if (stepFilled(sObj)) go(cur + 1); }, style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5, background: stepFilled(sObj) ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: stepFilled(sObj) ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: stepFilled(sObj) ? "pointer" : "not-allowed" } }, __t("Avanti"), h("span", { style: { fontSize: 18, lineHeight: 1, marginTop: -1 } }, "›"))
 : h("button", { type: "button", disabled: !f.assetId, onClick: doSave, style: { flex: 1, background: f.assetId ? TEAL : "var(--surface-2)", border: "none", borderRadius: 10, color: f.assetId ? "#04201C" : "var(--text-4)", padding: "12px 16px", fontSize: 14.5, fontWeight: 800, cursor: f.assetId ? "pointer" : "not-allowed" } }, "✓ Salva verifica")),
 // motivo se Avanti è bloccato
-(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? "Seleziona l'apparecchio per continuare" : sObj.key === "visiva" ? "Segna tutte le voci (OK/NO) per continuare" : "Inserisci il valore o segna N/A per continuare") : null);
+(cur < TOT - 1 && !stepFilled(sObj)) ? h("div", { style: { fontSize: 12, color: "var(--text-4)", textAlign: "center", marginTop: 9 } }, sObj.key === "setup" ? __t("Seleziona l'apparecchio per continuare") : sObj.key === "visiva" ? __t("Segna tutte le voci (OK/NO) per continuare") : __t("Inserisci il valore o segna N/A per continuare")) : null);
 }
 export function IECReportForm({ initial, assetId: propAssetId, assets, customers, existingReports, instruments, technicians, onSave, onClose, isAdmin }) {
 const MEAS_TUTORIAL = {
@@ -725,12 +726,12 @@ React.createElement("line", { x1: x - 4.5, y1: y + 3, x2: x + 4.5, y2: y + 3 }),
 React.createElement("line", { x1: x - 2, y1: y + 6, x2: x + 2, y2: y + 6 })));
 const MD = ({ x, y }) => (React.createElement("g", null,
 React.createElement("rect", { x: x, y: y, width: 48, height: 18, rx: 5, fill: "#0e1422", stroke: C.red, strokeWidth: 1.2 }),
-React.createElement("text", { x: x + 24, y: y + 12.5, textAnchor: "middle", fill: C.red, fontSize: 10, fontWeight: 700, fontFamily: "system-ui" }, "MD 1k\u03A9")));
+React.createElement("text", { x: x + 24, y: y + 12.5, textAnchor: "middle", fill: C.red, fontSize: 10, fontWeight: 700, fontFamily: "system-ui" }, __t("MD 1k\u03A9"))));
 const wrap = (h, kids) => React.createElement("svg", { viewBox: "0 0 340 " + h, style: { width: "100%", maxWidth: 340, height: "auto" } }, kids);
 if (kind === "pe_mobile")
 return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: "Apparecchio", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: __t("Apparecchio"), tone: C.dut }),
+React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(Wire, { key: "w1", d: "M150 96 H210", c: C.red }),
 React.createElement(T, { key: "t1", x: 180, y: 89, t: "spina \u2192 analizzatore" }),
 React.createElement(Wire, { key: "w2", d: "M210 54 H150", c: C.neu, flow: true }),
@@ -742,8 +743,8 @@ React.createElement(Leg, { key: "l2", x: 20, y: 206, c: C.neu, t: "sonda sull'eq
 ]);
 if (kind === "pe_fixed")
 return wrap(230, [
-React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: "Apparecchio", sub: "(fisso)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 34, w: 130, h: 78, label: __t("Apparecchio"), sub: "(fisso)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 210, y: 34, w: 110, h: 78, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(Wire, { key: "w2", d: "M210 54 H150", c: C.neu, flow: true }),
 React.createElement(Dot, { key: "dot", x: 150, y: 54, c: C.neu }),
 React.createElement(T, { key: "t2", x: 150, y: 24, t: "equipotenziale macchina" }),
@@ -756,8 +757,8 @@ React.createElement(Leg, { key: "l2", x: 20, y: 226, c: C.neu, t: "sonda \u2192 
 ]);
 if (kind === "encl")
 return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: "Apparecchio", sub: "(acceso)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(acceso)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(MD, { key: "md", x: 243, y: 88 }),
 React.createElement(Wire, { key: "w1", d: "M160 98 H215", c: C.red, flow: true }),
 React.createElement(T, { key: "t1", x: 188, y: 91, t: "spina (via MD)" }),
@@ -769,8 +770,8 @@ React.createElement(Leg, { key: "l2", x: 20, y: 207, c: C.neu, t: "sonda sull'in
 ]);
 if (kind === "encl_fixed")
 return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: "Apparecchio", sub: "(fisso, su sua rete)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(fisso, su sua rete)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(Wire, { key: "w1", d: "M215 54 H160", c: C.red, flow: true }),
 React.createElement(Dot, { key: "d1", x: 160, y: 54, c: C.red }),
 React.createElement(T, { key: "t1", x: 150, y: 24, t: "ROSSO \u2192 involucro macchina" }),
@@ -782,8 +783,8 @@ React.createElement(Leg, { key: "l1", x: 20, y: 207, c: C.red, t: "rosso sulla p
 ]);
 if (kind === "ins")
 return wrap(195, [
-React.createElement(Card, { key: "d", x: 20, y: 36, w: 140, h: 78, label: "Apparecchio", sub: "(SPENTO, scollegato)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 36, w: 105, h: 78, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 36, w: 140, h: 78, label: __t("Apparecchio"), sub: "(SPENTO, scollegato)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 36, w: 105, h: 78, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(Wire, { key: "w1", d: "M160 62 H215", c: C.red }),
 React.createElement(T, { key: "t1", x: 188, y: 55, t: "500 Vdc \u2192 rete" }),
 React.createElement(Wire, { key: "w2", d: "M160 92 H215", c: C.neu }),
@@ -793,8 +794,8 @@ React.createElement(Leg, { key: "l1", x: 20, y: 172, c: C.red, t: "500 Vdc appli
 ]);
 if (kind === "pat_fixed")
 return wrap(215, [
-React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: "Apparecchio", sub: "(fisso)", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 32, w: 140, h: 84, label: __t("Apparecchio"), sub: "(fisso)", tone: C.dut }),
+React.createElement(Card, { key: "a", x: 215, y: 32, w: 105, h: 84, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(Wire, { key: "w1", d: "M215 50 H160", c: C.red, flow: true }),
 React.createElement(Wire, { key: "w1b", d: "M215 68 H160", c: C.red, flow: true }),
 React.createElement(Dot, { key: "d1", x: 160, y: 50, c: C.red }),
@@ -807,8 +808,8 @@ React.createElement(T, { key: "t2", x: 66, y: 154, t: "NERO \u2192 nodo equipote
 React.createElement(Leg, { key: "l1", x: 20, y: 207, c: C.red, t: "rosso sui terminali P.A. (una funzione per volta)" })
 ]);
 return wrap(235, [
-React.createElement(Card, { key: "d", x: 20, y: 36, w: 130, h: 94, label: "Apparecchio", tone: C.dut }),
-React.createElement(Card, { key: "a", x: 225, y: 36, w: 95, h: 94, label: "Analizzatore", tone: C.ana }),
+React.createElement(Card, { key: "d", x: 20, y: 36, w: 130, h: 94, label: __t("Apparecchio"), tone: C.dut }),
+React.createElement(Card, { key: "a", x: 225, y: 36, w: 95, h: 94, label: __t("Analizzatore"), tone: C.ana }),
 React.createElement(MD, { key: "md", x: 248, y: 96 }),
 React.createElement(Wire, { key: "w1", d: "M150 116 H225", c: C.red, flow: true }),
 React.createElement(T, { key: "t1", x: 188, y: 109, t: "spina (via MD)" }),
@@ -826,10 +827,10 @@ React.createElement(Leg, { key: "l2", x: 20, y: 225, c: C.pa, t: "terminali stes
 const getMeasures = React.useCallback((norm, cls, patientType, method, sfc, fixed) => {
 if (norm === "61010")
 return [
-{ id: "pe", name: "Resistenza conduttore di protezione (PE)", unit: "Ω", limit: "≤ 0.1", limitVal: 0.1, value: "" },
-{ id: "ins", name: "Resistenza di isolamento (500 Vdc)", unit: "MΩ", limit: "≥ 1", limitVal: 1, value: "", invertPass: true },
-{ id: "id1", name: "Corrente di dispersione — carcassa", unit: "mA", limit: "≤ 3.5", limitVal: 3.5, value: "" },
-{ id: "id2", name: "Corrente di dispersione — circuito prova", unit: "mA", limit: "≤ 0.5", limitVal: 0.5, value: "" },
+{ id: "pe", name: __t("Resistenza conduttore di protezione (PE)"), unit: "Ω", limit: "≤ 0.1", limitVal: 0.1, value: "" },
+{ id: "ins", name: __t("Resistenza di isolamento (500 Vdc)"), unit: "MΩ", limit: "≥ 1", limitVal: 1, value: "", invertPass: true },
+{ id: "id1", name: __t("Corrente di dispersione — carcassa"), unit: "mA", limit: "≤ 3.5", limitVal: 3.5, value: "" },
+{ id: "id2", name: __t("Corrente di dispersione — circuito prova"), unit: "mA", limit: "≤ 0.5", limitVal: 0.5, value: "" },
 ];
 if (norm === "60601") {
 const pt60 = patientType || "BF";
@@ -838,18 +839,18 @@ const plSFC = pt60 === "CF" ? 50 : 500;
 const mapVal = pt60 === "CF" ? 50 : 5000;
 const arr = [];
 if (cls === "I") {
-arr.push({ id: "pe", name: "Resistenza conduttore di protezione (PE)", unit: "Ω", limit: "≤ 0.1", limitVal: 0.1, value: "" });
-arr.push({ id: "earth_nc", name: "Dispersione verso terra (earth) — NC", unit: "µA", limit: "≤ 5000", limitVal: 5000, value: "" });
+arr.push({ id: "pe", name: __t("Resistenza conduttore di protezione (PE)"), unit: "Ω", limit: "≤ 0.1", limitVal: 0.1, value: "" });
+arr.push({ id: "earth_nc", name: __t("Dispersione verso terra (earth) — NC"), unit: "µA", limit: "≤ 5000", limitVal: 5000, value: "" });
 }
 if (cls !== "III")
-arr.push({ id: "encl_nc", name: "Dispersione involucro (touch) — NC", unit: "µA", limit: "≤ 100", limitVal: 100, value: "" });
+arr.push({ id: "encl_nc", name: __t("Dispersione involucro (touch) — NC"), unit: "µA", limit: "≤ 100", limitVal: 100, value: "" });
 arr.push({ id: "pat_nc", name: "Dispersione paziente " + pt60 + " — NC", unit: "µA", limit: "≤ " + plNC, limitVal: plNC, value: "" });
 arr.push({ id: "aux_nc", name: "Corrente ausiliaria paziente " + pt60 + " — NC", unit: "µA", limit: "≤ " + plNC, limitVal: plNC, value: "" });
 if (sfc) {
 if (cls === "I")
-arr.push({ id: "earth_sfc", name: "Dispersione verso terra (earth) — SFC", unit: "µA", limit: "≤ 10000", limitVal: 10000, value: "" });
+arr.push({ id: "earth_sfc", name: __t("Dispersione verso terra (earth) — SFC"), unit: "µA", limit: "≤ 10000", limitVal: 10000, value: "" });
 if (cls !== "III")
-arr.push({ id: "encl_sfc", name: "Dispersione involucro (touch) — SFC", unit: "µA", limit: "≤ 500", limitVal: 500, value: "" });
+arr.push({ id: "encl_sfc", name: __t("Dispersione involucro (touch) — SFC"), unit: "µA", limit: "≤ 500", limitVal: 500, value: "" });
 arr.push({ id: "pat_sfc", name: "Dispersione paziente " + pt60 + " — SFC", unit: "µA", limit: "≤ " + plSFC, limitVal: plSFC, value: "" });
 arr.push({ id: "aux_sfc", name: "Corrente ausiliaria paziente " + pt60 + " — SFC", unit: "µA", limit: "≤ " + plSFC, limitVal: plSFC, value: "" });
 if (pt60 !== "B")
@@ -874,27 +875,27 @@ const apLim = {
 const ap = apLim[pt];
 if (cls === "III")
 return [
-{ id: "ins_pa", name: "Resistenza isolamento parte applicata — rete (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "ins_pa", name: __t("Resistenza isolamento parte applicata — rete (500 Vdc)"), unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
 ...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
 ];
 if (cls === "II")
 return [
-{ id: "ins_main", name: "Resistenza isolamento — rete vs accessibili (500 Vdc)", unit: "MΩ", limit: "≥ 7", limitVal: 7, value: "", invertPass: true },
-{ id: "ins_pa", name: "Resistenza isolamento parte applicata — rete (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "ins_main", name: __t("Resistenza isolamento — rete vs accessibili (500 Vdc)"), unit: "MΩ", limit: "≥ 7", limitVal: 7, value: "", invertPass: true },
+{ id: "ins_pa", name: __t("Resistenza isolamento parte applicata — rete (500 Vdc)"), unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
 { id: "id_eq", name: "Equipment Leakage Cl.II (" + methodLabel + ")", unit: "µA", limit: "≤ " + eqVal, limitVal: eqVal, value: "" },
 ...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
 ];
 if (fixed) {
 return [
-{ id: "pe", name: "Resistenza di terra → nodo equipotenziale", unit: "Ω", limit: "≤ 0.3", limitVal: 0.3, value: "", editableLimit: true },
-{ id: "encl", name: "Dispersione involucro (touch) — parti non a terra", unit: "µA", limit: "≤ 100", limitVal: 100, value: "" },
+{ id: "pe", name: __t("Resistenza di terra → nodo equipotenziale"), unit: "Ω", limit: "≤ 0.3", limitVal: 0.3, value: "", editableLimit: true },
+{ id: "encl", name: __t("Dispersione involucro (touch) — parti non a terra"), unit: "µA", limit: "≤ 100", limitVal: 100, value: "" },
 ...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
 ];
 }
 return [
-{ id: "pe", name: "Resistenza conduttore di protezione (PE)", unit: "Ω", limit: "≤ 0.3", limitVal: 0.3, value: "" },
-{ id: "ins_main", name: "Resistenza isolamento — rete vs PE (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
-{ id: "ins_pa", name: "Resistenza isolamento parte applicata — rete (500 Vdc)", unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "pe", name: __t("Resistenza conduttore di protezione (PE)"), unit: "Ω", limit: "≤ 0.3", limitVal: 0.3, value: "" },
+{ id: "ins_main", name: __t("Resistenza isolamento — rete vs PE (500 Vdc)"), unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
+{ id: "ins_pa", name: __t("Resistenza isolamento parte applicata — rete (500 Vdc)"), unit: "MΩ", limit: "≥ 2", limitVal: 2, value: "", invertPass: true },
 { id: "id_eq", name: "Equipment Leakage Cl.I (" + methodLabel + ")", unit: "µA", limit: "≤ " + eqVal, limitVal: eqVal, value: "" },
 ...(ap ? [{ id: "id_pa", name: "Dispersione parte applicata " + pt + " (" + methodLabel + ")", unit: "µA", limit: ap.lim, limitVal: ap.val, value: "" }] : []),
 ];
@@ -981,48 +982,48 @@ const INP = FORM_INP;
 const isMobile = useMedia("(max-width:600px)");
 return (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
 React.createElement(ErrorSummary, { errors: errors }),
-(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, ""), React.createElement("span", { style: { color: "var(--text)" } }, "Verifica conclusa e bloccata", f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : " \u2014 sola lettura (solo un admin pu\u00F2 riaprirla).")) : null),
+(f.locked ? React.createElement("div", { style: { background: "#22c55e14", border: "1px solid #22c55e55", borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 9, fontSize: 13 } }, React.createElement("span", { style: { fontSize: 14 } }, ""), React.createElement("span", { style: { color: "var(--text)" } }, __t("Verifica conclusa e bloccata"), f.concludedAt ? (" il " + new Date(f.concludedAt).toLocaleDateString("it-IT")) : "", isAdmin ? " \u2014 come admin puoi riaprirla per correggere." : __t(" \u2014 sola lettura (solo un admin pu\u00F2 riaprirla)."))) : null),
 React.createElement("div", { style: { background: f.overallPass ? "#22c55e1f" : "#ef44441f", border: `1px solid ${f.overallPass ? "#22c55e55" : "#ef444455"}`, borderRadius: 8, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 } },
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-2)" } },
-"Norma: ",
-React.createElement("strong", { style: { color: "var(--text)" } }, f.norm === "61010" ? "IEC 61010-1 (Lab)" : f.norm === "60601" ? "IEC 60601-1 (Approfondita)" : "IEC 62353 (Elettromedicale)")),
+__t("Norma: "),
+React.createElement("strong", { style: { color: "var(--text)" } }, f.norm === "61010" ? __t("IEC 61010-1 (Lab)") : f.norm === "60601" ? __t("IEC 60601-1 (Approfondita)") : __t("IEC 62353 (Elettromedicale)"))),
 React.createElement("span", { style: { fontWeight: 800, fontSize: 14, letterSpacing: .3, color: f.overallPass ? "#04201C" : "#fff", background: f.overallPass ? "#2dd4bf" : "#ef4444", borderRadius: 6, padding: "5px 12px", whiteSpace: "nowrap" } }, f.overallPass ? "CONFORME" : "NON CONFORME")),
 f.norm === "62353" && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "10px 14px", fontSize: 11, color: "var(--text-2)", lineHeight: 1.5 } },
 React.createElement("div", { style: { color: "var(--acc-teal)", fontWeight: 700, marginBottom: 4, fontSize: 11 } }, "\u2139 IEC 62353:2014 \u2014 Limiti test periodico"),
 React.createElement("div", null,
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Equipment Leakage:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Equipment Leakage:")),
 " Cl.I \u2264500\u00B5A (D/DIFF) / \u22641000\u00B5A (ALT) \u00B7 Cl.II \u2264100\u00B5A / \u2264500\u00B5A"),
 React.createElement("div", null,
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Applied Part Leakage:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Applied Part Leakage:")),
 " BF \u22645000\u00B5A \u00B7 CF \u226450\u00B5A (limite identico per i 3 metodi)"),
 React.createElement("div", { style: { marginTop: 4, paddingTop: 4, borderTop: "1px solid #2dd4bf22", color: "var(--text-2)" } },
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Metodi:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Metodi:")),
 " Diretto (apparecchio alimentato) \u00B7 Differenziale (somma vett. L-N) \u00B7 Alternativo (apparecchio scollegato)"),
 React.createElement("div", null,
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "PE Resistance:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("PE Resistance:")),
 " \u22640.3 \u03A9 \u00B7 ",
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Isolamento:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Isolamento:")),
 " \u22652 M\u03A9"))),
 f.norm === "60601" && (React.createElement("div", { style: { background: "var(--bg)", border: "1px solid #2dd4bf44", borderRadius: 8, padding: "10px 14px", fontSize: 11, color: "var(--text-2)", lineHeight: 1.5 } },
 React.createElement("div", { style: { color: "var(--acc-teal)", fontWeight: 700, marginBottom: 4, fontSize: 11 } }, "\u2139 IEC 60601-1 \u2014 Prova approfondita (NC + Primo Guasto)"),
 React.createElement("div", null,
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Dispersione paziente:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Dispersione paziente:")),
 " B/BF \u2264100\u00B5A (NC) / \u2264500\u00B5A (SFC) \u00B7 CF \u226410\u00B5A (NC) / \u226450\u00B5A (SFC)"),
 React.createElement("div", null,
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Involucro:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Involucro:")),
 " \u2264100\u00B5A (NC) / \u2264500\u00B5A (SFC) \u00B7 ",
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Terra:"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Terra:")),
 " \u22645000\u00B5A (NC) / \u226410000\u00B5A (SFC, 3\u00AA ed.)"),
 React.createElement("div", null,
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Rete su PA (MAP, solo SFC):"),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Rete su PA (MAP, solo SFC):")),
 " BF \u22645000\u00B5A \u00B7 CF \u226450\u00B5A"),
 React.createElement("div", { style: { marginTop: 4, paddingTop: 4, borderTop: "1px solid #2dd4bf22", color: "var(--text-2)" } },
-"Le prove di ",
-React.createElement("strong", { style: { color: "var(--text-strong)" } }, "Primo Guasto (SFC)"),
+__t("Le prove di "),
+React.createElement("strong", { style: { color: "var(--text-strong)" } }, __t("Primo Guasto (SFC)")),
 " sollecitano l'apparecchio: puoi disattivarle qui sotto."))),
 !propAssetId && (React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Apparecchio"),
-React.createElement(AssetCombobox, { value: f.assetId, onChange: id => setF(x => (Object.assign(Object.assign({}, x), { assetId: id }))), assets: assets, customers: customers, placeholder: "Cerca apparecchio\u2026" }))),
+React.createElement("label", { style: LBL }, __t("Apparecchio")),
+React.createElement(AssetCombobox, { value: f.assetId, onChange: id => setF(x => (Object.assign(Object.assign({}, x), { assetId: id }))), assets: assets, customers: customers, placeholder: __t("Cerca apparecchio\u2026") }))),
 asset && React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: "8px 14px", border: "1px solid var(--border-2)", fontSize: 12, color: "var(--text-2)" } },
 React.createElement("strong", { style: { color: "var(--text)" } }, asset.name),
 " \u00B7 ",
@@ -1032,7 +1033,7 @@ asset.model,
 " \u00B7 S/N: ",
 asset.serial || "—"),
 React.createElement("div", { style: { background: "var(--bg)", borderRadius: 8, padding: "10px 14px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, "Stato verifica"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 8 } }, __t("Stato verifica")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 } },
 React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { verifyStatus: "completata" }))), style: {
 background: f.verifyStatus === "completata" ? "#22c55e22" : "var(--surface)",
@@ -1048,81 +1049,81 @@ color: f.verifyStatus === "non_disponibile" ? "var(--acc-amber)" : "var(--text-2
 borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 12, fontWeight: 700,
 touchAction: "manipulation", WebkitTapHighlightColor: "transparent"
 } }, "\u26A0 Apparecchio non disponibile")),
-f.verifyStatus === "non_disponibile" && (React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b33", borderRadius: 6, fontSize: 11, color: "#fbbf24" } }, "La verifica non sar\u00E0 eseguita. Sar\u00E0 generato un report di mancata esecuzione da far firmare al reparto."))),
+f.verifyStatus === "non_disponibile" && (React.createElement("div", { style: { marginTop: 10, padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b33", borderRadius: 6, fontSize: 11, color: "#fbbf24" } }, __t("La verifica non sar\u00E0 eseguita. Sar\u00E0 generato un report di mancata esecuzione da far firmare al reparto.")))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 13 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "N\u00B0 Rapporto"),
+React.createElement("label", { style: LBL }, __t("N\u00B0 Rapporto")),
 React.createElement("input", { value: f.reportNumber, onChange: sv("reportNumber"), placeholder: "VSE-2026-001", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Data"),
+React.createElement("label", { style: LBL }, __t("Data")),
 React.createElement("input", { type: "date", value: f.date, onChange: sv("date"), style: INP })),
 React.createElement("div", { style: { gridColumn: "1 / -1" } }, React.createElement(TestInstrumentsHint, { templateId: cndToTemplate((asset || {}).cnd) || guessTemplate((asset || {}).name) || "generico" })),
 React.createElement("div", { style: FLD },
 React.createElement("label", { style: Object.assign(Object.assign({}, LBL), { display: "flex", alignItems: "center" }) },
-"Norma",
-React.createElement(Hint, { text: "IEC 62353: verifiche periodiche e dopo riparazione su apparecchiature elettromedicali. IEC 61010-1: strumenti elettrici da misura, controllo e laboratorio. La scelta determina i parametri da misurare e i limiti di accettabilit\u00E0." })),
+__t("Norma"),
+React.createElement(Hint, { text: __t("IEC 62353: verifiche periodiche e dopo riparazione su apparecchiature elettromedicali. IEC 61010-1: strumenti elettrici da misura, controllo e laboratorio. La scelta determina i parametri da misurare e i limiti di accettabilit\u00E0.") })),
 React.createElement("select", { value: f.norm, onChange: sv("norm"), style: INP },
-React.createElement("option", { value: "62353" }, "IEC 62353 \u2014 Elettromedicale"),
-React.createElement("option", { value: "61010" }, "IEC 61010-1 \u2014 Laboratorio"),
-React.createElement("option", { value: "60601" }, "IEC 60601-1 \u2014 Prova approfondita (NC+SFC)"))),
+React.createElement("option", { value: "62353" }, __t("IEC 62353 \u2014 Elettromedicale")),
+React.createElement("option", { value: "61010" }, __t("IEC 61010-1 \u2014 Laboratorio")),
+React.createElement("option", { value: "60601" }, __t("IEC 60601-1 \u2014 Prova approfondita (NC+SFC)")))),
 React.createElement("div", { style: FLD },
 React.createElement("label", { style: Object.assign(Object.assign({}, LBL), { display: "flex", alignItems: "center" }) },
-"Classe apparecchio",
-React.createElement(Hint, { text: "Classe di sicurezza elettrica (IEC 60601-1). Classe I: ha conduttore di protezione (PE/terra) \u2014 la carcassa \u00E8 collegata a terra (es. monitor, ventilatori). Classe II: doppio isolamento, niente PE, simbolo del quadrato dentro quadrato (es. piccoli apparecchi portatili). Classe III: alimentazione SELV a bassissima tensione di sicurezza, niente PE (es. apparecchi a batteria interna). La classe determina quali misure di sicurezza eseguire." })),
+__t("Classe apparecchio"),
+React.createElement(Hint, { text: __t("Classe di sicurezza elettrica (IEC 60601-1). Classe I: ha conduttore di protezione (PE/terra) \u2014 la carcassa \u00E8 collegata a terra (es. monitor, ventilatori). Classe II: doppio isolamento, niente PE, simbolo del quadrato dentro quadrato (es. piccoli apparecchi portatili). Classe III: alimentazione SELV a bassissima tensione di sicurezza, niente PE (es. apparecchi a batteria interna). La classe determina quali misure di sicurezza eseguire.") })),
 React.createElement("select", { value: f.equipClass, onChange: sv("equipClass"), style: INP },
-React.createElement("option", { value: "I" }, "Classe I \u2014 Con PE (messa a terra)"),
-React.createElement("option", { value: "II" }, "Classe II \u2014 Doppio isolamento (no PE)"),
-React.createElement("option", { value: "III" }, "Classe III \u2014 SELV (alimentazione interna/sicura)")),
+React.createElement("option", { value: "I" }, __t("Classe I \u2014 Con PE (messa a terra)")),
+React.createElement("option", { value: "II" }, __t("Classe II \u2014 Doppio isolamento (no PE)")),
+React.createElement("option", { value: "III" }, __t("Classe III \u2014 SELV (alimentazione interna/sicura)"))),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 3 } },
-f.equipClass === "I" && "Misure: PE + isolamento + dispersione terra + dispersione paziente",
-f.equipClass === "II" && "Misure: isolamento + dispersione carcassa + dispersione paziente (NO PE)",
-f.equipClass === "III" && "Misure: isolamento + dispersione paziente soltanto (circuito SELV, NO terra)")),
+f.equipClass === "I" && __t("Misure: PE + isolamento + dispersione terra + dispersione paziente"),
+f.equipClass === "II" && __t("Misure: isolamento + dispersione carcassa + dispersione paziente (NO PE)"),
+f.equipClass === "III" && __t("Misure: isolamento + dispersione paziente soltanto (circuito SELV, NO terra)"))),
 f.norm !== "61010" && (React.createElement("div", { style: FLD },
 React.createElement("label", { style: Object.assign(Object.assign({}, LBL), { display: "flex", alignItems: "center" }) },
-"Tipo parte applicata (paziente)",
-React.createElement(Hint, { text: "Definito dalla norma IEC 60601-1. B = contatto corpo non cardiaco, senza isolamento speciale (es. monitor temperatura cute). BF = parte applicata isolata floating, tipica di ECG, SpO2, ventilatori \u2014 soglia dispersione paziente 5000\u00B5A in condizioni di guasto. CF = applicazione cardiaca diretta (cateteri intracardiaci, cardiostimolatori) \u2014 limiti molto severi, dispersione paziente max 50\u00B5A. Il tipo \u00E8 indicato dal simbolo sulla targhetta dell'apparecchio." })),
+__t("Tipo parte applicata (paziente)"),
+React.createElement(Hint, { text: __t("Definito dalla norma IEC 60601-1. B = contatto corpo non cardiaco, senza isolamento speciale (es. monitor temperatura cute). BF = parte applicata isolata floating, tipica di ECG, SpO2, ventilatori \u2014 soglia dispersione paziente 5000\u00B5A in condizioni di guasto. CF = applicazione cardiaca diretta (cateteri intracardiaci, cardiostimolatori) \u2014 limiti molto severi, dispersione paziente max 50\u00B5A. Il tipo \u00E8 indicato dal simbolo sulla targhetta dell'apparecchio.") })),
 React.createElement("select", { value: f.patientType || "BF", onChange: sv("patientType"), style: INP },
-React.createElement("option", { value: "B" }, "Tipo B \u2014 Contatto corpo (no PA isolata)"),
-React.createElement("option", { value: "BF" }, "Tipo BF \u2014 Parte isolata floating (PA \u2264 5000\u00B5A alt.)"),
-React.createElement("option", { value: "CF" }, "Tipo CF \u2014 Applicazione cardiaca (PA \u2264 50\u00B5A)")),
+React.createElement("option", { value: "B" }, __t("Tipo B \u2014 Contatto corpo (no PA isolata)")),
+React.createElement("option", { value: "BF" }, __t("Tipo BF \u2014 Parte isolata floating (PA \u2264 5000\u00B5A alt.)")),
+React.createElement("option", { value: "CF" }, __t("Tipo CF \u2014 Applicazione cardiaca (PA \u2264 50\u00B5A)"))),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 3 } },
-(f.patientType || "BF") === "B" && "Tipo B: contatto diretto con paziente, non cardiaco",
-(f.patientType || "BF") === "BF" && "Tipo BF: parte applicata isolata (es. ECG, SpO2)",
-(f.patientType || "BF") === "CF" && "Tipo CF: applicazione cardiaca diretta — limiti più severi"))),
+(f.patientType || "BF") === "B" && __t("Tipo B: contatto diretto con paziente, non cardiaco"),
+(f.patientType || "BF") === "BF" && __t("Tipo BF: parte applicata isolata (es. ECG, SpO2)"),
+(f.patientType || "BF") === "CF" && __t("Tipo CF: applicazione cardiaca diretta — limiti più severi")))),
 f.norm === "62353" && f.equipClass !== "III" && (React.createElement("div", { style: Object.assign(Object.assign({}, FLD), { gridColumn: "1 / -1", background: f.fixedInstall ? "#2dd4bf12" : "transparent", borderRadius: 8, padding: f.fixedInstall ? "8px 10px" : 0 }) },
 React.createElement("label", { onClick: () => setF(x => (Object.assign(Object.assign({}, x), { fixedInstall: !x.fixedInstall }))), style: { display: "flex", alignItems: "center", gap: 10, cursor: "pointer" } },
 React.createElement("span", { style: { width: 42, height: 24, borderRadius: 999, background: f.fixedInstall ? "#2dd4bf" : "var(--border)", position: "relative", transition: "background .15s", flexShrink: 0, display: "inline-block" } },
 React.createElement("span", { style: { position: "absolute", top: 3, left: f.fixedInstall ? 21 : 3, width: 18, height: 18, borderRadius: "50%", background: "#fff", transition: "left .15s", boxShadow: "0 1px 3px rgba(0,0,0,.4)" } })),
 React.createElement("span", { style: { fontSize: 13, fontWeight: 600, color: f.fixedInstall ? "#5eead4" : "var(--text)" } },
-"Apparecchio installato permanentemente",
+__t("Apparecchio installato permanentemente"),
 f.fixedInstall ? " ✓" : ""),
-React.createElement(Hint, { text: "Radiografico a muro, riunito cablato, ecc. \u2014 non scollegabile dalla rete. La verifica IEC 62353 si adatta: terra SOLO sul nodo equipotenziale (limite modificabile per la lunghezza), Equipment Leakage sostituito da dispersione d'involucro, interruzione PE non simulata come primo guasto." })),
-f.fixedInstall && React.createElement("div", { style: { fontSize: 11, color: "#5eead4", marginTop: 6, marginLeft: 25 } }, "Misure adattate: terra su nodo equipotenziale, dispersione d'involucro al posto dell'equipment leakage."))),
+React.createElement(Hint, { text: __t("Radiografico a muro, riunito cablato, ecc. \u2014 non scollegabile dalla rete. La verifica IEC 62353 si adatta: terra SOLO sul nodo equipotenziale (limite modificabile per la lunghezza), Equipment Leakage sostituito da dispersione d'involucro, interruzione PE non simulata come primo guasto.") })),
+f.fixedInstall && React.createElement("div", { style: { fontSize: 11, color: "#5eead4", marginTop: 6, marginLeft: 25 } }, __t("Misure adattate: terra su nodo equipotenziale, dispersione d'involucro al posto dell'equipment leakage.")))),
 f.norm === "62353" && f.equipClass !== "III" && (React.createElement("div", { style: FLD },
 React.createElement("label", { style: Object.assign(Object.assign({}, LBL), { display: "flex", alignItems: "center" }) },
-"Metodo di misura dispersione",
-React.createElement(Hint, { text: "Metodi previsti da IEC 62353. DIRETTO: misurato tra le parti accessibili e la terra (pi\u00F9 rapido, classico). DIFFERENZIALE: misurato come differenza tra corrente in fase e neutro (limiti uguali al diretto). ALTERNATIVO: misurato con sorgente isolata 100-120V, separato dalla rete (sicuro per il tecnico, limiti pi\u00F9 alti \u2014 fino a 1000\u00B5A per Cl.I). Scegli in base allo strumento e alla situazione clinica." })),
+__t("Metodo di misura dispersione"),
+React.createElement(Hint, { text: __t("Metodi previsti da IEC 62353. DIRETTO: misurato tra le parti accessibili e la terra (pi\u00F9 rapido, classico). DIFFERENZIALE: misurato come differenza tra corrente in fase e neutro (limiti uguali al diretto). ALTERNATIVO: misurato con sorgente isolata 100-120V, separato dalla rete (sicuro per il tecnico, limiti pi\u00F9 alti \u2014 fino a 1000\u00B5A per Cl.I). Scegli in base allo strumento e alla situazione clinica.") })),
 React.createElement("select", { value: f.leakageMethod || "diretto", onChange: sv("leakageMethod"), style: INP },
-React.createElement("option", { value: "diretto" }, "Diretto \u2014 misura corrente da PE verso terra"),
-React.createElement("option", { value: "differenziale" }, "Differenziale \u2014 somma vettoriale L-N"),
-React.createElement("option", { value: "alternativo" }, "Alternativo (sostituzione) \u2014 apparecchio scollegato")),
+React.createElement("option", { value: "diretto" }, __t("Diretto \u2014 misura corrente da PE verso terra")),
+React.createElement("option", { value: "differenziale" }, __t("Differenziale \u2014 somma vettoriale L-N")),
+React.createElement("option", { value: "alternativo" }, __t("Alternativo (sostituzione) \u2014 apparecchio scollegato"))),
 React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 3 } },
-(f.leakageMethod || "diretto") === "diretto" && "Diretto: apparecchio alimentato, sonda tra carcassa e terra. Adatto a stanze con presa standard.",
-(f.leakageMethod || "diretto") === "differenziale" && "Differenziale: misura la differenza tra L e N. Adatto a circuiti con isolamento o trasformatore.",
-(f.leakageMethod || "diretto") === "alternativo" && "Alternativo: apparecchio scollegato, simula la corrente di guasto. Adatto a sale operatorie con RCD/IT."))),
+(f.leakageMethod || "diretto") === "diretto" && __t("Diretto: apparecchio alimentato, sonda tra carcassa e terra. Adatto a stanze con presa standard."),
+(f.leakageMethod || "diretto") === "differenziale" && __t("Differenziale: misura la differenza tra L e N. Adatto a circuiti con isolamento o trasformatore."),
+(f.leakageMethod || "diretto") === "alternativo" && __t("Alternativo: apparecchio scollegato, simula la corrente di guasto. Adatto a sale operatorie con RCD/IT.")))),
 f.norm === "60601" && (React.createElement("div", { style: FLD },
 React.createElement("label", { style: Object.assign(Object.assign({}, LBL), { display: "flex", alignItems: "center" }) },
-"Prove di Primo Guasto (SFC)",
-React.createElement(Hint, { text: "Le prove in condizione di primo guasto (interruzione di un conduttore, terra aperta, rete sulla parte applicata) sono pi\u00F9 approfondite ma sollecitano l'apparecchio. Disattivale per eseguire solo la Condizione Normale (NC)." })),
+__t("Prove di Primo Guasto (SFC)"),
+React.createElement(Hint, { text: __t("Le prove in condizione di primo guasto (interruzione di un conduttore, terra aperta, rete sulla parte applicata) sono pi\u00F9 approfondite ma sollecitano l'apparecchio. Disattivale per eseguire solo la Condizione Normale (NC).") })),
 React.createElement("button", { type: "button", onClick: () => setF(x => (Object.assign(Object.assign({}, x), { sfc: !(x.sfc !== false) }))), style: { display: "flex", alignItems: "center", gap: 10, background: "var(--surface)", border: "1px solid " + ((f.sfc !== false) ? "#2dd4bf66" : "var(--border)"), borderRadius: 8, padding: "10px 12px", cursor: "pointer", touchAction: "manipulation", WebkitTapHighlightColor: "transparent" } },
 React.createElement("div", { style: { width: 38, height: 22, borderRadius: 12, background: (f.sfc !== false) ? "#2dd4bf" : "var(--border)", position: "relative", flexShrink: 0 } },
 React.createElement("div", { style: { position: "absolute", top: 2, left: (f.sfc !== false) ? 18 : 2, width: 18, height: 18, borderRadius: 10, background: "#fff" } })),
-React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: (f.sfc !== false) ? "#2dd4bf" : "var(--text-2)" } }, (f.sfc !== false) ? "Incluse (NC + SFC)" : "Escluse (solo NC)")),
-React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 3 } }, (f.sfc !== false) ? "Verifica completa: condizione normale e primo guasto." : "Solo condizione normale — non sollecita l'apparecchio."))),
+React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: (f.sfc !== false) ? "#2dd4bf" : "var(--text-2)" } }, (f.sfc !== false) ? __t("Incluse (NC + SFC)") : __t("Escluse (solo NC)"))),
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 3 } }, (f.sfc !== false) ? __t("Verifica completa: condizione normale e primo guasto.") : __t("Solo condizione normale — non sollecita l'apparecchio.")))),
 React.createElement("div", { style: FLD },
-React.createElement(TecnicoPicker, { label: "Tecnico/i verificatore", value: f.technician, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technician: v }))), technicians: technicians })),
+React.createElement(TecnicoPicker, { label: __t("Tecnico/i verificatore"), value: f.technician, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technician: v }))), technicians: technicians })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Strumento di misura"),
+React.createElement("label", { style: LBL }, __t("Strumento di misura")),
 (instruments && instruments.length > 0) && (React.createElement("select", { value: "", onChange: e => { const ins = (instruments || []).find(i => i.id === e.target.value); if (ins) {
 const txt = [ins.brand, ins.model].filter(Boolean).join(" ") + (ins.internalCode ? (" (" + ins.internalCode + ")") : "");
 setF(x => (Object.assign(Object.assign({}, x), { instrument: txt, instrumentSerial: ins.serial || "", instrumentCalExpiry: ins.calExpiry || "", calNumber: ins.certNumber || x.calNumber })));
@@ -1134,10 +1135,10 @@ i.internalCode ? (" · " + i.internalCode) : "",
 i.calExpiry ? (" (scad. " + i.calExpiry + ")") : "")))),
 React.createElement("input", { value: f.instrument, onChange: sv("instrument"), placeholder: "o scrivi a mano", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "N\u00B0 calibrazione"),
+React.createElement("label", { style: LBL }, __t("N\u00B0 calibrazione")),
 React.createElement("input", { value: f.calNumber, onChange: sv("calNumber"), style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Tipo verifica"),
+React.createElement("label", { style: LBL }, __t("Tipo verifica")),
 React.createElement("select", { value: f.verifyType, onChange: sv("verifyType"), style: INP }, ["periodica", "dopo riparazione", "prima messa in servizio", "straordinaria"].map(v => React.createElement("option", { key: v }, v))),
 f.verifyType === "straordinaria" && React.createElement("span", { style: { fontSize: 10, color: "#f59e0b", marginTop: 3 } }, "\u26A0 Straordinaria: non aggiorna la pianificazione annuale"))),
 f.verifyStatus === "non_disponibile" ? (React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } },
@@ -1145,33 +1146,33 @@ React.createElement("div", { style: { background: "#f59e0b08", border: "1px soli
 React.createElement("div", { style: { fontSize: 11, color: "#f59e0b", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "\u26A0 Apparecchio non disponibile per verifica"),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Motivo mancata esecuzione *"),
+React.createElement("label", { style: LBL }, __t("Motivo mancata esecuzione *")),
 React.createElement("select", { value: f.notAvailableReason, onChange: sv("notAvailableReason"), style: INP },
 React.createElement("option", { value: "" }, "\u2014 Seleziona \u2014"),
-React.createElement("option", { value: "in_uso" }, "Apparecchio in uso su paziente"),
-React.createElement("option", { value: "non_trovato" }, "Apparecchio non reperibile in reparto"),
-React.createElement("option", { value: "trasferito" }, "Apparecchio trasferito ad altro reparto"),
-React.createElement("option", { value: "riparazione_esterna" }, "In riparazione esterna"),
-React.createElement("option", { value: "dismesso" }, "Dismesso / non pi\u00F9 in uso"),
-React.createElement("option", { value: "rifiuto_reparto" }, "Reparto non autorizza intervento ora"),
-React.createElement("option", { value: "altro" }, "Altro (specificare nelle note)"))),
+React.createElement("option", { value: "in_uso" }, __t("Apparecchio in uso su paziente")),
+React.createElement("option", { value: "non_trovato" }, __t("Apparecchio non reperibile in reparto")),
+React.createElement("option", { value: "trasferito" }, __t("Apparecchio trasferito ad altro reparto")),
+React.createElement("option", { value: "riparazione_esterna" }, __t("In riparazione esterna")),
+React.createElement("option", { value: "dismesso" }, __t("Dismesso / non pi\u00F9 in uso")),
+React.createElement("option", { value: "rifiuto_reparto" }, __t("Reparto non autorizza intervento ora")),
+React.createElement("option", { value: "altro" }, __t("Altro (specificare nelle note)")))),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 10 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Reparto / Unit\u00E0 operativa *"),
+React.createElement("label", { style: LBL }, __t("Reparto / Unit\u00E0 operativa *")),
 React.createElement("input", { value: f.departmentName, onChange: sv("departmentName"), placeholder: "es. UO Cardiologia, Sala Operatoria 2", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Referente reparto (nome e qualifica)"),
+React.createElement("label", { style: LBL }, __t("Referente reparto (nome e qualifica)")),
 React.createElement("input", { value: f.departmentContact, onChange: sv("departmentContact"), placeholder: "es. Caposala Mario Rossi", style: INP }))),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Note aggiuntive"),
-React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 2, placeholder: "Dettagli, riprogrammare per data, ecc.", style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", color: "var(--text)", fontSize: 13, outline: "none", width: "100%", boxSizing: "border-box" } })))),
+React.createElement("label", { style: LBL }, __t("Note aggiuntive")),
+React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 2, placeholder: __t("Dettagli, riprogrammare per data, ecc."), style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", color: "var(--text)", fontSize: 13, outline: "none", width: "100%", boxSizing: "border-box" } })))),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, __t("Firme")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
-React.createElement(SignaturePad, { label: "Firma Referente reparto (per presa visione)", value: f.departmentSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 }))))) : (React.createElement(React.Fragment, null,
+React.createElement(TechSignatureField, { label: __t("Firma Tecnico verificatore"), profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(SignaturePad, { label: __t("Firma Referente reparto (per presa visione)"), value: f.departmentSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 }))))) : (React.createElement(React.Fragment, null,
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, "Ispezione visiva"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, __t("Ispezione visiva")),
 [["housing", "Involucro integro e privo di danni"], ["cable", "Cavo di rete e spina integri"], ["connectors", "Connettori e prese in buono stato"], ["labels", "Etichette e marcatura CE leggibili"], ["docs", "Documentazione tecnica presente"]].map(([k, label]) => (React.createElement("div", { key: k, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: "1px solid var(--border)" } },
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)" } }, label),
 React.createElement("div", { style: { display: "flex", gap: 6 } }, [true, false, null].map((v, i) => (React.createElement("button", { key: i, onClick: () => setVis(k, v), style: {
@@ -1181,10 +1182,10 @@ color: f.visual[k] === v ? (v === true ? "#22c55e" : v === false ? "#ef4444" : "
 borderRadius: 6, padding: "3px 9px", cursor: "pointer", fontSize: 11, fontWeight: 700
 } }, v === true ? "✓ OK" : v === false ? "✗ NO" : "N/D")))))))),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, "Misure elettriche"),
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 700, marginBottom: 10 } }, __t("Misure elettriche")),
 !isMobile && (React.createElement("div", { style: { display: "grid", gridTemplateColumns: prevReport ? "minmax(0,1fr) 70px 80px 50px 56px 44px" : "minmax(0,1fr) 90px 90px 56px 56px", gap: 8, marginBottom: 6, padding: "0 10px" } }, (prevReport ? ["Parametro", "Limite", "Valore", "Unità", "Prec.", "Trend"] : ["Parametro", "Limite", "Valore", "Unità", "Esito"]).map(h => React.createElement("div", { key: h, style: { fontSize: 10, color: "var(--text-4)", fontWeight: 700, textTransform: "uppercase" } }, h)))),
 prevReport && (React.createElement("div", { style: { fontSize: 11, color: "#5eead4", background: "#2dd4bf12", border: "1px solid #2dd4bf33", borderRadius: 6, padding: "6px 10px", marginBottom: 4 } },
-"Confronto con la verifica precedente del ",
+__t("Confronto con la verifica precedente del "),
 prevReport.date,
 prevReport.overallPass === false ? " (esito: NON conforme)" : "",
 ". La colonna \"Prec.\" mostra i valori di allora.")),
@@ -1205,30 +1206,30 @@ return (React.createElement(React.Fragment, { key: m.id },
 isMobile ? (React.createElement("div", { style: { marginBottom: 10, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 10, padding: "12px 14px" } },
 React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 6, marginBottom: 8 } },
 React.createElement("span", { style: { fontSize: 13, color: "var(--text-strong)", fontWeight: 600, flex: 1, minWidth: 0, overflowWrap: "anywhere", lineHeight: 1.3 } }, m.name),
-tutorialFor(m.id, f.fixedInstall) && React.createElement("span", { onClick: () => setTutorialOpen(tutorialOpen === m.id ? null : m.id), title: "Come mi collego", style: { cursor: "pointer", color: "var(--acc-teal)", border: "1px solid #2dd4bf66", borderRadius: "50%", width: 20, height: 20, minWidth: 20, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 } }, "i")),
+tutorialFor(m.id, f.fixedInstall) && React.createElement("span", { onClick: () => setTutorialOpen(tutorialOpen === m.id ? null : m.id), title: __t("Come mi collego"), style: { cursor: "pointer", color: "var(--acc-teal)", border: "1px solid #2dd4bf66", borderRadius: "50%", width: 20, height: 20, minWidth: 20, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, flexShrink: 0 } }, "i")),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", opacity: m.na ? .5 : 1 } },
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 5 } },
-React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", textTransform: "uppercase" } }, "Limite"),
-m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: "Limite modificabile", style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "5px 7px", color: "var(--acc-teal)", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace", width: 70, outline: "none" } })) : (React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit))),
+React.createElement("span", { style: { fontSize: 10, color: "var(--text-4)", textTransform: "uppercase" } }, __t("Limite")),
+m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: __t("Limite modificabile"), style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "5px 7px", color: "var(--acc-teal)", fontSize: 12, fontFamily: "'IBM Plex Mono', monospace", width: 70, outline: "none" } })) : (React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit))),
 React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 5, flex: 1, minWidth: 120 } },
 React.createElement("input", { type: "number", step: "0.001", disabled: m.na, value: m.na ? "" : m.value, onChange: e => setMeas(m.id, e.target.value), placeholder: m.na ? "non applicabile" : "valore", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, padding: "7px 9px", color: "var(--text)", fontSize: 14, outline: "none", fontFamily: "'IBM Plex Mono', monospace", flex: 1, minWidth: 0 } }),
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-3)", minWidth: 24 } }, m.unit)),
 m.na ? (React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-3)" } }, "N/A")) : prevReport ? (React.createElement("span", { style: { fontSize: 18, fontWeight: 700, color: trend === "worse" ? "#ef4444" : trend === "better" ? "#22c55e" : "var(--text-4)" } }, trend === "worse" ? "▲" : trend === "better" ? "▼" : (ok === null ? "—" : ok ? "✓" : "✗"))) : (React.createElement("span", { style: { fontWeight: 700, fontSize: 18, color: ok === null ? "var(--text-4)" : ok ? "#22c55e" : "#ef4444" } }, ok === null ? "—" : ok ? "✓" : "✗"))),
-isOptional(m.id) && React.createElement("button", { onClick: () => toggleNA(m.id), style: { marginTop: 8, background: m.na ? "#2dd4bf22" : "transparent", border: "1px solid " + (m.na ? "#2dd4bf66" : "var(--border)"), borderRadius: 6, color: m.na ? "#5eead4" : "var(--text-3)", fontSize: 11, fontWeight: 700, padding: "5px 12px", cursor: "pointer" } }, m.na ? "✓ Non applicabile (tocca per misurare)" : "Segna come non applicabile (N/A)"))) : (React.createElement("div", { style: { display: "grid", gridTemplateColumns: prevReport ? "minmax(0,1fr) 70px 80px 50px 56px 44px" : "minmax(0,1fr) 90px 90px 56px 56px", gap: 8, alignItems: "center", marginBottom: 6, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "8px 11px", opacity: m.na ? .5 : 1 } },
+isOptional(m.id) && React.createElement("button", { onClick: () => toggleNA(m.id), style: { marginTop: 8, background: m.na ? "#2dd4bf22" : "transparent", border: "1px solid " + (m.na ? "#2dd4bf66" : "var(--border)"), borderRadius: 6, color: m.na ? "#5eead4" : "var(--text-3)", fontSize: 11, fontWeight: 700, padding: "5px 12px", cursor: "pointer" } }, m.na ? "✓ Non applicabile (tocca per misurare)" : __t("Segna come non applicabile (N/A)")))) : (React.createElement("div", { style: { display: "grid", gridTemplateColumns: prevReport ? "minmax(0,1fr) 70px 80px 50px 56px 44px" : "minmax(0,1fr) 90px 90px 56px 56px", gap: 8, alignItems: "center", marginBottom: 6, background: "var(--bg)", border: "1px solid var(--border-2)", borderRadius: 8, padding: "8px 11px", opacity: m.na ? .5 : 1 } },
 React.createElement("span", { style: { fontSize: 12, color: "var(--text-2)", display: "flex", alignItems: "center", gap: 6, minWidth: 0 } },
 React.createElement("span", { style: { minWidth: 0, overflowWrap: "anywhere" } }, m.name),
-tutorialFor(m.id, f.fixedInstall) && React.createElement("span", { onClick: () => setTutorialOpen(tutorialOpen === m.id ? null : m.id), title: "Come mi collego", style: { cursor: "pointer", color: "var(--acc-teal)", border: "1px solid #2dd4bf66", borderRadius: "50%", width: 16, height: 16, minWidth: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0 } }, "i"),
-isOptional(m.id) && React.createElement("span", { onClick: () => toggleNA(m.id), title: m.na ? "Misura segnata non applicabile — tocca per riattivare" : "Segna come non applicabile (prova opzionale)", style: { cursor: "pointer", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, border: "1px solid " + (m.na ? "#2dd4bf" : "var(--border)"), color: m.na ? "#5eead4" : "var(--text-4)", background: m.na ? "#2dd4bf18" : "transparent", flexShrink: 0 } }, "N/A")),
-m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: "Limite modificabile", style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "4px 6px", color: "var(--acc-teal)", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", width: "100%", outline: "none" } })) : (React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit)),
+tutorialFor(m.id, f.fixedInstall) && React.createElement("span", { onClick: () => setTutorialOpen(tutorialOpen === m.id ? null : m.id), title: __t("Come mi collego"), style: { cursor: "pointer", color: "var(--acc-teal)", border: "1px solid #2dd4bf66", borderRadius: "50%", width: 16, height: 16, minWidth: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0 } }, "i"),
+isOptional(m.id) && React.createElement("span", { onClick: () => toggleNA(m.id), title: m.na ? __t("Misura segnata non applicabile — tocca per riattivare") : __t("Segna come non applicabile (prova opzionale)"), style: { cursor: "pointer", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, border: "1px solid " + (m.na ? "#2dd4bf" : "var(--border)"), color: m.na ? "#5eead4" : "var(--text-4)", background: m.na ? "#2dd4bf18" : "transparent", flexShrink: 0 } }, "N/A")),
+m.editableLimit ? (React.createElement("input", { type: "text", disabled: m.na, value: m.limit, onChange: e => setF(x => (Object.assign(Object.assign({}, x), { measures: x.measures.map(mm => mm.id === m.id ? Object.assign(Object.assign({}, mm), { limit: e.target.value, limitVal: parseFloat(String(e.target.value).replace(/[^0-9.]/g, "")) || mm.limitVal }) : mm) }))), title: __t("Limite modificabile"), style: { background: "var(--surface-2)", border: "1px solid #2dd4bf44", borderRadius: 6, padding: "4px 6px", color: "var(--acc-teal)", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", width: "100%", outline: "none" } })) : (React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace" } }, m.limit)),
 React.createElement("input", { type: "number", step: "0.001", disabled: m.na, value: m.na ? "" : m.value, onChange: e => setMeas(m.id, e.target.value), placeholder: m.na ? "N/A" : "—", style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, padding: "4px 7px", color: "var(--text)", fontSize: 12, outline: "none", fontFamily: "'IBM Plex Mono', monospace", minWidth: 0 } }),
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)" } }, m.unit),
 m.na ? (React.createElement("span", { style: { fontWeight: 700, fontSize: 12, color: "var(--text-3)", textAlign: "center" } }, "N/A")) : prevReport ? (React.createElement(React.Fragment, null,
 React.createElement("span", { style: { fontSize: 11, color: "var(--text-3)", fontFamily: "'IBM Plex Mono', monospace", textAlign: "center" } }, prevVal !== null ? prevVal : "—"),
-React.createElement("span", { style: { fontSize: 14, textAlign: "center", fontWeight: 700, color: trend === "worse" ? "#ef4444" : trend === "better" ? "#22c55e" : "var(--text-4)" }, title: trend === "worse" ? "In peggioramento" : trend === "better" ? "In miglioramento" : (ok === null ? "" : (ok ? "Conforme" : "Non conforme")) }, trend === "worse" ? "▲" : trend === "better" ? "▼" : (ok === null ? "—" : ok ? "✓" : "✗")))) : (React.createElement("span", { style: { fontWeight: 700, fontSize: 13, color: ok === null ? "var(--text-4)" : ok ? "#22c55e" : "#ef4444" } }, ok === null ? "—" : ok ? "✓" : "✗")))),
+React.createElement("span", { style: { fontSize: 14, textAlign: "center", fontWeight: 700, color: trend === "worse" ? "#ef4444" : trend === "better" ? "#22c55e" : "var(--text-4)" }, title: trend === "worse" ? __t("In peggioramento") : trend === "better" ? __t("In miglioramento") : (ok === null ? "" : (ok ? __t("Conforme") : __t("Non conforme"))) }, trend === "worse" ? "▲" : trend === "better" ? "▼" : (ok === null ? "—" : ok ? "✓" : "✗")))) : (React.createElement("span", { style: { fontWeight: 700, fontSize: 13, color: ok === null ? "var(--text-4)" : ok ? "#22c55e" : "#ef4444" } }, ok === null ? "—" : ok ? "✓" : "✗")))),
 tutorialOpen === m.id && tutorialFor(m.id, f.fixedInstall) && (() => {
 const tut = tutorialFor(m.id, f.fixedInstall);
 return (React.createElement("div", { key: m.id + "-tut", style: { background: "var(--surface)", border: "1px solid #2dd4bf", borderRadius: 10, padding: "14px 16px", marginBottom: 10, marginTop: 4, boxShadow: "0 4px 14px rgba(0,0,0,.4)" } },
-React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "#5eead4", marginBottom: 10, paddingBottom: 8, borderBottom: "1px solid #2dd4bf33" } }, "Come mi collego"),
+React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: "#5eead4", marginBottom: 10, paddingBottom: 8, borderBottom: "1px solid #2dd4bf33" } }, __t("Come mi collego")),
 React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: "var(--text)", marginBottom: 10 } }, tut.titolo),
 React.createElement("div", { style: { display: "flex", justifyContent: "center", marginBottom: 10 } },
 React.createElement(TutorialSVG, { kind: tut.svg })),
@@ -1236,25 +1237,25 @@ React.createElement("ol", { style: { margin: 0, paddingLeft: 18, fontSize: 12, c
 tut.nota && React.createElement("div", { style: { fontSize: 11, color: "#f59e0b", marginTop: 8, fontStyle: "italic" } },
 "\u26A0 ",
 tut.nota),
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 6 } }, "Testo da rifinire con la pratica reale.")));
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-4)", marginTop: 6 } }, __t("Testo da rifinire con la pratica reale."))));
 })()));
 })),
 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 5 } },
-React.createElement("label", { style: LBL }, "Note e osservazioni"),
+React.createElement("label", { style: LBL }, __t("Note e osservazioni")),
 React.createElement("textarea", { value: f.notes, onChange: sv("notes"), rows: 3, style: { background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8, padding: "9px 11px", color: "var(--text)", fontSize: 13, outline: "none", width: "100%", boxSizing: "border-box", resize: "vertical" } })),
 React.createElement("div", { style: { background: "var(--surface)", borderRadius: 10, padding: "12px 16px", border: "1px solid var(--border-2)" } },
-React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, "Firme"),
+React.createElement("div", { style: { fontSize: 11, color: "var(--text-2)", textTransform: "uppercase", letterSpacing: .8, fontWeight: 800, marginBottom: 10 } }, __t("Firme")),
 React.createElement("div", { style: { display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
-React.createElement(TechSignatureField, { label: "Firma Tecnico verificatore", profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
-React.createElement(SignaturePad, { label: "Firma Referente reparto (opzionale)", value: f.departmentSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
+React.createElement(TechSignatureField, { label: __t("Firma Tecnico verificatore"), profileSig: techSignature(technicians, f.technician), techName: f.technician, value: f.technicianSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { technicianSignature: v }))), height: 120 }),
+React.createElement(SignaturePad, { label: __t("Firma Referente reparto (opzionale)"), value: f.departmentSignature, onChange: v => setF(x => (Object.assign(Object.assign({}, x), { departmentSignature: v }))), height: 120 })),
 React.createElement("div", { style: { marginTop: 8, display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 } },
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Reparto / Unit\u00E0 (opzionale)"),
+React.createElement("label", { style: LBL }, __t("Reparto / Unit\u00E0 (opzionale)")),
 React.createElement("input", { value: f.departmentName || "", onChange: sv("departmentName"), placeholder: "es. UO Cardiologia", style: INP })),
 React.createElement("div", { style: FLD },
-React.createElement("label", { style: LBL }, "Referente (opzionale)"),
+React.createElement("label", { style: LBL }, __t("Referente (opzionale)")),
 React.createElement("input", { value: f.departmentContact || "", onChange: sv("departmentContact"), placeholder: "es. Caposala Rossi", style: INP })))))),
-(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!propAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||propAssetId||"",overallPass:f.verifyStatus==="non_disponibile"?null:f.overallPass});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;if(f.verifyStatus!=="non_disponibile"&&!f.technicianSignature){try{window.dispatchEvent(new CustomEvent("toast",{detail:{msg:"Firma del tecnico obbligatoria per concludere",color:"#ef4444"}}));}catch(e){}return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},"Chiudi"),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},"Riapri verifica"),React.createElement(Btn,{onClick:_saveDraft},"Salva modifiche")):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},"Salva bozza"),React.createElement(Btn,{onClick:_conclude},"Concludi e blocca")));})()));
+(function(){var frozen=!!f.locked;var _now=new Date().toISOString();var _validate=function(){var errs={};if(!f.assetId&&!propAssetId)errs.assetId="Seleziona un apparecchio";if(!f.date)errs.date="Inserisci la data";if(!f.technician)errs.technician="Inserisci il nome del tecnico";if(f.verifyStatus==="non_disponibile"){if(!f.notAvailableReason)errs.notAvailableReason="Seleziona il motivo della mancata esecuzione";if(!f.departmentName)errs.departmentName="Inserisci il nome del reparto";}setErrors(errs);return Object.keys(errs).length===0;};var _base=function(){return Object.assign(Object.assign({},f),{assetId:f.assetId||propAssetId||"",overallPass:f.verifyStatus==="non_disponibile"?null:f.overallPass});};var _saveDraft=function(){if(!_validate())return;onSave(_base());};var _conclude=function(){if(!_validate())return;if(f.verifyStatus!=="non_disponibile"&&!f.technicianSignature){try{window.dispatchEvent(new CustomEvent("toast",{detail:{msg:__t("Firma del tecnico obbligatoria per concludere"),color:"#ef4444"}}));}catch(e){}return;}onSave(Object.assign(Object.assign({},_base()),{locked:true,concludedAt:_now,concludedBy:f.technician||"",auditLog:(f.auditLog||[]).concat([{action:"conclusione",at:_now,by:f.technician||""}])}));};var _reopen=function(){onSave(Object.assign(Object.assign({},_base()),{locked:false,auditLog:(f.auditLog||[]).concat([{action:"riapertura",at:_now,by:"admin"}])}));};return React.createElement("div",{style:{display:"flex",gap:10,justifyContent:"flex-end",flexWrap:"wrap"}},React.createElement(Btn,{variant:"ghost",onClick:onClose},__t("Chiudi")),(frozen&&!isAdmin)?null:(frozen&&isAdmin)?React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_reopen},__t("Riapri verifica")),React.createElement(Btn,{onClick:_saveDraft},__t("Salva modifiche"))):React.createElement(React.Fragment,null,React.createElement(Btn,{variant:"ghost",onClick:_saveDraft},__t("Salva bozza")),React.createElement(Btn,{onClick:_conclude},__t("Concludi e blocca"))));})()));
 }
 const INSTRUMENTS_BY_TPL = {
 defibrillatore: { req: ["Analizzatore di defibrillazione/energia (es. Fluke Impulse 7000DP)", "Analizzatore sicurezza elettrica IEC 62353"], opt: ["Box carichi 25–200 Ω", "Simulatore ECG"] },
@@ -1297,12 +1298,12 @@ const [open, setOpen] = React.useState(false);
 if (!info) return null;
 return React.createElement("div", { style: { background: "var(--ok-bg)", border: "1px solid #2dd4bf55", borderRadius: 8, padding: "8px 10px", margin: "6px 0" } },
 React.createElement("div", { onClick: () => setOpen(function (o) { return !o; }), style: { display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" } },
-React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5eead4" } }, "Strumenti di test consigliati"),
+React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: "#5eead4" } }, __t("Strumenti di test consigliati")),
 React.createElement("span", { style: { fontSize: 13, color: "#5eead4", fontWeight: 700 } }, open ? "−" : "+")),
 open && React.createElement("div", { style: { marginTop: 8 } },
-React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#ef4444", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, "Indispensabili"),
+React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#ef4444", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, __t("Indispensabili")),
 React.createElement("ul", { style: { margin: "0 0 8px", paddingLeft: 18, fontSize: 12, color: "var(--text)", lineHeight: 1.5 } }, (info.req || []).map(function (s, i) { return React.createElement("li", { key: i }, s); })),
-(info.opt && info.opt.length) ? React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, "Consigliati") : null,
+(info.opt && info.opt.length) ? React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--text-3)", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em" } }, __t("Consigliati")) : null,
 (info.opt && info.opt.length) ? React.createElement("ul", { style: { margin: 0, paddingLeft: 18, fontSize: 12, color: "var(--text-2)", lineHeight: 1.5 } }, info.opt.map(function (s, i) { return React.createElement("li", { key: i }, s); })) : null,
-React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 8, fontStyle: "italic" } }, "Modelli citati come esempi neutri. Verifica la taratura degli strumenti e i limiti esatti su norme/manuali ufficiali.")));
+React.createElement("div", { style: { fontSize: 10, color: "var(--text-3)", marginTop: 8, fontStyle: "italic" } }, __t("Modelli citati come esempi neutri. Verifica la taratura degli strumenti e i limiti esatti su norme/manuali ufficiali."))));
 }
