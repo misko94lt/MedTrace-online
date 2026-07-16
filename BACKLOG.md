@@ -38,11 +38,11 @@ Prima passata fatta (v3.19: font 31→23, radius 18→10, no 900). Target finali
 - ✅ Sync: chunk a budget byte 200KB + retry (v3.27+3.30)
 - ✅ Auto-pull primo avvio autenticato (v3.25)
 - ⬜ **Firme → Supabase Storage** (URL nel record): sync 10× più leggeri, chiude il problema payload — M — pre-lancio
-- ⬜ Gate: `components_check` per componenti dentro modali (gap TecniciManager) — S/M
+- ✅ Gate stadio 8: `components_check` — SSR degli 8 componenti-modale con props mock (13/07)
 - 🧊 Audit trail tamper-evidente + label "CEI 62-148" sui template 62353 — solo se target ASUGI/ASL (decisione mercato in autunno)
 
 ## 6. Portale clienti (repo Portale-clienti) (fonte C)
-- ⬜ **Test RLS** prima dei clienti reali — S — SICUREZZA, priorità alta
+- 🔧 **Test RLS** prima dei clienti reali — S — SICUREZZA: batteria pronta, bloccata dall'allowlist di rete del container (serve aggiungere *.supabase.co alle network settings della chat)
 - ⬜ Rewire componenti (bottoni/badge/tab/input inline → pattern MedTrace) — M — rimasto in sospeso dal 01/07
 - ❓ Checklist funzionalità+UX del report [C] da spuntare voce per voce — sessione dedicata
 - ⬜ i18n portale (dopo l'app) — M
