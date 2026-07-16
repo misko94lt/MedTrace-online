@@ -42,7 +42,8 @@ Prima passata fatta (v3.19: font 31→23, radius 18→10, no 900). Target finali
 - 🧊 Audit trail tamper-evidente + label "CEI 62-148" sui template 62353 — solo se target ASUGI/ASL (decisione mercato in autunno)
 
 ## 6. Portale clienti (repo Portale-clienti) (fonte C)
-- 🔧 **Test RLS** prima dei clienti reali — S — SICUREZZA: batteria pronta, bloccata dall'allowlist di rete del container (serve aggiungere *.supabase.co alle network settings della chat)
+- ✅ **Test RLS livello 1** (anonimo) — PASSED 13/07: 14 tabelle → HTTP 401, 9 RPC mute da anonimo (test HTML eseguito da Luca, screenshot agli atti). Nota di rigore: le RPC rispondono 404 senza parametri — prova che non c'è superficie aperta, ma il check definitivo con parametri finti (es. unisciti_con_codice con codice inventato) va incluso nel livello 2
+- ⬜ **Test RLS livello 2** (cross-cliente sul portale): due utenti portale di prova, il cliente A non deve leggere i report del cliente B; + RPC con parametri finti — da fare nella sessione portale insieme a rewire e checklist [C]
 - ⬜ Rewire componenti (bottoni/badge/tab/input inline → pattern MedTrace) — M — rimasto in sospeso dal 01/07
 - ❓ Checklist funzionalità+UX del report [C] da spuntare voce per voce — sessione dedicata
 - ⬜ i18n portale (dopo l'app) — M
