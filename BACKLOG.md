@@ -10,7 +10,7 @@
 - ✅ **Main** (giro 8: 650 punti, ~400 trad.) + gruppi/onboarding + rifinitura stringhe costruite + caccia globale (149) — v3.34-3.40
 - ✅ Terminologia owner: **Jobs** (44 voci), **EST**, **PPM** (menu+titolo) — v3.38-3.42
 - ⬜ **Guida** (113 blocchi lunghi, trattare come documento) — L — sessione dedicata
-- ⬜ **PDF/report** (~81) + design lingua-per-cliente: campo `language` su anagrafica cliente, `tFor(lang)` nel generatore (lingua del destinatario, non della UI), report ASL restano IT — M — PROSSIMO
+- 🧊 **PDF/report** (~81) + design lingua-per-cliente: campo `language` su anagrafica, `tFor(lang)` nel generatore, report ASL restano IT — M — deprioritizzato dall'owner 13/07: si fa dopo, non è la priorità
 - ⬜ Template tecnici (~319, mappa dedicata) — M — per ultimi
 - ⬜ Privacy/Terms EN: traduzione tecnica + **revisione legale esterna** — S + esterno
 
